@@ -1,0 +1,14 @@
+Package: rBAPS
+Title: Bayesian Analysis of Population Structure
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "First",
+           family = "Last",
+           role = c("aut", "cre"),
+           email = "first.last@example.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: Bayesian statistical methods for the estimation of hidden genetic structure of populations have gained considerable popularity in the recent years. Utilizing molecular marker data, Bayesian mixture models attempt to identify a hidden population structure by clustering individuals into genetically divergent groups, whereas admixture models target at separating the ancestral sources of the alleles observed in different individuals. rBAPS provides a computationally efficient method for the identification of admixture events in the population history. It is based on the BAPS software available at <http://www.rni.helsinki.fi/~jic/bapspage.html>.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.0.2
