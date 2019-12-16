@@ -55,6 +55,7 @@ learn_simple_partition <- function(ordered_points, fii) {
             part[1:best_i] <- 1
             part[(best_i + 1):best_j] <- 2
             part[(best_j + 1):length(part)] <- 3
-        })
+        }
+    )
     return(part)
 }
