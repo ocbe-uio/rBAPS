@@ -1,7 +1,7 @@
 context("Admixture analysis")
 
 
-test_that("learn*partition behaves like Matlab", {
+test_that("learn*partition behaves like on Matlab", {
     # Test data
     p1 <- c(0, .5, 1, 1.5)
     p2 <- c(seq(0, .5, .1), 1, 1, 1, 2)
@@ -35,4 +35,11 @@ test_that("learn*partition behaves like Matlab", {
         object = learn_partition_modified(p4),
         expected = matrix(c(1, 2, 2, 2))
     )
+})
+
+test_that("ownNum2Str behaves like on Matlab", {
+    expect_equal(ownNum2Str(1), "1")
+    expect_equal(ownNum2Str(-123456789), "-123456789")
+    expect_equal(ownNum2Str(0), "0")
+    expect_error(ownNum2Str("a"))
 })

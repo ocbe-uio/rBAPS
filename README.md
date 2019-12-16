@@ -9,6 +9,10 @@ rBAPS is currently under development and a stable version is yet to be released.
 remotes::install_github("ocbe-uio/rBAPS", "dev")
 ```
 
+## Contributing
+
+rBAPS is Open Software licenced under the [GPL-3](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)), so all contributions are welcome. You can find a list of todos and pitfalls on the [TODO.md](TODO.md) file.
+
 ## References
 
 ### Scientific papers
