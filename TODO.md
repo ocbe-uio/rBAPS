@@ -1,4 +1,6 @@
-# Minimum requirements for next stable release
+# Roadmap for next stable release
+
+## Minimum requirements
 
 For the first stable release of rBAPS, the following features should be implemented:
 
@@ -9,6 +11,13 @@ For the first stable release of rBAPS, the following features should be implemen
 - [ ] Admixture analysis (import `admix1.m` from BAPS)
 
 Note to contributors: as tasks get finished, please update this file with an `x` and keep it there. This should help us fill out a changelog for an eventual stable release.
+
+## Wishlist
+
+The list below contains non-essential but nice-to-have tasks for the next stable release.
+
+- [ ] Uniformize capitalization of function names
+- [ ] Uniformize capitalization of function arguments
 
 # Known pitfalls
 

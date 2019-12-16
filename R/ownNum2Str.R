@@ -1,4 +1,5 @@
 #' @title Own number to string
+#' @description Converts numbers to strings
 #' @param number number
 #' @note On Matlab, if number is NaN the output is 'NaN'. Here, the output will be an error. Also, the function belo expects "number" to have length one, whereas Matlab accepts vectors.
 #' @export
