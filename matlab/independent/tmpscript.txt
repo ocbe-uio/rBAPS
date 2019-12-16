@@ -1,0 +1,5 @@
+datafile('train','C:\BAPS5\burk_test\train_data.mat')
+datafile('test','C:\BAPS5\burk_test\testdata\testdata_51_5.xls')
+savePreproFile('test','C:\BAPS5\burk_test\testpreproc\testpreproc_51_5.mat')
+setK('16')
+outputmat('C:\BAPS5\burk_test\testres\testres_51_5.mat')
