@@ -8,10 +8,9 @@
 #' further combined.
 learn_partition_modified <- function(ordered) {
     part <- learn_simple_partition(ordered, 0.05)
-    # TODO: find learn_simple_partition
     nclust <- length(unique(part))
     if (nclust == 3) {
-        mini_1 <- min(ordered(which(part == 1))) # ASK: what is ordered()?
+        mini_1 <- min(ordered(which(part == 1)))
         mini_2 <- min(ordered(which(part == 2)))
         mini_3 <- min(ordered(which(part == 3)))
         if (mini_1 > 0.9 & mini_2 > 0.9) {
