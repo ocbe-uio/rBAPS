@@ -3,3 +3,4 @@
 export(admix1)
 export(calculatePopLogml)
 export(learn_simple_partition)
+export(ownNum2Str)
