@@ -1,0 +1,6 @@
+datafile('r:\baps5\data\simple_data.txt');
+mixturetype('mix')
+outputmat('r:\baps5\data\simple_mix.mat')
+initialk(2 3)
+fixedk('no')
+datatype('numeric')
