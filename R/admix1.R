@@ -753,20 +753,3 @@ admix1 <- function(tietue) {
 #    svar(i,1)=randga(counts(i,1),1);
 # end
 # svar=svar/sum(svar);
-
-# %-------------------------------------------------------------------------------------
-
-
-# function rows = computeRows(rowsFromInd, inds, ninds)
-# % Individuals inds have been given. The function returns a vector,
-# % containing the indices of the rows, which contain data from the
-# % individuals.
-
-# rows = inds(:, ones(1,rowsFromInd));
-# rows = rows*rowsFromInd;
-# miinus = repmat(rowsFromInd-1 : -1 : 0, [ninds 1]);
-# rows = rows - miinus;
-# rows = reshape(rows', [1,rowsFromInd*ninds]);
-
-# %--------------------------------------------------------------------------
-# %-----

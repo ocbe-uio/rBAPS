@@ -2,5 +2,7 @@
 
 export(admix1)
 export(calculatePopLogml)
+export(computeRows)
 export(learn_simple_partition)
 export(ownNum2Str)
+export(repmat)
