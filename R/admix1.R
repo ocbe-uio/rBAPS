@@ -694,14 +694,3 @@ admix1 <- function(tietue) {
 #         str = ['0.' num2str(prob)];
 #     end;        
 # end;
-
-# %-------------------------------------------------
-
-# function svar=randdir(counts,nc)
-# % Käyttöesim randdir([10;30;60],3)
-
-# svar=zeros(nc,1);
-# for i=1:nc
-#    svar(i,1)=randga(counts(i,1),1);
-# end
-# svar=svar/sum(svar);
