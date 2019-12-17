@@ -43,3 +43,62 @@ test_that("ownNum2Str behaves like on Matlab", {
     expect_equal(ownNum2Str(0), "0")
     expect_error(ownNum2Str("a"))
 })
+
+test_that("computeRows behaves like on Matlab", {
+    # Matrices
+    X <- matrix(1:9, 3, byrow = TRUE)
+    Y <- matrix(9:1, 3, byrow = TRUE)
+    Z <- matrix(c(-8, 2, -4, 0), byrow = TRUE)
+    expect_equal(
+        object   = computeRows(1, X, 3),
+        expected = matrix(c(1, 4, 7))
+    )
+    expect_equal(
+        object   = computeRows(2, X, 3),
+        expected = matrix(c(1, 2, 7, 8, 13, 14))
+    )
+    expect_equal(
+        object   = computeRows(10, X, 3),
+        expected = matrix(c(1:10, 31:40, 61:70))
+    )
+    expect_equal(
+        object   = computeRows(100, X, 3),
+        expected = matrix(c(1:100, 301:400, 601:700))
+    )
+    expect_equal(
+        object   = computeRows(1, Y, 3),
+        expected = matrix(c(9, 6, 3))
+    )
+    expect_equal(
+        object   = computeRows(2, Y, 3),
+        expected = matrix(c(17, 18, 11, 12, 5, 6))
+    )
+    expect_equal(
+        object   = computeRows(10, Y, 3),
+        expected = matrix(c(81:90, 51:60, 21:30))
+    )
+    expect_equal(
+        object   = computeRows(1, Z, 0),
+        expected = matrix(, 1, 0)
+    )
+    expect_equal(
+        object   = computeRows(1, Z, 5),
+        expected = matrix(rep(-8, 5))
+    )
+    expect_equal(
+        object   = computeRows(2, Z, 1),
+        expected = matrix(rep(c(-17, -16), 1))
+    )
+    expect_equal(
+        object   = computeRows(2, Z, 3),
+        expected = matrix(rep(c(-17, -16), 3))
+    )
+    expect_equal(
+        object   = computeRows(3, Z, 1),
+        expected = matrix(rep(-26:-24, 1))
+    )
+    expect_equal(
+        object   = computeRows(3, Z, 10),
+        expected = matrix(rep(-26:-24, 10))
+    )
+})
