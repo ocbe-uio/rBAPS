@@ -18,6 +18,8 @@ The list below contains non-essential but nice-to-have tasks for the next stable
 
 - [ ] Uniformize capitalization of function names
 - [ ] Uniformize capitalization of function arguments
+- [ ] Implement optimizations from `fastbaps`
+- [ ] Replace redundant functions (ex.: `randga`)
 
 # Known pitfalls
 
