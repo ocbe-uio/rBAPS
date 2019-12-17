@@ -37,11 +37,17 @@ test_that("learn*partition behaves like on Matlab", {
     )
 })
 
-test_that("ownNum2Str behaves like on Matlab", {
+test_that("type convertions behave like on Matlab", {
     expect_equal(ownNum2Str(1), "1")
     expect_equal(ownNum2Str(-123456789), "-123456789")
     expect_equal(ownNum2Str(0), "0")
     expect_error(ownNum2Str("a"))
+    expect_equal(proportion2str(1), "1.00")
+    expect_equal(proportion2str(0), "0.00")
+    expect_equal(proportion2str(0.4), "0.40")
+    expect_equal(proportion2str(0.89), "0.89")
+    expect_equal(proportion2str(-0.4), "0.0-40")  # also bugged in original
+    # TODO: fix after release, as long as it doesn't break anything else
 })
 
 test_that("computeRows behaves like on Matlab", {

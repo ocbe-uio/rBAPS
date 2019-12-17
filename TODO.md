@@ -30,3 +30,7 @@ Function | Argument | Value | Matlab output | R output
 `ownNum2Str` | `number` | `NaN` | `'NAN'` | error
 `ownNum2Str` | `number` | `<vector>` | `'<vector elements>'` | `'<vector elements>'` + warning
 `repmat` | `length(n)` | `> 2` | > 2D matrix | 2D matrix
+
+As general remarks, one should keep in mind that:
+
+- For compliance with IEC 60559, the `round` in base R rounds .5 to the nearest even integer, whereas the homonym function in Matlab rounds up (or down, if negative).
