@@ -10,7 +10,7 @@ ownNum2Str(number)
 \item{number}{number}
 }
 \description{
-Own number to string
+Converts numbers to strings
 }
 \note{
 On Matlab, if number is NaN the output is 'NaN'. Here, the output will be an error. Also, the function belo expects "number" to have length one, whereas Matlab accepts vectors.
