@@ -609,13 +609,6 @@ admix1 <- function(tietue) {
 # %---------------------------------------------------------------
 
 
-# function dispLine;
-# disp('---------------------------------------------------');
-
-
-# %--------------------------------------------------------------------------
-
-
 # function tulostaAdmixtureTiedot(proportions, uskottavuus, alaRaja, niter)
 # h0 = findobj('Tag','filename1_text');
 # inputf = get(h0,'String');
