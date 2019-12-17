@@ -4,7 +4,6 @@
 #' @param b rate
 #' @return One realization of Gamma(a, b)
 #' @details The generated random variable has mean a / b. It will be positively-skewed for small values, but converges to a symmetric distribution for very large numbers of a and b.
-#' @export
 randga <- function (a, b) {
     flag <- 0
     if (a > 1) {
