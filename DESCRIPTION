@@ -1,11 +1,27 @@
 Package: rBAPS
 Title: Bayesian Analysis of Population Structure
 Version: 0.0.0.9000
-Authors@R: 
-    person(given = "Waldir",
-           family = "Leoncio",
-           role = c("aut", "cre"),
-           email = "w.l.netto@medisin.uio.no")
+Authors@R:
+    c(
+        person(
+            given = "Waldir",
+            family = "Leoncio",
+            role = c("aut", "cre"),
+            email = "w.l.netto@medisin.uio.no"
+        ),
+        person(
+            given = "Jukka",
+            family = "Corander",
+            role = c("aut"),
+            email = "jukka.corander@medisin.uio.no"
+        ),
+        person(
+            given = "Gerry",
+            family = "Tonkin-Hill",
+            role = c("aut"),
+            email = "jukka.corander@medisin.uio.no"
+        )
+    )
 Description: Partial R implementation of the BAPS software
     (Corander and Marttinen 2006 <doi:10.1111/j.1365-294X.2006.02994.x>;
     Corander and Tang 2007 <doi:10.1016/j.mbs.2006.09.015>;
