@@ -1,8 +1,8 @@
 #' @title computeIndLogml
 #' @description Palauttaa yksilön logml:n, kun oletetaan yksilön alkuperät
 #' määritellyiksi kuten osuusTaulu:ssa.
-#' @param omaFreqs omaFreqs
-#' @param osuusTaulu osuusTaulu
+#' @param omaFreqs own Freqs?
+#' @param osuusTaulu Percentage table?
 #' @export
 computeIndLogml <- function (omaFreqs, osuusTaulu) {
 
@@ -14,7 +14,7 @@ computeIndLogml <- function (omaFreqs, osuusTaulu) {
         apu <- sum(apu)
     }
 
-    apu = log(apu)
+    apu <- log(apu)
 
     loggis <- sum(apu)
     return (loggis)

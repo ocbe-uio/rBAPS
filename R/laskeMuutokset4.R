@@ -3,15 +3,15 @@
 #' muutos logml:ss? mikäli populaatiosta i siirretään osuuden verran
 #' todennäköisyysmassaa populaatioon j. Mikäli populaatiossa i ei ole mitään 
 #' siirrettävää, on vastaavassa kohdassa rivi nollia.
-#' @param osuus osuus
-#' @param osuusTaulu osuusTaulu
-#' @param omaFreqs omaFreqs
-#' @param logml logml
+#' @param osuus Percentages?
+#' @param omaFreqs own Freqs?
+#' @param osuusTaulu Percentage table?
+#' @param logml log maximum likelihood
 #' @param COUNTS COUNTS
-#' 
+#' @export
 laskeMuutokset4 <- function (osuus, osuusTaulu, omaFreqs, logml,
                              COUNTS = matrix(0)) {
-    npops <- dim(COUNTS)[3]
+    npops <- ifelse(is.na(dim(COUNTS)[3]), 1, dim(COUNTS)[3])
     notEmpty <- osuusTaulu > 0.005
     muutokset <- zeros(npops)
     empties <- !notEmpty
