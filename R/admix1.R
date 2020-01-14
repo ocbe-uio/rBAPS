@@ -537,21 +537,3 @@ admix1 <- function(tietue) {
 
 # osuusTaulu(i1) = osuusTaulu(i1)-osuus;
 # osuusTaulu(i2) = osuusTaulu(i2)+osuus;
-
-
-# %-------------------------------------------------------------------------
-
-
-# function [osuusTaulu, logml] = etsiParas(osuus, osuusTaulu, omaFreqs, logml)
-
-# ready = 0;
-# while ready ~= 1
-#     muutokset = laskeMuutokset4(osuus, osuusTaulu, omaFreqs, logml);
-#     [maxMuutos, indeksi] = max(muutokset(1:end));
-#     if maxMuutos>0
-#         osuusTaulu = suoritaMuutos(osuusTaulu, osuus, indeksi);
-#         logml = logml + maxMuutos;
-#     else
-#         ready = 1;
-#     end
-# end
