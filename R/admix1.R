@@ -521,37 +521,3 @@ admix1 <- function(tietue) {
 #         pointer = pointer+1;
 #     end
 # end
-
-# %--------------------------------------------------------------------------
-
-
-# function osuusTaulu = suoritaMuutos(osuusTaulu, osuus, indeksi)
-# % Päivittää osuusTaulun muutoksen jälkeen.
-
-# global COUNTS;
-# npops = size(COUNTS,3);
-
-# i1 = rem(indeksi,npops);
-# if i1==0, i1 = npops; end;
-# i2 = ceil(indeksi / npops);
-
-# osuusTaulu(i1) = osuusTaulu(i1)-osuus;
-# osuusTaulu(i2) = osuusTaulu(i2)+osuus;
-
-
-# %-------------------------------------------------------------------------
-
-
-# function [osuusTaulu, logml] = etsiParas(osuus, osuusTaulu, omaFreqs, logml)
-
-# ready = 0;
-# while ready ~= 1
-#     muutokset = laskeMuutokset4(osuus, osuusTaulu, omaFreqs, logml);
-#     [maxMuutos, indeksi] = max(muutokset(1:end));
-#     if maxMuutos>0
-#         osuusTaulu = suoritaMuutos(osuusTaulu, osuus, indeksi);
-#         logml = logml + maxMuutos;
-#     else
-#         ready = 1;
-#     end
-# end

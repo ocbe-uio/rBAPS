@@ -118,3 +118,17 @@ test_that("computeIndLogml works like on Matlab", {
     expect_equivalent(computeIndLogml(2:3, 2), 2.3026, tol = .0001)    
     expect_equivalent(computeIndLogml(matrix(8:5, 2), 100), 14.316, tol = .001)
 })
+
+test_that("suoritaMuutos works like on Matlab", {
+    mx1 <- c(10, 5, 8)
+    mx2 <- matrix(c(10, 9, 5, 8, 8, -7), 2)
+    expect_equal(suoritaMuutos(10, 3, 1), 10)
+    expect_equal(suoritaMuutos(mx1, 3, 1), c(10, 5, 8))
+    expect_equal(suoritaMuutos(mx1, 3, 2), c(7, 8, 8))
+    expect_equal(suoritaMuutos(mx1, 3, 3), c(7, 5, 11))
+    expect_equal(suoritaMuutos(mx1, 2, 3), c(8, 5, 10))
+    expect_equal(suoritaMuutos(mx1, -7, 3), c(17, 5, 1))
+    expect_equal(suoritaMuutos(mx2, 0, 5), mx2)
+    expect_equal(suoritaMuutos(mx2, 0, 5), mx2)
+    expect_equal(suoritaMuutos(mx2, -3, 6), matrix(c(13, 9, 5, 8, 8, -10), 2))
+})
