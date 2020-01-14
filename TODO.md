@@ -30,6 +30,7 @@ Function | Argument | Value | Matlab output | R output
 `ownNum2Str` | `number` | `NaN` | `'NAN'` | error
 `ownNum2Str` | `number` | `<vector>` | `'<vector elements>'` | `'<vector elements>'` + warning
 `repmat` | `length(n)` | `> 2` | > 2D matrix | 2D matrix
+`computeIndLogml` | only one of the arguments is negative | complex number | `NaN`
 
 As general remarks, one should keep in mind that:
 

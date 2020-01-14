@@ -108,3 +108,13 @@ test_that("computeRows behaves like on Matlab", {
         expected = matrix(rep(-26:-24, 10))
     )
 })
+
+test_that("computeIndLogml works like on Matlab", {
+    expect_equivalent(computeIndLogml(10, 1), 2.3026, tol = .0001)
+    expect_equivalent(computeIndLogml(0, 1), -Inf)
+    expect_equivalent(computeIndLogml(1, 0), -Inf)
+    expect_equivalent(computeIndLogml(0, 0), -Inf)
+    expect_equivalent(computeIndLogml(-pi, -8), 3.2242, tol = .0001)
+    expect_equivalent(computeIndLogml(2:3, 2), 2.3026, tol = .0001)    
+    expect_equivalent(computeIndLogml(matrix(8:5, 2), 100), 14.316, tol = .001)
+})

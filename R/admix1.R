@@ -522,23 +522,6 @@ admix1 <- function(tietue) {
 #     end
 # end
 
-
-# %---------------------------------------------------------------------------
-
-
-# function loggis = computeIndLogml(omaFreqs, osuusTaulu)
-# % Palauttaa yksilön logml:n, kun oletetaan yksilön alkuperät
-# % määritellyiksi kuten osuusTaulu:ssa.
-
-# apu = repmat(osuusTaulu', [1 size(omaFreqs,2)]);
-# apu = apu .* omaFreqs;
-# apu = sum(apu);
-
-# apu = log(apu);
-
-# loggis = sum(apu);
-
-
 # %--------------------------------------------------------------------------
 
 
