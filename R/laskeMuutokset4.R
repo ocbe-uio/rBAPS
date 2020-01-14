@@ -9,7 +9,8 @@
 #' @param logml logml
 #' @param COUNTS COUNTS
 #' 
-laskeMuutokset4 <- function (osuus, osuusTaulu, omaFreqs, logml, COUNTS) {
+laskeMuutokset4 <- function (osuus, osuusTaulu, omaFreqs, logml,
+                             COUNTS = matrix(0)) {
     npops <- dim(COUNTS)[3]
     notEmpty <- osuusTaulu > 0.005
     muutokset <- zeros(npops)

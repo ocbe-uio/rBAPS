@@ -4,7 +4,7 @@
 \alias{laskeMuutokset4}
 \title{laskeMuutokset4}
 \usage{
-laskeMuutokset4(osuus, osuusTaulu, omaFreqs, logml, COUNTS)
+laskeMuutokset4(osuus, osuusTaulu, omaFreqs, logml, COUNTS = matrix(0))
 }
 \arguments{
 \item{osuus}{osuus}
