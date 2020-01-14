@@ -25,12 +25,12 @@ The list below contains non-essential but nice-to-have tasks for the next stable
 
 The following behavioral differences have been detected between the Matlab functions and their R counterparts. In order to save time, these differences will not be addressed, since they could require extensive reworking of a function. However, such differences may very well cause unexpected problems in some situations, which is why compiling this list is so important. The list below might provide a good starting point for identifying and fixing bugs:
 
-Function | Argument | Value | Matlab output | R output
----------|----------|-------|---------------|---------
-`ownNum2Str` | `number` | `NaN` | `'NAN'` | error
-`ownNum2Str` | `number` | `<vector>` | `'<vector elements>'` | `'<vector elements>'` + warning
-`repmat` | `length(n)` | `> 2` | > 2D matrix | 2D matrix
-`computeIndLogml` | only one of the arguments is negative | complex number | `NaN`
+| Function          | Argument           | Value          | Matlab output         | R output                        |
+| ----------------- | ------------------ | -------------- | --------------------- | ------------------------------- |
+| `ownNum2Str`      | `number`           | `NaN`          | `'NAN'`               | error                           |
+| `ownNum2Str`      | `number`           | `<vector>`     | `'<vector elements>'` | `'<vector elements>'` + warning |
+| `repmat`          | `length(n)`        | `> 2`          | > 2D matrix           | 2D matrix                       |
+| `computeIndLogml` | some arguments < 0 | complex number | `NaN`                 |
 
 As general remarks, one should keep in mind that:
 

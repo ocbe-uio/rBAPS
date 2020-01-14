@@ -3,7 +3,7 @@
 #' @details This function was created to replicate the behavior of a homonymous
 #' function on Matlab
 #' @param mx matrix
-#' @param n either a scalat with the number of replications in both rows and columns or a 2-length vector with individual repetitions.
+#' @param n either a scalar with the number of replications in both rows and columns or a 2-length vector with individual repetitions.
 #' @return matrix replicated over `ncol(mx) * n` columns and `nrow(mx) * n` rows
 #' @note The Matlab implementation of this function accepts `n` with length > 2.
 #' @export

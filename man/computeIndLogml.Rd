@@ -7,9 +7,9 @@
 computeIndLogml(omaFreqs, osuusTaulu)
 }
 \arguments{
-\item{omaFreqs}{omaFreqs}
+\item{omaFreqs}{own Freqs?}
 
-\item{osuusTaulu}{osuusTaulu}
+\item{osuusTaulu}{Percentage table?}
 }
 \description{
 Palauttaa yksilön logml:n, kun oletetaan yksilön alkuperät

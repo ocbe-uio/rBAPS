@@ -7,13 +7,13 @@
 laskeMuutokset4(osuus, osuusTaulu, omaFreqs, logml, COUNTS = matrix(0))
 }
 \arguments{
-\item{osuus}{osuus}
+\item{osuus}{Percentages?}
 
-\item{osuusTaulu}{osuusTaulu}
+\item{osuusTaulu}{Percentage table?}
 
-\item{omaFreqs}{omaFreqs}
+\item{omaFreqs}{own Freqs?}
 
-\item{logml}{logml}
+\item{logml}{log maximum likelihood}
 
 \item{COUNTS}{COUNTS}
 }
