@@ -521,19 +521,3 @@ admix1 <- function(tietue) {
 #         pointer = pointer+1;
 #     end
 # end
-
-# %--------------------------------------------------------------------------
-
-
-# function osuusTaulu = suoritaMuutos(osuusTaulu, osuus, indeksi)
-# % Päivittää osuusTaulun muutoksen jälkeen.
-
-# global COUNTS;
-# npops = size(COUNTS,3);
-
-# i1 = rem(indeksi,npops);
-# if i1==0, i1 = npops; end;
-# i2 = ceil(indeksi / npops);
-
-# osuusTaulu(i1) = osuusTaulu(i1)-osuus;
-# osuusTaulu(i2) = osuusTaulu(i2)+osuus;
