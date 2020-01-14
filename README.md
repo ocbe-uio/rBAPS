@@ -15,7 +15,13 @@ rBAPS is Open Software licenced under the [GPL-3](https://tldrlegal.com/license/
 
 ## References
 
+### How to cite this project
+
+After installing the package, issue `citation("rBAPS")` in R. You will get a pure text and a BibTeX entry of rBAPS.
+
 ### Scientific papers
+
+These are some of the scientific publications that served as base for the creation of rBAPS:
 
 - Corander, J. and Marttinen, P. (2006), Bayesian identification of admixture events using multilocus molecular markers. Molecular Ecology, 15: 2833-2843. doi:[10.1111/j.1365-294X.2006.02994.x](https://doi.org/10.1111/j.1365-294X.2006.02994.x)
 - Corander, J., Sirén, J., & Arjas, E. (2008). Bayesian spatial modeling of genetic population structure. Computational Statistics, 23(1), 111-129. doi:[10.1007/s00180-007-0072-x](https://link.springer.com/content/pdf/10.1007/s00180-007-0072-x.pdf)
@@ -23,6 +29,8 @@ rBAPS is Open Software licenced under the [GPL-3](https://tldrlegal.com/license/
 - Tonkin-Hill G, Lees JA, Bentley SD et al. RhierBAPS: An R implementation of the population clustering algorithm hierBAPS [version 1; peer review: 2 approved]. Wellcome Open Res 2018, 3:93 (https://doi.org/10.12688/wellcomeopenres.14694.1)
 
 ### Software
+
+Below we list some of the software directly related to rBAPS:
 
 - [Original BAPS software](http://www.helsinki.fi/bsg/software/BAPS/)
 - [RhierBAPS: An R implementation of the population clustering algorithm hierBAPS](https://github.com/gtonkinhill/rhierbaps)

@@ -34,3 +34,4 @@ Function | Argument | Value | Matlab output | R output
 As general remarks, one should keep in mind that:
 
 - For compliance with IEC 60559, the `round` in base R rounds .5 to the nearest even integer, whereas the homonym function in Matlab rounds up (or down, if negative).
+- Some clobal variables have been added as a new (last) argument to the function they appear in.
