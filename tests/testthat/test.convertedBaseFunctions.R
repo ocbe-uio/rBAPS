@@ -7,16 +7,26 @@ test_that("rand works properly", {
 })
 
 test_that("repmat works properly", {
-    mx <- matrix(1:4)
-    expect_equal(repmat(1:4, 1), mx)
-    expect_equal(repmat(1:4, 2), t(cbind(rbind(mx, mx), rbind(mx, mx))))
+    mx0 <- c(1:4) # when converted to matrix, results in a column vector
+    mx1 <- matrix(5:8)
+    mx2 <- matrix(0:-3, 2)
+    expect_error(repmat(mx0))
+    expect_equal(repmat(mx0, 1), as.matrix(mx0))
     expect_equal(
-        object = repmat(1:4, c(2, 3)),
-        expected = t(cbind(rbind(mx, mx), rbind(mx, mx), rbind(mx, mx)))
+        object = repmat(mx0, 2),
+        expected = unname(t(cbind(rbind(mx0, mx0), rbind(mx0, mx0))))
     )
     expect_equal(
-        object = repmat(1:4, c(4, 1)),
-        expected = rbind(mx, mx, mx, mx)
+        object = repmat(mx1, 2),
+        expected = unname(cbind(rbind(mx1, mx1), rbind(mx1, mx1)))
+    )
+    expect_equal(
+        object = repmat(mx2, c(2, 3)),
+        expected = cbind(rbind(mx2, mx2), rbind(mx2, mx2), rbind(mx2, mx2))
+    )
+    expect_equal(
+        object = repmat(mx2, c(4, 1)),
+        expected = rbind(mx2, mx2, mx2, mx2)
     )
 })
 
@@ -36,8 +46,12 @@ test_that("times works as expected", {
     expect_equal(times(c(.8, 9), 5), as.matrix(c(4, 45)))
     expect_equal(times(matrix(1:4, 2), 5), matrix(c(5, 10, 15, 20), 2))
     expect_equal(times(5, matrix(1:4, 2)), matrix(c(5, 10, 15, 20), 2))
-    expect_equal(times(matrix(1:4, 2), c(10, 3)), matrix(c(10, 20, 9, 12), 2))
-    expect_equal(times(c(10, 3), matrix(1:4, 2)), matrix(c(10, 20, 9, 12), 2))
+    expect_equal(times(matrix(1:4, 2), c(10, 3)), matrix(c(10, 6, 30, 12), 2))
+    expect_equal(
+        object = times(matrix(1:4, 2), matrix(c(10, 3), 1)),
+        expected = matrix(c(10, 20, 9, 12), 2)
+    )
+    expect_equal(times(c(10, 3), matrix(1:4, 2)), matrix(c(10, 6, 30, 12), 2))
     expect_equal(
         object = times(matrix(c(10, -5, 3, 9), 2), matrix(1:4, 2)),
         expected = matrix(c(10, -10, 9, 36), 2)
