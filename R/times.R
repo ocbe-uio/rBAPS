@@ -18,11 +18,24 @@ times <- function(a, b) {
         }  else if (all(dim(b) >= dim(a))) {
             dominant_mx <- b
             dominated_mx <- a
+        } else {
+            dominant_mx <- "neither"
+            dominant_dim <- c(max(nrow(b), nrow(a)), max(ncol(b), ncol(a)))
         }
     }
 
     if (is.null(dominant_mx)) {
-        return(a * b)
+        out <- a * b
+    } else if (dominant_mx == "neither") {
+        a <- repmat(
+            mx = a,
+            n = c(dominant_dim[1] - nrow(a) + 1, dominant_dim[2] - ncol(a) + 1)
+        )
+        b <- repmat(
+            mx = b,
+            n = c(dominant_dim[1] - nrow(b) + 1, dominant_dim[2] - ncol(b) + 1)
+        )
+        out <- a * b
     } else {
         # Expanding dominated matrix
         dominated_mx <- repmat(
@@ -32,6 +45,7 @@ times <- function(a, b) {
                 ncol(dominant_mx) - ncol(dominated_mx) + 1
             )
         )
-        return(dominant_mx * dominated_mx)
+        out <- dominant_mx * dominated_mx
     }
+    return(out)
 }
