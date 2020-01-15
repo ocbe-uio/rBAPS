@@ -17,7 +17,7 @@ rBAPS is Open Software licenced under the [GPL-3](https://tldrlegal.com/license/
 
 ### How to cite this project
 
-After installing the package, issue `citation("rBAPS")` in R. You will get a pure text and a BibTeX entry of rBAPS. Alternatively, you can use the [CITATION.cff](CITATION.cff) file, which conforms to the (Citation File Format)[https://citation-file-format.github.io/] standard.
+After installing the package, issue `citation("rBAPS")` in R. You will get a pure text and a BibTeX entry of rBAPS. Alternatively, you can use the [CITATION.cff](CITATION.cff) file, which conforms to the [Citation File Format](https://citation-file-format.github.io/) standard.
 
 ### Scientific papers
 
