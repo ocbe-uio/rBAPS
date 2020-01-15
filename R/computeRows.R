@@ -14,7 +14,7 @@ computeRows <- function(rowsFromInd, inds, ninds) {
     }
     rows <- inds[, rep(1, rowsFromInd)]
     rows <- rows * rowsFromInd
-    miinus <- repmat((rowsFromInd - 1):0, c(1, ninds))
+    miinus <- repmat(t((rowsFromInd - 1):0), c(ninds, 1))
     rows <- rows - miinus
     rows <- matrix(t(rows), c(1, rowsFromInd * ninds))
     return(t(rows))

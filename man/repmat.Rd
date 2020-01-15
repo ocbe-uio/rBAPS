@@ -9,7 +9,7 @@ repmat(mx, n)
 \arguments{
 \item{mx}{matrix}
 
-\item{n}{either a scalat with the number of replications in both rows and columns or a 2-length vector with individual repetitions.}
+\item{n}{either a scalar with the number of replications in both rows and columns or a 2-length vector with individual repetitions.}
 }
 \value{
 matrix replicated over `ncol(mx) * n` columns and `nrow(mx) * n` rows
@@ -23,4 +23,6 @@ function on Matlab
 }
 \note{
 The Matlab implementation of this function accepts `n` with length > 2.
+
+It should also be noted that a concatenated vector in R, e.g. `c(5, 2)`, becomes a column vector when coerced to matrix, even though it may look like a row vector at first glance. This is important to keep in mind when considering the expected output of this function. Vectors in R make sense to be seen as column vectors, given R's Statistics-oriented paradigm where variables are usually disposed as columns in a dataset.
 }

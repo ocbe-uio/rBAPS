@@ -2,18 +2,18 @@
 % Please edit documentation in R/laskeMuutokset4.R
 \name{laskeMuutokset4}
 \alias{laskeMuutokset4}
-\title{laskeMuutokset4}
+\title{Calculate changes?}
 \usage{
 laskeMuutokset4(osuus, osuusTaulu, omaFreqs, logml, COUNTS = matrix(0))
 }
 \arguments{
-\item{osuus}{osuus}
+\item{osuus}{Percentages?}
 
-\item{osuusTaulu}{osuusTaulu}
+\item{osuusTaulu}{Percentage table?}
 
-\item{omaFreqs}{omaFreqs}
+\item{omaFreqs}{own Freqs?}
 
-\item{logml}{logml}
+\item{logml}{log maximum likelihood}
 
 \item{COUNTS}{COUNTS}
 }
