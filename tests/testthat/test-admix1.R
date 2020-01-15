@@ -1,6 +1,5 @@
 context("Admixture analysis")
 
-
 test_that("learn*partition behaves like on Matlab", {
     # Test data
     p1 <- c(0, .5, 1, 1.5)
@@ -146,4 +145,30 @@ test_that("suoritaMuutos works like on Matlab", {
     expect_equal(suoritaMuutos(mx2, 0, 5), mx2)
     expect_equal(suoritaMuutos(mx2, 0, 5), mx2)
     expect_equal(suoritaMuutos(mx2, -3, 6), matrix(c(13, 9, 5, 8, 8, -10), 2))
+})
+
+test_that("laskeMuutokset4 works like on Matlab", {
+    # TODO: build these tests based on problems found in etsiParas
+    mx1 <- t(c(.4, 7))
+    expect_equivalent(
+        object = laskeMuutokset4(2, mx1, c(8, 2), 3),
+        expected = t(c(0, .3742)),
+        tol = .0001
+    )
+})
+
+test_that("etsiParas works like on Matlab", {
+    mx1 <- t(c(.4, 7))
+    expect_equal(etsiParas(2, mx1, c(8, 1), 8), c(.4, 7, 8))
+    expect_equivalent(etsiParas(2, mx1, c(8, 1), 1), c(-1.6, 9, 3.1864), .0001)
+    expect_equivalent(
+        object = etsiParas(5, mx1, c(8, 1), -pi),
+        expected = c(-4.6, 12, 3.8111),
+        tol = .001
+    )
+    expect_equivalent(
+        object = etsiParas(-.5, mx1, c(-1, 0), -10),
+        expected = c(7.4, 0, complex(real = 1.8563, imaginary = 3.1416)),
+        tol = .0001
+    )
 })
