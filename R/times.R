@@ -26,7 +26,7 @@ times <- function(a, b) {
 
     if (is.null(dominant_mx)) {
         out <- a * b
-    } else if (dominant_mx == "neither") {
+    } else if (dominant_mx[1] == "neither") {
         a <- repmat(
             mx = a,
             n = c(dominant_dim[1] - nrow(a) + 1, dominant_dim[2] - ncol(a) + 1)

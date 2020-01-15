@@ -117,6 +117,21 @@ test_that("computeIndLogml works like on Matlab", {
     expect_equivalent(computeIndLogml(-pi, -8), 3.2242, tol = .0001)
     expect_equivalent(computeIndLogml(2:3, 2), 2.3026, tol = .0001)    
     expect_equivalent(computeIndLogml(matrix(8:5, 2), 100), 14.316, tol = .001)
+    expect_equivalent(
+        object    = computeIndLogml(matrix(8:5, 2), matrix(c(1, 3), 1)),
+        expected  = 6.4118,
+        tol       = .001
+    )
+    expect_equivalent(
+        object    = computeIndLogml(matrix(8:5, 1), matrix(c(1, 3), 1)),
+        expected  = 12.9717,
+        tol       = .001
+    )
+    expect_equivalent(
+        object = computeIndLogml(c(8, 1), c(-1.6, 5)),
+        expected = complex(real = 6.4739, imaginary = pi),
+        tol = .001
+    )
 })
 
 test_that("suoritaMuutos works like on Matlab", {

@@ -56,4 +56,8 @@ test_that("times works as expected", {
         object = times(matrix(c(10, -5, 3, 9), 2), matrix(1:4, 2)),
         expected = matrix(c(10, -10, 9, 36), 2)
     )
+    expect_equal(
+        object = times(matrix(c(-1.6, 5), 1), c(8, 1)),
+        expected = matrix(c(-12.8, -1.6, 40, 5), 2)
+    )
 })
