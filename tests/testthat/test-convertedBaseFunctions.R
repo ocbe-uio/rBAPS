@@ -61,3 +61,8 @@ test_that("times works as expected", {
         expected = matrix(c(-12.8, -1.6, 40, 5), 2)
     )
 })
+
+test_that("colon works as expected (hee hee)", {
+    expect_equal(colon(1, 4), 1:4)
+    expect_length(colon(4, 1), 0)
+})
