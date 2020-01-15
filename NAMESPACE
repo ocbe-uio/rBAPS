@@ -2,6 +2,7 @@
 
 export(admix1)
 export(calculatePopLogml)
+export(colon)
 export(computeIndLogml)
 export(computeRows)
 export(etsiParas)

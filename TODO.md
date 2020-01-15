@@ -16,8 +16,8 @@ Note to contributors: as tasks get finished, please update this file with an `x`
 
 The list below contains non-essential but nice-to-have tasks for the next stable release.
 
-- [ ] Uniformize capitalization of function names
-- [ ] Uniformize capitalization of function arguments
+- [ ] Standardize capitalization of function names
+- [ ] Standardize capitalization of function arguments
 - [ ] Implement optimizations from `fastbaps`
 - [ ] Replace redundant functions (ex.: `randga`)
 
@@ -30,7 +30,6 @@ The following behavioral differences have been detected between the Matlab funct
 | `ownNum2Str`      | `number`           | `NaN`          | `'NAN'`               | error                           |
 | `ownNum2Str`      | `number`           | `<vector>`     | `'<vector elements>'` | `'<vector elements>'` + warning |
 | `repmat`          | `length(n)`        | `> 2`          | > 2D matrix           | 2D matrix                       |
-| `computeIndLogml` | some arguments < 0 | complex number | `NaN`                 |
 
 As general remarks, one should keep in mind that:
 
