@@ -1,0 +1,24 @@
+# YAML 1.2
+---
+message: "If you use this software, please cite it using these metadata or by issuing `citation(rBAPS)` within an R session"
+authors:
+  -
+    family-names: Leoncio
+    given-names: Waldir
+    name-suffix: Netto
+    email: "w.l.netto@medisin.uio.no"
+    affiliation: "Oslo Centre for Biostatistics and Epidemiology"
+  -
+    family-names: Corander
+    given-names: Jukka
+    email: "jukka.corander@medisin.uio.no"
+    affiliation: "Oslo Centre for Biostatistics and Epidemiology"
+  -
+    family-names: Tonkin-Hill
+    given-names: Gerry
+    email: gqt20@cam.ac.uk
+title: "rBAPS: Bayesian Analysis of Population Structure"
+version: 0.0.0.9000
+date-released: 2020-01-01
+license: GPL-3.0-or-later
+cff-version: 1.1.0
