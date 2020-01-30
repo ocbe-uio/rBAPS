@@ -4,7 +4,7 @@
 \alias{simulateAllFreqs}
 \title{Simulate All Frequencies}
 \usage{
-simulateAllFreqs(noalle, COUNTS = matrix(0))
+simulateAllFreqs(noalle, COUNTS = matrix())
 }
 \arguments{
 \item{noalle}{noalle}

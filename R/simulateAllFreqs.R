@@ -5,23 +5,27 @@
 #' @param COUNTS COUNTS
 #' @export
 
-simulateAllFreqs <- function(noalle, COUNTS = matrix(0)) {
+simulateAllFreqs <- function(noalle, COUNTS = matrix(NA, 0, 0)) {
     max_noalle <- size(COUNTS, 1)
     nloci <- size(COUNTS, 2)
     npops <- size(COUNTS, 3)
 
     prioriAlleelit <- zeros(max_noalle, nloci)
-    for (j in 1:nloci) {
-        prioriAlleelit[1:noalle[j], j] <- 1 / noalle[j]
+    if (nloci > 0) {
+        for (j in 1:nloci) {
+            prioriAlleelit[1:noalle[j], j] <- 1 / noalle[j]
+        }
     }
-    prioriAlleelit <- repmat(prioriAlleelit, matrix(c(1, 1, npops), ncol = 1))
+    prioriAlleelit <- repmat(prioriAlleelit, matrix(c(1, 1, npops), 1))
     counts <- COUNTS + prioriAlleelit
     allfreqs <- zeros(size(counts))
 
     for (i in 1:npops) {
-        for (j in 1:nloci) {
-            simuloidut <- randdir(counts[1:noalle[j], j, i] , noalle[j])
-            allfreqs[1:noalle[j], j, i] <- simuloidut
+        if (nloci > 0) {
+            for (j in 1:nloci) {
+                simuloidut <- randdir(counts[1:noalle[j], j, i] , noalle[j])
+                allfreqs[1:noalle[j], j, i] <- simuloidut
+            }
         }
     }
     return(allfreqs)

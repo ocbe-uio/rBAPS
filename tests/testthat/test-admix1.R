@@ -212,3 +212,13 @@ test_that("simulateIndividuals works like on Matlab", {
         expected = 6
     )
 })
+
+test_that("simulateAllFreqs works as expected", {
+    empty_mt <- matrix(NA, 0, 0)
+    expect_equivalent(suppressWarnings(simulateAllFreqs(3)), empty_mt)
+    expect_equivalent(suppressWarnings(simulateAllFreqs(3:5)), empty_mt)
+    expect_equivalent(
+        object = suppressWarnings(simulateAllFreqs(matrix(1:4, 2))),
+        expected = empty_mt
+    )
+})
