@@ -7,8 +7,16 @@
 #' default behavior is more reasonable in those cases (i.e., returning NA),
 #' but since the point of this function is to replicate MATLAB behaviors
 #' (bugs and questionable behaviors included), this function also does this.
+#' @export
 size <- function(x, d) {
     # Determining the number of dimensions
+    if (all(is.na(x))) {
+        if (missing(d)) {
+            return(c(0, 0))
+        } else {
+            return(ifelse(d <= 2, 0, 1))
+        }
+    }
     if (length(x) == 1) {
         # x is surely a scalar
         return(1)
