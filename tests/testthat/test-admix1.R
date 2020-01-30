@@ -172,3 +172,8 @@ test_that("etsiParas works like on Matlab", {
         tol = .0001
     )
 })
+
+test_that("computePersonalAllFreqs works like on Matlab", {
+    expect_equal(computePersonalAllFreqs(1, 1:4, c(15, 5, 10, 40), 1), 15)
+    # TODO: test with 2x2 matrix
+})
