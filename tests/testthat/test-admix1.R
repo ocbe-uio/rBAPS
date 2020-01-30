@@ -180,3 +180,13 @@ test_that("computePersonalAllFreqs works like on Matlab", {
     expect_equal(computePersonalAllFreqs(1, 1:3, mx, 1), c(15, 40))
     expect_equal(computePersonalAllFreqs(1, 1:2, mx, 1), c(15, 40))
 })
+
+test_that("simuloiAlleeli works like on Matlab", {
+    # TODO: test on vector
+    ra1 <- array(1:12, c(2, 2, 3))
+    mx1 <- matrix(c(3, 5, 0, 9), 2)
+    mx2 <- matrix(c(3, 5, 0, 9, 5, 8), 2)
+    expect_equal(simuloiAlleeli(ra1, 2, 1), 1)
+    expect_equal(simuloiAlleeli(mx1, 1, 2), 2)
+    expect_equal(simuloiAlleeli(mx2, 1, 3), 1)
+})

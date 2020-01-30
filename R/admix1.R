@@ -479,11 +479,3 @@ admix1 <- function(tietue) {
 #     end
 #     counter = counter+rowsFromInd;
 # end
-
-# function all = simuloiAlleeli(allfreqs,pop,loc)
-# % Simuloi populaation pop lokukseen loc alleelin.
-# freqs = allfreqs(:,loc,pop);
-# cumsumma = cumsum(freqs);
-# arvo = rand;
-# isommat = find(cumsumma>arvo);
-# all = min(isommat);
