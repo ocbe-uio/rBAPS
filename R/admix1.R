@@ -487,37 +487,3 @@ admix1 <- function(tietue) {
 # arvo = rand;
 # isommat = find(cumsumma>arvo);
 # all = min(isommat);
-
-
-# %--------------------------------------------------------------------------
-
-
-# function omaFreqs = computePersonalAllFreqs(ind, data, allFreqs, rowsFromInd)
-# % Laskee npops*(rowsFromInd*nloci) taulukon, jonka kutakin saraketta
-# % vastaa yksilön ind alleeli. Eri rivit ovat alleelin alkuperäfrekvenssit
-# % eri populaatioissa. Jos yksilölt?puuttuu jokin alleeli, niin vastaavaan
-# % kohtaa tulee sarake ykkösi?
-
-# global COUNTS;
-# nloci = size(COUNTS,2);
-# npops = size(COUNTS,3);
-
-# rows = data(computeRows(rowsFromInd, ind, 1),:);
-
-# omaFreqs = zeros(npops, (rowsFromInd*nloci));
-# pointer = 1;
-# for loc=1:size(rows,2)
-#     for all=1:size(rows,1)
-#         if rows(all,loc)>=0
-#             try,
-#             omaFreqs(:,pointer) = ...
-#                 reshape(allFreqs(rows(all,loc),loc,:), [npops,1]);
-#             catch
-#                 a=0;
-#             end
-#         else
-#             omaFreqs(:,pointer) = ones(npops,1);
-#         end
-#         pointer = pointer+1;
-#     end
-# end

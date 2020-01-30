@@ -172,3 +172,11 @@ test_that("etsiParas works like on Matlab", {
         tol = .0001
     )
 })
+
+test_that("computePersonalAllFreqs works like on Matlab", {
+    expect_equal(computePersonalAllFreqs(1, 1:4, c(15, 5, 10, 40), 1), 15)
+    mx <- matrix(c(15, 10, 5, 40), 2)
+    expect_equal(computePersonalAllFreqs(1, 1:4, mx, 1), c(15, 40))
+    expect_equal(computePersonalAllFreqs(1, 1:3, mx, 1), c(15, 40))
+    expect_equal(computePersonalAllFreqs(1, 1:2, mx, 1), c(15, 40))
+})
