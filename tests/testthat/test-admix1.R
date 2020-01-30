@@ -182,21 +182,23 @@ test_that("computePersonalAllFreqs works like on Matlab", {
 })
 
 test_that("simuloiAlleeli works like on Matlab", {
-    # TODO: test on vector
-    sk1 <- 2
-    ra1 <- array(1:12, c(2, 2, 3))
+    sk <- 2
+    vk <- 1:3
+    ra <- array(1:12, c(2, 2, 3))
     mx1 <- matrix(c(3, 5, 0, 9), 2)
     mx2 <- matrix(c(3, 5, 0, 9, 5, 8), 2)
-    expect_equal(simuloiAlleeli(sk1, 1, 1), 1)
-    expect_equal(simuloiAlleeli(ra1, 2, 1), 1)
+    expect_equal(simuloiAlleeli(sk, 1, 1), 1)
+    expect_equal(simuloiAlleeli(vk, 1, 2), 1)
+    expect_equal(simuloiAlleeli(ra, 2, 1), 1)
     expect_equal(simuloiAlleeli(mx1, 1, 2), 2)
     expect_equal(simuloiAlleeli(mx2, 1, 3), 1)
 })
 
 test_that("simulateIndividuals works like on Matlab", {
+    set.seed(2)
     expect_equal(
-        object = simulateIndividuals(1, 3, 2, 0, .1),
-        expected = matrix(rep(-999, 3), 3)
+        object = simulateIndividuals(1, 3, 2, 0, .2),
+        expected = matrix(c(1, -999, 1), ncol = 1)
     )
     expect_equal(
         object = simulateIndividuals(5, 3, 1:3, 4, 0),
