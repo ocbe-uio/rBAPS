@@ -454,28 +454,3 @@ admix1 <- function(tietue) {
 #         allfreqs(1:noalle(j),j,i) = simuloidut;
 #     end
 # end
-
-# %--------------------------------------------------------------------------
-
-
-# function refData = simulateIndividuals(n,rowsFromInd,allfreqs,pop, missing_level)
-# % simulate n individuals from population pop, such that approximately
-# % proportion "missing_level" of the alleles are present. 
-
-# nloci = size(allfreqs,2);
-
-# refData = zeros(n*rowsFromInd,nloci);
-# counter = 1;  % which row will be generated next.
-
-# for ind = 1:n
-#     for loc = 1:nloci
-#         for k=0:rowsFromInd-1
-#             if rand<missing_level
-#                 refData(counter+k,loc) = simuloiAlleeli(allfreqs,pop,loc);
-#             else
-#                 refData(counter+k,loc) = -999;
-#             end
-#         end
-#     end
-#     counter = counter+rowsFromInd;
-# end

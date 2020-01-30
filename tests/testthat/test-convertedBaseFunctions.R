@@ -66,3 +66,22 @@ test_that("colon works as expected (hee hee)", {
     expect_equal(colon(1, 4), 1:4)
     expect_length(colon(4, 1), 0)
 })
+
+test_that("size works as on MATLAB", {
+    sk <- 10
+    vk <- 1:4
+    mx <- matrix(1:6, 2)
+    ra <- array(1:24, c(2, 3, 4))
+    expect_equal(size(sk), 1)
+    expect_equal(size(vk), c(1, 4))
+    expect_equal(size(mx), c(2, 3))
+    expect_equal(size(ra), c(2, 3, 4))
+    expect_equal(size(sk, 199), 1)
+    expect_equal(size(vk, 199), 1)
+    expect_equal(size(mx, 199), 1)
+    expect_equal(size(ra, 199), 1)
+    expect_equal(size(vk, 2), 4)
+    expect_equal(size(mx, 2), 3)
+    expect_equal(size(ra, 2), 3)
+    expect_equal(size(ra, 3), 4)
+})
