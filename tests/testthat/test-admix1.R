@@ -190,3 +190,23 @@ test_that("simuloiAlleeli works like on Matlab", {
     expect_equal(simuloiAlleeli(mx1, 1, 2), 2)
     expect_equal(simuloiAlleeli(mx2, 1, 3), 1)
 })
+
+test_that("simulateIndividuals works like on Matlab", {
+    expect_equal(
+        object = simulateIndividuals(1, 3, 2, 0, .1),
+        expected = matrix(rep(-999, 3), 3)
+    )
+    expect_equal(
+        object = simulateIndividuals(5, 3, 1:3, 4, 0),
+        expected = matrix(rep(-999, 15 * 3), 15)
+    )
+    expect_equal(
+        object = simulateIndividuals(3, 3, 2, 1, 1),
+        expected = matrix(rep(1, 9), 9)
+    )
+    set.seed(2)
+    expect_equal(
+        object = sum(simulateIndividuals(3, 3, 2, 1, .5) == 1),
+        expected = 6
+    )
+})
