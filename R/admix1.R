@@ -427,30 +427,3 @@ admix1 <- function(tietue) {
 # prioriAlleelit = repmat(prioriAlleelit, [1,1,npops]);
 # counts = COUNTS + prioriAlleelit;
 # allFreqs = counts./sumCounts;
-
-
-# function allfreqs = simulateAllFreqs(noalle)
-# % Lisää jokaista alleelia joka populaation joka lokukseen j 1/noalle(j)
-# % verran. Näin saatuja counts:eja vastaavista Dirichlet-jakaumista
-# % simuloidaan arvot populaatioiden alleelifrekvensseille.
-
-# global COUNTS;
-
-# max_noalle = size(COUNTS,1);
-# nloci = size(COUNTS,2);
-# npops = size(COUNTS,3);
-
-# prioriAlleelit = zeros(max_noalle,nloci);
-# for j=1:nloci
-#     prioriAlleelit(1:noalle(j),j) = 1/noalle(j);
-# end
-# prioriAlleelit = repmat(prioriAlleelit, [1,1,npops]);
-# counts = COUNTS + prioriAlleelit;
-# allfreqs = zeros(size(counts));
-
-# for i=1:npops
-#     for j=1:nloci
-#         simuloidut = randdir(counts(1:noalle(j),j,i) , noalle(j));
-#         allfreqs(1:noalle(j),j,i) = simuloidut;
-#     end
-# end
