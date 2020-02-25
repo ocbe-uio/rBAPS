@@ -28,6 +28,10 @@ test_that("repmat works properly", {
         object = repmat(mx2, c(4, 1)),
         expected = rbind(mx2, mx2, mx2, mx2)
     )
+    expect_equal(
+        object = repmat(mx2, c(1, 1, 2)),
+        expected = array(mx2, c(2, 2, 2))
+    )
 })
 
 test_that("zeros and ones work as expected", {
