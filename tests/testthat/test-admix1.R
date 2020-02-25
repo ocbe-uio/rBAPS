@@ -224,3 +224,7 @@ test_that("simulateAllFreqs works as expected", {
         expected = empty_mt
     )
 })
+
+test_that("computeAllFreqs2 works as expected", {
+    expect_equivalent(computeAllFreqs2(10), matrix(NA, 0, 0))
+})
