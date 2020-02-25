@@ -228,3 +228,8 @@ test_that("simulateAllFreqs works as expected", {
 test_that("computeAllFreqs2 works as expected", {
     expect_equivalent(computeAllFreqs2(10), matrix(NA, 0, 0))
 })
+
+test_that("poistaLiianPienet works as expected", {
+    expect_equal(poistaLiianPienet(100, matrix(1:4, 2), 0), 100)
+    expect_equal(poistaLiianPienet(100, matrix(1:4, 2), -5), 100)
+})
