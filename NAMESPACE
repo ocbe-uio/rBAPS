@@ -3,6 +3,7 @@
 export(admix1)
 export(calculatePopLogml)
 export(colon)
+export(computeAllFreqs2)
 export(computeIndLogml)
 export(computePersonalAllFreqs)
 export(computeRows)

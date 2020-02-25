@@ -1,6 +1,10 @@
 #' @title Compute all freqs - version 2
 #' @description Lisää a priori jokaista alleelia joka populaation joka lokukseen
 #' j 1/noalle(j) verran.
+#' @param noalle noalle
+#' @param COUNTS counts
+#' @param SUMCOUNTS sumcounts
+#' @export
 computeAllFreqs2 <- function (noalle, COUNTS = matrix(NA, 0, 0),
     SUMCOUNTS = sum(COUNTS)) {
 

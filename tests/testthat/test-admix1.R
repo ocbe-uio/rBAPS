@@ -114,7 +114,7 @@ test_that("computeIndLogml works like on Matlab", {
     expect_equivalent(computeIndLogml(1, 0), -Inf)
     expect_equivalent(computeIndLogml(0, 0), -Inf)
     expect_equivalent(computeIndLogml(-pi, -8), 3.2242, tol = .0001)
-    expect_equivalent(computeIndLogml(2:3, 2), 2.3026, tol = .0001)    
+    expect_equivalent(computeIndLogml(2:3, 2), 2.3026, tol = .0001)
     expect_equivalent(computeIndLogml(matrix(8:5, 2), 100), 14.316, tol = .001)
     expect_equivalent(
         object    = computeIndLogml(matrix(8:5, 2), matrix(c(1, 3), 1)),
