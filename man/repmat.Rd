@@ -9,7 +9,8 @@ repmat(mx, n)
 \arguments{
 \item{mx}{matrix}
 
-\item{n}{either a scalar with the number of replications in both rows and columns or a 2-length vector with individual repetitions.}
+\item{n}{either a scalar with the number of replications in both rows and
+columns or a <= 3-length vector with individual repetitions.}
 }
 \value{
 matrix replicated over `ncol(mx) * n` columns and `nrow(mx) * n` rows
