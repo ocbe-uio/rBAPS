@@ -4,7 +4,7 @@
 \alias{computeAllFreqs2}
 \title{Compute all freqs - version 2}
 \usage{
-computeAllFreqs2(noalle, COUNTS = matrix(NA, 0, 0), SUMCOUNTS = sum(COUNTS))
+computeAllFreqs2(noalle, COUNTS = matrix(NA, 0, 0), SUMCOUNTS = NA)
 }
 \arguments{
 \item{noalle}{noalle}
