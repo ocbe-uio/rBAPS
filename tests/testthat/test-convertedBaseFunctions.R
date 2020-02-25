@@ -28,6 +28,10 @@ test_that("repmat works properly", {
         object = repmat(mx2, c(4, 1)),
         expected = rbind(mx2, mx2, mx2, mx2)
     )
+    expect_equal(
+        object = repmat(mx2, c(1, 1, 2)),
+        expected = array(mx2, c(2, 2, 2))
+    )
 })
 
 test_that("zeros and ones work as expected", {
@@ -84,4 +88,15 @@ test_that("size works as on MATLAB", {
     expect_equal(size(mx, 2), 3)
     expect_equal(size(ra, 2), 3)
     expect_equal(size(ra, 3), 4)
+})
+
+test_that("reshape reshapes properly", {
+    mx <- matrix(1:4, 2)
+    ra <- array(1:12, c(2, 3, 2))
+    expect_equal(reshape(mx, c(1, 4)), matrix(1:4, 1))
+    expect_equal(reshape(mx, c(2, 2)), mx)
+    expect_equal(reshape(mx, c(1, 1, 4)), array(mx, c(1, 1, 4)))
+    expect_error(reshape(mx, c(1, 2, 3)))
+    expect_error(reshape(ra, c(1, 2, 3)))
+    expect_equal(reshape(ra, c(3, 2, 2)), array(ra, c(3, 2, 2)))
 })

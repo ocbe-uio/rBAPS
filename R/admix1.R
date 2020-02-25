@@ -5,7 +5,7 @@
 admix1 <- function(tietue) {
     if (!is.list(tietue)) {
 #         c(filename, pathname) = uigetfile('*.mat', 'Load mixture result file');
-#         if (filename==0 & pathname==0), return; 
+#         if (filename==0 & pathname==0), return;
 #         else
 #             disp('---------------------------------------------------');
 #             disp(['Reading mixture result from: ',[pathname filename],'...']);
@@ -13,7 +13,7 @@ admix1 <- function(tietue) {
 #         pause(0.0001);
 #         h0 = findobj('Tag','filename1_text');
 #         set(h0,'String',filename); clear h0;
-        
+
 #         struct_array = load([pathname filename]);
 #         if isfield(struct_array,'c')  #Matlab versio
 #             c = struct_array.c;
@@ -31,7 +31,7 @@ admix1 <- function(tietue) {
 #             disp('Incorrect file format');
 #             return;
 #         end
-        
+
 #         if isfield(c, 'gene_lengths') && ...
 #                 (strcmp(c.mixtureType,'linear_mix') | ...
 #                 strcmp(c.mixtureType,'codon_mix')) # if the mixture is from a linkage model
@@ -40,7 +40,7 @@ admix1 <- function(tietue) {
 #             linkage_admix(c);
 #             return
 #         end
-        
+
 #         PARTITION = c.PARTITION; COUNTS = c.COUNTS; SUMCOUNTS = c.SUMCOUNTS;
 #         alleleCodes = c.alleleCodes; adjprior = c.adjprior; popnames = c.popnames;
 #         rowsFromInd = c.rowsFromInd; data = c.data; npops = c.npops; noalle = c.noalle;
@@ -148,7 +148,7 @@ admix1 <- function(tietue) {
 #     for iterationNum = 1:iterationCount
 #         disp(['Iter: ' num2str(iterationNum)]);
 #         allfreqs = simulateAllFreqs(noalle);   # Allele frequencies on this iteration.
-        
+
 #         for ind=to_investigate
 #             #disp(num2str(ind));
 #             omaFreqs = computePersonalAllFreqs(ind, data, allfreqs, rowsFromInd);
@@ -172,7 +172,7 @@ admix1 <- function(tietue) {
 #                     PARTITION(ind)=isoimman_indeksi;
 #                 end
 #                 logml = computeIndLogml(omaFreqs, osuusTaulu);
-                
+
 #                 for osuus = [0.5 0.25 0.05 0.01]
 #                     [osuusTaulu, logml] = etsiParas(osuus, osuusTaulu, omaFreqs, logml);
 #                 end
@@ -227,23 +227,23 @@ admix1 <- function(tietue) {
 #     for pop = admix_populaatiot'
 
 #         for level = 1:n_missing_levels(pop)
-            
+
 #             potential_inds_in_this_pop_and_level = ...
 #                 find(PARTITION==pop & missing_level_partition==level &...
 #                 likelihood>3);  # Potential admix individuals here.
-            
+
 #             if ~isempty(potential_inds_in_this_pop_and_level)
-            
+
 #                 #refData = simulateIndividuals(nrefIndsInPop,rowsFromInd,allfreqs);
 #                 refData = simulateIndividuals(nrefIndsInPop, rowsFromInd, allfreqs, ...
 #                     pop, missing_levels(pop,level));
-            
+
 #                 disp(['Analysing the reference individuals from pop ' num2str(pop) ' (level ' num2str(level) ').']);
 #                 refProportions = zeros(nrefIndsInPop,npops);
 #                 for iter = 1:iterationCountRef
 #                     #disp(['Iter: ' num2str(iter)]);
 #                     allfreqs = simulateAllFreqs(noalle);
-                
+
 #                     for ind = 1:nrefIndsInPop
 #                         omaFreqs = computePersonalAllFreqs(ind, refData, allfreqs, rowsFromInd);
 #                         osuusTaulu = zeros(1,npops);
@@ -312,7 +312,7 @@ admix1 <- function(tietue) {
 #         end
 #     end
 
-#     tulostaAdmixtureTiedot(proportionsIt, uskottavuus, alaRaja, iterationCount); 
+#     tulostaAdmixtureTiedot(proportionsIt, uskottavuus, alaRaja, iterationCount);
 
 #     viewPartition(proportionsIt, popnames);
 
@@ -335,7 +335,7 @@ admix1 <- function(tietue) {
 
 
 #         if (~isstruct(tietue))
-#             c.proportionsIt = proportionsIt; 
+#             c.proportionsIt = proportionsIt;
 #             c.pvalue = uskottavuus; # Added by Jing
 #             c.mixtureType = 'admix'; # Jing
 #             c.admixnpops = npops;
@@ -355,7 +355,7 @@ admix1 <- function(tietue) {
 
 # function [npops] = poistaLiianPienet(npops, rowsFromInd, alaraja)
 # % Muokkaa tulokset muotoon, jossa outlier yksilöt on
-# % poistettu. Tarkalleen ottaen poistaa ne populaatiot, 
+# % poistettu. Tarkalleen ottaen poistaa ne populaatiot,
 # % joissa on vähemmän kuin 'alaraja':n verran yksilöit?
 
 # global PARTITION;
@@ -401,29 +401,3 @@ admix1 <- function(tietue) {
 # global SUMCOUNTS; SUMCOUNTS = [];
 # global PARTITION; PARTITION = [];
 # global POP_LOGML; POP_LOGML = [];
-
-# %--------------------------------------------------------
-
-
-# function allFreqs = computeAllFreqs2(noalle)
-# % Lisää a priori jokaista alleelia
-# % joka populaation joka lokukseen j 1/noalle(j) verran.
-
-# global COUNTS;
-# global SUMCOUNTS;
-
-# max_noalle = size(COUNTS,1);
-# nloci = size(COUNTS,2);
-# npops = size(COUNTS,3);
-
-# sumCounts = SUMCOUNTS+ones(size(SUMCOUNTS));
-# sumCounts = reshape(sumCounts', [1, nloci, npops]);
-# sumCounts = repmat(sumCounts, [max_noalle, 1 1]);
-
-# prioriAlleelit = zeros(max_noalle,nloci);
-# for j=1:nloci
-#     prioriAlleelit(1:noalle(j),j) = 1/noalle(j);
-# end
-# prioriAlleelit = repmat(prioriAlleelit, [1,1,npops]);
-# counts = COUNTS + prioriAlleelit;
-# allFreqs = counts./sumCounts;
