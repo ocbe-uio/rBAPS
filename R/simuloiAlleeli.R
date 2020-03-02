@@ -1,6 +1,9 @@
 #' @title simuloiAlleeli
 #' @description Simuloi populaation pop lokukseen loc alleelin.
 #' @note This function is (only?) called by `simulateIndividuals()`. Therefore, exporting it is probably unnecessary.
+#' @param allfreqs allfreqa
+#' @param pop pop
+#' @param loc loc
 #' @export
 
 simuloiAlleeli <- function(allfreqs, pop, loc) {
@@ -18,7 +21,7 @@ simuloiAlleeli <- function(allfreqs, pop, loc) {
     #     allfreqs[, loc],
     #     allfreqs[, loc, pop]
     # )
-    
+
 
     cumsumma <- cumsum(freqs)
     arvo <- runif(1)

@@ -6,6 +6,13 @@
 \usage{
 simuloiAlleeli(allfreqs, pop, loc)
 }
+\arguments{
+\item{allfreqs}{allfreqa}
+
+\item{pop}{pop}
+
+\item{loc}{loc}
+}
 \description{
 Simuloi populaation pop lokukseen loc alleelin.
 }

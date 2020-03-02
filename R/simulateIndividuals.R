@@ -1,6 +1,11 @@
 #' @title Simulate individuals
 #' @description simulate n individuals from population pop, such that
-#' proportion "missing_level" of the alleles are present. 
+#' proportion "missing_level" of the alleles are present.
+#' @param n n
+#' @param rowsFromInd rowsFromInd
+#' @param allfreqs allfreqs
+#' @param pop pop
+#' @param missing_level missing_level
 #' @export
 
 simulateIndividuals <- function(n, rowsFromInd, allfreqs, pop, missing_level) {

@@ -19,6 +19,12 @@ poistaLiianPienet(
 \item{rowsFromInd}{rowsFromInd}
 
 \item{alaraja}{alaraja}
+
+\item{PARTITION}{PARTITION}
+
+\item{COUNTS}{COUNTS}
+
+\item{SUMCOUNTS}{SUMCOUNTS}
 }
 \description{
 Muokkaa tulokset muotoon, jossa outlier yksilöt on poistettu.

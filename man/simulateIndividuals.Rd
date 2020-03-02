@@ -6,6 +6,17 @@
 \usage{
 simulateIndividuals(n, rowsFromInd, allfreqs, pop, missing_level)
 }
+\arguments{
+\item{n}{n}
+
+\item{rowsFromInd}{rowsFromInd}
+
+\item{allfreqs}{allfreqs}
+
+\item{pop}{pop}
+
+\item{missing_level}{missing_level}
+}
 \description{
 simulate n individuals from population pop, such that
 proportion "missing_level" of the alleles are present.
