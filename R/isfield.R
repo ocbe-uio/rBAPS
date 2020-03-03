@@ -4,6 +4,7 @@
 #' @param x list
 #' @param field name of field
 #' @references https://se.mathworks.com/help/matlab/ref/isfield.html
+#' @export
 isfield <- function(x, field) {
-    field %in% names(x)
+    sapply(field, function(f) f %in% names(x))
 }
