@@ -4,14 +4,22 @@
 \alias{admix1}
 \title{Admixture analysis}
 \usage{
-admix1(tietue)
+admix1(
+  tietue,
+  PARTITION = matrix(NA, 0, 0),
+  COUNTS = matrix(NA, 0, 0),
+  SUMCOUNTS = NA
+)
 }
 \arguments{
-\item{tietue}{record}
+\item{tietue}{a named record list}
 }
 \description{
 Admixture analysis
 }
 \details{
-If the record == -1, the mixture results file is loaded. Otherwise, will the required variables be retrieved from the record fields?
+If the record == -1, the mixture results file is loaded. Otherwise,
+will the required variables be retrieved from the record fields?
+`tietue`should contain the following elements: PARTITION, COUNTS, SUMCOUNTS,
+alleleCodes, adjprior, popnames, rowsFromInd, data, npops, noalle
 }
