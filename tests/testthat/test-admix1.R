@@ -233,3 +233,18 @@ test_that("poistaLiianPienet works as expected", {
     expect_equal(poistaLiianPienet(100, matrix(1:4, 2), 0), 100)
     expect_equal(poistaLiianPienet(100, matrix(1:4, 2), -5), 100)
 })
+
+test_that("noIndex works properly", {
+    abcd_vec <- letters[1:4]
+    abcd_mat <- matrix(abcd_vec, 2)
+    abcdef_mat <- matrix(letters[1:6], 2)
+    efg_vec <- letters[5:7]
+    expect_equal(noIndex(abcd_vec, 1:6), abcd_vec)
+    expect_equal(noIndex(abcd_vec, 1:3), abcd_vec[-4])
+    expect_equal(noIndex(abcd_vec, 1:2), abcd_vec)
+    expect_equal(noIndex(abcd_vec, efg_vec), abcd_vec[-4])
+    expect_equal(noIndex(abcd_mat, 1), abcd_mat[, 1])
+    expect_equal(noIndex(abcd_mat, 2), abcd_mat[, 1])
+    expect_equal(noIndex(abcdef_mat, 1:2), abcdef_mat[, 1:2])
+    expect_equal(noIndex(abcdef_mat, abcd_mat), abcdef_mat[, 1:2])
+})
