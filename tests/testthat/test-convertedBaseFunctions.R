@@ -100,3 +100,32 @@ test_that("reshape reshapes properly", {
     expect_error(reshape(ra, c(1, 2, 3)))
     expect_equal(reshape(ra, c(3, 2, 2)), array(ra, c(3, 2, 2)))
 })
+
+test_that("isfield works as on Matlab", {
+    S <- list()
+    S$x <- rnorm(100)
+    S$y <- sin(S$x)
+    S$title <- "y = sin(x)"
+    expect_true(isfield(S, "title"))
+    expect_equivalent(
+        object = isfield(S, c("x", "y", "z", "title", "error")),
+        expected = c(TRUE, TRUE, FALSE, TRUE, FALSE)
+    )
+})
+
+test_that("strcmp works as expected", {
+    yes <- 'Yes'
+    no <- 'No'
+    ja <- 'Yes'
+    expect_false(strcmp(yes, no))
+    expect_true(strcmp(yes, ja))
+    s1 <- 'upon'
+    s2 <- matrix(c('Once', 'upon', 'a', 'time'), 2, byrow=TRUE)
+    s3 <- c('Once', 'upon', 'a', 'time')
+    s4 <- matrix(c("A", "bc", "def", "G"), 2, byrow=TRUE)
+    s5 <- matrix(c("B", "c", "def", "G"), 2, byrow=TRUE)
+    expect_equal(strcmp(s1, s2), matrix(c(FALSE, FALSE, TRUE, FALSE), 2))
+    expect_equivalent(strcmp(s1, s3), c(FALSE, TRUE, FALSE, FALSE))
+    expect_error(strcmp(s2, s3))
+    expect_equal(strcmp(s4, s5), matrix(c(FALSE, TRUE, FALSE, TRUE), 2))
+})
