@@ -4,7 +4,7 @@
 \alias{inputdlg}
 \title{Gather user input}
 \usage{
-inputdlg(prompt, dims = 1, definput = NULL)
+inputdlg(prompt, definput = NULL, dims = 1)
 }
 \arguments{
 \item{prompt}{Text field with user instructions}
