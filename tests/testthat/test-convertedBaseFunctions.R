@@ -39,9 +39,11 @@ test_that("zeros and ones work as expected", {
     expect_equal(zeros(2), matrix(0, 2, 2))
     expect_equal(zeros(2, 1), matrix(0, 2, 1))
     expect_equal(zeros(1, 10), matrix(0, 1, 10))
+    expect_equal(zeros(3, 2, 4), array(0, c(3, 2, 4)))
     expect_equal(ones(8), matrix(1, 8, 8))
     expect_equal(ones(5, 2), matrix(1, 5, 2))
     expect_equal(ones(2, 100), matrix(1, 2, 100))
+    expect_equal(ones(3, 2, 4, 2), array(1, c(3, 2, 4, 2)))
 })
 
 test_that("times works as expected", {
@@ -151,4 +153,11 @@ test_that("find works as expected", {
     expect_equal(find(X), c(1, 5, 7, 8, 9))
     expect_equal(find(!X), c(2, 3, 4, 6))
     expect_equal(find(Y == 13), 7)
+})
+
+test_that("sortrows works as expected", {
+     mx <- matrix(c(3, 2, 2, 1, 1, 10, 0, pi), 4)
+     expect_equal(sortrows(mx), matrix(c(1, 2, 2, 3, pi, 10, 0, 1), 4))
+     expect_equal(sortrows(mx, 2), matrix(c(2, 3, 1, 2, 0, 1, pi, 10), 4))
+     expect_equal(sortrows(mx, 1:2), mx[order(mx[, 1], mx[, 2]), ])
 })
