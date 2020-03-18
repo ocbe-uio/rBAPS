@@ -129,3 +129,18 @@ test_that("strcmp works as expected", {
     expect_error(strcmp(s2, s3))
     expect_equal(strcmp(s4, s5), matrix(c(FALSE, TRUE, FALSE, TRUE), 2))
 })
+
+test_that("isempty works as expected", {
+    A <- array(dim=c(0, 2, 2))
+    B <- matrix(rep(NA, 4), 2)
+    C <- matrix(rep(0, 4), 2)
+    cat1 <- as.factor(c(NA, NA))
+    cat2 <- as.factor(c())
+    str1 <- matrix(rep("", 3))
+    expect_true(isempty(A))
+    expect_false(isempty(B))
+    expect_false(isempty(C))
+    expect_false(isempty(cat1))
+    expect_true(isempty(cat2))
+    expect_false(isempty(str1))
+})
