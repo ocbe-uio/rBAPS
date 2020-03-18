@@ -8,8 +8,15 @@
 #' @note Actually works for any `x`, but there's no need to bother imposing
 #' validation controls here.
 zeros_or_ones <- function(n, x) {
+    # Expanding n to length 2 if necessary
     if (length(n) == 1) n <- c(n, n)
-    return(matrix(x, n[1], n[2]))
+
+    # Returning a matrix or an array
+    if (length(n) == 2) {
+        return(matrix(x, n[1], n[2]))
+    } else {
+        return(array(x, dim=n))
+    }
 }
 
 #' @title Matrix of zeros
@@ -17,8 +24,14 @@ zeros_or_ones <- function(n, x) {
 #' the `zeros()` function on Matlab
 #' @param n1 number of rows
 #' @param n2 number of columns
-zeros <- function(n1, n2 = n1) {
-    return(zeros_or_ones(c(n1, n2), 0))
+#' @param ... extra dimensions
+zeros <- function(n1, n2 = n1, ...) {
+    if (length(n1) == 1) {
+        n <- c(n1, n2, ...)
+    } else {
+        n <- n1
+    }
+    return(zeros_or_ones(n, 0))
 }
 
 #' @title Matrix of ones
@@ -26,6 +39,12 @@ zeros <- function(n1, n2 = n1) {
 #' the `ones()` function on Matlab
 #' @param n1 number of rows
 #' @param n2 number of columns
-ones <- function(n1, n2 = n1) {
-    return(zeros_or_ones(c(n1, n2), 1))
+#' @param ... extra dimensions
+ones <- function(n1, n2 = n1, ...) {
+    if (length(n1) == 1) {
+        n <- c(n1, n2, ...)
+    } else {
+        n <- n1
+    }
+    return(zeros_or_ones(n, 1))
 }
