@@ -3,6 +3,8 @@
 #' @details As input, this function takes two variables from a mixture/admixture
 #' result structure.
 #' @return puredata: a data contains no index column.
+#' @param data data
+#' @param noalle noalle
 #' @export
 noIndex <- function  (data, noalle) {
     limit <- ifelse(is(noalle, "matrix"), ncol(noalle), length(noalle))

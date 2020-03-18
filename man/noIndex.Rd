@@ -6,6 +6,11 @@
 \usage{
 noIndex(data, noalle)
 }
+\arguments{
+\item{data}{data}
+
+\item{noalle}{noalle}
+}
 \value{
 puredata: a data contains no index column.
 }

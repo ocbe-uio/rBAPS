@@ -4,6 +4,11 @@
 #' will the required variables be retrieved from the record fields?
 #' `tietue`should contain the following elements: PARTITION, COUNTS, SUMCOUNTS,
 #' alleleCodes, adjprior, popnames, rowsFromInd, data, npops, noalle
+#' @param tietue tietue
+#' @param PARTITION PARTITION
+#' @param COUNTS COUNTS
+#' @param SUMCOUNTS SUMCOUNTS
+#' @importFrom methods is
 #' @export
 admix1 <- function(tietue, PARTITION = matrix(NA, 0, 0),
         COUNTS = matrix(NA, 0, 0), SUMCOUNTS = NA) {
@@ -20,7 +25,7 @@ admix1 <- function(tietue, PARTITION = matrix(NA, 0, 0),
             cat('---------------------------------------------------\n');
             message('Reading mixture result from: ', pathname_filename, '...')
         }
-        sys.sleep(0.0001) #ASK: what for?
+        Sys.sleep(0.0001) #ASK: what for?
 
         # ASK: what is this supposed to do? What do graphic obj have to do here?
         # h0 = findobj('Tag','filename1_text');
@@ -79,7 +84,7 @@ admix1 <- function(tietue, PARTITION = matrix(NA, 0, 0),
         ),
         definput = 5
     )
-    alaRaja <- as.num(answers)
+    alaRaja <- as.numeric(answers)
     npops <- poistaLiianPienet(npops, rowsFromInd, alaRaja)
 
     nloci <- size(COUNTS, 2)
@@ -116,7 +121,7 @@ admix1 <- function(tietue, PARTITION = matrix(NA, 0, 0),
             # Yksil?on outlier
         } else if (PARTITION[ind] != 0) {
             if (PARTITION[ind] > 0) {
-                osuusTaulu(PARTITION[ind]) <- 1
+                osuusTaulu[PARTITION[ind]] <- 1
             } else {
                 # Yksilöt, joita ei ole sijoitettu mihinkään koriin.
                 arvot <- zeros(1, npops)
@@ -181,12 +186,12 @@ admix1 <- function(tietue, PARTITION = matrix(NA, 0, 0),
             omaFreqs <- computePersonalAllFreqs(
                 ind, data, allfreqs, rowsFromInd
             )
-            osuusTaulu = zeros(1, npops)
+            osuusTaulu <- zeros(1, npops)
             if (PARTITION[ind] == 0) {
                 # Yksil?on outlier
             } else if (PARTITION[ind] != 0) {
                 if (PARTITION[ind] > 0) {
-                    osuusTaulu(PARTITION[ind]) <- 1
+                    osuusTaulu[PARTITION[ind]] <- 1
                 } else {
                     # Yksilöt, joita ei ole sijoitettu mihinkään koriin.
                     arvot <- zeros(1, npops)
@@ -388,7 +393,7 @@ admix1 <- function(tietue, PARTITION = matrix(NA, 0, 0),
             }
         }
 
-        if (!isstruct(tietue)) {
+        if (!is(tietue, "list")) {
             c$proportionsIt <- proportionsIt
             c$pvalue <- uskottavuus # Added by Jing
             c$mixtureType <- 'admix' # Jing

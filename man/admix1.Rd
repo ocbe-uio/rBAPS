@@ -12,7 +12,13 @@ admix1(
 )
 }
 \arguments{
-\item{tietue}{a named record list}
+\item{tietue}{tietue}
+
+\item{PARTITION}{PARTITION}
+
+\item{COUNTS}{COUNTS}
+
+\item{SUMCOUNTS}{SUMCOUNTS}
 }
 \description{
 Admixture analysis
