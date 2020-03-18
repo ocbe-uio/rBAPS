@@ -15,7 +15,7 @@ size(x, d)
 This functions tries to replicate the behavior of the base function "size" in Matlab
 }
 \note{
-On MATLAB, size(1, 100) returns 1. As a matter of fact, if the user 
+On MATLAB, size(1, 100) returns 1. As a matter of fact, if the user
 calls for a dimension which x doesn't have `size()` always returns 1. R's
 default behavior is more reasonable in those cases (i.e., returning NA),
 but since the point of this function is to replicate MATLAB behaviors
