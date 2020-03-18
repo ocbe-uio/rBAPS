@@ -144,3 +144,11 @@ test_that("isempty works as expected", {
     expect_true(isempty(cat2))
     expect_false(isempty(str1))
 })
+
+test_that("find works as expected", {
+    X <- matrix(c(1, 0, 2, 0, 1, 1, 0, 0, 4), 3, byrow=TRUE)
+    Y <- seq(1, 19, 2)
+    expect_equal(find(X), c(1, 5, 7, 8, 9))
+    expect_equal(find(!X), c(2, 3, 4, 6))
+    expect_equal(find(Y == 13), 7)
+})
