@@ -6,6 +6,9 @@
 \usage{
 find(x)
 }
+\arguments{
+\item{x}{object or logic operation on an object}
+}
 \description{
 Emulates behavior of `find`
 }

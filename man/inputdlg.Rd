@@ -11,7 +11,7 @@ inputdlg(prompt, definput = NULL, dims = 1)
 
 \item{definput}{default value of the input}
 
-\item{dim}{number of dimensions in the answwers}
+\item{dims}{number of dimensions in the answwers}
 }
 \description{
 Replicates the functionality of the homonymous function in Matlab (sans dialog box)

@@ -19,7 +19,7 @@ strcmp <- function(s1, s2) {
     } else {
         # s1 and s2 are vectors/matrices
         if (identical(dim(s1), dim(s2))) {
-            checks <- as.matrix(s4 == s5)
+            checks <- as.matrix(s1 == s2)
         } else {
             stop("Inputs must be the same size or either one can be a scalar.")
         }
