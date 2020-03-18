@@ -24,8 +24,14 @@ zeros_or_ones <- function(n, x) {
 #' the `zeros()` function on Matlab
 #' @param n1 number of rows
 #' @param n2 number of columns
+#' @param ... extra dimensions
 zeros <- function(n1, n2 = n1, ...) {
-    return(zeros_or_ones(c(n1, n2, ...), 0))
+    if (length(n1) == 1) {
+        n <- c(n1, n2, ...)
+    } else {
+        n <- n1
+    }
+    return(zeros_or_ones(n, 0))
 }
 
 #' @title Matrix of ones
@@ -33,6 +39,12 @@ zeros <- function(n1, n2 = n1, ...) {
 #' the `ones()` function on Matlab
 #' @param n1 number of rows
 #' @param n2 number of columns
+#' @param ... extra dimensions
 ones <- function(n1, n2 = n1, ...) {
-    return(zeros_or_ones(c(n1, n2, ...), 1))
+    if (length(n1) == 1) {
+        n <- c(n1, n2, ...)
+    } else {
+        n <- n1
+    }
+    return(zeros_or_ones(n, 1))
 }

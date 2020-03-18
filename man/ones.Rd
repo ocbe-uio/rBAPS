@@ -4,12 +4,14 @@
 \alias{ones}
 \title{Matrix of ones}
 \usage{
-ones(n1, n2 = n1)
+ones(n1, n2 = n1, ...)
 }
 \arguments{
 \item{n1}{number of rows}
 
 \item{n2}{number of columns}
+
+\item{...}{extra dimensions}
 }
 \description{
 wrapper of `zeros_or_ones()` that replicates the behavior of 
