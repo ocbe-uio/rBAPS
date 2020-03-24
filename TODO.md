@@ -16,9 +16,10 @@ Note to contributors: as tasks get finished, please update this file with an `x`
 
 The list below contains non-essential but nice-to-have tasks for the next stable release.
 
+- [ ] Implement sparse matrix optimizations from [`fastbaps`](https://github.com/gtonkinhill/fastbaps)
+- [ ] Implement plotting functionality from [`starmie`](https://github.com/sa-lee/starmie)
 - [ ] Standardize capitalization of function names
 - [ ] Standardize capitalization of function arguments
-- [ ] Implement optimizations from `fastbaps`
 - [ ] Replace redundant functions (ex.: `randga`)
 
 # Known pitfalls
