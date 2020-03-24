@@ -25,7 +25,7 @@ admix1 <- function(tietue, PARTITION = matrix(NA, 0, 0),
             cat('---------------------------------------------------\n');
             message('Reading mixture result from: ', pathname_filename, '...')
         }
-        Sys.sleep(0.0001) #ASK: what for?
+        Sys.sleep(0.0001) #TODO: remove
 
         # ASK: what is this supposed to do? What do graphic obj have to do here?
         # h0 = findobj('Tag','filename1_text');
@@ -50,7 +50,7 @@ admix1 <- function(tietue, PARTITION = matrix(NA, 0, 0),
             # Redirect the call to the linkage admixture function.
             # call function noindex to remove the index column
             c$data <- noIndex(c$data, c$noalle)
-            # linkage_admix(c) # ASK: translate this function to R or drop?
+            # linkage_admix(c) # TODO: obsolete. remove.
             # return
             stop("linkage_admix not implemented")
         }
@@ -371,9 +371,8 @@ admix1 <- function(tietue, PARTITION = matrix(NA, 0, 0),
         }
     }
 
-    # ASK: Remove? are these plotting functions?
-    tulostaAdmixtureTiedot(proportionsIt, uskottavuus, alaRaja, iterationCount)
-    viewPartition(proportionsIt, popnames)
+    tulostaAdmixtureTiedot(proportionsIt, uskottavuus, alaRaja, iterationCount) # TODO: textual outputs. probably not necessary. translate nonetheless
+    viewPartition(proportionsIt, popnames)  # TODO: adapt
 
     talle = inputdlg('Do you want to save the admixture results? [Y/n]', 'y')
     if (talle %in% c('y', 'Y', 'yes', 'Yes')) {
