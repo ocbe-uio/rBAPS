@@ -1,0 +1,5 @@
+ST	Isolate	Species	Adk	GyrB	Hsp60	Mdh	Pgi	RecA
+1	1A1	My. splendidone	1	1	1	1	1	1
+2	1B1	A. dent		2	2	2	2	2	2
+3	1B2	A. dent		3	3	3	3	3	3
+4	1A5	D. gently		4	4	4	4	4	4
