@@ -6,7 +6,7 @@
 #' @param ninds ninds
 #' @export
 computeRows <- function(rowsFromInd, inds, ninds) {
-    if (class(inds) != "matrix") inds <- as.matrix(inds)
+    if (!is(inds, "matrix")) inds <- as.matrix(inds)
     if (identical(dim(inds), c(nrow(inds), 1L))) {
         # Special treatment for vectors because R has col vectors by default,
         # whereas Matlab has row vectors by default.

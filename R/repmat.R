@@ -14,7 +14,7 @@ repmat <- function (mx, n) {
     # Validation
     if (length(n) > 3) warning("Extra dimensions of n ignored")
     if (length(n) == 1) n <- rep(n, 2)
-    if (class(mx) != "matrix") mx <- as.matrix(mx)
+    if (!is(mx, "matrix")) mx <- as.matrix(mx)
 
     # Replicating cols
     out <- mx_col <- matrix(rep(mx, n[2]), nrow(mx))
