@@ -6,7 +6,7 @@
 \usage{
 questdlg(
   quest,
-  dlgtitle,
+  dlgtitle = "",
   btn = c("y", "n"),
   defbtn = "n",
   accepted_ans = c("y", "yes", "n", "no")
