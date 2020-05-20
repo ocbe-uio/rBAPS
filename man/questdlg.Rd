@@ -4,7 +4,13 @@
 \alias{questdlg}
 \title{Prompt for multiple-choice}
 \usage{
-questdlg(quest, dlgtitle, btn = c("y", "n"), defbtn = "n")
+questdlg(
+  quest,
+  dlgtitle,
+  btn = c("y", "n"),
+  defbtn = "n",
+  accepted_ans = c("y", "yes", "n", "no")
+)
 }
 \arguments{
 \item{quest}{Question}
@@ -14,6 +20,8 @@ questdlg(quest, dlgtitle, btn = c("y", "n"), defbtn = "n")
 \item{btn}{Vector of alternatives}
 
 \item{defbtn}{Scalar with the name of the default option}
+
+\item{accepted_ans}{Vector containing accepted answers}
 }
 \description{
 This function aims to loosely mimic the behavior of the
