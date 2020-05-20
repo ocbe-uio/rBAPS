@@ -4,9 +4,11 @@
 \alias{uigetfile}
 \title{Select a file for loading}
 \usage{
-uigetfile(title = "")
+uigetfile(filter = "", title = "")
 }
 \arguments{
+\item{filter}{Filter listed files}
+
 \item{title}{Pre-prompt message}
 }
 \description{
