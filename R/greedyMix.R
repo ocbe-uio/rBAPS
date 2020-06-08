@@ -1,7 +1,14 @@
 #' @title Clustering of individuals
 #' @param tietue Record
+#' @param format Format of the data ("BAPS", "GenePop" or "Preprocessed")
+#' @param savePreProcessed Save the pre-processed data?
 #' @export
-greedyMix <- function(tietue) {
+greedyMix <- function(
+	tietue,
+	format           = NULL,
+	savePreProcessed = NULL,
+	filePreProcessed = NULL
+) {
 	# ASK: graphical components. Remove?
 	# check whether fixed k mode is selected
 	# h0 <- findobj('Tag','fixk_menu')
@@ -17,32 +24,46 @@ greedyMix <- function(tietue) {
 	# h1 = findobj('Tag','partitioncompare_menu');
 	# partitionCompare = get(h1, 'userdata');
 
-	if (identical(tietue, -1)) {
-		input_type <- inputdlg(
-			paste(
-				'Specify the format of your data:\n',
-				'1) BAPS-format\n',
-				'2) GenePop-format\n',
-				'3) Preprocessed data\n'
+	if (is(tietue, "list") | is(tietue, "character")) {
+		# ----------------------------------------------------------------------
+		# Defining type of file
+		# ----------------------------------------------------------------------
+		if (is.null(format)) {
+			input_type <- inputdlg(
+				paste(
+					'Specify the format of your data:\n',
+					'1) BAPS-format\n',
+					'2) GenePop-format\n',
+					'3) Preprocessed data\n'
+				)
 			)
-		)
-		# Converting from number into name
-		input_type_name <- switch(
-			input_type, 'BAPS-format', 'GenePop-format', 'Preprocessed data'
-		)
+			# Converting from number into name
+			input_type_name <- switch(
+				input_type, 'BAPS-format', 'GenePop-format', 'Preprocessed data'
+			)
+		} else {
+			input_type_name <- paste0(format, "-format")
+		}
+		# ----------------------------------------------------------------------
+		# Treating BAPS-formatted files
+		# ----------------------------------------------------------------------
 		if (length(input_type_name) == 0) {
 			stop('Invalid alternative')
 		} else if (input_type_name == 'BAPS-format') {
-			pathname_filename <- uigetfile("*.txt", "Loaddata in BAPS-format")
+			if (!is(tietue, "character")) {
+				pathname_filename <- uigetfile("*.txt", "Loaddata in BAPS-format")
+			} else {
+				pathname_filename <- tietue
+			}
 
 			# ASK: remove?
 			# if ~isempty(partitionCompare)
 			# 	fprintf(1,'Data: %s\n',[pathname filename]);
 			# end
 
-			data <- load(pathname_filename)
+			data <- read.delim(pathname_filename) # ASK: what is the delimiter?
 			# ninds <- testaaOnkoKunnollinenBapsData(data)  #TESTAUS # TODO: trans
-			if (ninds == 0) stop('Incorrect Data-file')
+			# if (ninds == 0) stop('Incorrect Data-file')
 
 			# ASK: remove?
 			# h0 = findobj('Tag','filename1_text');
@@ -78,13 +99,16 @@ greedyMix <- function(tietue) {
 
 			# [data, rowsFromInd, alleleCodes, noalle, adjprior, priorTerm] = handleData(data); # TODO: translate this function
 			# [Z,dist] = newGetDistances(data,rowsFromInd); # TODO: translate
-
-			save_preproc <- questdlg(
-				quest = 'Do you wish to save pre-processed data?',
-				dlgtitle = 'Save pre-processed data?',
-				defbtn = 'y'
-			)
-			if (save_preproc %in% c('y', 'yes')) {
+			if (is.null(savePreProcessed)) {
+				save_preproc <- questdlg(
+					quest = 'Do you wish to save pre-processed data?',
+					dlgtitle = 'Save pre-processed data?',
+					defbtn = 'y'
+				)
+			} else {
+				save_preproc <- savePreProcessed
+			}
+			if (save_preproc %in% c('y', 'yes', TRUE)) {
 				file_out      <- uiputfile('.rda','Save pre-processed data as')
 				kokonimi      <- paste0(file_out$path, file_out$name)
 				c             <- list()
@@ -100,12 +124,19 @@ greedyMix <- function(tietue) {
 				save(c, file = kokonimi)
 				rm(c)
 			}
+		# ----------------------------------------------------------------------
+		# Treating GenePop-formatted files
+		# ----------------------------------------------------------------------
 		} else if (input_type_name == 'GenePop-format') {
-			filename_pathname <- uigetfile(
-				filter = '*.txt',
-				title = 'Load data in GenePop-format'
-			)
-			if (filename_pathname$name == 0) stop("No name provided")
+			if (!is(tietue, "character")) {
+				filename_pathname <- uigetfile(
+					filter = '*.txt',
+					title = 'Load data in GenePop-format'
+				)
+				if (filename_pathname$name == 0) stop("No name provided")
+			} else {
+				filename_pathname <- tietue
+			}
 
 			# ASK: remove?
 			# if ~isempty(partitionCompare)
@@ -121,14 +152,19 @@ greedyMix <- function(tietue) {
 
 # 			[data, rowsFromInd, alleleCodes, noalle, adjprior, priorTerm] = handleData(data); # TODO:trans
 # 			[Z,dist] = newGetDistances(data,rowsFromInd); # TODO: trans
-			save_preproc <- questdlg(
-				quest = 'Do you wish to save pre-processed data?',
-				dlgtitle = 'Save pre-processed data?',
-				defbtn = 'y'
-			)
-			if (save_preproc %in% c('y', 'Yes')) {
+			if (is.null(savePreProcessed)) {
+				save_preproc <- questdlg(
+					quest = 'Do you wish to save pre-processed data?',
+					dlgtitle = 'Save pre-processed data?',
+					defbtn = 'y'
+				)
+			} else {
+				save_preproc <- savePreProcessed
+			}
+			if (save_preproc %in% c('y', 'Yes', TRUE)) {
 				file_out      <- uiputfile('.rda','Save pre-processed data as')
 				kokonimi      <- paste0(file_out$path, file_out$name)
+				# FIXME: translate functions above so the objects below exist
 				c$data        <- data
 				c$rowsFromInd <- rowsFromInd
 				c$alleleCodes <- alleleCodes
@@ -141,6 +177,9 @@ greedyMix <- function(tietue) {
 				save(c, file = kokonimi)
 				rm(c)
 			}
+		# ----------------------------------------------------------------------
+		# Handling Pre-processed data
+		# ----------------------------------------------------------------------
 		} else if (input_type_name == 'Preprocessed data') {
 			file_in <- uigetfile(
 				filter = '*.txt',

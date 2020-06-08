@@ -4,10 +4,19 @@
 \alias{greedyMix}
 \title{Clustering of individuals}
 \usage{
-greedyMix(tietue)
+greedyMix(
+  tietue,
+  format = NULL,
+  savePreProcessed = NULL,
+  filePreProcessed = NULL
+)
 }
 \arguments{
 \item{tietue}{Record}
+
+\item{format}{Format of the data ("BAPS", "GenePop" or "Preprocessed")}
+
+\item{savePreProcessed}{Save the pre-processed data?}
 }
 \description{
 Clustering of individuals
