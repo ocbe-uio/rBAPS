@@ -66,8 +66,8 @@ greedyMix <- function(
 			# end
 
 			data <- read.delim(pathname_filename) # ASK: what is the delimiter?
-			# ninds <- testaaOnkoKunnollinenBapsData(data)  #TESTAUS # TODO: trans
-			# if (ninds == 0) stop('Incorrect Data-file')
+			ninds <- testaaOnkoKunnollinenBapsData(data)  # testing
+			if (ninds == 0) stop('Incorrect Data-file')
 
 			# ASK: remove?
 			# h0 = findobj('Tag','filename1_text');
