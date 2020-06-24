@@ -1,4 +1,5 @@
 #' @title Tests GenePop data
+#' @param tiedostonNimi Filename
 testaaGenePopData <- function(tiedostonNimi) {
 	# kunnossa == 0, jos data ei ole kelvollinen genePop data.
 	# Muussa tapauksessa kunnossa == 1.
@@ -16,7 +17,7 @@ testaaGenePopData <- function(tiedostonNimi) {
 	if (line1 == -1 | line2 == -1 | line3 == -1) {
 		stop('Incorrect file format 1168')
 	}
-	if (testaaPop(line1) == 1 | testaaPop(line2) == 1) { # TODO: translate function
+	if (testaaPop(line1) == 1 | testaaPop(line2) == 1) {
 		stop('Incorrect file format 1172')
 	}
 	if (testaaPop(line3) == 1) {

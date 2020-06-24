@@ -1,7 +1,9 @@
 #' @title Clustering of individuals
-#' @param tietue Record
+#' @param tietue File
 #' @param format Format of the data ("BAPS", "GenePop" or "Preprocessed")
 #' @param savePreProcessed Save the pre-processed data?
+#' @param filePreProcessed Is the file already processed?
+#' @importFrom utils read.delim
 #' @export
 greedyMix <- function(
 	tietue,
@@ -51,7 +53,9 @@ greedyMix <- function(
 			stop('Invalid alternative')
 		} else if (input_type_name == 'BAPS-format') {
 			if (!is(tietue, "character")) {
-				pathname_filename <- uigetfile("*.txt", "Loaddata in BAPS-format")
+				pathname_filename <- uigetfile(
+					"*.txt", "Load data in BAPS-format"
+				)
 			} else {
 				pathname_filename <- tietue
 			}
@@ -62,8 +66,8 @@ greedyMix <- function(
 			# end
 
 			data <- read.delim(pathname_filename) # ASK: what is the delimiter?
-			# ninds <- testaaOnkoKunnollinenBapsData(data)  #TESTAUS # TODO: trans
-			# if (ninds == 0) stop('Incorrect Data-file')
+			ninds <- testaaOnkoKunnollinenBapsData(data)  # testing
+			if (ninds == 0) stop('Incorrect Data-file')
 
 			# ASK: remove?
 			# h0 = findobj('Tag','filename1_text');
@@ -1542,30 +1546,6 @@ greedyMix <- function(
 
 # 	%-------------------------------------------------------
 
-# 	function pal = testaaPop(rivi)
-# 	% pal=1, mik�li rivi alkaa jollain seuraavista
-# 	% kirjainyhdistelmist? Pop, pop, POP. Kaikissa muissa
-# 	% tapauksissa pal=0.
-
-# 	if length(rivi)<3
-# 		pal = 0;
-# 		return
-# 	end
-# 	if (all(rivi(1:3)=='Pop') | ...
-# 		all(rivi(1:3)=='pop') | ...
-# 		all(rivi(1:3)=='POP'))
-# 		pal = 1;
-# 		return
-# 	else
-# 		pal = 0;
-# 		return
-# 	end
-
-
-
-# 	%----------------------------------------------------------------------------
-
-
 # 	function dist2 = laskeOsaDist(inds2, dist, ninds)
 # 	% Muodostaa dist vektorista osavektorin, joka sis�lt�� yksil�iden inds2
 # 	% v�liset et�isyydet. ninds=kaikkien yksil�iden lukum��r?
@@ -1705,30 +1685,6 @@ greedyMix <- function(
 # 	data(2*ind,end) = ind;
 
 # 	%------------------------------------------------------
-
-
-# 	function count = rivinSisaltamienMjonojenLkm(line)
-# 	% Palauttaa line:n sis�lt�mien mjonojen lukum��r�n.
-# 	% Mjonojen v�liss?t�ytyy olla v�lily�nti.
-# 	count = 0;
-# 	pit = length(line);
-# 	tila = 0;    %0, jos odotetaan v�lily�ntej? 1 jos odotetaan muita merkkej?
-# 	for i=1:pit
-# 		merkki = line(i);
-# 		if (isspace(merkki) & tila==0)
-# 			%Ei tehd?mit��n.
-# 		elseif (isspace(merkki) & tila==1)
-# 			tila = 0;
-# 		elseif (~isspace(merkki) & tila==0)
-# 			tila = 1;
-# 			count = count+1;
-# 		elseif (~isspace(merkki) & tila==1)
-# 			%Ei tehd?mit��n
-# 		end
-# 	end
-
-
-# 	%-------------------------------------------------------
 
 # 	function nimi = lueNimi(line)
 # 	%Palauttaa line:n alusta sen osan, joka on ennen pilkkua.

@@ -6,6 +6,9 @@
 \usage{
 testaaGenePopData(tiedostonNimi)
 }
+\arguments{
+\item{tiedostonNimi}{Filename}
+}
 \description{
 Tests GenePop data
 }
