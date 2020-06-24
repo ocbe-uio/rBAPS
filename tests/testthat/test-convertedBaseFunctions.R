@@ -161,3 +161,11 @@ test_that("sortrows works as expected", {
 	 expect_equal(sortrows(mx, 2), matrix(c(2, 3, 1, 2, 0, 1, pi, 10), 4))
 	 expect_equal(sortrows(mx, 1:2), mx[order(mx[, 1], mx[, 2]), ])
 })
+
+test_that("cell works as expected", {
+	expect_equal(cell(0), array(dim = c(0, 0)))
+	expect_equal(cell(1), array(dim = c(1, 1)))
+	expect_equal(cell(2), array(dim = c(2, 2)))
+	expect_equal(cell(3, 4), array(dim = c(3, 4)))
+	expect_equal(cell(5, 7, 6), array(dim = c(5, 7, 6)))
+})
