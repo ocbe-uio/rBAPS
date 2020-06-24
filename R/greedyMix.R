@@ -147,7 +147,7 @@ greedyMix <- function(
 			# 	fprintf(1,'Data: %s\n',[pathname filename]);
 			# end
 
-			# kunnossa = testaaGenePopData([pathname filename]); # TODO: trans
+			kunnossa <- testaaGenePopData(pathname_filename)
 			# if (kunnossa == 0) stop("testaaGenePopData returned 0")
 			# [data,popnames]=lueGenePopData([pathname filename]); # TODO: trans
 
