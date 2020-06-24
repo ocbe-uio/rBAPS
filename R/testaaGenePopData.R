@@ -1,4 +1,5 @@
 #' @title Tests GenePop data
+#' @param tiedostonNimi Filename
 testaaGenePopData <- function(tiedostonNimi) {
 	# kunnossa == 0, jos data ei ole kelvollinen genePop data.
 	# Muussa tapauksessa kunnossa == 1.

@@ -1,7 +1,9 @@
 #' @title Clustering of individuals
-#' @param tietue Record
+#' @param tietue File
 #' @param format Format of the data ("BAPS", "GenePop" or "Preprocessed")
 #' @param savePreProcessed Save the pre-processed data?
+#' @param filePreProcessed Is the file already processed?
+#' @importFrom utils read.delim
 #' @export
 greedyMix <- function(
 	tietue,
@@ -51,7 +53,9 @@ greedyMix <- function(
 			stop('Invalid alternative')
 		} else if (input_type_name == 'BAPS-format') {
 			if (!is(tietue, "character")) {
-				pathname_filename <- uigetfile("*.txt", "Loaddata in BAPS-format")
+				pathname_filename <- uigetfile(
+					"*.txt", "Load data in BAPS-format"
+				)
 			} else {
 				pathname_filename <- tietue
 			}

@@ -12,11 +12,13 @@ greedyMix(
 )
 }
 \arguments{
-\item{tietue}{Record}
+\item{tietue}{File}
 
 \item{format}{Format of the data ("BAPS", "GenePop" or "Preprocessed")}
 
 \item{savePreProcessed}{Save the pre-processed data?}
+
+\item{filePreProcessed}{Is the file already processed?}
 }
 \description{
 Clustering of individuals
