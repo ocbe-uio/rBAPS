@@ -46,12 +46,12 @@ greedyMix <- function(
 		} else {
 			input_type_name <- paste0(format, "-format")
 		}
-		# ----------------------------------------------------------------------
-		# Treating BAPS-formatted files
-		# ----------------------------------------------------------------------
 		if (length(input_type_name) == 0) {
 			stop('Invalid alternative')
 		} else if (input_type_name == 'BAPS-format') {
+			# ------------------------------------------------------------------
+			# Treating BAPS-formatted files
+			# ------------------------------------------------------------------
 			if (!is(tietue, "character")) {
 				pathname_filename <- uigetfile(
 					"*.txt", "Load data in BAPS-format"
@@ -65,7 +65,7 @@ greedyMix <- function(
 			# 	fprintf(1,'Data: %s\n',[pathname filename]);
 			# end
 
-			data <- read.delim(pathname_filename) # ASK: what is the delimiter?
+			data <- read.delim(pathname_filename) # TODO: discover delimiter
 			ninds <- testaaOnkoKunnollinenBapsData(data)  # testing
 			if (ninds == 0) stop('Incorrect Data-file')
 
@@ -128,10 +128,10 @@ greedyMix <- function(
 				save(c, file = kokonimi)
 				rm(c)
 			}
-		# ----------------------------------------------------------------------
-		# Treating GenePop-formatted files
-		# ----------------------------------------------------------------------
 		} else if (input_type_name == 'GenePop-format') {
+			# ------------------------------------------------------------------
+			# Treating GenePop-formatted files
+			# ------------------------------------------------------------------
 			if (!is(tietue, "character")) {
 				filename_pathname <- uigetfile(
 					filter = '*.txt',
@@ -181,10 +181,10 @@ greedyMix <- function(
 				save(c, file = kokonimi)
 				rm(c)
 			}
-		# ----------------------------------------------------------------------
-		# Handling Pre-processed data
-		# ----------------------------------------------------------------------
 		} else if (input_type_name == 'Preprocessed data') {
+			# ------------------------------------------------------------------
+			# Handling Pre-processed data
+			# ------------------------------------------------------------------
 			file_in <- uigetfile(
 				filter = '*.txt',
 				title = 'Load pre-processed data in GenePop-format'
@@ -285,9 +285,9 @@ greedyMix <- function(
 
 	# ASK remove (graphical part)?
 	# if (fixedK) {
-	# 	#logml_npops_partitionSummary <- indMix_fixK(c) # TODO translate?
+	# 	#logml_npops_partitionSummary <- indMix_fixK(c) # ASK translate?
 	# } else {
-	# 	#logml_npops_partitionSummary <- indMix(c) # TODO translate?
+	# 	#logml_npops_partitionSummary <- indMix(c) # ASK translate?
 	# }
 	# if (logml_npops_partitionSummary$logml == 1) return()
 
@@ -303,7 +303,7 @@ greedyMix <- function(
 	# 	popnames, fixedK
 	# ) # TODO translate
 
-	# viewMixPartition(PARTITION, popnames) # TODO translate function
+	# viewMixPartition(PARTITION, popnames) # ASK translate? On graph folder
 
 	talle <- questdlg(
 		quest = paste(
@@ -316,7 +316,7 @@ greedyMix <- function(
 	if (talle %in% c('Yes', 'y')) {
 		filename_pathname <- uiputfile('.mat','Save results as')
 
-	# ==========================================================================
+		# ======================================================================
 		cond <- (sum(filename_pathname$name) == 0) |
 		(sum(filename_pathname$path) == 0)
 		if (cond) {
@@ -334,7 +334,7 @@ greedyMix <- function(
 				file.remove('baps4_output.baps')
 			}
 		}
-	# ==========================================================================
+		# ======================================================================
 
 		c$PARTITION      <- PARTITION
 		c$COUNTS         <- COUNTS
