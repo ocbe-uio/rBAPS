@@ -1,268 +1,356 @@
-# function greedyMix(tietue)
+#' @title Clustering of individuals
+#' @param tietue Record
+#' @param format Format of the data ("BAPS", "GenePop" or "Preprocessed")
+#' @param savePreProcessed Save the pre-processed data?
+#' @export
+greedyMix <- function(
+	tietue,
+	format           = NULL,
+	savePreProcessed = NULL,
+	filePreProcessed = NULL
+) {
+	# ASK: graphical components. Remove?
+	# check whether fixed k mode is selected
+	# h0 <- findobj('Tag','fixk_menu')
+	# fixedK = get(h0, 'userdata');
 
-# 	% check whether fixed k mode is selected
-# 	h0 = findobj('Tag','fixk_menu');
-# 	fixedK = get(h0, 'userdata');
+	# if fixedK
+	# 	if ~(fixKWarning == 1) % call function fixKWarning
+	# 		return
+	# 	end
+	# end
 
-# 	if fixedK
-# 		if ~(fixKWarning == 1) % call function fixKWarning
-# 			return
-# 		end
-# 	end
+	# % check whether partition compare mode is selected
+	# h1 = findobj('Tag','partitioncompare_menu');
+	# partitionCompare = get(h1, 'userdata');
 
-# 	% check whether partition compare mode is selected
-# 	h1 = findobj('Tag','partitioncompare_menu');
-# 	partitionCompare = get(h1, 'userdata');
+	if (is(tietue, "list") | is(tietue, "character")) {
+		# ----------------------------------------------------------------------
+		# Defining type of file
+		# ----------------------------------------------------------------------
+		if (is.null(format)) {
+			input_type <- inputdlg(
+				paste(
+					'Specify the format of your data:\n',
+					'1) BAPS-format\n',
+					'2) GenePop-format\n',
+					'3) Preprocessed data\n'
+				)
+			)
+			# Converting from number into name
+			input_type_name <- switch(
+				input_type, 'BAPS-format', 'GenePop-format', 'Preprocessed data'
+			)
+		} else {
+			input_type_name <- paste0(format, "-format")
+		}
+		# ----------------------------------------------------------------------
+		# Treating BAPS-formatted files
+		# ----------------------------------------------------------------------
+		if (length(input_type_name) == 0) {
+			stop('Invalid alternative')
+		} else if (input_type_name == 'BAPS-format') {
+			if (!is(tietue, "character")) {
+				pathname_filename <- uigetfile("*.txt", "Loaddata in BAPS-format")
+			} else {
+				pathname_filename <- tietue
+			}
 
+			# ASK: remove?
+			# if ~isempty(partitionCompare)
+			# 	fprintf(1,'Data: %s\n',[pathname filename]);
+			# end
 
-# 	if isequal(tietue,-1)
+			data <- read.delim(pathname_filename) # ASK: what is the delimiter?
+			# ninds <- testaaOnkoKunnollinenBapsData(data)  #TESTAUS # TODO: trans
+			# if (ninds == 0) stop('Incorrect Data-file')
 
-# 		input_type = questdlg('Specify the format of your data: ',...
-# 			'Specify Data Format', ...
-# 			'BAPS-format', 'GenePop-format', 'Preprocessed data', ...
-# 			'BAPS-format');
+			# ASK: remove?
+			# h0 = findobj('Tag','filename1_text');
+			# set(h0,'String',filename); clear h0;
+			cat(
+				'When using data which are in BAPS-format,',
+				'you can specify the sampling populations of the',
+				'individuals by giving two additional files:',
+				'one containing the names of the populations,',
+				'the other containing the indices of the first',
+				'individuals of the populations.'
+			)
+			input_pops <- inputdlg(
+				prompt = 'Do you wish to specify the sampling populations? [y/N]',
+				definput = 'N'
+			)
+			if (tolower(input_pops) %in% c('yes', 'y')) {
+				popfile    <- uigetfile('*.txt', 'Load population names')
+				kysyToinen <- ifelse(popfile$name == 0, 0, 1)
+				if (kysyToinen == 1) {
+					indicesfile <- uigetfile('*.txt', 'Load population indices')
+					if (indicesfile == 0) {
+						popnames = ""
+					} else {
+						# popnames = initPopNames([namepath namefile],[indicespath indicesfile]) # TODO: translate this fun
+					}
+				} else {
+					popnames <- ""
+				}
+			} else {
+				popnames <- ""
+			}
 
-# 		switch input_type
+			# [data, rowsFromInd, alleleCodes, noalle, adjprior, priorTerm] = handleData(data); # TODO: translate this function
+			# [Z,dist] = newGetDistances(data,rowsFromInd); # TODO: translate
+			if (is.null(savePreProcessed)) {
+				save_preproc <- questdlg(
+					quest = 'Do you wish to save pre-processed data?',
+					dlgtitle = 'Save pre-processed data?',
+					defbtn = 'y'
+				)
+			} else {
+				save_preproc <- savePreProcessed
+			}
+			if (save_preproc %in% c('y', 'yes', TRUE)) {
+				file_out      <- uiputfile('.rda','Save pre-processed data as')
+				kokonimi      <- paste0(file_out$path, file_out$name)
+				c             <- list()
+				c$data        <- data
+				c$rowsFromInd <- rowsFromInd
+				c$alleleCodes <- alleleCodes
+				c$noalle      <- noalle
+				c$adjprior    <- adjprior
+				c$priorTerm   <- priorTerm
+				c$dist        <- dist
+				c$popnames    <- popnames
+				c$Z           <- Z
+				save(c, file = kokonimi)
+				rm(c)
+			}
+		# ----------------------------------------------------------------------
+		# Treating GenePop-formatted files
+		# ----------------------------------------------------------------------
+		} else if (input_type_name == 'GenePop-format') {
+			if (!is(tietue, "character")) {
+				filename_pathname <- uigetfile(
+					filter = '*.txt',
+					title = 'Load data in GenePop-format'
+				)
+				if (filename_pathname$name == 0) stop("No name provided")
+			} else {
+				filename_pathname <- tietue
+			}
 
-# 			case 'BAPS-format'
-# 				waitALittle;
-# 				[filename, pathname] = uigetfile('*.txt', 'Load data in BAPS-format');
-# 				if filename==0
-# 					return;
-# 				end
+			# ASK: remove?
+			# if ~isempty(partitionCompare)
+			# 	fprintf(1,'Data: %s\n',[pathname filename]);
+			# end
 
-# 				if ~isempty(partitionCompare)
-# 					fprintf(1,'Data: %s\n',[pathname filename]);
-# 				end
+			# kunnossa = testaaGenePopData([pathname filename]); # TODO: trans
+			# if (kunnossa == 0) stop("testaaGenePopData returned 0")
+			# [data,popnames]=lueGenePopData([pathname filename]); # TODO: trans
 
-# 				data = load([pathname filename]);
-# 				ninds = testaaOnkoKunnollinenBapsData(data);  %TESTAUS
-# 				if (ninds==0)
-# 					disp('Incorrect Data-file.');
-# 					return;
-# 				end
-# 				h0 = findobj('Tag','filename1_text');
-# 				set(h0,'String',filename); clear h0;
+# 			h0 = findobj('Tag','filename1_text');
+# 			set(h0,'String',filename); clear h0;
 
-# 				input_pops = questdlg(['When using data which are in BAPS-format, '...
-# 					'you can specify the sampling populations of the individuals by '...
-# 					'giving two additional files: one containing the names of the '...
-# 					'populations, the other containing the indices of the first '...
-# 					'individuals of the populations. Do you wish to specify the '...
-# 					'sampling populations?'], ...
-# 					'Specify sampling populations?',...
-# 					'Yes', 'No', 'No');
-# 				if isequal(input_pops,'Yes')
-# 					waitALittle;
-# 					[namefile, namepath] = uigetfile('*.txt', 'Load population names');
-# 					if namefile==0
-# 						kysyToinen = 0;
-# 					else
-# 						kysyToinen = 1;
-# 					end
-# 					if kysyToinen==1
-# 						waitALittle;
-# 						[indicesfile, indicespath] = uigetfile('*.txt', 'Load population indices');
-# 						if indicesfile==0
-# 							popnames = [];
-# 						else
-# 							popnames = initPopNames([namepath namefile],[indicespath indicesfile]);
-# 						end
-# 					else
-# 						popnames = [];
-# 					end
-# 				else
-# 					popnames = [];
-# 				end
+# 			[data, rowsFromInd, alleleCodes, noalle, adjprior, priorTerm] = handleData(data); # TODO:trans
+# 			[Z,dist] = newGetDistances(data,rowsFromInd); # TODO: trans
+			if (is.null(savePreProcessed)) {
+				save_preproc <- questdlg(
+					quest = 'Do you wish to save pre-processed data?',
+					dlgtitle = 'Save pre-processed data?',
+					defbtn = 'y'
+				)
+			} else {
+				save_preproc <- savePreProcessed
+			}
+			if (save_preproc %in% c('y', 'Yes', TRUE)) {
+				file_out      <- uiputfile('.rda','Save pre-processed data as')
+				kokonimi      <- paste0(file_out$path, file_out$name)
+				# FIXME: translate functions above so the objects below exist
+				c$data        <- data
+				c$rowsFromInd <- rowsFromInd
+				c$alleleCodes <- alleleCodes
+				c$noalle      <- noalle
+				c$adjprior    <- adjprior
+				c$priorTerm   <- priorTerm
+				c$dist        <- dist
+				c$popnames    <- popnames
+				c$Z           <- Z
+				save(c, file = kokonimi)
+				rm(c)
+			}
+		# ----------------------------------------------------------------------
+		# Handling Pre-processed data
+		# ----------------------------------------------------------------------
+		} else if (input_type_name == 'Preprocessed data') {
+			file_in <- uigetfile(
+				filter = '*.txt',
+				title = 'Load pre-processed data in GenePop-format'
+			)
+			if (file_in$name == 0) stop("No name provided")
 
-# 				[data, rowsFromInd, alleleCodes, noalle, adjprior, priorTerm] = handleData(data);
-# 				[Z,dist] = newGetDistances(data,rowsFromInd);
+			# ASK: remove?
+			# h0 = findobj('Tag','filename1_text');
+			# set(h0,'String',filename); clear h0;
+			# if ~isempty(partitionCompare)
+			# 	fprintf(1,'Data: %s\n',[pathname filename]);
+			# end
 
-# 				save_preproc = questdlg('Do you wish to save pre-processed data?',...
-# 					'Save pre-processed data?',...
-# 					'Yes','No','Yes');
-# 				if isequal(save_preproc,'Yes');
-# 					waitALittle;
-# 					[filename, pathname] = uiputfile('*.mat','Save pre-processed data as');
-# 					kokonimi = [pathname filename];
-# 					c.data = data; c.rowsFromInd = rowsFromInd; c.alleleCodes = alleleCodes;
-# 					c.noalle = noalle; c.adjprior = adjprior; c.priorTerm = priorTerm;
-# 					c.dist = dist; c.popnames = popnames; c.Z = Z;
-# 	%                 save(kokonimi,'c');
-# 					save(kokonimi,'c','-v7.3'); % added by Lu Cheng, 08.06.2012
-# 					clear c;
-# 				end;
+			struct_array <- readRDS(paste0(file_in$path, file_in$name))
+			if (isfield(struct_array,'c')) { # Matlab versio
+				c <- struct_array$c
+				if (!isfield(c,'dist')) stop('Incorrect file format')
+			} else if (isfield(struct_array,'dist')) { #Mideva versio
+				c <- struct_array
+			} else {
+				stop('Incorrect file format')
+			}
+			data        <- double(c$data)
+			rowsFromInd <- c$rowsFromInd
+			alleleCodes <- c$alleleCodes
+			noalle      <- c$noalle
+			adjprior    <- c$adjprior
+			priorTerm   <- c$priorTerm
+			dist        <- c$dist
+			popnames    <- c$popnames
+			Z           <- c$Z
+			rm(c)
+		}
+	} else {
+		data        <- double(tietue$data)
+		rowsFromInd <- tietue$rowsFromInd
+		alleleCodes <- tietue$alleleCodes
+		noalle      <- tietue$noalle
+		adjprior    <- tietue$adjprior
+		priorTerm   <- tietue$priorTerm
+		dist        <- tietue$dist
+		popnames    <- tietue$popnames
+		Z           <- tietue$Z
+		rm(tietue)
+	}
 
-# 			case 'GenePop-format'
-# 				waitALittle;
-# 				[filename, pathname] = uigetfile('*.txt', 'Load data in GenePop-format');
-# 				if filename==0
-# 					return;
-# 				end
-# 				if ~isempty(partitionCompare)
-# 					fprintf(1,'Data: %s\n',[pathname filename]);
-# 				end
-# 				kunnossa = testaaGenePopData([pathname filename]);
-# 				if kunnossa==0
-# 					return
-# 				end
-# 				[data,popnames]=lueGenePopData([pathname filename]);
+	# ==========================================================================
+	# Declaring global variables
+	# ==========================================================================
+	PARTITION       <- vector()
+	COUNTS          <- vector()
+	SUMCOUNTS       <- vector()
+	POP_LOGML       <- vector()
+	clearGlobalVars <- vector()
+	# ==========================================================================
 
-# 				h0 = findobj('Tag','filename1_text');
-# 				set(h0,'String',filename); clear h0;
+	c$data        <- data
+	c$noalle      <- noalle
+	c$adjprior    <- adjprior
+	c$priorTerm   <- priorTerm
+	c$dist        <- dist
+	c$Z           <- Z
+	c$rowsFromInd <- rowsFromInd
 
-# 				[data, rowsFromInd, alleleCodes, noalle, adjprior, priorTerm] = handleData(data);
-# 				[Z,dist] = newGetDistances(data,rowsFromInd);
-# 				save_preproc = questdlg('Do you wish to save pre-processed data?',...
-# 					'Save pre-processed data?',...
-# 					'Yes','No','Yes');
-# 				if isequal(save_preproc,'Yes');
-# 					waitALittle;
-# 					[filename, pathname] = uiputfile('*.mat','Save pre-processed data as');
-# 					kokonimi = [pathname filename];
-# 					c.data = data; c.rowsFromInd = rowsFromInd; c.alleleCodes = alleleCodes;
-# 					c.noalle = noalle; c.adjprior = adjprior; c.priorTerm = priorTerm;
-# 					c.dist = dist; c.popnames = popnames; c.Z = Z;
-# 	%                 save(kokonimi,'c');
-# 					save(kokonimi,'c','-v7.3'); % added by Lu Cheng, 08.06.2012
-# 					clear c;
-# 				end;
+	ninds  <- length(unique(data[, ncol(data)]))
+	ekat   <- t(seq(1, ninds, rowsFromInd) * rowsFromInd)
+	c$rows <- c(ekat, ekat + rowsFromInd - 1)
 
-# 			case 'Preprocessed data'
-# 				waitALittle;
-# 				[filename, pathname] = uigetfile('*.mat', 'Load pre-processed data');
-# 				if filename==0
-# 					return;
-# 				end
-# 				h0 = findobj('Tag','filename1_text');
-# 				set(h0,'String',filename); clear h0;
-# 				if ~isempty(partitionCompare)
-# 					fprintf(1,'Data: %s\n',[pathname filename]);
-# 				end
+	# partition compare
+	if (!is.null(partitionCompare)) {
+		nsamplingunits <- size(c$rows, 1)
+		partitions     <- partitionCompare$partitions
+		npartitions    <- size(partitions, 2)
+		partitionLogml <- zeros(1, npartitions)
+		for (i in seq_len(npartitions)) {
+			# number of unique partition lables
+			npops <- length(unique(partitions[, i]))
 
-# 				struct_array = load([pathname filename]);
-# 				if isfield(struct_array,'c')  %Matlab versio
-# 					c = struct_array.c;
-# 					if ~isfield(c,'dist')
-# 						disp('Incorrect file format');
-# 						return
-# 					end
-# 				elseif isfield(struct_array,'dist')  %Mideva versio
-# 					c = struct_array;
-# 				else
-# 					disp('Incorrect file format');
-# 					return;
-# 				end
-# 				data = double(c.data); rowsFromInd = c.rowsFromInd; alleleCodes = c.alleleCodes;
-# 				noalle = c.noalle; adjprior = c.adjprior; priorTerm = c.priorTerm;
-# 				dist = c.dist; popnames = c.popnames; Z = c.Z;
-# 				clear c;
-# 				otherwise
-# 				return
-# 		end
+			partitionInd <- zeros(ninds * rowsFromInd, 1)
+			partitionSample <- partitions[, i]
+			for (j in seq_len(nsamplingunits)) {
+				partitionInd[c$rows[j, 1]:c$rows[j, 2]] <- partitionSample[j]
+			}
+			# partitionLogml[i] = initialCounts(
+			# 	partitionInd,
+			# 	data[, seq_len(end - 1)],
+			# 	npops,
+			# 	c$rows,
+			# 	noalle,
+			# 	adjprior
+			# ) #TODO translate
+		}
+		# return the logml result
+		partitionCompare$logmls <- partitionLogml
+		# set(h1, 'userdata', partitionCompare) # ASK remove?
+		return()
+	}
 
-# 	else
-# 		data = double(tietue.data); rowsFromInd = tietue.rowsFromInd; alleleCodes = tietue.alleleCodes;
-# 		noalle = tietue.noalle; adjprior = tietue.adjprior; priorTerm = tietue.priorTerm;
-# 		dist = tietue.dist; popnames = tietue.popnames; Z = tietue.Z;
-# 		clear tietue;
-# 	end
+	# ASK remove (graphical part)?
+	# if (fixedK) {
+	# 	#logml_npops_partitionSummary <- indMix_fixK(c) # TODO translate?
+	# } else {
+	# 	#logml_npops_partitionSummary <- indMix(c) # TODO translate?
+	# }
+	# if (logml_npops_partitionSummary$logml == 1) return()
 
+	data <- data[, seq_len(ncol(data) - 1)]
 
-# 	global PARTITION; global COUNTS;
-# 	global SUMCOUNTS; global POP_LOGML;
-# 	clearGlobalVars;
+	# ASK: remove?
+	# h0 = findobj('Tag','filename1_text');  inp = get(h0,'String');
+	# h0 = findobj('Tag','filename2_text');
+	# outp = get(h0,'String');
 
-# 	c.data=data;
-# 	c.noalle = noalle; c.adjprior = adjprior; c.priorTerm = priorTerm;
-# 	c.dist=dist; c.Z=Z; c.rowsFromInd = rowsFromInd;
+	# changesInLogml <- writeMixtureInfo(
+	# 	logml, rowsFromInd, data, adjprior, priorTerm, outp, inp,
+	# 	popnames, fixedK
+	# ) # TODO translate
 
-# 	ninds = length(unique(data(:,end)));
-# 	ekat = (1:rowsFromInd:ninds*rowsFromInd)';
-# 	c.rows = [ekat ekat+rowsFromInd-1];
+	# viewMixPartition(PARTITION, popnames) # TODO translate function
 
-# 	% partition compare
-# 	if ~isempty(partitionCompare)
-# 		nsamplingunits = size(c.rows,1);
-# 		partitions = partitionCompare.partitions;
-# 		npartitions = size(partitions,2);
-# 		partitionLogml = zeros(1,npartitions);
-# 		for i = 1:npartitions
-# 			% number of unique partition lables
-# 			npops = length(unique(partitions(:,i)));
+	talle <- questdlg(
+		quest = paste(
+			'Do you want to save the mixture populations',
+			'so that you can use them later in admixture analysis?'
+		),
+		dlgtitle = 'Save results?',
+		defbtn = 'y'
+	)
+	if (talle %in% c('Yes', 'y')) {
+		filename_pathname <- uiputfile('.mat','Save results as')
 
-# 			partitionInd = zeros(ninds*rowsFromInd,1);
-# 			partitionSample = partitions(:,i);
-# 			for j = 1:nsamplingunits
-# 				partitionInd([c.rows(j,1):c.rows(j,2)]) = partitionSample(j);
-# 			end
-# 			partitionLogml(i) = ...
-# 				initialCounts(partitionInd, data(:,1:end-1), npops, c.rows, noalle, adjprior);
+	# ==========================================================================
+		cond <- (sum(filename_pathname$name) == 0) |
+		(sum(filename_pathname$path) == 0)
+		if (cond) {
+			# Cancel was pressed
+			return()
+		} else {
+			# copy 'baps4_output.baps' into the text file with the same name.
+			if (file.exists('baps4_output.baps')) {
+				file.copy(
+					from = 'baps4_output.baps',
+					to = paste0(
+						filename_pathname$path, filename_pathname$name, '.txt'
+					)
+				)
+				file.remove('baps4_output.baps')
+			}
+		}
+	# ==========================================================================
 
-# 		end
-# 		% return the logml result
-# 		partitionCompare.logmls = partitionLogml;
-# 		set(h1, 'userdata', partitionCompare);
-# 		return
-# 	end
+		c$PARTITION      <- PARTITION
+		c$COUNTS         <- COUNTS
+		c$SUMCOUNTS      <- SUMCOUNTS
+		c$alleleCodes    <- alleleCodes
+		c$adjprior       <- adjprior
+		c$popnames       <- popnames
+		c$rowsFromInd    <- rowsFromInd
+		c$data           <- data
+		c$npops          <- npops
+		c$noalle         <- noalle
+		c$mixtureType    <- 'mix'
+		c$logml          <- logml
+		c$changesInLogml <- changesInLogml
 
-# 	if fixedK
-# 		[logml, npops, partitionSummary]=indMix_fixK(c);
-# 	else
-# 		[logml, npops, partitionSummary]=indMix(c);
-# 	end
-
-# 	if logml==1
-# 		return
-# 	end
-
-# 	data = data(:,1:end-1);
-
-# 	h0 = findobj('Tag','filename1_text');  inp = get(h0,'String');
-# 	h0 = findobj('Tag','filename2_text');
-# 	outp = get(h0,'String');
-# 	changesInLogml = writeMixtureInfo(logml, rowsFromInd, data, adjprior, priorTerm, ...
-# 		outp,inp,partitionSummary, popnames, fixedK);
-
-# 	viewMixPartition(PARTITION, popnames);
-
-# 	talle = questdlg(['Do you want to save the mixture populations ' ...
-# 		'so that you can use them later in admixture analysis?'], ...
-# 		'Save results?','Yes','No','Yes');
-# 	if isequal(talle,'Yes')
-# 		waitALittle;
-# 		[filename, pathname] = uiputfile('*.mat','Save results as');
-
-# 		% -------------------------------------------
-# 		% Added by Jing, 26.12.2005
-# 		if (sum(filename)==0) || (sum(pathname)==0)
-# 			% Cancel was pressed
-# 			return;
-# 		else
-# 			% copy 'baps4_output.baps' into the text file with the same name.
-# 			if exist('baps4_output.baps','file')
-# 			copyfile('baps4_output.baps',[pathname filename '.txt'])
-# 			delete('baps4_output.baps')
-# 			end
-# 		end;
-# 		% -------------------------------------------
-
-# 		c.PARTITION = PARTITION; c.COUNTS = COUNTS; c.SUMCOUNTS = SUMCOUNTS;
-# 		c.alleleCodes = alleleCodes; c.adjprior = adjprior; c.popnames = popnames;
-# 		c.rowsFromInd = rowsFromInd; c.data = data; c.npops = npops;
-# 		c.noalle = noalle; c.mixtureType = 'mix';
-# 		c.logml = logml; c.changesInLogml = changesInLogml;
-# 	%     save([pathname filename], 'c');
-# 		save([pathname filename], 'c', '-v7.3'); % added by Lu Cheng, 08.06.2012
-# 	else
-# 		if exist('baps4_output.baps','file')
-# 		delete('baps4_output.baps')
-# 		end
-# 	end
-
-
-
-
+		save(c, file = paste0(filename_pathname$path, filename_pathname$name))
+	} else {
+		if (file.exists('baps4_output.baps')) file.remove('baps4_output.baps')
+	}
+}
 
 # 	%-------------------------------------------------------------------------------------
 # 	%-------------------------------------------------------------------------------------
@@ -1495,21 +1583,6 @@
 # 	apu = (apu(:,1)-1).*ninds - apu(:,1) ./ 2 .* (apu(:,1)-1) + (apu(:,2)-apu(:,1));
 # 	dist2 = dist(apu);
 
-# 	%--------------------------------------------------------
-
-# 	function ninds = testaaOnkoKunnollinenBapsData(data)
-# 	%Tarkastaa onko viimeisess?sarakkeessa kaikki
-# 	%luvut 1,2,...,n johonkin n:��n asti.
-# 	%Tarkastaa lis�ksi, ett?on v�hint��n 2 saraketta.
-# 	if size(data,1)<2
-# 		ninds = 0; return;
-# 	end
-# 	lastCol = data(:,end);
-# 	ninds = max(lastCol);
-# 	if ~isequal((1:ninds)',unique(lastCol))
-# 		ninds = 0; return;
-# 	end
-
 # 	%--------------------------------------------------------------------------
 
 # 	function [emptyPop, pops] = findEmptyPop(npops)
@@ -1524,87 +1597,6 @@
 # 		popDiff = diff([0 pops npops+1]);
 # 		emptyPop = min(find(popDiff > 1));
 # 	end
-
-# 	%--------------------------------------------------------------------
-
-
-# 	function kunnossa = testaaGenePopData(tiedostonNimi)
-# 	% kunnossa == 0, jos data ei ole kelvollinen genePop data.
-# 	% Muussa tapauksessa kunnossa == 1.
-
-# 	kunnossa = 0;
-# 	fid = fopen(tiedostonNimi);
-# 	line1 = fgetl(fid);  %ensimm�inen rivi
-# 	line2 = fgetl(fid);  %toinen rivi
-# 	line3 = fgetl(fid);  %kolmas
-
-# 	if (isequal(line1,-1) | isequal(line2,-1) | isequal(line3,-1))
-# 		disp('Incorrect file format 1168'); fclose(fid);
-# 		return
-# 	end
-# 	if (testaaPop(line1)==1 | testaaPop(line2)==1)
-# 		disp('Incorrect file format 1172'); fclose(fid);
-# 		return
-# 	end
-# 	if testaaPop(line3)==1
-# 		%2 rivi t�ll�in lokusrivi
-# 		nloci = rivinSisaltamienMjonojenLkm(line2);
-# 		line4 = fgetl(fid);
-# 		if isequal(line4,-1)
-# 			disp('Incorrect file format 1180'); fclose(fid);
-# 			return
-# 		end
-# 		if ~any(line4==',')
-# 			% Rivin nelj?t�ytyy sis�lt�� pilkku.
-# 			disp('Incorrect file format 1185'); fclose(fid);
-# 			return
-# 		end
-# 		pointer = 1;
-# 		while ~isequal(line4(pointer),',')  %Tiedet��n, ett?pys�htyy
-# 			pointer = pointer+1;
-# 		end
-# 		line4 = line4(pointer+1:end);  %pilkun j�lkeinen osa
-# 		nloci2 = rivinSisaltamienMjonojenLkm(line4);
-# 		if (nloci2~=nloci)
-# 			disp('Incorrect file format 1195'); fclose(fid);
-# 			return
-# 		end
-# 	else
-# 		line = fgetl(fid);
-# 		lineNumb = 4;
-# 		while (testaaPop(line)~=1 & ~isequal(line,-1))
-# 			line = fgetl(fid);
-# 			lineNumb = lineNumb+1;
-# 		end
-# 		if isequal(line,-1)
-# 			disp('Incorrect file format 1206'); fclose(fid);
-# 			return
-# 		end
-# 		nloci = lineNumb-2;
-# 		line4 = fgetl(fid);  %Eka rivi pop sanan j�lkeen
-# 		if isequal(line4,-1)
-# 			disp('Incorrect file format 1212'); fclose(fid);
-# 			return
-# 		end
-# 		if ~any(line4==',')
-# 			% Rivin t�ytyy sis�lt�� pilkku.
-# 			disp('Incorrect file format 1217'); fclose(fid);
-# 			return
-# 		end
-# 		pointer = 1;
-# 		while ~isequal(line4(pointer),',')  %Tiedet��n, ett?pys�htyy.
-# 			pointer = pointer+1;
-# 		end
-
-# 		line4 = line4(pointer+1:end);  %pilkun j�lkeinen osa
-# 		nloci2 = rivinSisaltamienMjonojenLkm(line4);
-# 		if (nloci2~=nloci)
-# 			disp('Incorrect file format 1228'); fclose(fid);
-# 			return
-# 		end
-# 	end
-# 	kunnossa = 1;
-# 	fclose(fid);
 
 # 	%------------------------------------------------------
 
