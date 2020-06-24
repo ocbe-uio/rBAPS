@@ -10,6 +10,8 @@ cell(n, sz = c(n, n), ...)
 \item{n}{a the first dimension (or both, if sz is not passed)}
 
 \item{sz}{the second dimension (or 1st and 2nd, if not passed)}
+
+\item{...}{Other dimensions}
 }
 \value{
 An array of zeroes with the dimensions passed on call

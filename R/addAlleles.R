@@ -43,7 +43,7 @@ addAlleles <- function(data, ind, line, divider) {
 		data[2 * ind, j] <- tokaAlleeli
 	}
 
-	data[2 * ind - 1,end] <- ind
-	data[2 * ind, end] <- ind
+	data[2 * ind - 1, ncol(data)] <- ind
+	data[2 * ind, ncol(data)] <- ind
 	return(data)
 }

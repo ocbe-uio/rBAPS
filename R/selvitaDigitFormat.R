@@ -1,6 +1,6 @@
 #' @title Find out the Digit Format
 #' @param line the first line after the "pop" word from data in Genepop format. #  @note Function clarified based on the line format whether the alleles of the data are given using 2 or 3 numbers.
-#' @return
+#' @return df
 #' @export
 selvitaDigitFormat <- function(line) {
 	# line on ensimm�inen pop-sanan j�lkeinen rivi

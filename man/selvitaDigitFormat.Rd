@@ -10,7 +10,7 @@ selvitaDigitFormat(line)
 \item{line}{the first line after the "pop" word from data in Genepop format. #  @note Function clarified based on the line format whether the alleles of the data are given using 2 or 3 numbers.}
 }
 \value{
-
+df
 }
 \description{
 Find out the Digit Format
