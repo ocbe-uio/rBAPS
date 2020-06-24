@@ -1622,47 +1622,6 @@ greedyMix <- function(
 
 # 	%------------------------------------------------------
 
-# 	function nimi = lueNimi(line)
-# 	%Palauttaa line:n alusta sen osan, joka on ennen pilkkua.
-# 	n = 1;
-# 	merkki = line(n);
-# 	nimi = '';
-# 	while ~isequal(merkki,',')
-# 		nimi = [nimi merkki];
-# 		n = n+1;
-# 		merkki = line(n);
-# 	end
-
-# 	%-------------------------------------------------------
-
-# 	function df = selvitaDigitFormat(line)
-# 	% line on ensimm�inen pop-sanan j�lkeinen rivi
-# 	% Genepop-formaatissa olevasta datasta. funktio selvitt��
-# 	% rivin muodon perusteella, ovatko datan alleelit annettu
-# 	% 2 vai 3 numeron avulla.
-
-# 	n = 1;
-# 	merkki = line(n);
-# 	while ~isequal(merkki,',')
-# 		n = n+1;
-# 		merkki = line(n);
-# 	end
-
-# 	while ~any(merkki == '0123456789');
-# 		n = n+1;
-# 		merkki = line(n);
-# 	end
-# 	numeroja = 0;
-# 	while any(merkki == '0123456789');
-# 		numeroja = numeroja+1;
-# 		n = n+1;
-# 		merkki = line(n);
-# 	end
-
-# 	df = numeroja/2;
-
-
-
 # 	function loggis = laskeLoggis(counts, sumcounts, adjprior)
 # 	npops = size(counts,3);
 
