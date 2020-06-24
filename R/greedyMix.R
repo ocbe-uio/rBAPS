@@ -1686,30 +1686,6 @@ greedyMix <- function(
 
 # 	%------------------------------------------------------
 
-
-# 	function count = rivinSisaltamienMjonojenLkm(line)
-# 	% Palauttaa line:n sis�lt�mien mjonojen lukum��r�n.
-# 	% Mjonojen v�liss?t�ytyy olla v�lily�nti.
-# 	count = 0;
-# 	pit = length(line);
-# 	tila = 0;    %0, jos odotetaan v�lily�ntej? 1 jos odotetaan muita merkkej?
-# 	for i=1:pit
-# 		merkki = line(i);
-# 		if (isspace(merkki) & tila==0)
-# 			%Ei tehd?mit��n.
-# 		elseif (isspace(merkki) & tila==1)
-# 			tila = 0;
-# 		elseif (~isspace(merkki) & tila==0)
-# 			tila = 1;
-# 			count = count+1;
-# 		elseif (~isspace(merkki) & tila==1)
-# 			%Ei tehd?mit��n
-# 		end
-# 	end
-
-
-# 	%-------------------------------------------------------
-
 # 	function nimi = lueNimi(line)
 # 	%Palauttaa line:n alusta sen osan, joka on ennen pilkkua.
 # 	n = 1;
