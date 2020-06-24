@@ -1583,21 +1583,6 @@ greedyMix <- function(
 # 	apu = (apu(:,1)-1).*ninds - apu(:,1) ./ 2 .* (apu(:,1)-1) + (apu(:,2)-apu(:,1));
 # 	dist2 = dist(apu);
 
-# 	%--------------------------------------------------------
-
-# 	function ninds = testaaOnkoKunnollinenBapsData(data)
-# 	%Tarkastaa onko viimeisess?sarakkeessa kaikki
-# 	%luvut 1,2,...,n johonkin n:��n asti.
-# 	%Tarkastaa lis�ksi, ett?on v�hint��n 2 saraketta.
-# 	if size(data,1)<2
-# 		ninds = 0; return;
-# 	end
-# 	lastCol = data(:,end);
-# 	ninds = max(lastCol);
-# 	if ~isequal((1:ninds)',unique(lastCol))
-# 		ninds = 0; return;
-# 	end
-
 # 	%--------------------------------------------------------------------------
 
 # 	function [emptyPop, pops] = findEmptyPop(npops)
