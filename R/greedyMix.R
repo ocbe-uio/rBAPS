@@ -1533,19 +1533,6 @@ greedyMix <- function(
 
 # 	%--------------------------------------------------------------------
 
-
-# 	function newline = takeLine(description,width)
-# 	%Returns one line from the description: line ends to the first
-# 	%space after width:th mark.
-# 	newLine = description(1:width);
-# 	n = width+1;
-# 	while ~isspace(description(n)) & n<length(description)
-# 		n = n+1;
-# 	end;
-# 	newline = description(1:n);
-
-# 	%-------------------------------------------------------
-
 # 	function dist2 = laskeOsaDist(inds2, dist, ninds)
 # 	% Muodostaa dist vektorista osavektorin, joka sis�lt�� yksil�iden inds2
 # 	% v�liset et�isyydet. ninds=kaikkien yksil�iden lukum��r?
