@@ -169,3 +169,11 @@ test_that("cell works as expected", {
 	expect_equal(cell(3, 4), array(dim = c(3, 4)))
 	expect_equal(cell(5, 7, 6), array(dim = c(5, 7, 6)))
 })
+
+test_that("blanks works as expected", {
+	expect_warning(blanks(-1))
+	expect_equal(suppressWarnings(blanks(-1)), "")
+	expect_equal(blanks(0), "")
+	expect_equal(blanks(1), " ")
+	expect_equal(blanks(10), "          ")
+})

@@ -2,6 +2,7 @@
 
 export(addAlleles)
 export(admix1)
+export(blanks)
 export(calculatePopLogml)
 export(colon)
 export(computeAllFreqs2)
