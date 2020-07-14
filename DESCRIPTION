@@ -36,7 +36,7 @@ Description: Partial R implementation of the BAPS software
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Suggests: 
     testthat (>= 2.1.0)
 Imports:

@@ -11,10 +11,10 @@ test_that("repmat works properly", {
 	mx1 <- matrix(5:8)
 	mx2 <- matrix(0:-3, 2)
 	expect_error(repmat(mx0))
-	expect_equal(repmat(mx0, 1), as.matrix(mx0))
+	expect_equal(repmat(mx0, 1), t(as.matrix(mx0)))
 	expect_equal(
 		object = repmat(mx0, 2),
-		expected = unname(t(cbind(rbind(mx0, mx0), rbind(mx0, mx0))))
+		expected = unname(cbind(rbind(mx0, mx0), rbind(mx0, mx0)))
 	)
 	expect_equal(
 		object = repmat(mx1, 2),
@@ -32,6 +32,8 @@ test_that("repmat works properly", {
 		object = repmat(mx2, c(1, 1, 2)),
 		expected = array(mx2, c(2, 2, 2))
 	)
+	expect_equal(repmat(1:2, 3), matrix(rep(1:2, 9), 3, 6, byrow=TRUE))
+	expect_equal(repmat(10, c(3, 2)), matrix(10, 3, 2))
 })
 
 test_that("zeros and ones work as expected", {
@@ -168,4 +170,22 @@ test_that("cell works as expected", {
 	expect_equal(cell(2), array(dim = c(2, 2)))
 	expect_equal(cell(3, 4), array(dim = c(3, 4)))
 	expect_equal(cell(5, 7, 6), array(dim = c(5, 7, 6)))
+})
+
+test_that("blanks works as expected", {
+	expect_warning(blanks(-1))
+	expect_equal(suppressWarnings(blanks(-1)), "")
+	expect_equal(blanks(0), "")
+	expect_equal(blanks(1), " ")
+	expect_equal(blanks(10), "          ")
+})
+
+test_that("squeeze works as expected", {
+	A <- array(dim = c(2, 1, 2))
+	A[, , 1] <- c(1, 2)
+	A[, , 2] <- c(3, 4)
+	expect_equal(squeeze(A), matrix(1:4, 2))
+	A <- array(0, dim = c(1, 1, 3))
+	A[, , 1:3] <- 1:3
+	expect_equal(squeeze(A), matrix(1:3, 3))
 })
