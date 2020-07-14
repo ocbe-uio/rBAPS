@@ -1,5 +1,5 @@
 newGetDistances <- function(data, rowsFromInd) {
-	ninds <- max(data[, end])
+	ninds <- max(data[, ncol(data)])
 	nloci <- size(data, 2) - 1
 	riviLkm <- choose(ninds, 2)
 
