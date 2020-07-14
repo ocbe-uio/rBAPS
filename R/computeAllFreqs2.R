@@ -24,6 +24,6 @@ computeAllFreqs2 <- function (noalle, COUNTS = matrix(NA, 0, 0),
     }
     prioriAlleelit <- repmat(prioriAlleelit, c(1, 1, npops))
     counts <- COUNTS + prioriAlleelit
-    allFreqs <- counts / sumCounts
+    allFreqs <- counts / drop(sumCounts)
     return(allFreqs)
 }

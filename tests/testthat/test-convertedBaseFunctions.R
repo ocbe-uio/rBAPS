@@ -11,10 +11,10 @@ test_that("repmat works properly", {
 	mx1 <- matrix(5:8)
 	mx2 <- matrix(0:-3, 2)
 	expect_error(repmat(mx0))
-	expect_equal(repmat(mx0, 1), as.matrix(mx0))
+	expect_equal(repmat(mx0, 1), t(as.matrix(mx0)))
 	expect_equal(
 		object = repmat(mx0, 2),
-		expected = unname(t(cbind(rbind(mx0, mx0), rbind(mx0, mx0))))
+		expected = unname(cbind(rbind(mx0, mx0), rbind(mx0, mx0)))
 	)
 	expect_equal(
 		object = repmat(mx1, 2),
@@ -32,6 +32,8 @@ test_that("repmat works properly", {
 		object = repmat(mx2, c(1, 1, 2)),
 		expected = array(mx2, c(2, 2, 2))
 	)
+	expect_equal(repmat(1:2, 3), matrix(rep(1:2, 9), 3, 6, byrow=TRUE))
+	expect_equal(repmat(10, c(3, 2)), matrix(10, 3, 2))
 })
 
 test_that("zeros and ones work as expected", {
