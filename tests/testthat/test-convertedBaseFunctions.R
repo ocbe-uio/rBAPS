@@ -179,3 +179,13 @@ test_that("blanks works as expected", {
 	expect_equal(blanks(1), " ")
 	expect_equal(blanks(10), "          ")
 })
+
+test_that("squeeze works as expected", {
+	A <- array(dim = c(2, 1, 2))
+	A[, , 1] <- c(1, 2)
+	A[, , 2] <- c(3, 4)
+	expect_equal(squeeze(A), matrix(1:4, 2))
+	A <- array(0, dim = c(1, 1, 3))
+	A[, , 1:3] <- 1:3
+	expect_equal(squeeze(A), matrix(1:3, 3))
+})
