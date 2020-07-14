@@ -979,13 +979,3 @@ greedyMix <- function(
 # 		popDiff = diff([0 pops npops+1]);
 # 		emptyPop = min(find(popDiff > 1));
 # 	end
-
-# 	%------------------------------------------------------
-
-# 	function loggis = laskeLoggis(counts, sumcounts, adjprior)
-# 	npops = size(counts,3);
-
-# 	logml2 = sum(sum(sum(gammaln(counts+repmat(adjprior,[1 1 npops]))))) ...
-# 		- npops*sum(sum(gammaln(adjprior))) - ...
-# 		sum(sum(gammaln(1+sumcounts)));
-# 	loggis = logml2;
