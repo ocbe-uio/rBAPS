@@ -189,3 +189,9 @@ test_that("squeeze works as expected", {
 	A[, , 1:3] <- 1:3
 	expect_equal(squeeze(A), matrix(1:3, 3))
 })
+
+test_that("fix works as expected", {
+	X <- matrix(c(-1.9, -3.4, 1.6, 2.5, -4.5, 4.5), 3, byrow=TRUE)
+	Y <- matrix(c(-1, -3, 1, 2, -4, 4), 3, byrow=TRUE)
+	expect_identical(fix(X), Y)
+})
