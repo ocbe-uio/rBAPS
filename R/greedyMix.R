@@ -948,20 +948,6 @@ greedyMix <- function(
 
 # 	%---------------------------------------------------------------
 
-
-# 	function dispLine;
-# 	disp('---------------------------------------------------');
-
-# 	%--------------------------------------------------------------
-
-# 	function num2 = omaRound(num)
-# 	% Py�rist�� luvun num 1 desimaalin tarkkuuteen
-# 	num = num*10;
-# 	num = round(num);
-# 	num2 = num/10;
-
-# 	%--------------------------------------------------------------------
-
 # 	function dist2 = laskeOsaDist(inds2, dist, ninds)
 # 	% Muodostaa dist vektorista osavektorin, joka sis�lt�� yksil�iden inds2
 # 	% v�liset et�isyydet. ninds=kaikkien yksil�iden lukum��r?
