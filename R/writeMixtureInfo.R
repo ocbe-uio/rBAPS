@@ -14,7 +14,6 @@
 #' @param COUNTS COUNTS
 #' @param SUMCOUNTS SUMCOUNTS
 #' @param LOGDIFF LOGDIFF
-#' @return changesInLogml
 #' @export
 writeMixtureInfo <- function(
 	logml, rowsFromInd, data, adjprior, priorTerm, outPutFile, inputFile, partitionSummary, popnames, fixedK, PARTITION, COUNTS, SUMCOUNTS,
@@ -100,7 +99,7 @@ writeMixtureInfo <- function(
 		while (length(text) > 58) {
 			# Take one line and display it.
 			new_line <- takeLine(text, 58)
-			text <- (length(new_line) + 1):end
+			text <- (length(new_line) + 1):length(text)
 			cat(new_line)
 			if (fid != -1) {
 				append(fid, new_line)
@@ -228,7 +227,7 @@ writeMixtureInfo <- function(
 					sum(dist2 * log2((dist2 + 10 ^ -10) / (dist1 + 10 ^ -10)))
 				) / nloci
 				div <- (div12 + div21) / 2
-				dist_mat(pop1, pop2) <- div
+				dist_mat[pop1, pop2] <- div
 			}
 		}
 

@@ -4,7 +4,7 @@
 \alias{linkage}
 \title{Linkage}
 \usage{
-linkage(Y, method)
+linkage(Y, method = "co")
 }
 \arguments{
 \item{Y}{data}

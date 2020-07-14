@@ -294,14 +294,15 @@ greedyMix <- function(
 	data <- data[, seq_len(ncol(data) - 1)]
 
 	# ASK: remove?
-	# h0 = findobj('Tag','filename1_text');  inp = get(h0,'String');
-	# h0 = findobj('Tag','filename2_text');
+	# h0 = findobj('Tag','filename1_text')
+	# inp = get(h0,'String');
+	# h0 = findobj('Tag','filename2_text')
 	# outp = get(h0,'String');
 
-	# changesInLogml <- writeMixtureInfo(
-	# 	logml, rowsFromInd, data, adjprior, priorTerm, outp, inp,
-	# 	popnames, fixedK
-	# ) # TODO translate
+	changesInLogml <- writeMixtureInfo(
+		logml, rowsFromInd, data, adjprior, priorTerm, outp, inp,
+		popnames, fixedK
+	) # FIXMEL depends on get function above
 
 	# viewMixPartition(PARTITION, popnames) # ASK translate? On graph folder
 

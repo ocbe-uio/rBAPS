@@ -7,7 +7,7 @@
 #' @param Y data
 #' @param method either 'si', 'av', 'co' 'ce' or 'wa'
 #' @export
-linkage <- function(Y, method) {
+linkage <- function(Y, method = 'co') {
 	k <- size(Y)[1]
 	n <- size(Y)[2]
 	m <- (1 + sqrt(1 + 8 * n)) / 2
@@ -17,10 +17,7 @@ linkage <- function(Y, method) {
 			'of the PDIST function in size.'
 		)
 	}
-	if (nargin == 1) { # set default switch to be 'co'
-		method <- 'co'
-	}
-	method <- lower(method[1:2]) # simplify the switch string.
+	method <- tolower(substr(method, 1, 2)) # simplify the switch string.
 	monotonic <- 1
 	Z <- zeros(m - 1, 3) # allocate the output matrix.
 	N <- zeros(1, 2 * m - 1)
