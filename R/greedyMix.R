@@ -358,17 +358,6 @@ greedyMix <- function(
 }
 
 # 	%-------------------------------------------------------------------------------------
-# 	%-------------------------------------------------------------------------------------
-
-# 	function clearGlobalVars
-
-# 	global COUNTS; COUNTS = [];
-# 	global SUMCOUNTS; SUMCOUNTS = [];
-# 	global PARTITION; PARTITION = [];
-# 	global POP_LOGML; POP_LOGML = [];
-
-# 	%--------------------------------------------------------------------------
-
 
 # 	function [partitionSummary, added] = addToSummary(logml, partitionSummary, worstIndex)
 # 	% Tiedet��n, ett?annettu logml on isompi kuin huonoin arvo
