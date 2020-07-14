@@ -53,12 +53,12 @@ handleData <- function(raw_data) {
 		)
 	}
 
-	nind <- max(data[, end])
+	nind <- max(data[, ncol(data)])
 	nrows <- size(data, 1)
 	ncols <- size(data, 2)
 	rowsFromInd <- zeros(nind, 1)
 	for (i in 1:nind) {
-		rowsFromInd[i] <- length(find(data[, end] == i))
+		rowsFromInd[i] <- length(find(data[, ncol(data)] == i))
 	}
 	maxRowsFromInd <- max(rowsFromInd)
 	a <- -999
@@ -81,7 +81,7 @@ handleData <- function(raw_data) {
 			repmat(1 / noalle[j], c(noalle[j], 1)),
 			ones(max(noalle) - noalle[j], 1)
 		))
-		priorTerm <- priorTerm + noalle[j] * gammaln(1 / noalle[j])
+		priorTerm <- priorTerm + noalle[j] * lgamma(1 / noalle[j])
 	}
 	out <- list(
 		newData = newData,

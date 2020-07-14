@@ -50,9 +50,6 @@ writeMixtureInfo(
 
 \item{LOGDIFF}{LOGDIFF}
 }
-\value{
-changesInLogml
-}
 \description{
 Writes information about the mixture
 }
