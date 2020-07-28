@@ -12,22 +12,25 @@ addAlleles <- function(data, ind, line, divider) {
 	# line. Jos data on 3 digit formaatissa on divider=1000.
 	# Jos data on 2 digit formaatissa on divider=100.
 
-	nloci <- size(data, 2) - 1
+	nloci <- size(data, 2) # added 1 from original code
 	if (size(data, 1) < (2 * ind)) {
-		data <- c(data, zeros(100, nloci + 1))
+		data <- rbind(data, zeros(100, nloci)) # subtracted 1 from original code
 	}
 
 	k <- 1
-	merkki <- line[k]
+	merkki <- substring(line, k, k)
 	while (merkki != ',') {
 	   k <- k + 1
-	   merkki <- line[k]
+	   merkki <- substring(line, k, k)
 	}
-	line <- line[k + 1:length(line)]
+	line <- substring(line, k + 1)
 	# clear k; clear merkki;
 
-	alleeliTaulu <- as.numeric(strsplit(line, split = " ")[[1]])
-
+	if (grepl(" ", line)) {
+		alleeliTaulu <- as.numeric(strsplit(line, split = " ")[[1]])
+	} else if (grepl("\t", line)) {
+		alleeliTaulu <- as.numeric(strsplit(line, split = "\t")[[1]])
+	}
 
 	if (length(alleeliTaulu) != nloci) {
 		stop('Incorrect data format.')
@@ -35,9 +38,9 @@ addAlleles <- function(data, ind, line, divider) {
 
 	for (j in seq_len(nloci)) {
 		ekaAlleeli <- floor(alleeliTaulu[j] / divider)
-		if (ekaAlleeli == 0) ekaAlleeli <- -999
+		if (is.na(ekaAlleeli) | ekaAlleeli == 0) ekaAlleeli <- -999
 		tokaAlleeli <- alleeliTaulu[j] %% divider
-		if (tokaAlleeli == 0) tokaAlleeli <- -999
+		if (is.na(tokaAlleeli) | tokaAlleeli == 0) tokaAlleeli <- -999
 
 		data[2 * ind - 1, j] <- ekaAlleeli
 		data[2 * ind, j] <- tokaAlleeli
