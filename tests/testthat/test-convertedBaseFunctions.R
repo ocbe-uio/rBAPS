@@ -195,3 +195,10 @@ test_that("fix works as expected", {
 	Y <- matrix(c(-1, -3, 1, 2, -4, 4), 3, byrow=TRUE)
 	expect_identical(fix(X), Y)
 })
+
+test_that("isspace works as expected", {
+	chr <- '123 Main St.'
+	X <- '\t a b\tcde f'
+	expect_identical(isspace(chr), c(0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0))
+	expect_identical(isspace(X), c(1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0))
+})
