@@ -6,10 +6,10 @@
 #' @return An array of zeroes with the dimensions passed on call
 cell <- function(n, sz = c(n, n), ...) {
 	if (length(sz) == 1 & missing(...)) {
-		return(array(dim = c(n, sz)))
+		return(array(0, dim = c(n, sz)))
 	} else if (length(sz) == 2) {
-		return(array(dim = sz))
+		return(array(0, dim = sz))
 	} else {
-		return(array(dim = c(n, sz, ...)))
+		return(array(0, dim = c(n, sz, ...)))
 	}
 }
