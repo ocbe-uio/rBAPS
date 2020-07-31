@@ -5,14 +5,14 @@ newGetDistances <- function(data, rowsFromInd) {
 
 	empties <- find(data < 0)
 	data[empties] <- 0
-	data <- as.integer(data) # max(noalle) oltava <256
+	data <- apply(data, 2, as.numeric) # max(noalle) oltava <256
 
 	pariTaulu <- zeros(riviLkm, 2)
 	aPointer <- 1
-	for (a in (1:ninds) - 1) {
-		pariTaulu[aPointer:(aPointer + ninds - 1 - a), 1] <-
-			ones(ninds - a, 1) * a
-		pariTaulu[aPointer:aPointer + ninds - 1 - a, 2] <- t(a + 1:ninds)
+	for (a in 1:(ninds - 1)) {
+		pariTaulu_rows <- aPointer:(aPointer + ninds - 1 - a)
+		pariTaulu[pariTaulu_rows, 1] <- ones(ninds - a, 1) * a
+		pariTaulu[pariTaulu_rows, 2] <- t((a + 1):ninds)
 		aPointer <- aPointer + ninds - a
 	}
 
@@ -31,9 +31,9 @@ newGetDistances <- function(data, rowsFromInd) {
 	rm(pariTaulu, miinus)
 
 	x <- zeros(size(eka))
-	x <- as.integer(x)
+	x <- apply(x, 2, as.integer)
 	y <- zeros(size(toka))
-	y <- as.integer(y)
+	y <- apply(y, 2, as.integer)
 
 	for (j in 1:nloci) {
 		for (k in 1:rowsFromInd) {
@@ -57,7 +57,6 @@ newGetDistances <- function(data, rowsFromInd) {
 	muut <- find(vertailuja > 0)
 	dist[muut] <- summa[muut] / vertailuja[muut]
 	rm(summa, vertailuja)
-
-	Z = linkage(t(dist))
+	Z <- linkage(t(dist))
 	return(list(Z = Z, dist = dist))
 }
