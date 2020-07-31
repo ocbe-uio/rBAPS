@@ -166,8 +166,8 @@ greedyMix <- function(
 			priorTerm   <- list_dranap$prioterm
 
 			list_Zd <- newGetDistances(data,rowsFromInd) # FIXME: debug
-			Z       <- lizt_Zd$Z
-			dist    <- lizt_Zd$dist
+			Z       <- list_Zd$Z
+			dist    <- list_Zd$dist
 
 			if (is.null(savePreProcessed)) {
 				save_preproc <- questdlg(
