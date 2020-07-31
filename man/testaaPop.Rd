@@ -10,7 +10,7 @@ testaaPop(rivi)
 \item{rivi}{Line}
 }
 \value{
-pal
+pal = 1 if the line starts with one of the following
 }
 \description{
 Test a line in the population

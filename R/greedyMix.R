@@ -156,8 +156,7 @@ greedyMix <- function(
 # 			h0 = findobj('Tag','filename1_text');
 # 			set(h0,'String',filename); clear h0;
 
-			browser()#TEMP
-			list_dranap <- handleData(data) # FIXME: debug
+			list_dranap <- handleData(data)
 			data        <- list_dranap$newData
 			rowsFromInd <- list_dranap$rowsFromInd
 			alleleCodes <- list_dranap$alleleCodes
@@ -253,7 +252,7 @@ greedyMix <- function(
 	POP_LOGML       <- vector()
 	clearGlobalVars <- vector()
 	# ==========================================================================
-
+	c             <- list()
 	c$data        <- data
 	c$noalle      <- noalle
 	c$adjprior    <- adjprior
@@ -267,34 +266,34 @@ greedyMix <- function(
 	c$rows <- c(ekat, ekat + rowsFromInd - 1)
 
 	# partition compare
-	if (!is.null(partitionCompare)) {
-		nsamplingunits <- size(c$rows, 1)
-		partitions     <- partitionCompare$partitions
-		npartitions    <- size(partitions, 2)
-		partitionLogml <- zeros(1, npartitions)
-		for (i in seq_len(npartitions)) {
-			# number of unique partition lables
-			npops <- length(unique(partitions[, i]))
+	# if (!is.null(partitionCompare)) {
+	# 	nsamplingunits <- size(c$rows, 1)
+	# 	partitions     <- partitionCompare$partitions
+	# 	npartitions    <- size(partitions, 2)
+	# 	partitionLogml <- zeros(1, npartitions)
+	# 	for (i in seq_len(npartitions)) {
+	# 		# number of unique partition lables
+	# 		npops <- length(unique(partitions[, i]))
 
-			partitionInd <- zeros(ninds * rowsFromInd, 1)
-			partitionSample <- partitions[, i]
-			for (j in seq_len(nsamplingunits)) {
-				partitionInd[c$rows[j, 1]:c$rows[j, 2]] <- partitionSample[j]
-			}
-			# partitionLogml[i] = initialCounts(
-			# 	partitionInd,
-			# 	data[, seq_len(end - 1)],
-			# 	npops,
-			# 	c$rows,
-			# 	noalle,
-			# 	adjprior
-			# ) #TODO translate
-		}
-		# return the logml result
-		partitionCompare$logmls <- partitionLogml
-		# set(h1, 'userdata', partitionCompare) # ASK remove?
-		return()
-	}
+	# 		partitionInd <- zeros(ninds * rowsFromInd, 1)
+	# 		partitionSample <- partitions[, i]
+	# 		for (j in seq_len(nsamplingunits)) {
+	# 			partitionInd[c$rows[j, 1]:c$rows[j, 2]] <- partitionSample[j]
+	# 		}
+	# 		# partitionLogml[i] = initialCounts(
+	# 		# 	partitionInd,
+	# 		# 	data[, seq_len(end - 1)],
+	# 		# 	npops,
+	# 		# 	c$rows,
+	# 		# 	noalle,
+	# 		# 	adjprior
+	# 		# ) #TODO translate
+	# 	}
+	# 	# return the logml result
+	# 	partitionCompare$logmls <- partitionLogml
+	# 	# set(h1, 'userdata', partitionCompare) # ASK remove?
+	# 	return()
+	# }
 
 	# ASK remove (graphical part)?
 	# if (fixedK) {
@@ -312,10 +311,11 @@ greedyMix <- function(
 	# h0 = findobj('Tag','filename2_text')
 	# outp = get(h0,'String');
 
+	browser() # TEMP
 	changesInLogml <- writeMixtureInfo(
 		logml, rowsFromInd, data, adjprior, priorTerm, outp, inp,
 		popnames, fixedK
-	) # FIXMEL depends on get function above
+	) # FIXME: broken
 
 	# viewMixPartition(PARTITION, popnames) # ASK translate? On graph folder
 

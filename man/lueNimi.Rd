@@ -13,5 +13,5 @@ lueNimi(line)
 nimi
 }
 \description{
-Reads the line name
+Returns the part of the line from the beginning that is before the comma. Useful for returning the name of a GenePop area
 }
