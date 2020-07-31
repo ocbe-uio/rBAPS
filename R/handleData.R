@@ -20,12 +20,11 @@ handleData <- function(raw_data) {
 	# koodi pienimm?ksi koodiksi, joka isompi kuin mik??n k?yt?ss?oleva koodi.
 	# T?m?n j?lkeen funktio muuttaa alleelikoodit siten, ett?yhden lokuksen j
 	# koodit saavat arvoja v?lill?1,...,noalle(j).
-
 	data <- raw_data
 	nloci <- size(raw_data, 2) - 1
 
 	dataApu <- data[, 1:nloci]
-	nollat <- find(dataApu==0)
+	nollat <- find(dataApu == 0)
 	if (!isempty(nollat)) {
 	   isoinAlleeli <- max(max(dataApu))
 	   dataApu[nollat] <- isoinAlleeli + 1
@@ -39,9 +38,12 @@ handleData <- function(raw_data) {
 	alleelitLokuksessa <- cell(nloci, 1)
 	for (i in 1:nloci) {
 		alleelitLokuksessaI <- unique(data[, i])
-		alleelitLokuksessa[i, 1] <- alleelitLokuksessaI[
-			find(alleelitLokuksessaI >= 0)
-		]
+		alleelitLokuksessaI_pos <- find(alleelitLokuksessaI >= 0)
+		alleelitLokuksessa[i, 1] <- ifelse(
+			test = length(alleelitLokuksessaI_pos) > 0,
+			yes  = alleelitLokuksessaI[alleelitLokuksessaI_pos],
+			no   = 0
+		)
 		noalle[i] <- length(alleelitLokuksessa[i, 1])
 	}
 	alleleCodes <- zeros(max(noalle), nloci)
@@ -65,10 +67,10 @@ handleData <- function(raw_data) {
 	emptyRow <- repmat(a, c(1, ncols))
 	lessThanMax <- find(rowsFromInd < maxRowsFromInd)
 	missingRows <- maxRowsFromInd * nind - nrows
-	data <- as.matrix(c(data, zeros(missingRows, ncols)))
+	data <- rbind(data, zeros(missingRows, ncols))
 	pointer <- 1
 	for (ind in t(lessThanMax)) { #K?y l?pi ne yksil?t, joilta puuttuu rivej?
-		miss = maxRowsFromInd-rowsFromInd(ind); # T?lt?yksil?lt?puuttuvien lkm.
+		miss <- maxRowsFromInd - rowsFromInd(ind) # T?lt?yksil?lt?puuttuvien lkm.
 	}
 	data <- sortrows(data, ncols) # Sorttaa yksil?iden mukaisesti
 	newData <- data
@@ -84,12 +86,12 @@ handleData <- function(raw_data) {
 		priorTerm <- priorTerm + noalle[j] * lgamma(1 / noalle[j])
 	}
 	out <- list(
-		newData = newData,
+		newData     = newData,
 		rowsFromInd = rowsFromInd,
 		alleleCodes = alleleCodes,
-		noalle = noalle,
-		adjprior = adjprior,
-		priorTerm = priorTerm
+		noalle      = noalle,
+		adjprior    = adjprior,
+		priorTerm   = priorTerm
 	)
 	return(out)
 }
