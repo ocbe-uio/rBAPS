@@ -149,13 +149,26 @@ greedyMix <- function(
 
 			kunnossa <- testaaGenePopData(filename_pathname)
 			if (kunnossa == 0) stop("testaaGenePopData returned 0")
-			# [data,popnames]=lueGenePopData([pathname filename]); # TODO: trans
+			data_popnames <- lueGenePopData(filename_pathname)
+			data          <- data_popnames$data
+			popnames      <- data_popnames$popnames
 
 # 			h0 = findobj('Tag','filename1_text');
 # 			set(h0,'String',filename); clear h0;
 
-# 			[data, rowsFromInd, alleleCodes, noalle, adjprior, priorTerm] = handleData(data); # TODO:trans
-# 			[Z,dist] = newGetDistances(data,rowsFromInd); # TODO: trans
+			browser()#TEMP
+			list_dranap <- handleData(data) # FIXME: debug
+			data        <- list_dranap$newData
+			rowsFromInd <- list_dranap$rowsFromInd
+			alleleCodes <- list_dranap$alleleCodes
+			noalle      <- list_dranap$noalle
+			adjprior    <- list_dranap$adjprior
+			priorTerm   <- list_dranap$prioterm
+
+			list_Zd <- newGetDistances(data,rowsFromInd) # FIXME: debug
+			Z       <- lizt_Zd$Z
+			dist    <- lizt_Zd$dist
+
 			if (is.null(savePreProcessed)) {
 				save_preproc <- questdlg(
 					quest = 'Do you wish to save pre-processed data?',
