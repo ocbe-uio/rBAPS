@@ -158,12 +158,13 @@ test_that("find works as expected", {
 })
 
 test_that("sortrows works as expected", {
-	 mx <- matrix(c(3, 2, 2, 1, 1, 10, 0, pi), 4)
-	 expect_equal(sortrows(mx), matrix(c(1, 2, 2, 3, pi, 10, 0, 1), 4))
-	 expect_equal(sortrows(mx, 2), matrix(c(2, 3, 1, 2, 0, 1, pi, 10), 4))
-	 expect_equal(sortrows(mx, 1:2), mx[order(mx[, 1], mx[, 2]), ])
+	mx <- matrix(c(3, 2, 2, 1, 1, 10, 0, pi), 4)
+	expect_equal(sortrows(mx), matrix(c(1, 2, 2, 3, pi, 10, 0, 1), 4))
+	expect_equal(sortrows(mx, 2), matrix(c(2, 3, 1, 2, 0, 1, pi, 10), 4))
+	expect_equal(sortrows(mx, 1:2), mx[order(mx[, 1], mx[, 2]), ])
 })
 
+# FIXME: failing tests
 test_that("cell works as expected", {
 	expect_equal(cell(0), array(dim = c(0, 0)))
 	expect_equal(cell(1), array(dim = c(1, 1)))
@@ -217,4 +218,28 @@ test_that("nargin works correctly", {
 	expect_equal(addme(13, 42), 55)
 	expect_equal(addme(13), 26)
 	expect_equal(addme(), 0)
+})
+
+test_that("setdiff works as expected", {
+	A <- c(3, 6, 2, 1, 5, 1, 1)
+	B <- c(2, 4, 6)
+	C <- c(1, 3, 5)
+	expect_equal(setdiff(A, B), C)
+	A <- data.frame(
+		Var1 = 1:5,
+		Var2 = LETTERS[1:5],
+		Var3 = c(FALSE, TRUE, FALSE, TRUE, FALSE)
+	)
+	B <- data.frame(
+		Var1 = seq(1, 9, by = 2),
+		Var2 = LETTERS[seq(1, 9, by = 2)],
+		Var3 = rep(FALSE, 5)
+	)
+	C <- data.frame(
+		Var1 = c(2, 4),
+		Var2 = c('B', 'D'),
+		Var3 = c(TRUE, TRUE)
+	)
+	expect_equal(setdiff(A, B), C)
+	# TODO: add more examples from https://se.mathworks.com/help/matlab/ref/double.setdiff.html;jsessionid=0d8d42582d4d299b8224403899f1
 })
