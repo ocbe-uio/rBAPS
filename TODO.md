@@ -48,4 +48,6 @@ Function | Matlab output | R output
 
 # Wanna help debugging?
 
-If you find an error, one of the first things to try is to compare the R code with its MATLAB equivalent, which you can find [here](matlab).
+If you find an error, one of the first things to try is to compare the R code with its MATLAB equivalent, which you can find [here](matlab). Some common causes are:
+
+1. Using `()` to subset an object in R. R uses `[]` for that, whereas Matlab uses `()` for both function calling and object subsetting. Therefore, often objects will be mistakenly interpreted as functions by R due to improper translation.
