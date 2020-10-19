@@ -14,11 +14,7 @@ writeMixtureInfo(
   inputFile,
   partitionSummary,
   popnames,
-  fixedK,
-  PARTITION,
-  COUNTS,
-  SUMCOUNTS,
-  LOGDIFF
+  fixedK
 )
 }
 \arguments{
@@ -41,14 +37,6 @@ writeMixtureInfo(
 \item{popnames}{popnames}
 
 \item{fixedK}{fixedK}
-
-\item{PARTITION}{PARTITION}
-
-\item{COUNTS}{COUNTS}
-
-\item{SUMCOUNTS}{SUMCOUNTS}
-
-\item{LOGDIFF}{LOGDIFF}
 }
 \description{
 Writes information about the mixture
