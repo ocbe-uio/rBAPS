@@ -678,24 +678,6 @@ indMix <- function(c, npops, dispText) {
 
 # %------------------------------------------------------------------------------------
 
-
-# function popLogml = computePopulationLogml(pops, adjprior, priorTerm)
-# % Palauttaa length(pops)*1 taulukon, jossa on laskettu korikohtaiset
-# % logml:t koreille, jotka on m��ritelty pops-muuttujalla.
-
-# global COUNTS;
-# global SUMCOUNTS;
-# x = size(COUNTS,1);
-# y = size(COUNTS,2);
-# z = length(pops);
-
-# popLogml = ...
-#     squeeze(sum(sum(reshape(...
-#     gammaln(repmat(adjprior,[1 1 length(pops)]) + COUNTS(:,:,pops)) ...
-#     ,[x y z]),1),2)) - sum(gammaln(1+SUMCOUNTS(pops,:)),2) - priorTerm;
-# %--------------------------------------------------------------------------
-
-
 # function [muutokset, diffInCounts] = ...
 #     laskeMuutokset(ind, globalRows, data, adjprior, priorTerm)
 # % Palauttaa npops*1 taulun, jossa i:s alkio kertoo, mik� olisi
@@ -1208,36 +1190,6 @@ indMix <- function(c, npops, dispText) {
 # end
 
 # %--------------------------------------------------------------------------
-
-# function [sumcounts, counts, logml] = ...
-#     initialCounts(partition, data, npops, rows, noalle, adjprior)
-
-# nloci=size(data,2);
-# ninds = size(rows, 1);
-
-# koot = rows(:,1) - rows(:,2) + 1;
-# maxSize = max(koot);
-
-# counts = zeros(max(noalle),nloci,npops);
-# sumcounts = zeros(npops,nloci);
-# for i=1:npops
-#     for j=1:nloci
-#         havainnotLokuksessa = find(partition==i & data(:,j)>=0);
-#         sumcounts(i,j) = length(havainnotLokuksessa);
-#         for k=1:noalle(j)
-#             alleleCode = k;
-#             N_ijk = length(find(data(havainnotLokuksessa,j)==alleleCode));
-#             counts(k,j,i) = N_ijk;
-#         end
-#     end
-# end
-
-# %initializeGammaln(ninds, maxSize, max(noalle));
-
-# logml = laskeLoggis(counts, sumcounts, adjprior);
-
-# %--------------------------------------------------------------------------
-
 
 # function [partitionSummary, added] = addToSummary(logml, partitionSummary, worstIndex)
 # % Tiedet��n, ett� annettu logml on isompi kuin huonoin arvo
