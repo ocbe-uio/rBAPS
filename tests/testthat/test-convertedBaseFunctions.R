@@ -222,6 +222,23 @@ test_that("nargin works correctly", {
 test_that("setdiff works as expected", {
 	A <- c(3, 6, 2, 1, 5, 1, 1)
 	B <- c(2, 4, 6)
-	expect_equal(setdiff(A, B), list(c(1, 3, 5), 4, 1, 5))
+	C <- c(1, 3, 5)
+	expect_equal(setdiff(A, B), C)
+	A <- data.frame(
+		Var1 = 1:5,
+		Var2 = LETTERS[1:5],
+		Var3 = c(FALSE, TRUE, FALSE, TRUE, FALSE)
+	)
+	B <- data.frame(
+		Var1 = seq(1, 9, by = 2),
+		Var2 = LETTERS[seq(1, 9, by = 2)],
+		Var3 = rep(FALSE, 5)
+	)
+	C <- data.frame(
+		Var1 = c(2, 4),
+		Var2 = c('B', 'D'),
+		Var3 = c(TRUE, TRUE)
+	)
+	expect_equal(setdiff(A, B), C)
 	# TODO: add more examples from https://se.mathworks.com/help/matlab/ref/double.setdiff.html;jsessionid=0d8d42582d4d299b8224403899f1
 })
