@@ -31,3 +31,5 @@ min_MATLAB <- function(X, indices = TRUE) {
 		return(mins)
 	}
 }
+
+# TODO: consider using methods instead (maybe for the package)

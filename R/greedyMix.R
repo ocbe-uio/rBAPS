@@ -11,10 +11,11 @@ greedyMix <- function(
 	savePreProcessed = NULL,
 	filePreProcessed = NULL
 ) {
-	# ASK: graphical components. Remove?
+	# ASK: Unclear when fixedk == TRUE. Remove?
 	# check whether fixed k mode is selected
 	# h0 <- findobj('Tag','fixk_menu')
 	# fixedK = get(h0, 'userdata');
+	fixedK <- FALSE
 
 	# if fixedK
 	# 	if ~(fixKWarning == 1) % call function fixKWarning
@@ -22,9 +23,11 @@ greedyMix <- function(
 	# 	end
 	# end
 
+	# ASK: ditto
 	# % check whether partition compare mode is selected
 	# h1 = findobj('Tag','partitioncompare_menu');
 	# partitionCompare = get(h1, 'userdata');
+	partitionCompare <- FALSE
 
 	if (is(tietue, "list") | is(tietue, "character")) {
 		# ----------------------------------------------------------------------
@@ -244,13 +247,15 @@ greedyMix <- function(
 	}
 
 	# ==========================================================================
-	# Declaring global variables
+	# Declaring global variables and changing environment of children functions
 	# ==========================================================================
 	PARTITION       <- vector()
 	COUNTS          <- vector()
 	SUMCOUNTS       <- vector()
 	POP_LOGML       <- vector()
-	clearGlobalVars <- vector()
+	clearGlobalVars()
+
+	environment(writeMixtureInfo) <- environment()
 	# ==========================================================================
 	c             <- list()
 	c$data        <- data
@@ -265,6 +270,7 @@ greedyMix <- function(
 	ekat   <- t(seq(1, ninds, rowsFromInd) * rowsFromInd)
 	c$rows <- c(ekat, ekat + rowsFromInd - 1)
 
+	# ASK remove?
 	# partition compare
 	# if (!is.null(partitionCompare)) {
 	# 	nsamplingunits <- size(c$rows, 1)
@@ -291,17 +297,22 @@ greedyMix <- function(
 	# 	}
 	# 	# return the logml result
 	# 	partitionCompare$logmls <- partitionLogml
-	# 	# set(h1, 'userdata', partitionCompare) # ASK remove?
+	# 	# set(h1, 'userdata', partitionCompare)
 	# 	return()
 	# }
 
-	# ASK remove (graphical part)?
-	# if (fixedK) {
-	# 	#logml_npops_partitionSummary <- indMix_fixK(c) # ASK translate?
-	# } else {
-	# 	#logml_npops_partitionSummary <- indMix(c) # ASK translate?
-	# }
-	# if (logml_npops_partitionSummary$logml == 1) return()
+	if (fixedK) {
+		# logml_npops_partitionSummary <- indMix_fixK(c) # TODO: translate
+		# logml <- logml_npops_partitionSummary$logml
+		# npops <- logml_npops_partitionSummary$npops
+		# partitionSummary <- logml_npops_partitionSummary$partitionSummary
+	} else {
+		logml_npops_partitionSummary <- indMix(c) # TODO: translate
+		logml <- logml_npops_partitionSummary$logml
+		npops <- logml_npops_partitionSummary$npops
+		partitionSummary <- logml_npops_partitionSummary$partitionSummary
+	}
+	if (logml_npops_partitionSummary$logml == 1) return()
 
 	data <- data[, seq_len(ncol(data) - 1)]
 
@@ -310,8 +321,9 @@ greedyMix <- function(
 	# inp = get(h0,'String');
 	# h0 = findobj('Tag','filename2_text')
 	# outp = get(h0,'String');
+	inp <- vector()
+	outp <- vector()
 
-	browser() # TEMP
 	changesInLogml <- writeMixtureInfo(
 		logml, rowsFromInd, data, adjprior, priorTerm, outp, inp,
 		popnames, fixedK
