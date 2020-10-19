@@ -3,9 +3,8 @@
 #' @return An integer
 #' @author Waldir Leoncio
 #' @note This function only makes sense inside another function
+#' @references https://stackoverflow.com/q/64422780/1169233
 nargin <- function() {
-	# FIXME: returning 0 because it is using its own envir instead of parent's
-	print(parent.env(environment()))
-	length(as.list(match.call(envir = parent.env(environment())))) - 1
-	# length(ls(envir=parent.env(environment()))) - 1
+  if(sys.nframe() < 2) stop("must be called from inside a function")
+  length(as.list(sys.call(-1))) - 1
 }

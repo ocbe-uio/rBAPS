@@ -202,3 +202,19 @@ test_that("isspace works as expected", {
 	expect_identical(isspace(chr), c(0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0))
 	expect_identical(isspace(X), c(1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0))
 })
+
+test_that("nargin works correctly", {
+	addme <- function(a, b) {
+		if (nargin() == 2) {
+			c <- a + b
+		} else if (nargin() == 1) {
+			c <- a + a
+		} else {
+			c <- 0
+		}
+		return(c)
+	}
+	expect_equal(addme(13, 42), 55)
+	expect_equal(addme(13), 26)
+	expect_equal(addme(), 0)
+})
