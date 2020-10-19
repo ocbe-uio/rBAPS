@@ -9,6 +9,12 @@ testaaGenePopData(tiedostonNimi)
 \arguments{
 \item{tiedostonNimi}{Filename}
 }
+\value{
+kunnossa (binary "ok" condition value) == 0 if the data is not valid genePop data. Otherwise, kunnossa == 1.
+}
 \description{
 Tests GenePop data
+}
+\details{
+GenePop data are textfiles that follow the GenePop format. This function checks if such file is properly formatted as GenePop.
 }

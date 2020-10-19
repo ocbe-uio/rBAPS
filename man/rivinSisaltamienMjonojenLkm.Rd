@@ -13,5 +13,5 @@ rivinSisaltamienMjonojenLkm(line)
 count
 }
 \description{
-Number of M queues
+Returns the number of queues contained in the line. There must be a space between the queues.
 }

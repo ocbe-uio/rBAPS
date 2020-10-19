@@ -32,7 +32,7 @@ As general remarks, one should keep in mind that:
 - Some clobal variables have been added as a new (last) argument to the function they appear in.
 - When a function is defined on Matlab with multiple outputs, as in `[y1, y2] = f(x)`, it will output only `y1` if called without assignment, as in `f(3)`, or if called with a one-length assignment, as in `a = f(3)`. In order to receive the full output, one must assign two variables to the left side of the assignment operator, as in `[a, b] = f(3)`. rBAPS Functions that might be affected by this behavior include `etsiParas`.
 
-## Functional differences in rBAPS functions
+## Some functional differences in rBAPS functions
 
 | Function          | Argument           | Value          | Matlab output         | R output                        |
 | ----------------- | ------------------ | -------------- | --------------------- | ------------------------------- |
@@ -40,8 +40,12 @@ As general remarks, one should keep in mind that:
 | `ownNum2Str`      | `number`           | `<vector>`     | `'<vector elements>'` | `'<vector elements>'` + warning |
 | `repmat`          | `length(n)`        | `> 2`          | > 2D matrix           | 2D matrix                       |
 
-## Functional differences in base Matlab functions
+## Some functional differences in base Matlab functions
 
 Function | Matlab output | R output
 -------- | ------------- | --------
 `max` | Can handle complex numbers | Cannot handle complex numbers
+
+# Wanna help debugging?
+
+If you find an error, one of the first things to try is to compare the R code with its MATLAB equivalent, which you can find [here](matlab).
