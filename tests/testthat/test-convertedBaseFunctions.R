@@ -164,6 +164,7 @@ test_that("sortrows works as expected", {
 	expect_equal(sortrows(mx, 1:2), mx[order(mx[, 1], mx[, 2]), ])
 })
 
+# FIXME: failing tests
 test_that("cell works as expected", {
 	expect_equal(cell(0), array(dim = c(0, 0)))
 	expect_equal(cell(1), array(dim = c(1, 1)))
