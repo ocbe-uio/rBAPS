@@ -70,7 +70,7 @@ laskeMuutokset <- function(ind, globalRows, data, adjprior, priorTerm) {
 
 	i2 <- find(muutokset == -Inf) # Etsit��n populaatiot jotka muuttuneet viime kerran j�lkeen.
 	i2 <- setdiff(i2, i1)
-	i2_logml <- POP_LOGML(i2)
+	i2_logml <- POP_LOGML[i2]
 
 	ni2 <- length(i2)
 
@@ -85,107 +85,100 @@ laskeMuutokset <- function(ind, globalRows, data, adjprior, priorTerm) {
 	return(list(muutokset = muutokset, diffInCounts = diffInCounts))
 }
 
-# %------------------------------------------------------------------------------------
-
-
 laskeMuutokset2 <- function(i1, globalRows, data, adjprior, priorTerm) {
 	# % Palauttaa npops*1 taulun, jossa i:s alkio kertoo, mik� olisi
 	# % muutos logml:ss�, mik�li korin i1 kaikki yksil�t siirret��n
 	# % koriin i.
 
-	# global COUNTS;      global SUMCOUNTS;
-	# global PARTITION;   global POP_LOGML;
-	# npops = size(COUNTS,3);
-	# muutokset = zeros(npops,1);
+	npops <- size(COUNTS, 3)
+	muutokset <- zeros(npops, 1)
 
-	# i1_logml = POP_LOGML(i1);
+	i1_logml <- POP_LOGML[i1]
 
-	# inds = find(PARTITION==i1);
-	# ninds = length(inds);
+	inds <- find(PARTITION == i1)
+	ninds <- length(inds)
 
-	# if ninds==0
-	#     diffInCounts = zeros(size(COUNTS,1), size(COUNTS,2));
-	#     return;
-	# end
+	if (ninds == 0) {
+		diffInCounts <- zeros(size(COUNTS, 1), size(COUNTS, 2))
+		return()
+	}
 
-	# rows = [];
-	# for i = 1:ninds
-	#     ind = inds(i);
-	#     lisa = globalRows(ind,1):globalRows(ind,2);
-	#     rows = [rows; lisa'];
-	#     %rows = [rows; globalRows{ind}'];
-	# end
+	rows = list()
+	for (i in 1:ninds) {
+		ind <- inds(i)
+		lisa <- globalRows(ind, 1):globalRows(ind, 2)
+		rows <- c(rows, t(lisa))
+	}
 
-	# diffInCounts = computeDiffInCounts(rows', size(COUNTS,1), size(COUNTS,2), data);
-	# diffInSumCounts = sum(diffInCounts);
+	diffInCounts <- computeDiffInCounts(
+		t(rows), size(COUNTS, 1), size(COUNTS, 2), data
+	)
+	diffInSumCounts <- sum(diffInCounts)
 
-	# COUNTS(:,:,i1) = COUNTS(:,:,i1)-diffInCounts;
-	# SUMCOUNTS(i1,:) = SUMCOUNTS(i1,:)-diffInSumCounts;
-	# new_i1_logml = computePopulationLogml(i1, adjprior, priorTerm);
-	# COUNTS(:,:,i1) = COUNTS(:,:,i1)+diffInCounts;
-	# SUMCOUNTS(i1,:) = SUMCOUNTS(i1,:)+diffInSumCounts;
+	COUNTS[, , i1] <- COUNTS[, , i1] - diffInCounts
+	SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] - diffInSumCounts
+	new_i1_logml <- computePopulationLogml(i1, adjprior, priorTerm)
+	COUNTS[, , i1] <- COUNTS[, , i1] + diffInCounts
+	SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] + diffInSumCounts
 
-	# i2 = [1:i1-1 , i1+1:npops];
-	# i2_logml = POP_LOGML(i2);
+	i2 <- c(1:i1-1, i1+1:npops)
+	i2_logml <- POP_LOGML[i2]
 
-	# COUNTS(:,:,i2) = COUNTS(:,:,i2)+repmat(diffInCounts, [1 1 npops-1]);
-	# SUMCOUNTS(i2,:) = SUMCOUNTS(i2,:)+repmat(diffInSumCounts,[npops-1 1]);
-	# new_i2_logml = computePopulationLogml(i2, adjprior, priorTerm);
-	# COUNTS(:,:,i2) = COUNTS(:,:,i2)-repmat(diffInCounts, [1 1 npops-1]);
-	# SUMCOUNTS(i2,:) = SUMCOUNTS(i2,:)-repmat(diffInSumCounts,[npops-1 1]);
+	COUNTS[, , i2] <- COUNTS[, , i2] + repmat(diffInCounts, c(1, 1, npops - 1))
+	SUMCOUNTS[i2, ] <- SUMCOUNTS[i2, ] + repmat(diffInSumCounts, c(npops - 1, 1))
+	new_i2_logml <- computePopulationLogml(i2, adjprior, priorTerm)
+	COUNTS[, , i2] <- COUNTS[, , i2] - repmat(diffInCounts, c(1, 1, npops - 1))
+	SUMCOUNTS[i2, ] <- SUMCOUNTS[i2, ] - repmat(diffInSumCounts, c(npops - 1, 1))
 
-	# muutokset(i2) = new_i1_logml - i1_logml ...
-	#     + new_i2_logml - i2_logml;
-	 return(list(muutokset = muutokset, diffInCounts = diffInCounts))
+	muutokset[i2] <- new_i1_logml - i1_logml + new_i2_logml - i2_logml
+	return(list(muutokset = muutokset, diffInCounts = diffInCounts))
 }
 
 
 laskeMuutokset3 <- function(T2, inds2, globalRows, data, adjprior, priorTerm, i1) {
-	# % Palauttaa length(unique(T2))*npops taulun, jossa (i,j):s alkio
-	# % kertoo, mik� olisi muutos logml:ss�, jos populaation i1 osapopulaatio
-	# % inds2(find(T2==i)) siirret��n koriin j.
+	# Palauttaa length(unique(T2))*npops taulun, jossa (i,j):s alkio
+	# kertoo, mik� olisi muutos logml:ss�, jos populaation i1 osapopulaatio
+	# inds2(find(T2==i)) siirret��n koriin j.
 
-	# global COUNTS;      global SUMCOUNTS;
-	# global PARTITION;   global POP_LOGML;
-	# npops = size(COUNTS,3);
-	# npops2 = length(unique(T2));
-	# muutokset = zeros(npops2, npops);
+	npops <- size(COUNTS, 3)
+	npops2 <- length(unique(T2))
+	muutokset <- zeros(npops2, npops)
 
-	# i1_logml = POP_LOGML(i1);
-	# for pop2 = 1:npops2
-	#     inds = inds2(find(T2==pop2));
-	#     ninds = length(inds);
-	#     if ninds>0
-	#         rows = [];
-	#         for i = 1:ninds
-	#             ind = inds(i);
-	#             lisa = globalRows(ind,1):globalRows(ind,2);
-	#             rows = [rows; lisa'];
-	#             %rows = [rows; globalRows{ind}'];
-	#         end
-	#         diffInCounts = computeDiffInCounts(rows', size(COUNTS,1), size(COUNTS,2), data);
-	#         diffInSumCounts = sum(diffInCounts);
+	i1_logml = POP_LOGML[i1]
+	for (pop2 in 1:npops2) {
+		inds <- inds2[find(T2==pop2)]
+		ninds <- length(inds);
+		if (ninds > 0) {
+			rows <- list()
+			for (i in 1:ninds) {
+				ind <- inds[i]
+				lisa <- globalRows[ind, 1]:globalRows[ind, 2]
+				rows <- c(rows, t(lisa))
+			}
+			diffInCounts <- computeDiffInCounts(
+				t(rows), size(COUNTS, 1), size(COUNTS, 2), data
+			)
+			diffInSumCounts <- sum(diffInCounts)
 
-	#         COUNTS(:,:,i1) = COUNTS(:,:,i1)-diffInCounts;
-	#         SUMCOUNTS(i1,:) = SUMCOUNTS(i1,:)-diffInSumCounts;
-	#         new_i1_logml = computePopulationLogml(i1, adjprior, priorTerm);
-	#         COUNTS(:,:,i1) = COUNTS(:,:,i1)+diffInCounts;
-	#         SUMCOUNTS(i1,:) = SUMCOUNTS(i1,:)+diffInSumCounts;
+			COUNTS[, , i1] <- COUNTS[, , i1] - diffInCounts
+			SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] - diffInSumCounts
+			new_i1_logml <- computePopulationLogml(i1, adjprior, priorTerm)
+			COUNTS[, , i1] <- COUNTS[, , i1] + diffInCounts
+			SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] + diffInSumCounts
 
-	#         i2 = [1:i1-1 , i1+1:npops];
-	#         i2_logml = POP_LOGML(i2)';
+			i2 <- c(1:i1-1, i1+1:npops)
+			i2_logml <- t(POP_LOGML[i2])
 
-	#         COUNTS(:,:,i2) = COUNTS(:,:,i2)+repmat(diffInCounts, [1 1 npops-1]);
-	#         SUMCOUNTS(i2,:) = SUMCOUNTS(i2,:)+repmat(diffInSumCounts,[npops-1 1]);
-	#         new_i2_logml = computePopulationLogml(i2, adjprior, priorTerm)';
-	#         COUNTS(:,:,i2) = COUNTS(:,:,i2)-repmat(diffInCounts, [1 1 npops-1]);
-	#         SUMCOUNTS(i2,:) = SUMCOUNTS(i2,:)-repmat(diffInSumCounts,[npops-1 1]);
+			COUNTS[, , i2] <- COUNTS[, , i2] + repmat(diffInCounts, c(1, 1, npops - 1))
+			SUMCOUNTS[i2, ] <- SUMCOUNTS[i2, ] + repmat(diffInSumCounts, c(npops - 1, 1))
+			new_i2_logml <- t(computePopulationLogml(i2, adjprior, priorTerm))
+			COUNTS[, , i2] <- COUNTS[, , i2] - repmat(diffInCounts, c(1, 1, npops - 1))
+			SUMCOUNTS[i2, ] <- SUMCOUNTS[i2, ] - repmat(diffInSumCounts, c(npops - 1, 1))
 
-	#         muutokset(pop2,i2) = new_i1_logml - i1_logml ...
-	#             + new_i2_logml - i2_logml;
-	#     end
-	# end
-	 return(muutokset)
+			muutokset[pop2, i2] <- new_i1_logml - i1_logml + new_i2_logml - i2_logml
+		}
+	}
+	return(muutokset)
 }
 
 laskeMuutokset5 <- function(inds, globalRows, data, adjprior, priorTerm, i1, i2) {
