@@ -158,10 +158,10 @@ test_that("find works as expected", {
 })
 
 test_that("sortrows works as expected", {
-	 mx <- matrix(c(3, 2, 2, 1, 1, 10, 0, pi), 4)
-	 expect_equal(sortrows(mx), matrix(c(1, 2, 2, 3, pi, 10, 0, 1), 4))
-	 expect_equal(sortrows(mx, 2), matrix(c(2, 3, 1, 2, 0, 1, pi, 10), 4))
-	 expect_equal(sortrows(mx, 1:2), mx[order(mx[, 1], mx[, 2]), ])
+	mx <- matrix(c(3, 2, 2, 1, 1, 10, 0, pi), 4)
+	expect_equal(sortrows(mx), matrix(c(1, 2, 2, 3, pi, 10, 0, 1), 4))
+	expect_equal(sortrows(mx, 2), matrix(c(2, 3, 1, 2, 0, 1, pi, 10), 4))
+	expect_equal(sortrows(mx, 1:2), mx[order(mx[, 1], mx[, 2]), ])
 })
 
 test_that("cell works as expected", {
@@ -217,4 +217,11 @@ test_that("nargin works correctly", {
 	expect_equal(addme(13, 42), 55)
 	expect_equal(addme(13), 26)
 	expect_equal(addme(), 0)
+})
+
+test_that("setdiff works as expected", {
+	A <- c(3, 6, 2, 1, 5, 1, 1)
+	B <- c(2, 4, 6)
+	expect_equal(setdiff(A, B), list(c(1, 3, 5), 4, 1, 5))
+	# TODO: add more examples from https://se.mathworks.com/help/matlab/ref/double.setdiff.html;jsessionid=0d8d42582d4d299b8224403899f1
 })
