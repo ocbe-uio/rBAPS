@@ -13,7 +13,7 @@ remotes::install_github("ocbe-uio/rBAPS", "dev")
 
 ## Contributing
 
-rBAPS is Open Software licenced under the [GPL-3](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)), so all contributions are welcome. You can find a list of tasks we're working on for the first release of rBAPS [here](https://github.com/ocbe-uio/rBAPS/milestone/1). and pitfalls on the [TODO.md](TODO.md) file.
+rBAPS is Open Software licenced under the [GPL-3](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)), so all contributions are welcome. You can find a list of tasks we're working on for the first release of rBAPS [here](https://github.com/ocbe-uio/rBAPS/milestone/1). and pitfalls on the [PITFALLS.md](PITFALLS.md) file.
 
 Found something not to be working as you think it should? Please help us by [opening an issue](https://github.com/ocbe-uio/rBAPS/issues/new).
 
