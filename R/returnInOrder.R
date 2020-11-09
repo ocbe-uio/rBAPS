@@ -4,7 +4,7 @@ returnInOrder <- function(inds, pop, globalRows, data, adjprior, priorTerm) {
 	# % arvoa eniten.
 
 	ninds <- length(inds)
-	apuTaulu <- [inds, zeros(ninds,1)];
+	apuTaulu <- c(inds, zeros(ninds, 1))
 
 	for (i in 1:ninds) {
 		ind <- inds[i]
