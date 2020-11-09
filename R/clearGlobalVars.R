@@ -4,4 +4,5 @@ clearGlobalVars <- function() {
 	SUMCOUNTS <<- vector()
 	PARTITION <<- vector()
 	POP_LOGML <<- vector()
+	LOGDIFF <<- vector()
 }
