@@ -12,15 +12,26 @@ matlab2r <- function(filename, saveOutput = FALSE) {
 	txt <- readLines(filename)
 	# Replacing text
 	txt <- gsub(
-		pattern     = "function (.+)\\s*=\\s*(.+)\\((.+)\\)",
+		pattern     = "function (.+)\\s+=\\s*(.+)\\((.+)\\)",
 		replacement = "\\2 <- function(\\3) { return(\\1)",
 		x           = txt
 	)
+	# txt <- gsub("\\%\\s*(\\w+)", "# \\1", txt)
 	txt <- gsub(";", "", txt)
 	txt <- gsub("for (.+)=(.+)", "for (\\1 in \\2) {", txt)
 	txt <- gsub("end", "}", txt)
+	txt <- gsub("(.),(\\S)", "\\1, \\2", txt)
 	# TODO: replace forms like (:,:) with [, ]
-	# TODO: reformat if statements
+	# TODO: add argument to skip some of these rules
+	txt <- gsub("if (.+)", "if (\\1) {", txt) # FIXME: paste comments after {
+	txt <- gsub("else$", "} else {", txt)
+	txt <- gsub("elseif", "} else if", txt)
+	txt <- gsub("\\(~", "(!", txt)
+	txt <- gsub("while (.+)", "while \\1 {", txt)
+	## Math operators
+	txt <- gsub("(\\S)\\+(\\S)", "\\1 + \\2", txt)
+	txt <- gsub("(\\S)\\-(\\S)", "\\1 - \\2", txt)
+	txt <- gsub("(\\S)\\*(\\S)", "\\1 * \\2", txt)
 	# Returning converted code
 	if (!saveOutput) {
 		return(cat(txt, sep="\n"))
