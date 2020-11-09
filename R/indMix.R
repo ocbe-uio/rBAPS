@@ -630,30 +630,6 @@ indMix <- function(c, npops, dispText) {
 # apu = (apu(:,1)-1).*ninds - apu(:,1) ./ 2 .* (apu(:,1)-1) + (apu(:,2)-apu(:,1));
 # dist2 = dist(apu);
 
-
-# %-----------------------------------------------------------------------------------
-
-
-# function npops = poistaTyhjatPopulaatiot(npops)
-# % Poistaa tyhjentyneet populaatiot COUNTS:ista ja
-# % SUMCOUNTS:ista. P�ivitt�� npops:in ja PARTITION:in.
-
-# global COUNTS;
-# global SUMCOUNTS;
-# global PARTITION;
-# global LOGDIFF;
-
-# notEmpty = find(any(SUMCOUNTS,2));
-# COUNTS = COUNTS(:,:,notEmpty);
-# SUMCOUNTS = SUMCOUNTS(notEmpty,:);
-# LOGDIFF = LOGDIFF(:,notEmpty);
-
-# for n=1:length(notEmpty)
-#     apu = find(PARTITION==notEmpty(n));
-#     PARTITION(apu)=n;
-# end
-# npops = length(notEmpty);
-
 # %---------------------------------------------------------
 
 # function T = cluster_own(Z,nclust)
@@ -704,30 +680,3 @@ indMix <- function(c, npops, dispText) {
 #    % Move to next level
 #    k = children(~t) - m;
 # end
-
-# %--------------------------------------------------------------------------
-
-# function inds = returnInOrder(inds, pop, globalRows, data, ...
-#     adjprior, priorTerm)
-# % Palauttaa yksil�t j�rjestyksess� siten, ett� ensimm�isen� on
-# % se, jonka poistaminen populaatiosta pop nostaisi logml:n
-# % arvoa eniten.
-
-# global COUNTS;      global SUMCOUNTS;
-# ninds = length(inds);
-# apuTaulu = [inds, zeros(ninds,1)];
-
-# for i=1:ninds
-#     ind =inds(i);
-#     rows = globalRows(i,1):globalRows(i,2);
-#     diffInCounts = computeDiffInCounts(rows, size(COUNTS,1), size(COUNTS,2), data);
-#     diffInSumCounts = sum(diffInCounts);
-
-#     COUNTS(:,:,pop) = COUNTS(:,:,pop)-diffInCounts;
-#     SUMCOUNTS(pop,:) = SUMCOUNTS(pop,:)-diffInSumCounts;
-#     apuTaulu(i, 2) = computePopulationLogml(pop, adjprior, priorTerm);
-#     COUNTS(:,:,pop) = COUNTS(:,:,pop)+diffInCounts;
-#     SUMCOUNTS(pop,:) = SUMCOUNTS(pop,:)+diffInSumCounts;
-# end
-# apuTaulu = sortrows(apuTaulu,2);
-# inds = apuTaulu(ninds:-1:1,1);
