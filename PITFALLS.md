@@ -1,27 +1,3 @@
-# Roadmap for next stable release
-
-## Minimum requirements
-
-For the first stable release of rBAPS, the following features should be implemented:
-
-- [ ] Clustering of individuals (import `greedyMix.m` from BAPS)
-- [ ] Clustering of populations (import `greedyPoPMix.m` from BAPS)
-- [ ] Spatial clustering of individuals (import `spatialMixture.m` from BAPS)
-- [ ] Spatial clustering of populations (import `spatialPoPMixture.m` from BAPS)
-- [x] Admixture analysis (import `admix1.m` from BAPS)
-
-Note to contributors: as tasks get finished (translated, not necessarily tested), please update this file with an `x` and keep it there. This should help us fill out a changelog for an eventual stable release.
-
-## Wishlist
-
-The list below contains non-essential but nice-to-have tasks for the next stable release.
-
-- [ ] Implement sparse matrix optimizations from [`fastbaps`](https://github.com/gtonkinhill/fastbaps)
-- [ ] Implement plotting functionality from [`starmie`](https://github.com/sa-lee/starmie)
-- [ ] Standardize capitalization of function names
-- [ ] Standardize capitalization of function arguments
-- [ ] Replace redundant functions (ex.: `randga`)
-
 # Known pitfalls
 
 The following behavioral differences have been detected between the Matlab functions and their R counterparts. In order to save time, these differences will not be addressed, since they could require extensive reworking of a function. However, such differences may very well cause unexpected problems in some situations, which is why compiling this list is so important. The tables below might provide a good starting point for identifying and fixing bugs.
