@@ -6,6 +6,13 @@
 \usage{
 admixture_initialization(data_matrix, nclusters, Z)
 }
+\arguments{
+\item{data_matrix}{data_matrix}
+
+\item{nclusters}{ncluster}
+
+\item{Z}{Z}
+}
 \description{
 Seuraavat kolme funktiota liittyvat alkupartition muodostamiseen.
 }

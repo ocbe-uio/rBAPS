@@ -1,4 +1,7 @@
-#'@title Seuraavat kolme funktiota liittyvat alkupartition muodostamiseen.
+#' @title Seuraavat kolme funktiota liittyvat alkupartition muodostamiseen.
+#' @param data_matrix data_matrix
+#' @param nclusters ncluster
+#' @param Z Z
 
 admixture_initialization <- function (data_matrix, nclusters, Z) {
 	size_data <- size(data_matrix)
