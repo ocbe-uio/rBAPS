@@ -1,4 +1,4 @@
-#' @title Calculate changes?
+#' @title Calculate changes (?)
 #' @description Palauttaa npops*npops taulun, jonka alkio (i,j) kertoo, mik?on
 #' muutos logml:ss? mikäli populaatiosta i siirretään osuuden verran
 #' todennäköisyysmassaa populaatioon j. Mikäli populaatiossa i ei ole mitään
@@ -9,8 +9,9 @@
 #' @param logml log maximum likelihood
 #' @param COUNTS COUNTS
 #' @export
-laskeMuutokset4 <- function (osuus, osuusTaulu, omaFreqs, logml,
-							 COUNTS = matrix(0)) {
+laskeMuutokset4 <- function (
+	osuus, osuusTaulu, omaFreqs, logml, COUNTS = matrix(0)
+) {
 	npops <- ifelse(is.na(dim(COUNTS)[3]), 1, dim(COUNTS)[3])
 	notEmpty <- which(osuusTaulu > 0.005)
 	muutokset <- zeros(npops)
@@ -38,17 +39,15 @@ laskeMuutokset4 <- function (osuus, osuusTaulu, omaFreqs, logml,
 	return (muutokset)
 }
 
-
+# Palauttaa npops*1 taulun, jossa i:s alkio kertoo, mik� olisi
+# muutos logml:ss�, mik�li yksil� ind siirret��n koriin i.
+# diffInCounts on poistettava COUNTS:in siivusta i1 ja lis�tt�v�
+# COUNTS:in siivuun i2, mik�li muutos toteutetaan.
+#
+# Lis�ys 25.9.2007:
+# Otettu k�ytt��n globaali muuttuja LOGDIFF, johon on tallennettu muutokset
+# logml:ss� siirrett�ess� yksil�it� toisiin populaatioihin.
 laskeMuutokset <- function(ind, globalRows, data, adjprior, priorTerm) {
-	# Palauttaa npops*1 taulun, jossa i:s alkio kertoo, mik� olisi
-	# muutos logml:ss�, mik�li yksil� ind siirret��n koriin i.
-	# diffInCounts on poistettava COUNTS:in siivusta i1 ja lis�tt�v�
-	# COUNTS:in siivuun i2, mik�li muutos toteutetaan.
-	#
-	# Lis�ys 25.9.2007:
-	# Otettu k�ytt��n globaali muuttuja LOGDIFF, johon on tallennettu muutokset
-	# logml:ss� siirrett�ess� yksil�it� toisiin populaatioihin.
-
 	npops <- size(COUNTS, 3)
 	muutokset <- LOGDIFF[ind, ]
 

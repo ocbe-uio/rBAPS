@@ -20,8 +20,8 @@ addAlleles <- function(data, ind, line, divider) {
 	k <- 1
 	merkki <- substring(line, k, k)
 	while (merkki != ',') {
-	   k <- k + 1
-	   merkki <- substring(line, k, k)
+		k <- k + 1
+		merkki <- substring(line, k, k)
 	}
 	line <- substring(line, k + 1)
 	# clear k; clear merkki;

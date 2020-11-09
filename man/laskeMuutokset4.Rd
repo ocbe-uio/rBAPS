@@ -2,7 +2,7 @@
 % Please edit documentation in R/laskeMuutokset12345.R
 \name{laskeMuutokset4}
 \alias{laskeMuutokset4}
-\title{Calculate changes?}
+\title{Calculate changes (?)}
 \usage{
 laskeMuutokset4(osuus, osuusTaulu, omaFreqs, logml, COUNTS = matrix(0))
 }
