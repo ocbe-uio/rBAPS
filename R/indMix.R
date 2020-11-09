@@ -565,60 +565,6 @@ indMix <- function(c, npops, dispText) {
 		list(logml = logml, npops = npops, partitionSummary = partitionSummary)
 	)
 }
-# %--------------------------------------------------------------------------
-
-
-# function Z = linkage(Y, method)
-# [k, n] = size(Y);
-# m = (1+sqrt(1+8*n))/2;
-# if k ~= 1 | m ~= fix(m)
-#   error('The first input has to match the output of the PDIST function in size.');
-# end
-# if nargin == 1 % set default switch to be 'co'
-#    method = 'co';
-# end
-# method = lower(method(1:2)); % simplify the switch string.
-# monotonic = 1;
-# Z = zeros(m-1,3); % allocate the output matrix.
-# N = zeros(1,2*m-1);
-# N(1:m) = 1;
-# n = m; % since m is changing, we need to save m in n.
-# R = 1:n;
-# for s = 1:(n-1)
-#    X = Y;
-#    [v, k] = min(X);
-#    i = floor(m+1/2-sqrt(m^2-m+1/4-2*(k-1)));
-#    j = k - (i-1)*(m-i/2)+i;
-#    Z(s,:) = [R(i) R(j) v]; % update one more row to the output matrix A
-#    I1 = 1:(i-1); I2 = (i+1):(j-1); I3 = (j+1):m; % these are temp variables.
-#    U = [I1 I2 I3];
-#    I = [I1.*(m-(I1+1)/2)-m+i i*(m-(i+1)/2)-m+I2 i*(m-(i+1)/2)-m+I3];
-#    J = [I1.*(m-(I1+1)/2)-m+j I2.*(m-(I2+1)/2)-m+j j*(m-(j+1)/2)-m+I3];
-
-#    switch method
-#    case 'si' %single linkage
-#       Y(I) = min(Y(I),Y(J));
-#    case 'av' % average linkage
-#       Y(I) = Y(I) + Y(J);
-#    case 'co' %complete linkage
-#       Y(I) = max(Y(I),Y(J));
-#    case 'ce' % centroid linkage
-#       K = N(R(i))+N(R(j));
-#       Y(I) = (N(R(i)).*Y(I)+N(R(j)).*Y(J)-(N(R(i)).*N(R(j))*v^2)./K)./K;
-#    case 'wa'
-#       Y(I) = ((N(R(U))+N(R(i))).*Y(I) + (N(R(U))+N(R(j))).*Y(J) - ...
-# 	  N(R(U))*v)./(N(R(i))+N(R(j))+N(R(U)));
-#    end
-#    J = [J i*(m-(i+1)/2)-m+j];
-#    Y(J) = []; % no need for the cluster information about j.
-
-#    % update m, N, R
-#    m = m-1;
-#    N(n+s) = N(R(i)) + N(R(j));
-#    R(i) = n+s;
-#    R(j:(n-1))=R((j+1):n);
-# end
-
 
 # %-----------------------------------------------------------------------
 
@@ -646,18 +592,6 @@ indMix <- function(c, npops, dispText) {
 # logml = laskeLoggis(counts, sumcounts, adjprior);
 
 # %-----------------------------------------------------------------------
-
-
-# function loggis = laskeLoggis(counts, sumcounts, adjprior)
-# npops = size(counts,3);
-
-# logml2 = sum(sum(sum(gammaln(counts+repmat(adjprior,[1 1 npops]))))) ...
-#     - npops*sum(sum(gammaln(adjprior))) - ...
-#     sum(sum(gammaln(1+sumcounts)));
-# loggis = logml2;
-
-
-# %------------------------------------------------------------------------------------
 
 
 # function diffInCounts = computeDiffInCounts(rows, max_noalle, nloci, data)
@@ -720,110 +654,7 @@ indMix <- function(c, npops, dispText) {
 # end
 # npops = length(notEmpty);
 
-
-# %---------------------------------------------------------------
-
-
-# function dispLine;
-# disp('---------------------------------------------------');
-
-# %--------------------------------------------------------------
-
-# function num2 = omaRound(num)
-# % Py�rist�� luvun num 1 desimaalin tarkkuuteen
-# num = num*10;
-# num = round(num);
-# num2 = num/10;
-
 # %---------------------------------------------------------
-# function mjono = logml2String(logml)
-# % Palauttaa logml:n string-esityksen.
-
-# mjono = '       ';
-# if abs(logml)<10000
-#     %Ei tarvita e-muotoa
-#     mjono(7) = palautaYks(abs(logml),-1);
-#     mjono(6) = '.';
-#     mjono(5) = palautaYks(abs(logml),0);
-#     mjono(4) = palautaYks(abs(logml),1);
-#     mjono(3) = palautaYks(abs(logml),2);
-#     mjono(2) = palautaYks(abs(logml),3);
-#     pointer = 2;
-#     while mjono(pointer)=='0' & pointer<7
-#         mjono(pointer) = ' ';
-#         pointer=pointer+1;
-#     end
-#     if logml<0
-#         mjono(pointer-1) = '-';
-#     end
-# else
-#     suurinYks = 4;
-#     while abs(logml)/(10^(suurinYks+1)) >= 1
-#         suurinYks = suurinYks+1;
-#     end
-#     if suurinYks<10
-#         mjono(7) = num2str(suurinYks);
-#         mjono(6) = 'e';
-#         mjono(5) = palautaYks(abs(logml),suurinYks-1);
-#         mjono(4) = '.';
-#         mjono(3) = palautaYks(abs(logml),suurinYks);
-#         if logml<0
-#             mjono(2) = '-';
-#         end
-#     elseif suurinYks>=10
-#         mjono(6:7) = num2str(suurinYks);
-#         mjono(5) = 'e';
-#         mjono(4) = palautaYks(abs(logml),suurinYks-1);
-#         mjono(3) = '.';
-#         mjono(2) = palautaYks(abs(logml),suurinYks);
-#         if logml<0
-#             mjono(1) = '-';
-#         end
-#     end
-# end
-
-# function digit = palautaYks(num,yks)
-# % palauttaa luvun num 10^yks termin kertoimen
-# % string:in�
-# % yks t�ytyy olla kokonaisluku, joka on
-# % v�hint��n -1:n suuruinen. Pienemmill�
-# % luvuilla tapahtuu jokin py�ristysvirhe.
-
-# if yks>=0
-#     digit = rem(num, 10^(yks+1));
-#     digit = floor(digit/(10^yks));
-# else
-#     digit = num*10;
-#     digit = floor(rem(digit,10));
-# end
-# digit = num2str(digit);
-
-
-# function mjono = kldiv2str(div)
-# mjono = '      ';
-# if abs(div)<100
-#     %Ei tarvita e-muotoa
-#     mjono(6) = num2str(rem(floor(div*1000),10));
-#     mjono(5) = num2str(rem(floor(div*100),10));
-#     mjono(4) = num2str(rem(floor(div*10),10));
-#     mjono(3) = '.';
-#     mjono(2) = num2str(rem(floor(div),10));
-#     arvo = rem(floor(div/10),10);
-#     if arvo>0
-#         mjono(1) = num2str(arvo);
-#     end
-
-# else
-#     suurinYks = floor(log10(div));
-#     mjono(6) = num2str(suurinYks);
-#     mjono(5) = 'e';
-#     mjono(4) = palautaYks(abs(div),suurinYks-1);
-#     mjono(3) = '.';
-#     mjono(2) = palautaYks(abs(div),suurinYks);
-# end
-
-
-# %--------------------------------------------------------------------------
 
 # function T = cluster_own(Z,nclust)
 # true=logical(1);
@@ -900,18 +731,3 @@ indMix <- function(c, npops, dispText) {
 # end
 # apuTaulu = sortrows(apuTaulu,2);
 # inds = apuTaulu(ninds:-1:1,1);
-
-# %--------------------------------------------------------------------------
-
-# function [emptyPop, pops] = findEmptyPop(npops)
-# % Palauttaa ensimm�isen tyhj�n populaation indeksin. Jos tyhji�
-# % populaatioita ei ole, palauttaa -1:n.
-
-# global PARTITION;
-# pops = unique(PARTITION)';
-# if (length(pops) ==npops)
-#     emptyPop = -1;
-# else
-#     popDiff = diff([0 pops npops+1]);
-#     emptyPop = min(find(popDiff > 1));
-# end
