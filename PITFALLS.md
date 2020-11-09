@@ -24,6 +24,12 @@ Function | Matlab output | R output
 
 # Wanna help debugging?
 
-If you find an error, one of the first things to try is to compare the R code with its MATLAB equivalent, which you can find [here](matlab). Some common causes are:
+If you find an error, one of the first things to try is to compare the R code with its MATLAB equivalent, which you can find [here](matlab). Some common causes are as follows:
 
-1. Using `()` to subset an object in R. R uses `[]` for that, whereas Matlab uses `()` for both function calling and object subsetting. Therefore, often objects will be mistakenly interpreted as functions by R due to improper translation.
+## Using `()` to subset an object in R.
+
+R uses `[]` for that, whereas Matlab uses `()` for both function calling and object subsetting. Therefore, often objects will be mistakenly interpreted as functions by R due to improper translation.
+
+## Improper removal of a duplicate function
+
+Homonymous functions were found on several files with code that, upon first inspection, are deemed identical. That might not always be the case (especially for large files, where visual inspection may be especially imperfect), so errors might have emerged from calling homonymous functions that are supposed to be slightly different.
