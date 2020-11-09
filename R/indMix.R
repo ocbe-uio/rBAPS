@@ -105,7 +105,7 @@ indMix <- function(c, npops, dispText) {
 		COUNTS <- counts
 		SUMCOUNTS <- sumcounts
 		POP_LOGML <- computePopulationLogml(1:npops, adjprior, priorTerm) # TODO: translate
-		LOGDIFF <- repmat(-Inf, ninds, npops)
+		LOGDIFF <- repmat(-Inf, c(ninds, npops))
 		rm(initialPartition, counts, sumcounts)
 
 		# PARHAAN MIXTURE-PARTITION ETSIMINEN
@@ -468,7 +468,7 @@ indMix <- function(c, npops, dispText) {
 									)
 									updateGlobalVariables3(
 										muuttuva,diffInCounts, adjprior,
-										 priorTerm, i2
+										priorTerm, i2
 									)
 									muutettu <- 1
 									totalMuutos <- totalMuutos + maxMuutos

@@ -4,7 +4,6 @@
 #' @param indices return indices?
 #' @return Either a list or a vector
 #' @author Waldir Leoncio
-#' @export
 min_MATLAB <- function(X, indices = TRUE) {
 	mins <- apply(X, 2, min)
 	idx  <- sapply(seq_len(ncol(X)), function(x) match(mins[x], X[, x]))
@@ -21,7 +20,6 @@ min_MATLAB <- function(X, indices = TRUE) {
 #' @param indices return indices?
 #' @return Either a list or a vector
 #' @author Waldir Leoncio
-#' @export
 max_MATLAB <- function(X, indices = TRUE) {
 	maxs <- apply(X, 2, max)
 	idx  <- sapply(seq_len(ncol(X)), function(x) match(maxs[x], X[, x]))
