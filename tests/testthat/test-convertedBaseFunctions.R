@@ -158,18 +158,18 @@ test_that("find works as expected", {
 })
 
 test_that("sortrows works as expected", {
-	 mx <- matrix(c(3, 2, 2, 1, 1, 10, 0, pi), 4)
-	 expect_equal(sortrows(mx), matrix(c(1, 2, 2, 3, pi, 10, 0, 1), 4))
-	 expect_equal(sortrows(mx, 2), matrix(c(2, 3, 1, 2, 0, 1, pi, 10), 4))
-	 expect_equal(sortrows(mx, 1:2), mx[order(mx[, 1], mx[, 2]), ])
+	mx <- matrix(c(3, 2, 2, 1, 1, 10, 0, pi), 4)
+	expect_equal(sortrows(mx), matrix(c(1, 2, 2, 3, pi, 10, 0, 1), 4))
+	expect_equal(sortrows(mx, 2), matrix(c(2, 3, 1, 2, 0, 1, pi, 10), 4))
+	expect_equal(sortrows(mx, 1:2), mx[order(mx[, 1], mx[, 2]), ])
 })
 
 test_that("cell works as expected", {
-	expect_equal(cell(0), array(dim = c(0, 0)))
-	expect_equal(cell(1), array(dim = c(1, 1)))
-	expect_equal(cell(2), array(dim = c(2, 2)))
-	expect_equal(cell(3, 4), array(dim = c(3, 4)))
-	expect_equal(cell(5, 7, 6), array(dim = c(5, 7, 6)))
+	expect_equivalent(cell(0), array(0, dim = c(0, 0)))
+	expect_equivalent(cell(1), array(0, dim = c(1, 1)))
+	expect_equivalent(cell(2), array(0, dim = c(2, 2)))
+	expect_equivalent(cell(3, 4), array(0, dim = c(3, 4)))
+	expect_equivalent(cell(5, 7, 6), array(0, dim = c(5, 7, 6)))
 })
 
 test_that("blanks works as expected", {
@@ -201,4 +201,44 @@ test_that("isspace works as expected", {
 	X <- '\t a b\tcde f'
 	expect_identical(isspace(chr), c(0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0))
 	expect_identical(isspace(X), c(1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0))
+})
+
+test_that("nargin works correctly", {
+	addme <- function(a, b) {
+		if (nargin() == 2) {
+			c <- a + b
+		} else if (nargin() == 1) {
+			c <- a + a
+		} else {
+			c <- 0
+		}
+		return(c)
+	}
+	expect_equal(addme(13, 42), 55)
+	expect_equal(addme(13), 26)
+	expect_equal(addme(), 0)
+})
+
+test_that("setdiff works as expected", {
+	A <- c(3, 6, 2, 1, 5, 1, 1)
+	B <- c(2, 4, 6)
+	C <- c(1, 3, 5)
+	# expect_equal(setdiff_MATLAB(A, B), C) # TODO: export setdiff_MATLAB
+	A <- data.frame(
+		Var1 = 1:5,
+		Var2 = LETTERS[1:5],
+		Var3 = c(FALSE, TRUE, FALSE, TRUE, FALSE)
+	)
+	B <- data.frame(
+		Var1 = seq(1, 9, by = 2),
+		Var2 = LETTERS[seq(1, 9, by = 2)],
+		Var3 = rep(FALSE, 5)
+	)
+	C <- data.frame(
+		Var1 = c(2, 4),
+		Var2 = c('B', 'D'),
+		Var3 = c(TRUE, TRUE)
+	)
+	# expect_equal(setdiff_MATLAB(A, B), C) # TODO: implement for data frames
+	# TODO: add more examples from https://se.mathworks.com/help/matlab/ref/double.setdiff.html;jsessionid=0d8d42582d4d299b8224403899f1
 })
