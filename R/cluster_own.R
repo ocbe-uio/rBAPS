@@ -1,6 +1,6 @@
 cluster_own <- function(Z, nclust) {
-	true <- logical(1)
-	false <- logical(0)
+	true <- TRUE
+	false <- FALSE
 	maxclust <- nclust
 	# % Start of algorithm
 	m <- size(Z, 1) + 1
