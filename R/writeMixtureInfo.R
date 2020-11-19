@@ -10,16 +10,10 @@
 #' @param partitionSummary partitionSummary
 #' @param popnames popnames
 #' @param fixedK fixedK
-#' @param PARTITION PARTITION
-#' @param COUNTS COUNTS
-#' @param SUMCOUNTS SUMCOUNTS
-#' @param LOGDIFF LOGDIFF
 #' @export
 writeMixtureInfo <- function(
-	logml, rowsFromInd, data, adjprior, priorTerm, outPutFile, inputFile, partitionSummary, popnames, fixedK, PARTITION, COUNTS, SUMCOUNTS,
-	LOGDIFF
+	logml, rowsFromInd, data, adjprior, priorTerm, outPutFile, inputFile, partitionSummary, popnames, fixedK
 ) {
-
 	changesInLogml <- list()
 	ninds <- size(data, 1) / rowsFromInd
 	npops <- size(COUNTS, 3)
@@ -30,7 +24,6 @@ writeMixtureInfo <- function(
 		fid <- load(outPutFile)
 	} else {
 		fid <- -1
-		message('Diverting output to baps4_output.baps')
 		# TODO: replace sink with option that will record input and output
 		sink('baps4_output.baps', split=TRUE) # save in text anyway.
 	}

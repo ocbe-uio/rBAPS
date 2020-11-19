@@ -41,7 +41,7 @@ poistaLiianPienet <- function (npops, rowsFromInd, alaraja,
         PARTITION[yksilot] == n
     }
 
-    # TODO: add COUNTS, SUMCOUNTS and PARTITION to return or use <<-
+    # TODO: add COUNTS, SUMCOUNTS and PARTITION to return or use <-
     COUNTS[, , miniPops] <- NA
     SUMCOUNTS[miniPops, ] <- NA
 
