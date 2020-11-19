@@ -7,14 +7,30 @@
 #' @importFrom utils write.table
 #' @export
 matlab2r <- function(filename, saveOutput = FALSE) {
-	# Verification
+
+	# ======================================================== #
+	# Verification                                             #
+	# ======================================================== #
 	if (!file.exists(filename)) stop("File not found")
-	# Reading file into R
+
+	# ======================================================== #
+	# Reading file into R                                      #
+	# ======================================================== #
 	txt <- readLines(filename)
-	# Replacing text
+
+	# ======================================================== #
+	# Replacing text                                           #
+	# ======================================================== #
+
+	# Function header ---------------------------------------- #
 	txt <- gsub(
 		pattern     = "function (.+)\\s+=\\s*(.+)\\((.+)\\)",
 		replacement = "\\2 <- function(\\3) { return(\\1)",
+		x           = txt
+	)
+	txt <- gsub(
+		pattern     = "function (.+)\\((.+)\\)",
+		replacement = "\\1 <- function(\\2) {",
 		x           = txt
 	)
 	# txt <- gsub("\\%\\s*(\\w+)", "# \\1", txt)
