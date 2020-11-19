@@ -7,11 +7,11 @@ initialPopCounts <- function(data, npops, rows, noalle, adjprior) {
 		for (j in 1:nloci) {
 			i_rivit <- rows(i, 1):rows(i, 2)
 			havainnotLokuksessa <- find(data[i_rivit, j] >= 0)
-			sumcounts(i, j) <- length(havainnotLokuksessa)
+			sumcounts[i, j] <- length(havainnotLokuksessa)
 			for (k in 1:noalle[j]) {
 				alleleCode <- k
 				N_ijk <- length(find(data[i_rivit, j] == alleleCode))
-				counts(k, j, i) <- N_ijk
+				counts[k, j, i] <- N_ijk
 			}
 		}
 	}

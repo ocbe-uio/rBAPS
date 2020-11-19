@@ -1,6 +1,6 @@
 LICENSE
 TODO.md
-matlab
+^matlab
 CHANGELOG.md
 CITATION.cff
 .travis.yml

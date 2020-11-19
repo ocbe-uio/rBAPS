@@ -9,8 +9,8 @@ computeDiffInCounts <- function(rows, max_noalle, nloci, data) {
 		notEmpty <- find(row>=0)
 
 		if (length(notEmpty) > 0) {
-			diffInCounts(row(notEmpty) + (notEmpty - 1) * max_noalle) <-
-				diffInCounts(row(notEmpty) + (notEmpty - 1) * max_noalle) + 1
+			diffInCounts[row(notEmpty) + (notEmpty - 1) * max_noalle] <-
+				diffInCounts[row(notEmpty) + (notEmpty - 1) * max_noalle] + 1
 		}
 	}
 	return(diffInCounts)

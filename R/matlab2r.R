@@ -4,6 +4,7 @@
 #' @param saveOutput if `TRUE`, `filename` is overwritten. Defaults to `FALSE`
 #' @return text converted to R, printed to screen or replacing input file
 #' @author Waldir Leoncio
+#' @importFrom utils write.table
 #' @export
 matlab2r <- function(filename, saveOutput = FALSE) {
 	# Verification
@@ -21,7 +22,7 @@ matlab2r <- function(filename, saveOutput = FALSE) {
 	txt <- gsub("for (.+)=(.+)", "for (\\1 in \\2) {", txt)
 	txt <- gsub("end", "}", txt)
 	txt <- gsub("(.),(\\S)", "\\1, \\2", txt)
-	# TODO: replace forms like (:,:) with [, ]
+	# TODO: replace forms like (:,:) with [, ] if they come before <-
 	# TODO: add argument to skip some of these rules
 	txt <- gsub("if (.+)", "if (\\1) {", txt) # FIXME: paste comments after {
 	txt <- gsub("else$", "} else {", txt)

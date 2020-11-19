@@ -15,7 +15,7 @@ cluster_own <- function(Z, nclust) {
 		for (k in (m - maxclust + 1):(m - 1)) {
 			i = Z(k, 1) # left tree
 			if (i <= m) { # original node, no leafs
-				T(i) = clsnum
+				T[i] = clsnum
 				clsnum = clsnum + 1
 			} else if (i < (2 * m - maxclust + 1)) { # created before cutoff, search down the tree
 				T <- clusternum(Z, T, i - m, clsnum)

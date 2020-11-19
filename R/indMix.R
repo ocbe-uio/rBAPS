@@ -52,7 +52,7 @@ indMix <- function(c, npops, dispText) {
 		} else {
 			npopsTaulu <- as.numeric(npopstext)
 			ykkoset <- find(npopsTaulu == 1)
-			npopsTaulu(ykkoset) <- list() # Mik�li ykk�si� annettu yl�rajaksi, ne poistetaan.
+			npopsTaulu[ykkoset] <- list() # Mik�li ykk�si� annettu yl�rajaksi, ne poistetaan.
 			if (isempty(npopsTaulu)) {
 				logml <- 1
 				partitionSummary <- 1
@@ -68,7 +68,7 @@ indMix <- function(c, npops, dispText) {
 	nruns <- length(npopsTaulu)
 
 	initData <- data
-	data <- data[,1:(end - 1)]
+	data <- data[,1:(ncol(data) - 1)]
 
 	logmlBest <- -1e50
 	partitionSummary <- -1e50 * ones(30, 2) # Tiedot 30 parhaasta partitiosta (npops ja logml)
@@ -76,13 +76,13 @@ indMix <- function(c, npops, dispText) {
 	worstLogml <- -1e50
 	worstIndex <- 1
 	for (run in 1:nruns) {
-		npops <- npopsTaulu(run)
+		npops <- npopsTaulu[run]
 		if (dispText) {
 			dispLine()
 			print(
 				paste0(
-					'Run ', num2str(run), '/', num2str(nruns),
-					', maximum number of populations ', num2str(npops), '.'
+					'Run ', as.character(run), '/', as.character(nruns),
+					', maximum number of populations ', as.character(npops), '.'
 				)
 			)
 		}
@@ -120,7 +120,7 @@ indMix <- function(c, npops, dispText) {
 			print(
 				paste0(
 					'Mixture analysis started with initial',
-					num2str(npops),
+					as.character(npops),
 					'populations.'
 				)
 			)
@@ -130,7 +130,7 @@ indMix <- function(c, npops, dispText) {
 			muutoksia <- 0
 
 			if (dispText) {
-				print(paste('Performing steps:', num2str(roundTypes)))
+				print(paste('Performing steps:', as.character(roundTypes)))
 			}
 
 			for (n in 1:length(roundTypes)) {
@@ -545,7 +545,7 @@ indMix <- function(c, npops, dispText) {
 		npops <- poistaTyhjatPopulaatiot(npops)
 		POP_LOGML <- computePopulationLogml(1:npops, adjprior, priorTerm)
 		if (dispText) {
-			print(paste('Found partition with', num2str(npops), 'populations.'))
+			print(paste('Found partition with', as.character(npops), 'populations.'))
 			print(paste('Log(ml) =', as.character(logml)))
 			print(' ')
 		}
