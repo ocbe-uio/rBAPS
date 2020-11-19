@@ -6,7 +6,7 @@
 \usage{
 matlab2r(
   filename,
-  output = "clean",
+  output = "diff",
   improve_formatting = TRUE,
   change_assignment = TRUE,
   append = FALSE
@@ -15,7 +15,7 @@ matlab2r(
 \arguments{
 \item{filename}{name of the file}
 
-\item{output}{can be "asis", "clean" (default), "save" or "append"}
+\item{output}{can be "asis", "clean", "save" or "diff"}
 
 \item{improve_formatting}{if `TRUE` (default), makes minor changes
 to conform to best-practice formatting conventions}
