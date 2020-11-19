@@ -4,21 +4,42 @@
 \alias{matlab2r}
 \title{Convert Matlab function to R}
 \usage{
-matlab2r(filename, output = "clean", improve_formatting = TRUE)
+matlab2r(
+  filename,
+  output = "clean",
+  improve_formatting = TRUE,
+  change_assignment = TRUE,
+  append = FALSE
+)
 }
 \arguments{
 \item{filename}{name of the file}
 
-\item{output}{can be "asis", "clean" (default) or "save"}
+\item{output}{can be "asis", "clean" (default), "save" or "append"}
 
 \item{improve_formatting}{if `TRUE` (default), makes minor changes
 to conform to best-practice formatting conventions}
+
+\item{change_assignment}{if `TRUE` (default), uses `<-` as the assignment operator}
+
+\item{append}{if `FALSE` (default), overwrites file; otherwise, append
+output to input}
 }
 \value{
 text converted to R, printed to screen or replacing input file
 }
 \description{
 Performs basic syntax conversion from Matlab to R
+}
+\note{
+This function is intended to expedite the process of converting a
+Matlab function to R by making common replacements. It does not have the
+immediate goal of outputting a ready-to-use function. In other words,
+after using this function you should go back to it and make minor changes.
+
+It is also advised to do a dry-run with `output = "clean"` and only switching
+to `output = "save"` when you are confident that no important code will be
+lost (for shorter functions, a careful visual inspection should suffice).
 }
 \author{
 Waldir Leoncio
