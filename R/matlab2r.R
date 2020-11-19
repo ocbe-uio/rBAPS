@@ -1,7 +1,7 @@
 #' @title Convert Matlab function to R
 #' @description Performs basic syntax conversion from Matlab to R
 #' @param filename name of the file
-#' @param output can be "asis", "clean" (default), "save" or "append"
+#' @param output can be "asis", "clean", "save" or "diff"
 #' @param improve_formatting if `TRUE` (default), makes minor changes
 #' to conform to best-practice formatting conventions
 #' @param change_assignment if `TRUE` (default), uses `<-` as the assignment operator
@@ -131,6 +131,18 @@ matlab2r <- function(
 				append    = append
 			)
 		)
+	} else if (output == "diff") {
+		diff_text <- vector(mode="character", length=(2 * length(original) + 1))
+		for (i in seq_along(txt)) {
+			new_i <- (2 * i) + i - 2
+			diff_text[new_i] <- paste(
+				"-----------------------", "line", i, "-----------------------"
+			)
+			diff_text[new_i + 1] <- original[i]
+			diff_text[new_i + 2] <- txt[i]
+		}
+		message("Displaying line number, original content and modified content")
+		return(cat(diff_text, sep="\n"))
 	} else {
 		stop ("Invalid output argument")
 	}
