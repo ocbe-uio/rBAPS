@@ -4,12 +4,15 @@
 \alias{matlab2r}
 \title{Convert Matlab function to R}
 \usage{
-matlab2r(filename, saveOutput = FALSE)
+matlab2r(filename, output = "clean", improve_formatting = TRUE)
 }
 \arguments{
 \item{filename}{name of the file}
 
-\item{saveOutput}{if `TRUE`, `filename` is overwritten. Defaults to `FALSE`}
+\item{output}{can be "asis", "clean" (default) or "save"}
+
+\item{improve_formatting}{if `TRUE` (default), makes minor changes
+to conform to best-practice formatting conventions}
 }
 \value{
 text converted to R, printed to screen or replacing input file
