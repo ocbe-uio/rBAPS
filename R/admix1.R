@@ -5,13 +5,9 @@
 #' `tietue`should contain the following elements: PARTITION, COUNTS, SUMCOUNTS,
 #' alleleCodes, adjprior, popnames, rowsFromInd, data, npops, noalle
 #' @param tietue tietue
-#' @param PARTITION PARTITION
-#' @param COUNTS COUNTS
-#' @param SUMCOUNTS SUMCOUNTS
 #' @importFrom methods is
 #' @export
-admix1 <- function(tietue, PARTITION = matrix(NA, 0, 0),
-        COUNTS = matrix(NA, 0, 0), SUMCOUNTS = NA) {
+admix1 <- function(tietue) {
     if (!is.list(tietue)) {
         message('Load mixture result file. These are the files in this directory:')
         print(list.files())
@@ -270,7 +266,7 @@ admix1 <- function(tietue, PARTITION = matrix(NA, 0, 0),
 
         for (level in 1:n_missing_levels[pop]) {
 
-            potential_inds_in_this_pop_and_level <- 
+            potential_inds_in_this_pop_and_level <-
                 find(
                     PARTITION == pop & missing_level_partition == level &
                     likelihood > 3

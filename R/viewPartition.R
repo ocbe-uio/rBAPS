@@ -1,9 +1,9 @@
-viewPartition <- function(osuudet, popnames, COUNTS = matrix(0, 0, 0)) {
+viewPartition <- function(osuudet, popnames) {
 
     npops <- size(COUNTS, 3)
     nind <- size(osuudet,1)
 
-# TODO: translate if necessary. Remove if this function won't be used 
+# TODO: translate if necessary. Remove if this function won't be used
 #     disp(['Number of populations: ' num2str(npops)]);
 #     if npops>30
 #         disp(' ');
@@ -12,27 +12,27 @@ viewPartition <- function(osuudet, popnames, COUNTS = matrix(0, 0, 0)) {
 #         disp(' ');
 #         return;
 #     end
-    
-    
+
+
 #     varit = givecolors(npops);
 #     korkeinviiva = 1.05;
 #     pieninarvo = -korkeinviiva;
-    
-    
+
+
 #     h0 = figure;
 #     set(h0, 'NumberTitle', 'off'); %image_figure;   %Muutettu
 #     tiedot.popnames = popnames;
 #     tiedot.info = osuudet;
 #     set(h0,'UserData',tiedot);
-    
+
 #     set(gca, 'Xlim', [-.5 ,nind+.5], 'YLim', [pieninarvo ,korkeinviiva], ...
 #         'XTick', [], 'XTickLabel', [], 'YTick', [], 'YTickLabel', []);
-    
+
 #     for i=1:nind
-        
+
 #         if any(osuudet(i,:)>0)
 #             cumOsuudet = cumsum(osuudet(i,:));
-        
+
 #             % Pylv��n piirt�minen
 #             for j=1:npops
 #                 if j==1
@@ -50,21 +50,21 @@ viewPartition <- function(osuudet, popnames, COUNTS = matrix(0, 0, 0)) {
 #             end
 #         end
 #     end
-    
-    
-    
+
+
+
 #     if ~isempty(popnames)
 #         npops = size(popnames,1);
 #         for i=1:npops
 #             firstInd = popnames{i,2};
 #             line([firstInd-1, firstInd-1], [0,1], 'Color', 'k');  %Populaatioiden rajat
-                
+
 #             if i<npops
 #                 x_paikka = popnames{i,2}-1+(popnames{i+1,2}-popnames{i,2})/2;
 #             else
 #                 x_paikka = popnames{i,2}-1+(nind+1-popnames{i,2})/2;
 #             end
-                   
+
 #             korkeuskerroin = pieninarvo / -0.2;
 #             suhdekerroin = npops/6;
 #             for letter_num = 1:length(popnames{i,1}{1})
@@ -105,7 +105,7 @@ giveColors <- function(n) {
                         0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0.4, 0.4, 0, 0.4, 0,
                         0.4, 0, 0.4, 0.4, 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0.2,
                         0.2, 0, 0.2, 0, 0.2, 0, 0.2, 0.2, 0.8, 0, 0, 0, 0.8, 0,
-                        0, 0, 0.8, 0.8, 0.8, 0, 0.8, 0, 0.8, 0, 0.8, 0.8, 
+                        0, 0, 0.8, 0.8, 0.8, 0, 0.8, 0, 0.8, 0, 0.8, 0.8,
                         0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0.6, 0.6, 0, 0.6, 0,
                         0.6, 0, 0.6, 0.6, 0.6, 0.2, 0.4, 0.2, 0.4, 0.8, 0.8,
                         0.4, 0.2, 0, 0.6, 0.2, 0.2, 0.8, 0.6, 0.5, 0.2, 0.1,

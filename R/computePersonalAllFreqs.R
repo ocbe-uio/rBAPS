@@ -1,17 +1,15 @@
 #' @title Compute Personal Freqs
 #' @description Laskee npops*(rowsFromInd*nloci) taulukon, jonka kutakin
 #' saraketta vastaa yksilön ind alleeli. Eri rivit ovat alleelin
-#' alkuperäfrekvenssit eri populaatioissa. Jos yksilölt?puuttuu jokin alleeli, 
+#' alkuperäfrekvenssit eri populaatioissa. Jos yksilölt?puuttuu jokin alleeli,
 #' niin vastaavaan kohtaa tulee sarake ykkösi?
 #' @param ind ind
 #' @param data data
 #' @param allFreqs allFreqs
 #' @param rowsFromInd rowsFromInd
-#' @param COUNTS COUNTS
 #' @export
 
-computePersonalAllFreqs <- function(ind, data, allFreqs, rowsFromInd,
-COUNTS = matrix(0)) {
+computePersonalAllFreqs <- function(ind, data, allFreqs, rowsFromInd) {
     nloci <- ifelse(is.na(dim(COUNTS)[2]), 1, dim(COUNTS)[2])
     npops <- ifelse(is.na(dim(COUNTS)[3]), 1, dim(COUNTS)[3])
 

@@ -4,7 +4,7 @@
 \alias{computePersonalAllFreqs}
 \title{Compute Personal Freqs}
 \usage{
-computePersonalAllFreqs(ind, data, allFreqs, rowsFromInd, COUNTS = matrix(0))
+computePersonalAllFreqs(ind, data, allFreqs, rowsFromInd)
 }
 \arguments{
 \item{ind}{ind}
@@ -14,12 +14,10 @@ computePersonalAllFreqs(ind, data, allFreqs, rowsFromInd, COUNTS = matrix(0))
 \item{allFreqs}{allFreqs}
 
 \item{rowsFromInd}{rowsFromInd}
-
-\item{COUNTS}{COUNTS}
 }
 \description{
 Laskee npops*(rowsFromInd*nloci) taulukon, jonka kutakin
 saraketta vastaa yksilön ind alleeli. Eri rivit ovat alleelin
-alkuperäfrekvenssit eri populaatioissa. Jos yksilölt?puuttuu jokin alleeli, 
+alkuperäfrekvenssit eri populaatioissa. Jos yksilölt?puuttuu jokin alleeli,
 niin vastaavaan kohtaa tulee sarake ykkösi?
 }

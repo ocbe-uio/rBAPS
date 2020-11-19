@@ -4,12 +4,10 @@
 \alias{simulateAllFreqs}
 \title{Simulate All Frequencies}
 \usage{
-simulateAllFreqs(noalle, COUNTS = matrix(NA, 0, 0))
+simulateAllFreqs(noalle)
 }
 \arguments{
 \item{noalle}{noalle}
-
-\item{COUNTS}{COUNTS}
 }
 \description{
 Lisää jokaista alleelia joka populaation joka lokukseen j1/noalle(j) verran. Näin saatuja counts:eja vastaavista Dirichlet-jakaumista simuloidaan arvot populaatioiden alleelifrekvensseille.

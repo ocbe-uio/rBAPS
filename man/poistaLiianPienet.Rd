@@ -4,14 +4,7 @@
 \alias{poistaLiianPienet}
 \title{Remove too small}
 \usage{
-poistaLiianPienet(
-  npops,
-  rowsFromInd,
-  alaraja,
-  PARTITION = matrix(NA, 0, 0),
-  COUNTS = matrix(NA, 0, 0),
-  SUMCOUNTS = NA
-)
+poistaLiianPienet(npops, rowsFromInd, alaraja)
 }
 \arguments{
 \item{npops}{npops}
@@ -19,12 +12,6 @@ poistaLiianPienet(
 \item{rowsFromInd}{rowsFromInd}
 
 \item{alaraja}{alaraja}
-
-\item{PARTITION}{PARTITION}
-
-\item{COUNTS}{COUNTS}
-
-\item{SUMCOUNTS}{SUMCOUNTS}
 }
 \description{
 Muokkaa tulokset muotoon, jossa outlier yksilöt on poistettu.

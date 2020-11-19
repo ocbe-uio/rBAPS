@@ -7,11 +7,8 @@
 #' @param omaFreqs own Freqs?
 #' @param osuusTaulu Percentage table?
 #' @param logml log maximum likelihood
-#' @param COUNTS COUNTS
 #' @export
-laskeMuutokset4 <- function (
-	osuus, osuusTaulu, omaFreqs, logml, COUNTS = matrix(0)
-) {
+laskeMuutokset4 <- function (osuus, osuusTaulu, omaFreqs, logml) {
 	npops <- ifelse(is.na(dim(COUNTS)[3]), 1, dim(COUNTS)[3])
 	notEmpty <- which(osuusTaulu > 0.005)
 	muutokset <- zeros(npops)
