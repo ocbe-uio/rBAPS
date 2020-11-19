@@ -20,7 +20,7 @@
 #' to `output = "save"` when you are confident that no important code will be
 #' lost (for shorter functions, a careful visual inspection should suffice).
 matlab2r <- function(
-	filename, output = "clean", improve_formatting=TRUE, change_assignment=TRUE,
+	filename, output = "diff", improve_formatting=TRUE, change_assignment=TRUE,
 	append=FALSE
 ) {
 	# TODO: this function is too long! Split into subfunctions
@@ -34,6 +34,7 @@ matlab2r <- function(
 	# Reading file into R                                      #
 	# ======================================================== #
 	txt <- readLines(filename)
+	original <- txt
 
 	# ======================================================== #
 	# Replacing text                                           #
@@ -42,12 +43,20 @@ matlab2r <- function(
 	# Uncommenting ------------------------------------------- #
 	txt <- gsub("^#\\s?(.+)", "\\1", txt)
 
-	# Function header ---------------------------------------- #
+	# Output variable ---------------------------------------- #
 	out <- gsub(
-		pattern     = "\\t*function (\\S+)\\s*=\\s*(.+)\\((.+)\\)",
-		replacement = "\treturn(\\1)",
+		pattern     = "\\t*function ((\\S|\\,\\s)+)\\s?=\\s?(\\w+)\\((.+)\\)",
+		replacement = "\\1",
 		x           = txt[1]
 	) # TODO: improve by detecting listed outputs
+	if (substring(out, 1, 1) == "[") {
+		out <- strsplit(out, "(\\,|\\[|\\]|\\s)")[[1]]
+		out <- out[which(out != "")]
+		out <- sapply(seq_along(out), function(x) paste(out[x], "=", out[x]))
+		out <- paste0("list(", paste(out, collapse=", "), ")")
+	}
+
+	# Function header ---------------------------------------- #
 	txt <- gsub(
 		pattern     = "\\t*function (.+)\\s*=\\s*(.+)\\((.+)\\)",
 		replacement = "\\2 <- function(\\3) {",
@@ -94,6 +103,7 @@ matlab2r <- function(
 		txt <- gsub("(\\S)\\+(\\S)", "\\1 + \\2", txt)
 		txt <- gsub("(\\S)\\-(\\S)", "\\1 - \\2", txt)
 		txt <- gsub("(\\S)\\*(\\S)", "\\1 * \\2", txt)
+		txt <- gsub("(\\S)\\/(\\S)", "\\1 / \\2", txt)
 		# Logic operators
 		txt <- gsub("~", "!", txt)
 		txt <- gsub("(\\S)>=(\\S)", "\\1 >= \\2", txt)
@@ -110,10 +120,11 @@ matlab2r <- function(
 		# 	replacement = paste0("\\1 ", ass_op, "\\5"),
 		# 	x = txt
 		# )
+		txt <- gsub("%(\\s?)(\\w)", "# \\2", txt)
 	}
 
 	# Adding output and end-of-file brace -------------------- #
-	txt <- append(txt, paste(out, "\n}"))
+	txt <- append(txt, paste0("\treturn(", out, ")\n}"))
 
 	# Returning converted code ------------------------------- #
 	if (output == "asis") {
