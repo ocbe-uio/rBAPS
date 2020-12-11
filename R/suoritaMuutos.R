@@ -3,9 +3,8 @@
 #' @param osuusTaulu Percentage table?
 #' @param osuus percentage?
 #' @param indeksi index
-#' @param COUNTS counts
 #' @export
-suoritaMuutos <- function (osuusTaulu, osuus, indeksi, COUNTS = matrix(0)) {
+suoritaMuutos <- function (osuusTaulu, osuus, indeksi) {
     npops <- ifelse(is.na(dim(COUNTS)[3]), 1, dim(COUNTS)[3])
 
     i1 <- indeksi %% npops

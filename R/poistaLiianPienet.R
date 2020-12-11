@@ -5,13 +5,8 @@
 #' @param npops npops
 #' @param rowsFromInd rowsFromInd
 #' @param alaraja alaraja
-#' @param PARTITION PARTITION
-#' @param COUNTS COUNTS
-#' @param SUMCOUNTS SUMCOUNTS
 #' @export
-poistaLiianPienet <- function (npops, rowsFromInd, alaraja,
-        PARTITION = matrix(NA, 0, 0), COUNTS = matrix(NA, 0, 0),
-        SUMCOUNTS = NA) {
+poistaLiianPienet <- function (npops, rowsFromInd, alaraja) {
     popSize <- zeros(1,npops)
     if (npops > 0) {
         for (i in 1:npops) {

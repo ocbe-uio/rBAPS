@@ -4,7 +4,7 @@
 \alias{suoritaMuutos}
 \title{suoritaMuutos}
 \usage{
-suoritaMuutos(osuusTaulu, osuus, indeksi, COUNTS = matrix(0))
+suoritaMuutos(osuusTaulu, osuus, indeksi)
 }
 \arguments{
 \item{osuusTaulu}{Percentage table?}
@@ -12,8 +12,6 @@ suoritaMuutos(osuusTaulu, osuus, indeksi, COUNTS = matrix(0))
 \item{osuus}{percentage?}
 
 \item{indeksi}{index}
-
-\item{COUNTS}{counts}
 }
 \description{
 Päivittää osuusTaulun muutoksen jälkeen.

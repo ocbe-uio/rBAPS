@@ -4,7 +4,7 @@
 \alias{laskeMuutokset4}
 \title{Calculate changes (?)}
 \usage{
-laskeMuutokset4(osuus, osuusTaulu, omaFreqs, logml, COUNTS = matrix(0))
+laskeMuutokset4(osuus, osuusTaulu, omaFreqs, logml)
 }
 \arguments{
 \item{osuus}{Percentages?}
@@ -14,8 +14,6 @@ laskeMuutokset4(osuus, osuusTaulu, omaFreqs, logml, COUNTS = matrix(0))
 \item{omaFreqs}{own Freqs?}
 
 \item{logml}{log maximum likelihood}
-
-\item{COUNTS}{COUNTS}
 }
 \description{
 Palauttaa npops*npops taulun, jonka alkio (i,j) kertoo, mik?on

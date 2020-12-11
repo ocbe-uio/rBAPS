@@ -4,21 +4,10 @@
 \alias{admix1}
 \title{Admixture analysis}
 \usage{
-admix1(
-  tietue,
-  PARTITION = matrix(NA, 0, 0),
-  COUNTS = matrix(NA, 0, 0),
-  SUMCOUNTS = NA
-)
+admix1(tietue)
 }
 \arguments{
 \item{tietue}{tietue}
-
-\item{PARTITION}{PARTITION}
-
-\item{COUNTS}{COUNTS}
-
-\item{SUMCOUNTS}{SUMCOUNTS}
 }
 \description{
 Admixture analysis

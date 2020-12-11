@@ -4,14 +4,10 @@
 \alias{computeAllFreqs2}
 \title{Compute all freqs - version 2}
 \usage{
-computeAllFreqs2(noalle, COUNTS = matrix(NA, 0, 0), SUMCOUNTS = NA)
+computeAllFreqs2(noalle)
 }
 \arguments{
 \item{noalle}{noalle}
-
-\item{COUNTS}{counts}
-
-\item{SUMCOUNTS}{sumcounts}
 }
 \description{
 Lisää a priori jokaista alleelia joka populaation joka lokukseen
