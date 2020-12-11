@@ -13,9 +13,9 @@ learn_partition_modified(ordered)
 part
 }
 \description{
-This function is called only if some individual has less than 
+This function is called only if some individual has less than
 90 per cent non-missing data. The function uses fuzzy clustering for the
 "non-missingness" values, finding maximum three clusters. If two of the
-found clusters are such that all the values are >0.9, then those two are 
+found clusters are such that all the values are >0.9, then those two are
 further combined.
 }
