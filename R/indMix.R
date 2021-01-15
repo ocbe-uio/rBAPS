@@ -26,7 +26,7 @@ indMix <- function(c, npops, dispText) {
 		dispText <- 1
 		npopstext <- matrix()
 		ready <- FALSE
-		teksti <- 'Input upper bound to the number of populations (possibly multiple values)'
+		teksti <- 'Input upper bound to the number of populations (possibly multiple values)' # TODO: add "likely ncol(Z) values"?
 		while (!ready) {
 			npopstextExtra <- inputdlg(
 				teksti,
@@ -87,11 +87,10 @@ indMix <- function(c, npops, dispText) {
 			)
 		}
 		ninds <- size(rows, 1)
-
-		initialPartition <- admixture_initialization(initData, npops, Z) # TODO: translate
-		sumcounts_counts_logml = initialCounts(
+		initialPartition <- admixture_initialization(initData, npops, Z)
+		sumcounts_counts_logml <- initialCounts(
 			initialPartition, data, npops, rows, noalle, adjprior
-		) # TODO: translate
+		)
 		sumcounts <- sumcounts_counts_logml$sumcounts
 		counts <- sumcounts_counts_logml$counts
 		logml <- sumcounts_counts_logml$logml
@@ -104,7 +103,7 @@ indMix <- function(c, npops, dispText) {
 
 		COUNTS <- counts
 		SUMCOUNTS <- sumcounts
-		POP_LOGML <- computePopulationLogml(1:npops, adjprior, priorTerm) # TODO: translate
+		POP_LOGML <- computePopulationLogml(1:npops, adjprior, priorTerm)
 		LOGDIFF <- repmat(-Inf, c(ninds, npops))
 		rm(initialPartition, counts, sumcounts)
 

@@ -6,6 +6,7 @@ computePopulationLogml <- function(pops, adjprior, priorTerm) {
 	z <- length(pops)
 
 	popLogml <- squeeze(
+		# FIXME: assumes COUNTS has 3 dims. Where does this come from?
 		sum(
 			sum(
 				reshape(
