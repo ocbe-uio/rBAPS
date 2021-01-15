@@ -20,7 +20,7 @@ zeros_or_ones <- function(n, x) {
 }
 
 #' @title Matrix of zeros
-#' @description wrapper of `zeros_or_ones()` that replicates the behavior of 
+#' @description wrapper of `zeros_or_ones()` that replicates the behavior of
 #' the `zeros()` function on Matlab
 #' @param n1 number of rows
 #' @param n2 number of columns
@@ -35,7 +35,7 @@ zeros <- function(n1, n2 = n1, ...) {
 }
 
 #' @title Matrix of ones
-#' @description wrapper of `zeros_or_ones()` that replicates the behavior of 
+#' @description wrapper of `zeros_or_ones()` that replicates the behavior of
 #' the `ones()` function on Matlab
 #' @param n1 number of rows
 #' @param n2 number of columns

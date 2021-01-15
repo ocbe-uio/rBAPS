@@ -10,11 +10,14 @@
 #' @export
 
 computePersonalAllFreqs <- function(ind, data, allFreqs, rowsFromInd) {
-    nloci <- ifelse(is.na(dim(COUNTS)[2]), 1, dim(COUNTS)[2])
-    npops <- ifelse(is.na(dim(COUNTS)[3]), 1, dim(COUNTS)[3])
+    if (is.null(dim(COUNTS))) {
+        nloci <- npops <- 1
+    } else {
+        nloci <- ifelse(is.na(dim(COUNTS)[2]), 1, dim(COUNTS)[2])
+        npops <- ifelse(is.na(dim(COUNTS)[3]), 1, dim(COUNTS)[3])
+    }
 
     rows <- as.matrix(t(data))[computeRows(rowsFromInd, ind, 1), , drop = FALSE]
-
     omaFreqs <- zeros(npops, rowsFromInd * nloci)
     pointer <- 1
     for (loc in 1:dim(rows)[2]) {
