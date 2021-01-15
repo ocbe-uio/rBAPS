@@ -223,7 +223,7 @@ test_that("setdiff works as expected", {
 	A <- c(3, 6, 2, 1, 5, 1, 1)
 	B <- c(2, 4, 6)
 	C <- c(1, 3, 5)
-	# expect_equal(setdiff_MATLAB(A, B), C) # TODO: export setdiff_MATLAB
+	expect_equal(setdiff_MATLAB(A, B), C) # TODO: export setdiff_MATLAB
 	A <- data.frame(
 		Var1 = 1:5,
 		Var2 = LETTERS[1:5],
@@ -239,6 +239,7 @@ test_that("setdiff works as expected", {
 		Var2 = c('B', 'D'),
 		Var3 = c(TRUE, TRUE)
 	)
-	# expect_equal(setdiff_MATLAB(A, B), C) # TODO: implement for data frames
+	row.names(C) <- c(2L, 4L)
+	expect_equal(setdiff_MATLAB(A, B), C) # TODO: implement for data frames
 	# TODO: add more examples from https://se.mathworks.com/help/matlab/ref/double.setdiff.html;jsessionid=0d8d42582d4d299b8224403899f1
 })
