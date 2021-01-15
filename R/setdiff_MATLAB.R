@@ -9,7 +9,16 @@ setdiff_MATLAB <- function(A, B, legacy = FALSE) {
 	if (is(A, "numeric") & is(B, "numeric")) {
 		values <- sort(unique(A[is.na(match(A, B))]))
 	} else if (is(A, "data.frame") & is(B, "data.frame")) {
-		stop("Not implemented for data frames")
+		C <- A
+		exclude_rows <- vector()
+		for (r1 in seq_len(nrow(A))) {
+			for (r2 in seq_len(nrow(B))) {
+				if (all(A[r1, ] == B[r2, ])) {
+					exclude_rows <- append(exclude_rows, r1)
+				}
+			}
+		}
+		values <- C[-exclude_rows, ]
 	}
 	# TODO: add support for indices (if necessary)
 	return(values)
