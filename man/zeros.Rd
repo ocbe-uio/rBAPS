@@ -14,6 +14,6 @@ zeros(n1, n2 = n1, ...)
 \item{...}{extra dimensions}
 }
 \description{
-wrapper of `zeros_or_ones()` that replicates the behavior of 
+wrapper of `zeros_or_ones()` that replicates the behavior of
 the `zeros()` function on Matlab
 }
