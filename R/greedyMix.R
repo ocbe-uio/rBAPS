@@ -268,7 +268,7 @@ greedyMix <- function(
 
 	ninds  <- length(unique(data[, ncol(data)]))
 	ekat   <- t(seq(1, ninds, rowsFromInd) * rowsFromInd)
-	c$rows <- c(ekat, ekat + rowsFromInd - 1)
+	c$rows <- t(rbind(ekat, ekat + rowsFromInd - 1))
 
 	# ASK remove?
 	# partition compare

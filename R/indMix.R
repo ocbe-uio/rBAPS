@@ -42,7 +42,7 @@ indMix <- function(c, npops, dispText) {
 				npopstext <- c(npopstext, ' ', npopstextExtra)
 				teksti <- 'The input field length limit (255 characters) was reached. Input more values: '
 			} else {
-				npopstext <- c(npopstext, ' ', npopstextExtra)
+				npopstext <- strsplit(npopstextExtra, " ")[[1]]
 				ready <- TRUE
 			}
 		}
@@ -76,7 +76,7 @@ indMix <- function(c, npops, dispText) {
 	worstLogml <- -1e50
 	worstIndex <- 1
 	for (run in 1:nruns) {
-		npops <- npopsTaulu[run]
+		npops <- npopsTaulu[[run]]
 		if (dispText) {
 			dispLine()
 			print(
@@ -99,7 +99,7 @@ indMix <- function(c, npops, dispText) {
 		PARTITION <- zeros(ninds, 1)
 		for (i in 1:ninds) {
 			apu <- rows[i]
-			PARTITION[i] <- initialPartition(apu[1])
+			PARTITION[i] <- initialPartition[apu[1]]
 		}
 
 		COUNTS <- counts
