@@ -21,5 +21,5 @@ initialCounts <- function(partition, data, npops, rows, noalle, adjprior) {
 		}
 	}
 	logml <- laskeLoggis(counts, sumcounts, adjprior)
-	return(logml)
+	return(list(sumcounts = sumcounts, counts = counts, logml = logml))
 }
