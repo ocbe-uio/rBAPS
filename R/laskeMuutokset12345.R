@@ -68,12 +68,15 @@ laskeMuutokset <- function(ind, globalRows, data, adjprior, priorTerm) {
 	COUNTS[, , i1] <- COUNTS[, , i1] + diffInCounts
 	SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] + diffInSumCounts
 
-	i2 <- find(muutokset == -Inf) # Etsit��n populaatiot jotka muuttuneet viime kerran j�lkeen.
+	# TODO: check i2 calculation against MATLAB (where does this code come from?)
+	i2 <- find(muutokset == -Inf) # Etsit��n populaatiot jotka muuttuneet viime kerran j�lkeen. (Searching for populations that have changed since the last time)
 	i2 <- setdiff(i2, i1)
 	i2_logml <- POP_LOGML[i2]
 
 	ni2 <- length(i2)
 
+	# FIXME: i2 is empty
+	browser() # TEMP
 	COUNTS[, , i2] <- COUNTS[, , i2] + repmat(diffInCounts, c(1, 1, ni2))
 	SUMCOUNTS[i2, ] <- SUMCOUNTS[i2, ] + repmat(diffInSumCounts, c(ni2, 1))
 	new_i2_logml <- computePopulationLogml(i2, adjprior, priorTerm)
