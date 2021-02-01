@@ -79,10 +79,11 @@ indMix <- function(c, npops, dispText) {
 		npops <- npopsTaulu[[run]]
 		if (dispText) {
 			dispLine()
-			print(
+			cat(
 				paste0(
 					'Run ', as.character(run), '/', as.character(nruns),
-					', maximum number of populations ', as.character(npops), '.'
+					', maximum number of populations ', as.character(npops),
+					'.\n'
 				)
 			)
 		}
@@ -115,12 +116,11 @@ indMix <- function(c, npops, dispText) {
 		vaihe <- 1
 
 		if (dispText) {
-			print(' ')
-			print(
+			cat(
 				paste0(
-					'Mixture analysis started with initial',
+					'\nMixture analysis started with initial ',
 					as.character(npops),
-					'populations.'
+					' populations.'
 				)
 			)
 		}
@@ -129,7 +129,7 @@ indMix <- function(c, npops, dispText) {
 			muutoksia <- 0
 
 			if (dispText) {
-				print(paste('Performing steps:', as.character(roundTypes)))
+				cat(paste('\nPerforming steps:', as.character(roundTypes)))
 			}
 
 			for (n in 1:length(roundTypes)) {
