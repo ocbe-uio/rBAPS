@@ -13,14 +13,14 @@ computePopulationLogml <- function(pops, adjprior, priorTerm = 0) {
 	# ======================================================== #
 	# Computation                                              #
 	# ======================================================== #
+	isarray <- length(dim(repmat(adjprior, c(1, 1, length(pops))))) > 2
 	term1 <- squeeze(
-		# FIXME: assumes COUNTS has 3 dims. Where does this come from?
 		sum(
 			sum(
 				reshape(
 					lgamma(
 						repmat(adjprior, c(1, 1, length(pops))) +
-							COUNTS[seq_len(nrow(adjprior)), seq_len(ncol(adjprior)), pops, drop=FALSE]
+							COUNTS[seq_len(nrow(adjprior)), seq_len(ncol(adjprior)), pops, drop=!isarray]
 					),
 					c(x, y, z)
 				),
