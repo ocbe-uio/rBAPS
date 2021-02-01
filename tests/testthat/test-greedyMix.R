@@ -1,10 +1,11 @@
 context("Opening files on greedyMix")
 
-# greedyMix(
-# 	tietue = "inst/ext/ExamplesDataFormatting/Example baseline data in GENEPOP format for Trained clustering.txt",
-# 	format = "GenePop",
-# 	savePreProcessed = FALSE
-# )
+# TODO: needs #12 to be fixed before this can be done without user intervention
+greedyMix(
+	tietue = "inst/ext/ExamplesDataFormatting/Example baseline data in GENEPOP format for Trained clustering.txt",
+	format = "GenePop",
+	savePreProcessed = FALSE
+) # Upper bounds 100 100
 
 context("Linkage")
 
