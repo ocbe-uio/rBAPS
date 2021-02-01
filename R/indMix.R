@@ -137,11 +137,11 @@ indMix <- function(c, npops, dispText) {
 				round <- roundTypes[n]
 				kivaluku <- 0
 
-				if (kokeiltu(round) == 1) { #Askelta kokeiltu viime muutoksen j�lkeen
+				if (kokeiltu[round] == 1) { #Askelta kokeiltu viime muutoksen j�lkeen
 
 				} else if (round == 0 | round == 1) { #Yksil�n siirt�minen toiseen populaatioon.
 					inds <- 1:ninds
-					aputaulu <- c(t(inds), rand(ninds, 1))
+					aputaulu <- cbind(inds, rand(ninds, 1))
 					aputaulu <- sortrows(aputaulu, 2)
 					inds <- t(aputaulu[, 1])
 					muutosNyt <- 0
