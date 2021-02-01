@@ -1,5 +1,5 @@
-COUNTS <- vector()
-SUMCOUNTS <- vector()
+COUNTS <- array(0, dim=c(100, 100, 100))
+SUMCOUNTS <- array(0, dim=c(100, 100))
 PARTITION <- vector()
 POP_LOGML <- vector()
 LOGDIFF <- vector()
