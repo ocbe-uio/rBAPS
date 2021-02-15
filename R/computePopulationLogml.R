@@ -1,4 +1,4 @@
-computePopulationLogml <- function(pops, adjprior, priorTerm = 0) {
+computePopulationLogml <- function(pops, adjprior, priorTerm) {
 	# Palauttaa length(pops)*1 taulukon, jossa on laskettu korikohtaiset
 
 	# ======================================================== #
@@ -29,6 +29,7 @@ computePopulationLogml <- function(pops, adjprior, priorTerm = 0) {
 			2
 		)
 	)
+	if (is.null(priorTerm)) priorTerm <- 0
 	popLogml <- term1 - sum(lgamma(1 + SUMCOUNTS[pops, ]), 2) - priorTerm
 	return(popLogml)
 }
