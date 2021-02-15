@@ -60,7 +60,7 @@ laskeMuutokset <- function(ind, globalRows, data, adjprior, priorTerm) {
 	diffInCounts <- computeDiffInCounts(
 		rows, size(COUNTS, 1), size(COUNTS, 2), data
 	)
-	diffInSumCounts <- rowSums(diffInCounts)
+	diffInSumCounts <- colSums(diffInCounts)
 
 	COUNTS[, , i1] <- COUNTS[, , i1] - diffInCounts
 	SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] - diffInSumCounts
