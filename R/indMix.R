@@ -148,7 +148,7 @@ indMix <- function(c, npops, dispText) {
 
 					for (ind in inds) {
 						i1 <- PARTITION[ind]
-						muutokset_diffInCounts = laskeMuutokset(
+						muutokset_diffInCounts <- laskeMuutokset(
 							ind, rows, data, adjprior, priorTerm
 						)
 						muutokset <- muutokset_diffInCounts$muutokset
@@ -175,7 +175,7 @@ indMix <- function(c, npops, dispText) {
 							)
 							logml <- logml+maxMuutos
 							if (logml > worstLogml) {
-								partitionSummary_added = addToSummary(
+								partitionSummary_added <- addToSummary(
 									logml, partitionSummary, worstIndex
 								)
 								partitionSummary <- partitionSummary_added$partitionSummary
@@ -477,7 +477,7 @@ indMix <- function(c, npops, dispText) {
 								muutoksia <- 1
 								logml <- logml + totalMuutos
 								if (logml > worstLogml) {
-									partitionSummary_added = addToSummary(
+									partitionSummary_added <- addToSummary(
 										logml, partitionSummary, worstIndex
 									)
 									partitionSummary <- partitionSummary_added$partitionSummary
@@ -532,8 +532,8 @@ indMix <- function(c, npops, dispText) {
 				} else if (vaihe == 3) {
 					roundTypes <- c(5, 5, 7)
 				} else if (vaihe == 4) {
-					roundTypes = c(4, 3, 1)
-				} else if (vaihe == 5) {
+					roundTypes <- c(4, 3, 1)
+				} else if (vaihe == 5)
 					roundTypes <- c(6, 7, 2, 3, 4, 1)
 				}
 			}
