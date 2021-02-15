@@ -165,7 +165,7 @@ indMix <- function(c, npops, dispText) {
 							if (muutosNyt == 0) {
 								muutosNyt <- 1
 								if (dispText) {
-									print('Action 1')
+									cat('Action 1')
 								}
 							}
 							kokeiltu <- zeros(nRoundTypes, 1)
@@ -218,7 +218,7 @@ indMix <- function(c, npops, dispText) {
 						)
 						logml <- logml + maxMuutos
 						if (dispText) {
-							print('Action 2')
+							cat('Action 2')
 						}
 						if (logml > worstLogml) {
 							partitionSummary_added <- addToSummary(
@@ -284,9 +284,9 @@ indMix <- function(c, npops, dispText) {
 						logml <- logml + maxMuutos
 						if (dispText) {
 							if (round == 3) {
-								print('Action 3')
+								cat('Action 3')
 							} else {
-								print('Action 4')
+								cat('Action 4')
 							}
 						}
 						if (logml > worstLogml) {
@@ -365,9 +365,9 @@ indMix <- function(c, npops, dispText) {
 								muutoksia <- 1  # Ulompi kirjanpito.
 								if (dispText) {
 									if (round == 5) {
-										print('Action 5')
+										cat('Action 5')
 									} else {
-										print('Action 6')
+										cat('Action 6')
 									}
 								}
 							}
@@ -489,7 +489,7 @@ indMix <- function(c, npops, dispText) {
 								}
 								if (muutoksiaNyt == 0) {
 									if (dispText) {
-										print('Action 7')
+										cat('Action 7')
 									}
 									muutoksiaNyt <- 1
 								}
