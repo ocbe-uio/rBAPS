@@ -178,7 +178,7 @@ indMix <- function(c, npops, dispText) {
 								partitionSummary_added = addToSummary(
 									logml, partitionSummary, worstIndex
 								)
-								partitionSummary_added <- partitionSummary_added$partitionSummary
+								partitionSummary <- partitionSummary_added$partitionSummary
 								added <- partitionSummary_added$added
 								if (added == 1) {
 									worstLogml <- min_MATLAB(partitionSummary[, 2])[[1]]
@@ -480,7 +480,7 @@ indMix <- function(c, npops, dispText) {
 									partitionSummary_added = addToSummary(
 										logml, partitionSummary, worstIndex
 									)
-									partitionSummary_added <- partitionSummary_added$partitionSummary
+									partitionSummary <- partitionSummary_added$partitionSummary
 									added <- partitionSummary_added$added
 									if (added == 1) {
 										worstLogml <- min_MATLAB(partitionSummary[, 2])[[1]]
