@@ -533,7 +533,7 @@ indMix <- function(c, npops, dispText) {
 					roundTypes <- c(5, 5, 7)
 				} else if (vaihe == 4) {
 					roundTypes <- c(4, 3, 1)
-				} else if (vaihe == 5)
+				} else if (vaihe == 5) {
 					roundTypes <- c(6, 7, 2, 3, 4, 1)
 				}
 			}
