@@ -28,11 +28,7 @@ indMix <- function(c, npops, dispText) {
 		ready <- FALSE
 		teksti <- 'Input upper bound to the number of populations (possibly multiple values)' # TODO: add "likely ncol(Z) values"?
 		while (!ready) {
-			npopstextExtra <- inputdlg(
-				teksti,
-				1,
-				'20'
-			)
+			npopstextExtra <- inputdlg(teksti, 1, '20')
 			if (isempty(npopstextExtra)) { # Painettu Cancel:ia
 				return()
 			}
@@ -160,6 +156,7 @@ indMix <- function(c, npops, dispText) {
 						}
 
 						if (i1 != i2 & maxMuutos > 1e-5) {
+							# browser() # TEMP
 							# Tapahtui muutos
 							muutoksia <- 1
 							if (muutosNyt == 0) {
@@ -513,7 +510,8 @@ indMix <- function(c, npops, dispText) {
 
 				}
 			}
-
+			# FIXME: muutoksia is never 0, so vaihe never equals 5 and ready 1
+			print(paste("i1 =", i1, "i2 =", i2, "maxMuutos =", maxMuutos))#TEMP
 			if (muutoksia == 0) {
 				if (vaihe <= 4) {
 					vaihe <= vaihe + 1
