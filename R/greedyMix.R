@@ -69,6 +69,7 @@ greedyMix <- function(
 			# end
 
 			data <- read.delim(pathname_filename, header = FALSE, sep = " ")
+			data <- as.matrix(data)
 			ninds <- testaaOnkoKunnollinenBapsData(data)  # testing
 			if (ninds == 0) stop('Incorrect Data-file')
 
