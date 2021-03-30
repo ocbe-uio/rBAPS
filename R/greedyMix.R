@@ -68,7 +68,7 @@ greedyMix <- function(
 			# 	fprintf(1,'Data: %s\n',[pathname filename]);
 			# end
 
-			data <- read.delim(pathname_filename) # TODO: discover delimiter
+			data <- read.delim(pathname_filename, header = FALSE, sep = " ")
 			ninds <- testaaOnkoKunnollinenBapsData(data)  # testing
 			if (ninds == 0) stop('Incorrect Data-file')
 
