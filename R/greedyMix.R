@@ -105,8 +105,17 @@ greedyMix <- function(
 				popnames <- ""
 			}
 
-			# [data, rowsFromInd, alleleCodes, noalle, adjprior, priorTerm] = handleData(data); # TODO: translate this function
-			# [Z,dist] = newGetDistances(data,rowsFromInd); # TODO: translate
+			temp_handleData <- handleData(data)
+			data <- temp_handleData$newData
+			rowsFromInd <- temp_handleData$rowsFromInd
+			alleleCodes <- temp_handleData$alleleCodes
+			noalle <- temp_handleData$noalle
+			adjprior <- temp_handleData$adjprior
+			priorTerm <- temp_handleData$priorTerm
+			Z_dist <- newGetDistances(data,rowsFromInd)
+			Z <- Z_dist$Z
+			dist <- Z_dist$dist
+			rm(temp_handleData, Z_dist)
 			if (is.null(savePreProcessed)) {
 				save_preproc <- questdlg(
 					quest = 'Do you wish to save pre-processed data?',
