@@ -317,7 +317,7 @@ greedyMix <- function(
 		# npops <- logml_npops_partitionSummary$npops
 		# partitionSummary <- logml_npops_partitionSummary$partitionSummary
 	} else {
-		logml_npops_partitionSummary <- indMix(c) # TODO: translate
+		logml_npops_partitionSummary <- indMix(c)
 		logml <- logml_npops_partitionSummary$logml
 		npops <- logml_npops_partitionSummary$npops
 		partitionSummary <- logml_npops_partitionSummary$partitionSummary
