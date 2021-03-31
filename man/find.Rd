@@ -4,10 +4,12 @@
 \alias{find}
 \title{Find indices and values of nonzero elements}
 \usage{
-find(x)
+find(x, sort = TRUE)
 }
 \arguments{
 \item{x}{object or logic operation on an object}
+
+\item{sort}{sort output?}
 }
 \description{
 Emulates behavior of `find`
