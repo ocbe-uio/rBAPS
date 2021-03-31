@@ -4,12 +4,15 @@
 \alias{cell}
 \title{Cell array}
 \usage{
-cell(n, sz = c(n, n), ...)
+cell(n, sz = c(n, n), expandable = FALSE, ...)
 }
 \arguments{
 \item{n}{a the first dimension (or both, if sz is not passed)}
 
 \item{sz}{the second dimension (or 1st and 2nd, if not passed)}
+
+\item{expandable}{if TRUE, output is a list (so it can take different
+lengths)}
 
 \item{...}{Other dimensions}
 }

@@ -68,19 +68,20 @@ greedyMix <- function(
 			# 	fprintf(1,'Data: %s\n',[pathname filename]);
 			# end
 
-			data <- read.delim(pathname_filename) # TODO: discover delimiter
+			data <- read.delim(pathname_filename, header = FALSE, sep = " ")
+			data <- as.matrix(data)
 			ninds <- testaaOnkoKunnollinenBapsData(data)  # testing
 			if (ninds == 0) stop('Incorrect Data-file')
 
 			# ASK: remove?
 			# h0 = findobj('Tag','filename1_text');
 			# set(h0,'String',filename); clear h0;
-			cat(
+			message(
 				'When using data which are in BAPS-format,',
 				'you can specify the sampling populations of the',
 				'individuals by giving two additional files:',
 				'one containing the names of the populations,',
-				'the other containing the indices of the first',
+				'the other containing the indices of the first ',
 				'individuals of the populations.'
 			)
 			input_pops <- inputdlg(
@@ -104,8 +105,17 @@ greedyMix <- function(
 				popnames <- ""
 			}
 
-			# [data, rowsFromInd, alleleCodes, noalle, adjprior, priorTerm] = handleData(data); # TODO: translate this function
-			# [Z,dist] = newGetDistances(data,rowsFromInd); # TODO: translate
+			temp_handleData <- handleData(data)
+			data <- temp_handleData$newData
+			rowsFromInd <- temp_handleData$rowsFromInd
+			alleleCodes <- temp_handleData$alleleCodes
+			noalle <- temp_handleData$noalle
+			adjprior <- temp_handleData$adjprior
+			priorTerm <- temp_handleData$priorTerm
+			Z_dist <- newGetDistances(data,rowsFromInd)
+			Z <- Z_dist$Z
+			dist <- Z_dist$dist
+			rm(temp_handleData, Z_dist)
 			if (is.null(savePreProcessed)) {
 				save_preproc <- questdlg(
 					quest = 'Do you wish to save pre-processed data?',
@@ -307,7 +317,7 @@ greedyMix <- function(
 		# npops <- logml_npops_partitionSummary$npops
 		# partitionSummary <- logml_npops_partitionSummary$partitionSummary
 	} else {
-		logml_npops_partitionSummary <- indMix(c) # TODO: translate
+		logml_npops_partitionSummary <- indMix(c)
 		logml <- logml_npops_partitionSummary$logml
 		npops <- logml_npops_partitionSummary$npops
 		partitionSummary <- logml_npops_partitionSummary$partitionSummary

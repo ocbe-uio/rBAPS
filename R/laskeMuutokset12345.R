@@ -60,7 +60,7 @@ laskeMuutokset <- function(ind, globalRows, data, adjprior, priorTerm) {
 	diffInCounts <- computeDiffInCounts(
 		rows, size(COUNTS, 1), size(COUNTS, 2), data
 	)
-	diffInSumCounts <- sum(diffInCounts)
+	diffInSumCounts <- colSums(diffInCounts)
 
 	COUNTS[, , i1] <- COUNTS[, , i1] - diffInCounts
 	SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] - diffInSumCounts
@@ -68,7 +68,7 @@ laskeMuutokset <- function(ind, globalRows, data, adjprior, priorTerm) {
 	COUNTS[, , i1] <- COUNTS[, , i1] + diffInCounts
 	SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] + diffInSumCounts
 
-	i2 <- find(muutokset == -Inf) # Etsit��n populaatiot jotka muuttuneet viime kerran j�lkeen.
+	i2 <- find(muutokset == -Inf) # Etsit��n populaatiot jotka muuttuneet viime kerran j�lkeen. (Searching for populations that have changed since the last time)
 	i2 <- setdiff(i2, i1)
 	i2_logml <- POP_LOGML[i2]
 
@@ -81,7 +81,7 @@ laskeMuutokset <- function(ind, globalRows, data, adjprior, priorTerm) {
 	SUMCOUNTS[i2, ] <- SUMCOUNTS[i2, ] - repmat(diffInSumCounts, c(ni2, 1))
 
 	muutokset[i2] <- new_i1_logml - i1_logml + new_i2_logml - i2_logml
-	LOGDIFF[ind, ] = muutokset
+	LOGDIFF[ind, ] <- muutokset
 	return(list(muutokset = muutokset, diffInCounts = diffInCounts))
 }
 

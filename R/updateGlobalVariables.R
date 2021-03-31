@@ -1,14 +1,13 @@
 updateGlobalVariables <- function(ind, i2, diffInCounts, adjprior, priorTerm) {
 	# % Suorittaa globaalien muuttujien muutokset, kun yksil� ind
 	# % on siirret��n koriin i2.
-
 	i1 <- PARTITION[ind]
 	PARTITION[ind] <- i2
 
 	COUNTS[, , i1] <- COUNTS[, , i1] - diffInCounts
 	COUNTS[, , i2] <- COUNTS[, , i2] + diffInCounts
-	SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] - sum[diffInCounts]
-	SUMCOUNTS[i2, ] <- SUMCOUNTS[i2, ] + sum[diffInCounts]
+	SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] - colSums(diffInCounts)
+	SUMCOUNTS[i2, ] <- SUMCOUNTS[i2, ] + colSums(diffInCounts)
 
 	POP_LOGML[c(i1, i2)] <- computePopulationLogml(
 		c(i1, i2), adjprior, priorTerm
@@ -28,8 +27,8 @@ updateGlobalVariables2 <- function(i1, i2, diffInCounts, adjprior, priorTerm) {
 
 	COUNTS[, , i1] <- COUNTS[, , i1] - diffInCounts
 	COUNTS[, , i2] <- COUNTS[, , i2] + diffInCounts
-	SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] - sum[diffInCounts]
-	SUMCOUNTS[i2, ] <- SUMCOUNTS[i2, ] + sum[diffInCounts]
+	SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] - colSums(diffInCounts)
+	SUMCOUNTS[i2, ] <- SUMCOUNTS[i2, ] + colSums(diffInCounts)
 
 	POP_LOGML[i1] <- 0
 	POP_LOGML[i2] <- computePopulationLogml(i2, adjprior, priorTerm)
@@ -51,8 +50,8 @@ updateGlobalVariables3 <- function(
 
 	COUNTS[, , i1] <- COUNTS[, , i1] - diffInCounts
 	COUNTS[, , i2] <- COUNTS[, , i2] + diffInCounts
-	SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] - sum[diffInCounts]
-	SUMCOUNTS[i2, ] <- SUMCOUNTS[i2, ] + sum[diffInCounts]
+	SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] - colSums(diffInCounts)
+	SUMCOUNTS[i2, ] <- SUMCOUNTS[i2, ] + colSums(diffInCounts)
 
 	POP_LOGML[c(i1, i2)] <- computePopulationLogml(
 		c(i1, i2), adjprior, priorTerm

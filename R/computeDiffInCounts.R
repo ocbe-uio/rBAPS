@@ -4,9 +4,9 @@ computeDiffInCounts <- function(rows, max_noalle, nloci, data) {
 	# % riveill� rows. rows pit�� olla vaakavektori.
 
 	diffInCounts <- zeros(max_noalle, nloci)
-	for (i in rows) {
+	for (i in seq_len(nrow(data)) ) {
 		row <- data[i, ]
-		notEmpty <- find(row>=0)
+		notEmpty <- as.matrix(find(row>=0))
 
 		if (length(notEmpty) > 0) {
 			diffInCounts[row(notEmpty) + (notEmpty - 1) * max_noalle] <-

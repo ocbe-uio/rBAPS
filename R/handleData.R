@@ -20,7 +20,7 @@ handleData <- function(raw_data) {
 	# koodi pienimm?ksi koodiksi, joka isompi kuin mik??n k?yt?ss?oleva koodi.
 	# T?m?n j?lkeen funktio muuttaa alleelikoodit siten, ett?yhden lokuksen j
 	# koodit saavat arvoja v?lill?1,...,noalle(j).
-	data <- raw_data
+	data <- as.matrix(raw_data)
 	nloci <- size(raw_data, 2) - 1
 
 	dataApu <- data[, 1:nloci]
@@ -35,24 +35,29 @@ handleData <- function(raw_data) {
 	# isoinAlleeli <- []
 
 	noalle <- zeros(1, nloci)
-	alleelitLokuksessa <- cell(nloci, 1)
+	alleelitLokuksessa <- cell(nloci, 1, expandable=TRUE)
 	for (i in 1:nloci) {
 		alleelitLokuksessaI <- unique(data[, i])
-		alleelitLokuksessaI_pos <- find(alleelitLokuksessaI >= 0)
-		alleelitLokuksessa[i, 1] <- ifelse(
-			test = length(alleelitLokuksessaI_pos) > 0,
-			yes  = alleelitLokuksessaI[alleelitLokuksessaI_pos],
-			no   = 0
-		)
-		noalle[i] <- length(alleelitLokuksessa[i, 1])
+		alleelitLokuksessa[[i]] <- sort(alleelitLokuksessaI[
+			find(
+				alleelitLokuksessaI >= 0
+			)
+		])
+		noalle[i] <- length(alleelitLokuksessa[[i]])
 	}
 	alleleCodes <- zeros(max(noalle), nloci)
 	for (i in 1:nloci) {
-		alleelitLokuksessaI <- alleelitLokuksessa[i, 1]
+		alleelitLokuksessaI <- alleelitLokuksessa[[i]]
 		puuttuvia <- max(noalle) - length(alleelitLokuksessaI)
 		alleleCodes[, i] <- as.matrix(
 			c(alleelitLokuksessaI, zeros(puuttuvia, 1))
 		)
+	}
+
+	for (loc in seq_len(nloci)) {
+		for (all in seq_len(noalle[loc])) {
+			data[find(data[, loc] == alleleCodes[all, loc]), loc] <- all
+		}
 	}
 
 	nind <- max(data[, ncol(data)])

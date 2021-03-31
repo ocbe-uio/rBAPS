@@ -21,18 +21,13 @@ indMix <- function(c, npops, dispText) {
 
 	rm(c)
 	nargin <- length(as.list(match.call())) - 1
-
 	if (nargin < 2) {
 		dispText <- 1
 		npopstext <- matrix()
 		ready <- FALSE
 		teksti <- 'Input upper bound to the number of populations (possibly multiple values)' # TODO: add "likely ncol(Z) values"?
 		while (!ready) {
-			npopstextExtra <- inputdlg(
-				teksti,
-				1,
-				'20'
-			)
+			npopstextExtra <- inputdlg(teksti, 1, '20')
 			if (isempty(npopstextExtra)) { # Painettu Cancel:ia
 				return()
 			}
@@ -52,7 +47,7 @@ indMix <- function(c, npops, dispText) {
 		} else {
 			npopsTaulu <- as.numeric(npopstext)
 			ykkoset <- find(npopsTaulu == 1)
-			npopsTaulu[ykkoset] <- list() # Mik�li ykk�si� annettu yl�rajaksi, ne poistetaan.
+			npopsTaulu[ykkoset] <- NA # Mik�li ykk�si� annettu yl�rajaksi, ne poistetaan (if ones are given as an upper limit, they are deleted)
 			if (isempty(npopsTaulu)) {
 				logml <- 1
 				partitionSummary <- 1
@@ -79,10 +74,11 @@ indMix <- function(c, npops, dispText) {
 		npops <- npopsTaulu[[run]]
 		if (dispText) {
 			dispLine()
-			print(
+			cat(
 				paste0(
 					'Run ', as.character(run), '/', as.character(nruns),
-					', maximum number of populations ', as.character(npops), '.'
+					', maximum number of populations ', as.character(npops),
+					'.\n'
 				)
 			)
 		}
@@ -115,12 +111,11 @@ indMix <- function(c, npops, dispText) {
 		vaihe <- 1
 
 		if (dispText) {
-			print(' ')
-			print(
+			message(
 				paste0(
-					'Mixture analysis started with initial',
+					'\nMixture analysis started with initial ',
 					as.character(npops),
-					'populations.'
+					' populations.'
 				)
 			)
 		}
@@ -129,7 +124,7 @@ indMix <- function(c, npops, dispText) {
 			muutoksia <- 0
 
 			if (dispText) {
-				print(paste('Performing steps:', as.character(roundTypes)))
+				message(paste('\nPerforming steps:', as.character(roundTypes)))
 			}
 
 			for (n in 1:length(roundTypes)) {
@@ -137,26 +132,26 @@ indMix <- function(c, npops, dispText) {
 				round <- roundTypes[n]
 				kivaluku <- 0
 
-				if (kokeiltu(round) == 1) { #Askelta kokeiltu viime muutoksen j�lkeen
+				if (kokeiltu[round] == 1) { #Askelta kokeiltu viime muutoksen j�lkeen
 
 				} else if (round == 0 | round == 1) { #Yksil�n siirt�minen toiseen populaatioon.
 					inds <- 1:ninds
-					aputaulu <- c(t(inds), rand(ninds, 1))
+					aputaulu <- cbind(inds, rand(ninds, 1))
 					aputaulu <- sortrows(aputaulu, 2)
 					inds <- t(aputaulu[, 1])
 					muutosNyt <- 0
 
 					for (ind in inds) {
 						i1 <- PARTITION[ind]
-						muutokset_diffInCounts = laskeMuutokset(
+						muutokset_diffInCounts <- laskeMuutokset(
 							ind, rows, data, adjprior, priorTerm
 						)
 						muutokset <- muutokset_diffInCounts$muutokset
 						diffInCounts <- muutokset_diffInCounts$diffInCounts
 
 						if (round == 1) {
-							maxMuutos <- max_MATLAB(muutokset)[[1]]
-							i2 <- max_MATLAB(muutokset)[[2]]
+							maxMuutos <- max_MATLAB(muutokset)$max
+							i2 <- max_MATLAB(muutokset)$idx
 						}
 
 						if (i1 != i2 & maxMuutos > 1e-5) {
@@ -164,25 +159,26 @@ indMix <- function(c, npops, dispText) {
 							muutoksia <- 1
 							if (muutosNyt == 0) {
 								muutosNyt <- 1
-								if (dispText) {
-									print('Action 1')
-								}
+								if (dispText) message('Action 1')
 							}
 							kokeiltu <- zeros(nRoundTypes, 1)
 							kivaluku <- kivaluku + 1
 							updateGlobalVariables(
 								ind, i2, diffInCounts, adjprior, priorTerm
 							)
-							logml <- logml+maxMuutos
+							logml <- logml + maxMuutos
 							if (logml > worstLogml) {
-								partitionSummary_added = addToSummary(
+								temp_addToSum <- addToSummary(
 									logml, partitionSummary, worstIndex
 								)
-								partitionSummary_added <- partitionSummary_added$partitionSummary
-								added <- partitionSummary_added$added
+								partitionSummary <- temp_addToSum$partitionSummary
+								added <- temp_addToSum$added
 								if (added == 1) {
-									worstLogml <- min_MATLAB(partitionSummary[, 2])[[1]]
-									worstIndex <- min_MATLAB(partitionSummary[, 2])[[2]]
+									temp_minMATLAB <- min_MATLAB(
+										partitionSummary[, 2]
+									)
+									worstLogml <- temp_minMATLAB[[1]]
+									worstIndex <- temp_minMATLAB[[2]]
 								}
 							}
 						}
@@ -191,7 +187,6 @@ indMix <- function(c, npops, dispText) {
 					if (muutosNyt == 0) {
 						kokeiltu[round] <- 1
 					}
-
 				} else if (round == 2) { # Populaation yhdist�minen toiseen.
 					maxMuutos <- 0
 					for (pop in 1:npops) {
@@ -218,14 +213,14 @@ indMix <- function(c, npops, dispText) {
 						)
 						logml <- logml + maxMuutos
 						if (dispText) {
-							print('Action 2')
+							cat('Action 2')
 						}
 						if (logml > worstLogml) {
-							partitionSummary_added <- addToSummary(
+							temp_addToSum <- addToSummary(
 								logml, partitionSummary, worstIndex
 							)
-							partitionSummary <- partitionSummary_added$partitionSummary
-							added <- partitionSummary_added$added
+							partitionSummary <- temp_addToSum$partitionSummary
+							added <- temp_addToSum$added
 							if (added==1) {
 								worstLogml <- min_MATLAB(partitionSummary[, 2])[[1]]
 								worstIndex <- min_MATLAB(partitionSummary[, 2])[[2]]
@@ -284,17 +279,17 @@ indMix <- function(c, npops, dispText) {
 						logml <- logml + maxMuutos
 						if (dispText) {
 							if (round == 3) {
-								print('Action 3')
+								cat('Action 3')
 							} else {
-								print('Action 4')
+								cat('Action 4')
 							}
 						}
 						if (logml > worstLogml) {
-							partitionSummary_added <- addToSummary(
+							temp_addToSum <- addToSummary(
 								logml, partitionSummary, worstIndex
 							)
-							partitionSummary <- partitionSummary_added$partitionSummary
-							added <- partitionSummary_added$added
+							partitionSummary <- temp_addToSum$partitionSummary
+							added <- temp_addToSum$added
 							if (added==1) {
 								worstLogml <- min_MATLAB(partitionSummary[, 2])[[1]]
 								worstIndex <- min_MATLAB(partitionSummary[, 2])[[2]]
@@ -365,18 +360,18 @@ indMix <- function(c, npops, dispText) {
 								muutoksia <- 1  # Ulompi kirjanpito.
 								if (dispText) {
 									if (round == 5) {
-										print('Action 5')
+										cat('Action 5')
 									} else {
-										print('Action 6')
+										cat('Action 6')
 									}
 								}
 							}
 							if (logml > worstLogml) {
-								partitionSummary_added <- addToSummary(
+								temp_addToSum <- addToSummary(
 									logml, partitionSummary, worstIndex
 								)
-								partitionSummary <- partitionSummary_added$partitionSummary
-								added <- partitionSummary_added$added
+								partitionSummary <- temp_addToSum$partitionSummary
+								added <- temp_addToSum$added
 								if (added==1) {
 									worstLogml <- min_MATLAB(partitionSummary[, 2])[[1]]
 									worstIndex <- min_MATLAB(partitionSummary[, 2])[[2]]
@@ -477,11 +472,11 @@ indMix <- function(c, npops, dispText) {
 								muutoksia <- 1
 								logml <- logml + totalMuutos
 								if (logml > worstLogml) {
-									partitionSummary_added = addToSummary(
+									temp_addToSum <- addToSummary(
 										logml, partitionSummary, worstIndex
 									)
-									partitionSummary_added <- partitionSummary_added$partitionSummary
-									added <- partitionSummary_added$added
+									partitionSummary <- temp_addToSum$partitionSummary
+									added <- temp_addToSum$added
 									if (added == 1) {
 										worstLogml <- min_MATLAB(partitionSummary[, 2])[[1]]
 										worstIndex <- min_MATLAB(partitionSummary[, 2])[[2]]
@@ -489,7 +484,7 @@ indMix <- function(c, npops, dispText) {
 								}
 								if (muutoksiaNyt == 0) {
 									if (dispText) {
-										print('Action 7')
+										cat('Action 7')
 									}
 									muutoksiaNyt <- 1
 								}
@@ -513,7 +508,8 @@ indMix <- function(c, npops, dispText) {
 
 				}
 			}
-
+			# FIXME: muutoksia is never 0, so vaihe never equals 5 and ready 1
+			print(paste("i1 =", i1, "i2 =", i2, "maxMuutos =", maxMuutos))#TEMP
 			if (muutoksia == 0) {
 				if (vaihe <= 4) {
 					vaihe <= vaihe + 1
@@ -532,7 +528,7 @@ indMix <- function(c, npops, dispText) {
 				} else if (vaihe == 3) {
 					roundTypes <- c(5, 5, 7)
 				} else if (vaihe == 4) {
-					roundTypes = c(4, 3, 1)
+					roundTypes <- c(4, 3, 1)
 				} else if (vaihe == 5) {
 					roundTypes <- c(6, 7, 2, 3, 4, 1)
 				}

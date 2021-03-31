@@ -15,6 +15,12 @@ repmat <- function (mx, n) {
     if (length(n) > 3) warning("Extra dimensions of n ignored")
     if (!is(mx, "matrix")) mx <- t(as.matrix(mx))
     if (length(n) == 1) n <- rep(n, 2)
+    if (any(n == 0)) {
+        n_zero <- which(n == 0)
+        out_dim <- dim(mx)
+        out_dim[n_zero] <- 0
+        return(array(dim=out_dim))
+    }
 
     # Replicating cols
     out <- mx_col <- matrix(rep(mx, n[2]), nrow(mx))
