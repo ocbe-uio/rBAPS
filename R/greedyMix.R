@@ -77,10 +77,10 @@ greedyMix <- function(
 			# h0 = findobj('Tag','filename1_text');
 			# set(h0,'String',filename); clear h0;
 			message(
-				'When using data which are in BAPS-format,',
-				'you can specify the sampling populations of the',
-				'individuals by giving two additional files:',
-				'one containing the names of the populations,',
+				'When using data which are in BAPS-format, ',
+				'you can specify the sampling populations of the ',
+				'individuals by giving two additional files: ',
+				'one containing the names of the populations, ',
 				'the other containing the indices of the first ',
 				'individuals of the populations.'
 			)

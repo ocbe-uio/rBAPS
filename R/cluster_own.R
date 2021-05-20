@@ -13,7 +13,7 @@ cluster_own <- function(Z, nclust) {
 	} else {
 		clsnum <- 1
 		for (k in (m - maxclust + 1):(m - 1)) {
-			i = Z(k, 1) # left tree
+			i = Z[k, 1] # left tree
 			if (i <= m) { # original node, no leafs
 				T[i] = clsnum
 				clsnum = clsnum + 1
@@ -21,7 +21,7 @@ cluster_own <- function(Z, nclust) {
 				T <- clusternum(Z, T, i - m, clsnum)
 				clsnum <- clsnum + 1
 			}
-			i <- Z(k, 2) # right tree
+			i <- Z[k, 2] # right tree
 			if (i <= m) { # original node, no leafs
 				T[i] <- clsnum
 				clsnum <- clsnum + 1
