@@ -4,7 +4,7 @@
 #' @param dims number of dimensions in the answwers
 #' @param definput default value of the input
 #' @export
-inputdlg <- function(prompt, definput=NULL, dims=1) {
+inputdlg <- function(prompt, dims=1, definput=NULL) {
     if (!is.null(definput)) {
         prompt <- append(prompt, paste0(" (default: ", definput, ")"))
     }

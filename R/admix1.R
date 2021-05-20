@@ -86,7 +86,7 @@ admix1 <- function(tietue) {
     nloci <- size(COUNTS, 2)
     ninds <- size(data, 1) / rowsFromInd
 
-    answers <- inputdlg('Input number of iterations', 50)
+    answers <- inputdlg('Input number of iterations', definput=50)
     if (isempty(answers)) return()
     iterationCount <- as.numeric(answers[1, 1]) # maybe [[]]?
 
