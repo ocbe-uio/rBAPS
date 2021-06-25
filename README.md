@@ -11,6 +11,8 @@ rBAPS is currently under development and a stable version is yet to be released.
 remotes::install_github("ocbe-uio/rBAPS", "develop")
 ```
 
+At the current stage, we still recommend using the original BAPS software for production.
+
 ## Contributing
 
 rBAPS is Open Software licenced under the [GPL-3](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)), so all contributions are welcome. You can find a list of tasks we're working on for the first release of rBAPS [here](https://github.com/ocbe-uio/rBAPS/milestone/1). and pitfalls on the [PITFALLS.md](PITFALLS.md) file.
