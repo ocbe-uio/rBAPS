@@ -8,7 +8,7 @@ R implementation of the compiled Matlab BAPS software for Bayesian Analysis of P
 rBAPS is currently under development and a stable version is yet to be released. You can install the development version by issuing the command below on an interactive R session.
 
 ```r
-remotes::install_github("ocbe-uio/rBAPS", "dev")
+remotes::install_github("ocbe-uio/rBAPS", "develop")
 ```
 
 ## Contributing
