@@ -4,14 +4,14 @@
 \alias{inputdlg}
 \title{Gather user input}
 \usage{
-inputdlg(prompt, definput = NULL, dims = 1)
+inputdlg(prompt, dims = 1, definput = NULL)
 }
 \arguments{
 \item{prompt}{Text field with user instructions}
 
-\item{definput}{default value of the input}
-
 \item{dims}{number of dimensions in the answwers}
+
+\item{definput}{default value of the input}
 }
 \description{
 Replicates the functionality of the homonymous function in Matlab (sans dialog box)
