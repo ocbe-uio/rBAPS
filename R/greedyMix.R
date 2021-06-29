@@ -322,7 +322,10 @@ greedyMix <- function(
 		npops <- logml_npops_partitionSummary$npops
 		partitionSummary <- logml_npops_partitionSummary$partitionSummary
 	}
-	if (logml_npops_partitionSummary$logml == 1) return()
+	if (logml == 1) {
+		warning("logml == 1")
+		return()
+	}
 
 	data <- data[, seq_len(ncol(data) - 1)]
 

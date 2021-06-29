@@ -1,4 +1,4 @@
-indMix <- function(c, npops, dispText) {
+indMix <- function(c, npops, dispText=TRUE) {
 	# Greedy search algorithm with unknown number of classes for regular
 	# clustering.
 	# Input npops is not used if called by greedyMix or greedyPopMix.
@@ -25,24 +25,26 @@ indMix <- function(c, npops, dispText) {
 		dispText <- 1
 		npopstext <- matrix()
 		ready <- FALSE
-		teksti <- 'Input upper bound to the number of populations (possibly multiple values)' # TODO: add "likely ncol(Z) values"?
+		teksti <- 'Input upper bound to the number of populations (possibly multiple values)'
 		while (!ready) {
 			npopstextExtra <- inputdlg(teksti, 1, '20')
 			if (isempty(npopstextExtra)) { # Painettu Cancel:ia
+				warnings("Empty value provided")
 				return()
 			}
-			npopstextExtra <- npopstextExtra[1]
+			npopstextExtra <- npopstextExtra[[1]]
 			if (length(npopstextExtra)>=255) {
 				npopstextExtra <- npopstextExtra[1:255]
 				npopstext <- c(npopstext, ' ', npopstextExtra)
 				teksti <- 'The input field length limit (255 characters) was reached. Input more values: '
 			} else {
-				npopstext <- strsplit(npopstextExtra, " ")[[1]]
+				npopstext <- as.numeric(strsplit(as.character(npopstextExtra), " ")[[1]])
 				ready <- TRUE
 			}
 		}
 		rm(ready, teksti)
 		if (isempty(npopstext) | length(npopstext) == 1) {
+			warning("Empty or 1-length vector provided")
 			return()
 		} else {
 			npopsTaulu <- as.numeric(npopstext)
@@ -75,11 +77,10 @@ indMix <- function(c, npops, dispText) {
 		if (dispText) {
 			dispLine()
 			cat(
-				paste0(
-					'Run ', as.character(run), '/', as.character(nruns),
-					', maximum number of populations ', as.character(npops),
-					'.\n'
-				)
+				'Run ', as.character(run), '/', as.character(nruns),
+				', maximum number of populations ', as.character(npops),
+				'.\n',
+				sep = ""
 			)
 		}
 		ninds <- size(rows, 1)
@@ -114,13 +115,13 @@ indMix <- function(c, npops, dispText) {
 			message(
 				paste0(
 					'\nMixture analysis started with initial ',
-					as.character(npops),
-					' populations.'
+					as.character(npops), ' populations.'
 				)
 			)
 		}
 
 		while (ready != 1) {
+			# FIXME: loop caught in here
 			muutoksia <- 0
 
 			if (dispText) {
@@ -144,6 +145,7 @@ indMix <- function(c, npops, dispText) {
 					for (ind in inds) {
 						i1 <- PARTITION[ind]
 						muutokset_diffInCounts <- laskeMuutokset(
+							#FIXME: using 100-length global variables instead of the ones in this function
 							ind, rows, data, adjprior, priorTerm
 						)
 						muutokset <- muutokset_diffInCounts$muutokset
@@ -177,8 +179,8 @@ indMix <- function(c, npops, dispText) {
 									temp_minMATLAB <- min_MATLAB(
 										partitionSummary[, 2]
 									)
-									worstLogml <- temp_minMATLAB[[1]]
-									worstIndex <- temp_minMATLAB[[2]]
+									worstLogml <- temp_minMATLAB$mins
+									worstIndex <- temp_minMATLAB$idx
 								}
 							}
 						}
