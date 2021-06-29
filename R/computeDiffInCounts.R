@@ -13,5 +13,11 @@ computeDiffInCounts <- function(rows, max_noalle, nloci, data) {
 				diffInCounts[row(notEmpty) + (notEmpty - 1) * max_noalle] + 1
 		}
 	}
+	diffInCounts <- matrix(
+		data = diffInCounts[!is.na(diffInCounts)],
+		nrow = max_noalle,
+		ncol = nloci,
+		byrow = TRUE
+	)
 	return(diffInCounts)
 }
