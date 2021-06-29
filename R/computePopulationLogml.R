@@ -14,6 +14,7 @@ computePopulationLogml <- function(pops, adjprior, priorTerm) {
 	# Computation                                              #
 	# ======================================================== #
 	isarray <- length(dim(repmat(adjprior, c(1, 1, length(pops))))) > 2
+	# FIXME: 3rd dimension of COUNTS getting dropped
 	term1 <- squeeze(
 		sum(
 			sum(
