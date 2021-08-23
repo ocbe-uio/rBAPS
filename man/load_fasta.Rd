@@ -21,4 +21,11 @@ running the hierBAPS algorithm.
 \examples{
 msa <- system.file("extdata", "seqs.fa", package = "rhierbaps")
 snp.matrix <- load_fasta(msa)
+
+}
+\seealso{
+rhierbaps::load_fasta
+}
+\author{
+Gerry Tonkin-Hill
 }

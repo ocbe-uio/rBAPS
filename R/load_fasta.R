@@ -11,6 +11,9 @@
 #' @examples
 #' msa <- system.file("extdata", "seqs.fa", package = "rhierbaps")
 #' snp.matrix <- load_fasta(msa)
+#'
+#' @author Gerry Tonkin-Hill
+#' @seealso rhierbaps::load_fasta
 #' @export
 load_fasta <- function(msa, keep.singletons=FALSE) {
 
