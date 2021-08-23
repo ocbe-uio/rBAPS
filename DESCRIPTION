@@ -34,6 +34,7 @@ Description: Partial R implementation of the BAPS software
     computationally-efficient method for the identification of admixture events
     in genetic population history.
 License: GPL-3
+BugReports: https://github.com/ocbe-uio/rBAPS/issues
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
