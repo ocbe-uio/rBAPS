@@ -1,12 +1,16 @@
 context("Auxiliary functions to greedyMix")
 
+# Defining the relative path to current inst ------------- #
+if (interactive()) {
+	path_inst <- "../../inst/ext/"
+} else {
+	path_inst <- "inst/ext/"
+}
 baps_diploid <- read.delim(
-	"inst/ext/ExamplesDataFormatting/Example data in BAPS format for clustering of diploid individuals.txt",
+	file = file.path(path_inst, "BAPS_format_clustering_diploid.txt"),
 	sep = " ",
 	header = FALSE
 )
-
-handleData(baps_diploid)$newData
 
 test_that("handleData works as expected", {
 	data_obs <- handleData(baps_diploid)$newData
@@ -31,12 +35,13 @@ test_that("handleData works as expected", {
 
 context("Opening files on greedyMix")
 
-# TODO: needs #12 to be fixed before this can be done without user intervention
-greedyMix(
-	tietue = "inst/ext/ExamplesDataFormatting/Example data in BAPS format for clustering of diploid individuals.txt",
-	format = "BAPS",
-	savePreProcessed = FALSE
-) # Upper bounds 100 100
+# # TODO: needs #12 to be fixed before this can be done without user intervention
+# greedyMix(
+# 	tietue = "inst/ext/ExamplesDataFormatting/Example data in BAPS format for clustering of diploid individuals.txt",
+# 	format = "BAPS",
+# 	savePreProcessed = FALSE
+# ) # Upper bounds 100 100
+# TODO: replace with load_fasta()
 
 context("Linkage")
 

@@ -5,7 +5,7 @@
 #' @param indeksi index
 #' @export
 suoritaMuutos <- function (osuusTaulu, osuus, indeksi) {
-	if (is.null(dim(COUNTS))) {
+	if (isGlobalEmpty(COUNTS)) {
 		npops <- 1
 	} else {
 		npops <- ifelse(is.na(dim(COUNTS)[3]), 1, dim(COUNTS)[3])

@@ -4,11 +4,11 @@
 #' @param noalle noalle
 #' @export
 computeAllFreqs2 <- function (noalle) {
-
+    COUNTS <- ifelse(isGlobalEmpty(COUNTS), vector(), COUNTS)
+    SUMCOUNTS <- ifelse(isGlobalEmpty(SUMCOUNTS), vector(), COUNTS)
     max_noalle <- size(COUNTS, 1)
-    nloci <- size(COUNTS,2)
-    npops <- size(COUNTS,3)
-
+    nloci <- size(COUNTS, 2)
+    npops <- size(COUNTS, 3)
     sumCounts <- SUMCOUNTS + ones(size(SUMCOUNTS))
     sumCounts <- reshape(t(sumCounts), c(1, nloci, npops))
     sumCounts <- repmat(sumCounts, c(max_noalle, 1, 1))
@@ -20,7 +20,11 @@ computeAllFreqs2 <- function (noalle) {
         }
     }
     prioriAlleelit <- repmat(prioriAlleelit, c(1, 1, npops))
-    counts <- COUNTS + prioriAlleelit
+    counts <- ifelse(
+        test = isGlobalEmpty(COUNTS),
+        yes  = prioriAlleelit,
+        no   = COUNTS + prioriAlleelit
+    )
     allFreqs <- counts / drop(sumCounts)
     return(allFreqs)
 }
