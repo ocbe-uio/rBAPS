@@ -33,7 +33,7 @@ test_that("handleData works as expected", {
 	expect_equal(data_obs, data_exp)
 })
 
-context("Opening files on greedyMix")
+context("Opening files on greedyMix/load_fasta")
 
 # # TODO: needs #12 to be fixed before this can be done without user intervention
 # greedyMix(
@@ -41,7 +41,7 @@ context("Opening files on greedyMix")
 # 	format = "BAPS",
 # 	savePreProcessed = FALSE
 # ) # Upper bounds 100 100
-# TODO: replace with load_fasta()
+# TODO #16: replace with load_fasta()
 
 context("Linkage")
 

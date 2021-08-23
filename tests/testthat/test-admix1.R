@@ -148,7 +148,6 @@ test_that("suoritaMuutos works like on Matlab", {
 })
 
 test_that("laskeMuutokset4 works like on Matlab", {
-    # TODO: build these tests based on problems found in etsiParas
     mx1 <- t(c(.4, 7))
     expect_equivalent(
         object = laskeMuutokset4(2, mx1, c(8, 2), 3),

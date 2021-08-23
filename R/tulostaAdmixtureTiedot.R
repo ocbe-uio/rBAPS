@@ -1,5 +1,5 @@
 tulostaAdmixtureTiedot <- function(proportions, uskottavuus, alaRaja, niter) {
-    # TODO: discover what this function does. Plotting? Get examples?
+    # ASK: what does this function does. Plotting? Get examples?
     # h0 <- findobj('Tag','filename1_text')
     # inputf = get(h0,'String');
     # h0 = findobj('Tag','filename2_text');
