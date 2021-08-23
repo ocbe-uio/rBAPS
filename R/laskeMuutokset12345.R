@@ -9,7 +9,7 @@
 #' @param logml log maximum likelihood
 #' @export
 laskeMuutokset4 <- function (osuus, osuusTaulu, omaFreqs, logml) {
-	if (is.null(dim(COUNTS))) {
+	if (isGlobalEmpty(COUNTS)) {
 		npops <- 1
 	} else {
 		npops <- ifelse(is.na(dim(COUNTS)[3]), 1, dim(COUNTS)[3])

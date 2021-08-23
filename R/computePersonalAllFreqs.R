@@ -10,7 +10,7 @@
 #' @export
 
 computePersonalAllFreqs <- function(ind, data, allFreqs, rowsFromInd) {
-    if (is.null(dim(COUNTS))) {
+    if (isGlobalEmpty(COUNTS)) {
         nloci <- npops <- 1
     } else {
         nloci <- ifelse(is.na(dim(COUNTS)[2]), 1, dim(COUNTS)[2])

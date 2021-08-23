@@ -7,11 +7,27 @@
 #' @param ... Other dimensions
 #' @return An array of zeroes with the dimensions passed on call
 cell <- function(n, sz = c(n, n), expandable=FALSE, ...) {
-	if (expandable) {
+
+	# Uglyly figuring out if the third arg is an extra dim --- #
+
+	sz3 <- vector()
+	if (!is.logical(expandable)) {
+		sz3 <- expandable
+		expandable <- FALSE
+	}
+	args <- c(as.list(environment()), list(...))
+	exp <- args$expandable
+	extra_dims <- c(sz3, args[names(args) == ""])
+
+	# Creating output vector --------------------------------- #
+
+	if (exp) {
 		return(vector("list", length = n))
 	}
-	if (length(sz) == 1 & missing(...)) {
+	if (length(sz) == 1 & length(extra_dims) == 0) {
 		return(array(0, dim = c(n, sz)))
+	} else if (length(extra_dims) > 0) {
+		return(array(0, dim = c(n, sz, extra_dims)))
 	} else if (length(sz) == 2) {
 		return(array(0, dim = sz))
 	} else {

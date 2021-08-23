@@ -5,9 +5,15 @@
 #' @export
 
 simulateAllFreqs <- function(noalle) {
-    max_noalle <- size(COUNTS, 1)
-    nloci <- size(COUNTS, 2)
-    npops <- size(COUNTS, 3)
+    if (isGlobalEmpty(COUNTS)) {
+        max_noalle <- 0
+        nloci <- 0
+        npops <- 1
+    } else {
+        max_noalle <- size(COUNTS, 1)
+        nloci <- size(COUNTS, 2)
+        npops <- size(COUNTS, 3)
+    }
 
     prioriAlleelit <- zeros(max_noalle, nloci)
     if (nloci > 0) {
@@ -16,7 +22,11 @@ simulateAllFreqs <- function(noalle) {
         }
     }
     prioriAlleelit <- repmat(prioriAlleelit, matrix(c(1, 1, npops), 1))
-    counts <- COUNTS + prioriAlleelit
+    counts <- ifelse(
+        test = isGlobalEmpty(COUNTS),
+        yes  = prioriAlleelit,
+        no   = COUNTS + prioriAlleelit
+    )
     allfreqs <- zeros(size(counts))
 
     for (i in 1:npops) {
