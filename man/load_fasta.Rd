@@ -19,7 +19,7 @@ Loads a fasta file into matrix format ready for
 running the hierBAPS algorithm.
 }
 \examples{
-msa <- system.file("extdata", "seqs.fa", package = "rhierbaps")
+msa <- system.file("ext", "seqs.fa", package="rBAPS")
 snp.matrix <- load_fasta(msa)
 
 }

@@ -2,12 +2,14 @@ context("Auxiliary functions to greedyMix")
 
 # Defining the relative path to current inst ------------- #
 if (interactive()) {
-	path_inst <- "../../inst/ext/"
+	path_inst <- "../../inst/ext/BAPS_format_clustering_diploid.txt"
 } else {
-	path_inst <- "inst/ext/"
+	path_inst <- system.file(
+		"ext", "BAPS_format_clustering_diploid.txt", package="rBAPS"
+	)
 }
 baps_diploid <- read.delim(
-	file = file.path(path_inst, "BAPS_format_clustering_diploid.txt"),
+	file = path_inst,
 	sep = " ",
 	header = FALSE
 )

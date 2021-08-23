@@ -9,11 +9,12 @@
 #' @return A character matrix with filtered SNP data
 #'
 #' @examples
-#' msa <- system.file("extdata", "seqs.fa", package = "rhierbaps")
+#' msa <- system.file("ext", "seqs.fa", package="rBAPS")
 #' snp.matrix <- load_fasta(msa)
 #'
 #' @author Gerry Tonkin-Hill
 #' @seealso rhierbaps::load_fasta
+#' @importFrom ape read.FASTA as.DNAbin
 #' @export
 load_fasta <- function(msa, keep.singletons=FALSE) {
 
