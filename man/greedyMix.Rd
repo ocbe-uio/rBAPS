@@ -9,7 +9,7 @@ greedyMix(data, format, verbose = TRUE)
 \arguments{
 \item{data}{data file}
 
-\item{format}{Format of the data c("FASTA", "VCF" ,"BAM", or "GenePop")}
+\item{format}{Data format. Format supported: "FASTA", "VCF" ,"BAM", "GenePop"}
 
 \item{verbose}{if \code{TRUE}, prints extra output information}
 }

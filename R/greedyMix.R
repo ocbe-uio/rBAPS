@@ -1,6 +1,6 @@
 #' @title Clustering of individuals
 #' @param data data file
-#' @param format Format of the data c("FASTA", "VCF" ,"BAM", or "GenePop")
+#' @param format Data format. Format supported: "FASTA", "VCF" ,"BAM", "GenePop"
 #' @param verbose if \code{TRUE}, prints extra output information
 #' @importFrom utils read.delim
 #' @importFrom vcfR read.vcfR
@@ -9,7 +9,16 @@
 #' with high-throughput sequencing data. <http://www.htslib.org/>
 #' @export
 greedyMix <- function(data, format, verbose = TRUE) {
+	# Parsing data format ------------------------------------------------------
+
+	if (missing(format)) {
+		format <- gsub(".*\\.(.+)$", "\\1", data)
+		message("Format not provided. Guessing from file extension: ", format)
+	}
 	format <- tolower(format)
+
+	# Dispatching to proper loading function -----------------------------------
+
 	if (format == "fasta") {
 		out <- load_fasta(data)
 	} else if (format == "vcf") {
