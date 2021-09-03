@@ -39,13 +39,19 @@ context("Opening files on greedyMix")
 
 df_fasta <- greedyMix(
 	data   = paste(path_inst, "FASTA_clustering_haploid.fasta", sep="/"),
-	format ="fasta"
+	format = "FASTA"
+)
+df_vcf <- greedyMix(
+	data    = paste(path_inst, "vcf_example.vcf", sep="/"),
+	format  = "VCF",
+	verbose = FALSE
 )
 # TODO #17: add example reading VCF
 # TODO #18: add example reading SAM
 # TODO #19: add example reading Genpop
 test_that("Files are imported correctly", {
 	expect_equal(dim(df_fasta), c(5, 99))
+	expect_equal(dim(df_vcf), c(variants = 2, fix_cols = 8, gt_cols = 3))
 })
 
 context("Linkage")
