@@ -17,8 +17,8 @@ greedyMix <- function(data, format, verbose = TRUE) {
 	} else if (format == "sam") {
 		stop(
 			"SAM files not directly supported. ",
-			"Install the samtools software and execute ",
-			"'samtools view -b in_file.sam > out_file.bam' to convert to BAM ",
+			"Install the samtools software and execute\n\n",
+			"samtools view -b ", data, " > out_file.bam\n\nto convert to BAM ",
 			"and try running this function again with 'format=BAM'"
 		)
 	} else if (format == "bam") {
