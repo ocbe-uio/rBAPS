@@ -1,4 +1,7 @@
+[![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![](https://img.shields.io/github/last-commit/ocbe-uio/rBAPS.svg)](https://github.com/ocbe-uio/rBAPS/commits/master)
 [![R build status](https://github.com/ocbe-uio/rBAPS/workflows/R-CMD-check/badge.svg)](https://github.com/ocbe-uio/rBAPS/actions)
+[![](https://img.shields.io/github/languages/code-size/ocbe-uio/rBAPS.svg)](https://github.com/ocbe-uio/rBAPS)
 
 # rBAPS
 R implementation of the compiled Matlab BAPS software for Bayesian Analysis of Population Structure.
