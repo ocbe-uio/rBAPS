@@ -38,11 +38,11 @@ test_that("handleData works as expected", {
 context("Opening files on greedyMix")
 
 df_fasta <- greedyMix(
-	data   = paste(path_inst, "FASTA_clustering_haploid.fasta", sep="/"),
+	data   = file.path(path_inst, "FASTA_clustering_haploid.fasta"),
 	format = "FASTA"
 )
 df_vcf <- greedyMix(
-	data    = paste(path_inst, "vcf_example.vcf", sep="/"),
+	data    = file.path(path_inst, "vcf_example.vcf"),
 	format  = "VCF",
 	verbose = FALSE
 )
