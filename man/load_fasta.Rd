@@ -27,5 +27,5 @@ snp.matrix <- load_fasta(msa)
 rhierbaps::load_fasta
 }
 \author{
-Gerry Tonkin-Hill
+Gerry Tonkin-Hill, Waldir Leoncio
 }

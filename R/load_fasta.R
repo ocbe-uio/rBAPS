@@ -12,7 +12,7 @@
 #' msa <- system.file("ext", "seqs.fa", package="rBAPS")
 #' snp.matrix <- load_fasta(msa)
 #'
-#' @author Gerry Tonkin-Hill
+#' @author Gerry Tonkin-Hill, Waldir Leoncio
 #' @seealso rhierbaps::load_fasta
 #' @importFrom ape read.FASTA as.DNAbin
 #' @export
@@ -37,8 +37,11 @@ load_fasta <- function(msa, keep.singletons=FALSE) {
   rownames(seqs) <- seq_names
   seqs[is.na(seqs)] <- "-"
 
-  if (nrow(seqs)<3) stop("Less than 3 sequences!")
-  warning("Characters not in acgtnACGTN- will be treated as missing (-)...")
+  # Validation -----------------------------------------------------------------
+  if (nrow(seqs) < 3) stop("Less than 3 sequences!")
+  if (any(!(as.vector(tolower(seqs)) %in% c("a", "c", "g", "t", "n", "-")))) {
+    warning("Characters not in acgtnACGTN- will be treated as missing (-)...")
+  }
 
   #Remove conserved columns
   conserved <- colSums(t(t(seqs)==seqs[1,]))==nrow(seqs)
