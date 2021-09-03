@@ -4,21 +4,12 @@
 \alias{greedyMix}
 \title{Clustering of individuals}
 \usage{
-greedyMix(
-  tietue,
-  format = NULL,
-  savePreProcessed = NULL,
-  filePreProcessed = NULL
-)
+greedyMix(data, format)
 }
 \arguments{
-\item{tietue}{File}
+\item{data}{data file}
 
-\item{format}{Format of the data ("BAPS", "GenePop" or "Preprocessed")}
-
-\item{savePreProcessed}{Save the pre-processed data?}
-
-\item{filePreProcessed}{Is the file already processed?}
+\item{format}{Format of the data c("FASTA", "VCF" ,"SAM", or "GenePop")}
 }
 \description{
 Clustering of individuals
