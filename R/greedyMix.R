@@ -4,6 +4,7 @@
 #' @param verbose if \code{TRUE}, prints extra output information
 #' @importFrom utils read.delim
 #' @importFrom vcfR read.vcfR
+#' @importFrom Rsamtools scanBam
 #' @references Samtools: a suite of programs for interacting
 #' with high-throughput sequencing data. <http://www.htslib.org/>
 #' @export
