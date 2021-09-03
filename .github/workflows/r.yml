@@ -78,8 +78,9 @@ jobs:
         # Installing package dependencies ------------------------ #
         - name: Installing package dependencies
           run: |
+            remotes::install_cran(c("rcmdcheck", "BiocManager"))
+            BiocManager::install("Rsamtools")
             remotes::install_deps(dependencies = TRUE)
-            remotes::install_cran("rcmdcheck")
           shell: Rscript {0}
 
         # Checking package --------------------------------------- #
