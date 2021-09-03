@@ -4,12 +4,14 @@
 \alias{greedyMix}
 \title{Clustering of individuals}
 \usage{
-greedyMix(data, format)
+greedyMix(data, format, verbose = TRUE)
 }
 \arguments{
 \item{data}{data file}
 
 \item{format}{Format of the data c("FASTA", "VCF" ,"SAM", or "GenePop")}
+
+\item{verbose}{if \code{TRUE}, prints extra output information}
 }
 \description{
 Clustering of individuals

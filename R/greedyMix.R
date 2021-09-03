@@ -3,6 +3,7 @@
 #' @param format Format of the data c("FASTA", "VCF" ,"SAM", or "GenePop")
 #' @param verbose if \code{TRUE}, prints extra output information
 #' @importFrom utils read.delim
+#' @importFrom vcfR read.vcfR
 #' @export
 greedyMix <- function(data, format, verbose = TRUE) {
 	format <- tolower(format)
