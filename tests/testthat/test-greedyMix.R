@@ -1,15 +1,15 @@
 context("Auxiliary functions to greedyMix")
 
-# Defining the relative path to current inst ------------- #
+# Defining the relative path to current inst -----------------------------------
 if (interactive()) {
-	path_inst <- "../../inst/ext/BAPS_format_clustering_diploid.txt"
+	path_inst <- "../../inst/ext"
 } else {
-	path_inst <- system.file(
-		"ext", "BAPS_format_clustering_diploid.txt", package="rBAPS"
-	)
+	path_inst <- system.file("ext", "", package="rBAPS")
 }
+
+# Reading datasets -------------------------------------------------------------
 baps_diploid <- read.delim(
-	file = path_inst,
+	file = paste(path_inst, "BAPS_format_clustering_diploid.txt", sep="/"),
 	sep = " ",
 	header = FALSE
 )
@@ -35,15 +35,18 @@ test_that("handleData works as expected", {
 	expect_equal(data_obs, data_exp)
 })
 
-context("Opening files on greedyMix/load_fasta")
+context("Opening files on greedyMix")
 
-# # TODO: needs #12 to be fixed before this can be done without user intervention
-# greedyMix(
-# 	tietue = "inst/ext/ExamplesDataFormatting/Example data in BAPS format for clustering of diploid individuals.txt",
-# 	format = "BAPS",
-# 	savePreProcessed = FALSE
-# ) # Upper bounds 100 100
-# TODO #16: replace with load_fasta()
+df_fasta <- greedyMix(
+	data   = paste(path_inst, "FASTA_clustering_haploid.fasta", sep="/"),
+	format ="fasta"
+)
+# TODO: add example reading VCF
+# TODO: add example reading SAM
+# TODO: add example reading Genpop
+test_that("Files are imported correctly", {
+	expect_equal(dim(df_fasta), c(5, 99))
+})
 
 context("Linkage")
 
