@@ -9,7 +9,6 @@ greedyMix <- function(data, format, verbose = TRUE) {
 	if (format == "fasta") {
 		out <- load_fasta(data)
 	} else if (format == "vcf") {
-		# TODO #17: implement load_vcf()
 		out <- vcfR::read.vcfR(data, verbose = verbose)
 	} else if (format == "sam") {
 		stop("SAM files not yet supported." )
