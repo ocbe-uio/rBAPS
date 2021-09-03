@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ocbe-uio/rBAPS.svg?branch=dev)](https://travis-ci.org/ocbe-uio/rBAPS)
+[![R build status](https://github.com/ocbe-uio/rBAPS/workflows/R-CMD-check/badge.svg)](https://github.com/ocbe-uio/rBAPS/actions)
 
 # rBAPS
 R implementation of the compiled Matlab BAPS software for Bayesian Analysis of Population Structure.
