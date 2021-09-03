@@ -9,12 +9,12 @@ greedyMix <- function(data, format) {
 		out <- load_fasta(data)
 	} else if (format == "vcf") {
 		stop("VCF files not yet supported." )
-		# TODO #16: implement load_vcf()
+		# TODO #17: implement load_vcf()
 	} else if (format == "sam") {
 		stop("SAM files not yet supported." )
-		# TODO #16: implement load_sam()
+		# TODO #18: implement load_sam()
 	} else if(format == "genepop") {
-		# TODO #16: implement load_genepop()
+		# TODO #19: implement load_genepop()
 		stop("GenePop files not yet supported." )
 	} else {
 		stop("Format not supported.")

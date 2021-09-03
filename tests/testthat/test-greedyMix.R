@@ -41,9 +41,9 @@ df_fasta <- greedyMix(
 	data   = paste(path_inst, "FASTA_clustering_haploid.fasta", sep="/"),
 	format ="fasta"
 )
-# TODO: add example reading VCF
-# TODO: add example reading SAM
-# TODO: add example reading Genpop
+# TODO #17: add example reading VCF
+# TODO #18: add example reading SAM
+# TODO #19: add example reading Genpop
 test_that("Files are imported correctly", {
 	expect_equal(dim(df_fasta), c(5, 99))
 })
