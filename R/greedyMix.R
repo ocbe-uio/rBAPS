@@ -14,7 +14,7 @@ greedyMix <- function(data, format, verbose = TRUE) {
 	} else if (format == "sam") {
 		stop("SAM files not yet supported." )
 		# TODO #18: implement load_sam()
-	} else if(format == "genepop") {
+	} else if (format == "genepop") {
 		# TODO #19: implement load_genepop()
 		stop("GenePop files not yet supported." )
 	} else {
