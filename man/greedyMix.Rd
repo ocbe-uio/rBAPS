@@ -9,10 +9,14 @@ greedyMix(data, format, verbose = TRUE)
 \arguments{
 \item{data}{data file}
 
-\item{format}{Format of the data c("FASTA", "VCF" ,"SAM", or "GenePop")}
+\item{format}{Format of the data c("FASTA", "VCF" ,"BAM", or "GenePop")}
 
 \item{verbose}{if \code{TRUE}, prints extra output information}
 }
 \description{
 Clustering of individuals
+}
+\references{
+Samtools: a suite of programs for interacting
+with high-throughput sequencing data. <http://www.htslib.org/>
 }

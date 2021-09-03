@@ -38,20 +38,29 @@ test_that("handleData works as expected", {
 context("Opening files on greedyMix")
 
 df_fasta <- greedyMix(
-	data   = paste(path_inst, "FASTA_clustering_haploid.fasta", sep="/"),
+	data   = file.path(path_inst, "FASTA_clustering_haploid.fasta"),
 	format = "FASTA"
 )
 df_vcf <- greedyMix(
-	data    = paste(path_inst, "vcf_example.vcf", sep="/"),
+	data    = file.path(path_inst, "vcf_example.vcf"),
 	format  = "VCF",
 	verbose = FALSE
 )
-# TODO #17: add example reading VCF
-# TODO #18: add example reading SAM
+df_bam <- greedyMix(
+	data    = file.path(path_inst, "bam_example.bam"),
+	format  = "BAM",
+)
 # TODO #19: add example reading Genpop
 test_that("Files are imported correctly", {
 	expect_equal(dim(df_fasta), c(5, 99))
 	expect_equal(dim(df_vcf), c(variants = 2, fix_cols = 8, gt_cols = 3))
+	expect_error(
+		greedyMix(
+			data    = paste(path_inst, "sam_example.sam", sep="/"),
+			format  = "SAM",
+		)
+	)
+	expect_equal(length(df_bam[[1]]), 13)
 })
 
 context("Linkage")
