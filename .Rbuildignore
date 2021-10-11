@@ -6,3 +6,5 @@ CITATION.cff
 .travis.yml
 inst/ext/ExamplesDataFormatting
 .github
+aux
+
