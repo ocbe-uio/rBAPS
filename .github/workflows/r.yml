@@ -10,12 +10,7 @@
 # Determines when the action is triggered                  #
 # ======================================================== #
 
-on:
-  push:
-    branches: [ develop ]
-  pull_request:
-    branches: [ develop ]
-
+on: [push, pull_request]
 name: R-CMD-check
 
 # ======================================================== #
