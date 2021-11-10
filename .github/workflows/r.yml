@@ -98,21 +98,21 @@ jobs:
 
         # Judging coding style ----------------------------------- #
         - name: Linting package
-        run: |
-          install.packages("lintr")
-          style_rules <- list(
-            assignment_linter, closed_curly_linter, commas_linter,
-            todo_comment_linter, equals_na_linter,
-            function_left_parentheses_linter, infix_spaces_linter,
-            line_length_linter, no_tab_linter, open_curly_linter,
-            paren_brace_linter, absolute_path_linter, nonportable_path_linter,
-            pipe_continuation_linter, semicolon_terminator_linter,
-            single_quotes_linter, spaces_inside_linter,
-            trailing_blank_lines_linter, trailing_whitespace_linter,
-            undesirable_function_linter, undesirable_operator_linter
-          ) # TODO: expand style rules as package matures
-          lintr::lint_package(linters = style_rules)
-        shell: Rscript {0}
+          run: |
+            install.packages("lintr")
+            style_rules <- list(
+              assignment_linter, closed_curly_linter, commas_linter,
+              todo_comment_linter, equals_na_linter,
+              function_left_parentheses_linter, infix_spaces_linter,
+              line_length_linter, no_tab_linter, open_curly_linter,
+              paren_brace_linter, absolute_path_linter, nonportable_path_linter,
+              pipe_continuation_linter, semicolon_terminator_linter,
+              single_quotes_linter, spaces_inside_linter,
+              trailing_blank_lines_linter, trailing_whitespace_linter,
+              undesirable_function_linter, undesirable_operator_linter
+            ) # TODO: expand style rules as package matures
+            lintr::lint_package(linters = style_rules)
+          shell: Rscript {0}
 
         # Uploading check results -------------------------------- #
         - name: Uploading check results
