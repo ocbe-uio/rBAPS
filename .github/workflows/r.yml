@@ -89,6 +89,11 @@ jobs:
             rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
           shell: Rscript {0}
 
+        # Checking unit test coverage ---------------------------- #
+        - name: Checking unit test coverage
+          run: covr::codecov()
+          shell: Rscript {0}
+
         # Uploading check results -------------------------------- #
         - name: Uploading check results
           if: failure()
