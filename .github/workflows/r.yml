@@ -75,6 +75,7 @@ jobs:
         - name: Installing package dependencies
           run: |
             remotes::install_cran(c("rcmdcheck", "BiocManager"))
+            BiocManager::install("GenomicRanges")
             BiocManager::install("Rsamtools")
             remotes::install_deps(dependencies = TRUE)
           shell: Rscript {0}
