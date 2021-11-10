@@ -10,12 +10,7 @@
 # Determines when the action is triggered                  #
 # ======================================================== #
 
-on:
-  push:
-    branches: [ develop ]
-  pull_request:
-    branches: [ develop ]
-
+on: [push, pull_request]
 name: R-CMD-check
 
 # ======================================================== #
@@ -70,6 +65,7 @@ jobs:
         - name: Installing system dependencies
           if: runner.os == 'Linux'
           run: |
+            sudo apt-get install libcurl4-openssl-dev
             while read -r cmd
             do
               eval sudo $cmd
@@ -79,6 +75,7 @@ jobs:
         - name: Installing package dependencies
           run: |
             remotes::install_cran(c("rcmdcheck", "BiocManager"))
+            BiocManager::install("GenomicRanges")
             BiocManager::install("Rsamtools")
             remotes::install_deps(dependencies = TRUE)
           shell: Rscript {0}
