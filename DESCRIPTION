@@ -36,7 +36,7 @@ Description: Partial R implementation of the BAPS software
 License: GPL-3
 BugReports: https://github.com/ocbe-uio/rBAPS/issues
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Suggests:
     testthat (>= 2.1.0)
 Imports:
