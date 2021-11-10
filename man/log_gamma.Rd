@@ -13,6 +13,6 @@ log_gamma(x)
 log(gamma(x)) for x > 0, Inf otherwise
 }
 \description{
-Equal to log(gamma(x)) with special handling of x < 0 for 
+Equal to log(gamma(x)) with special handling of x < 0 for
 Matlab compatibility
 }

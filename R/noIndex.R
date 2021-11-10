@@ -6,16 +6,16 @@
 #' @param data data
 #' @param noalle noalle
 #' @export
-noIndex <- function  (data, noalle) {
-    limit <- ifelse(is(noalle, "matrix"), ncol(noalle), length(noalle))
-    if (size(data, 2) == limit + 1) {
-        if (is(data, "matrix")) {
-            puredata <- data[, -ncol(data)] # remove the index column
-        } else {
-            puredata <- data[-length(data)]
-        }
+noIndex <- function(data, noalle) {
+  limit <- ifelse(is(noalle, "matrix"), ncol(noalle), length(noalle))
+  if (size(data, 2) == limit + 1) {
+    if (is(data, "matrix")) {
+      puredata <- data[, -ncol(data)] # remove the index column
     } else {
-        puredata <- data
+      puredata <- data[-length(data)]
     }
-    return(puredata)
+  } else {
+    puredata <- data
+  }
+  return(puredata)
 }

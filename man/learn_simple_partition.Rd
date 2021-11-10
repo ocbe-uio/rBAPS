@@ -12,6 +12,6 @@ learn_simple_partition(ordered_points, fii)
 \item{fii}{fii}
 }
 \description{
-Goes through all the ways to divide the points into two or 
+Goes through all the ways to divide the points into two or
 three groups. Chooses the partition which obtains highest logml.
 }

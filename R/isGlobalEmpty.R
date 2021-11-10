@@ -6,5 +6,5 @@
 #' @importFrom stats sd
 #' @author Waldir Leoncio
 isGlobalEmpty <- function(g) {
-	return(sum(g) == 0 & sd(g) == 0)
+  return(sum(g) == 0 & sd(g) == 0)
 }

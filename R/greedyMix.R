@@ -9,34 +9,34 @@
 #' with high-throughput sequencing data. <http://www.htslib.org/>
 #' @export
 greedyMix <- function(data, format, verbose = TRUE) {
-	# Parsing data format ------------------------------------------------------
+  # Parsing data format ------------------------------------------------------
 
-	if (missing(format)) {
-		format <- gsub(".*\\.(.+)$", "\\1", data)
-		message("Format not provided. Guessing from file extension: ", format)
-	}
-	format <- tolower(format)
+  if (missing(format)) {
+    format <- gsub(".*\\.(.+)$", "\\1", data)
+    message("Format not provided. Guessing from file extension: ", format)
+  }
+  format <- tolower(format)
 
-	# Dispatching to proper loading function -----------------------------------
+  # Dispatching to proper loading function -----------------------------------
 
-	if (format == "fasta") {
-		out <- load_fasta(data)
-	} else if (format == "vcf") {
-		out <- vcfR::read.vcfR(data, verbose = verbose)
-	} else if (format == "sam") {
-		stop(
-			"SAM files not directly supported. ",
-			"Install the samtools software and execute\n\n",
-			"samtools view -b ", data, " > out_file.bam\n\nto convert to BAM ",
-			"and try running this function again with 'format=BAM'"
-		)
-	} else if (format == "bam") {
-		out <- Rsamtools::scanBam(data)
-	} else if (format == "genepop") {
-		# TODO #19: implement load_genepop()
-		stop("GenePop files not yet supported." )
-	} else {
-		stop("Format not supported.")
-	}
-	return(out)
+  if (format == "fasta") {
+    out <- load_fasta(data)
+  } else if (format == "vcf") {
+    out <- vcfR::read.vcfR(data, verbose = verbose)
+  } else if (format == "sam") {
+    stop(
+      "SAM files not directly supported. ",
+      "Install the samtools software and execute\n\n",
+      "samtools view -b ", data, " > out_file.bam\n\nto convert to BAM ",
+      "and try running this function again with 'format=BAM'"
+    )
+  } else if (format == "bam") {
+    out <- Rsamtools::scanBam(data)
+  } else if (format == "genepop") {
+    # TODO #19: implement load_genepop()
+    stop("GenePop files not yet supported.")
+  } else {
+    stop("Format not supported.")
+  }
+  return(out)
 }

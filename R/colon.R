@@ -4,9 +4,9 @@
 #' @param b final number
 #' @export
 colon <- function(a, b) {
-    if (a <= b) {
-        return(a:b)
-    } else {
-        return(vector(mode = "numeric"))
-    }
+  if (a <= b) {
+    return(a:b)
+  } else {
+    return(vector(mode = "numeric"))
+  }
 }

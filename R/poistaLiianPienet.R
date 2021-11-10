@@ -6,41 +6,41 @@
 #' @param rowsFromInd rowsFromInd
 #' @param alaraja alaraja
 #' @export
-poistaLiianPienet <- function (npops, rowsFromInd, alaraja) {
-    popSize <- zeros(1,npops)
-    if (npops > 0) {
-        for (i in 1:npops) {
-            popSize[i] <- length(which(PARTITION == i))
-        }
+poistaLiianPienet <- function(npops, rowsFromInd, alaraja) {
+  popSize <- zeros(1, npops)
+  if (npops > 0) {
+    for (i in 1:npops) {
+      popSize[i] <- length(which(PARTITION == i))
     }
-    miniPops <- which(popSize < alaraja)
+  }
+  miniPops <- which(popSize < alaraja)
 
-    if (length(miniPops) == 0) {
-        return(npops)
-    }
-
-    outliers <- matrix(NA, 0, 0)
-    for (pop in miniPops) {
-        inds <- which(PARTITION == pop)
-        cat('Removed individuals: ')
-        cat(as.character(inds))
-        outliers = matrix(c(outliers, inds), ncol=1)
-    }
-
-    ninds <- length(PARTITION)
-    PARTITION[outliers] <- 0
-    korit <- unique(PARTITION(which(PARTITION > 0)))
-    for (n in 1:length(korit)) {
-        kori <- korit[n]
-        yksilot <- which(PARTITION == kori)
-        PARTITION[yksilot] == n
-    }
-
-    # TODO: add COUNTS, SUMCOUNTS and PARTITION to return or use <-
-    COUNTS[, , miniPops] <- NA
-    SUMCOUNTS[miniPops, ] <- NA
-
-    npops <- npops - length(miniPops)
-
+  if (length(miniPops) == 0) {
     return(npops)
+  }
+
+  outliers <- matrix(NA, 0, 0)
+  for (pop in miniPops) {
+    inds <- which(PARTITION == pop)
+    cat("Removed individuals: ")
+    cat(as.character(inds))
+    outliers <- matrix(c(outliers, inds), ncol = 1)
+  }
+
+  ninds <- length(PARTITION)
+  PARTITION[outliers] <- 0
+  korit <- unique(PARTITION(which(PARTITION > 0)))
+  for (n in 1:length(korit)) {
+    kori <- korit[n]
+    yksilot <- which(PARTITION == kori)
+    PARTITION[yksilot] == n
+  }
+
+  # TODO: add COUNTS, SUMCOUNTS and PARTITION to return or use <-
+  COUNTS[, , miniPops] <- NA
+  SUMCOUNTS[miniPops, ] <- NA
+
+  npops <- npops - length(miniPops)
+
+  return(npops)
 }

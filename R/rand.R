@@ -6,5 +6,5 @@
 #' @importFrom stats runif
 #' @export
 rand <- function(r = 1, c = 1) {
-    matrix(runif(r * c), r, c)
+  matrix(runif(r * c), r, c)
 }
