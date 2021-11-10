@@ -100,6 +100,7 @@ jobs:
         - name: Linting package
           run: |
             install.packages("lintr")
+            library(lintr)
             style_rules <- list(
               assignment_linter, closed_curly_linter, commas_linter,
               todo_comment_linter, equals_na_linter,
@@ -111,7 +112,7 @@ jobs:
               trailing_blank_lines_linter, trailing_whitespace_linter,
               undesirable_function_linter, undesirable_operator_linter
             ) # TODO: expand style rules as package matures
-            lintr::lint_package(linters = style_rules)
+            lint_package(linters = style_rules)
           shell: Rscript {0}
 
         # Uploading check results -------------------------------- #
