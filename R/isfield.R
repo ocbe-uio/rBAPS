@@ -6,5 +6,5 @@
 #' @references https://se.mathworks.com/help/matlab/ref/isfield.html
 #' @export
 isfield <- function(x, field) {
-    sapply(field, function(f) f %in% names(x))
+  sapply(field, function(f) f %in% names(x))
 }

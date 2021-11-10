@@ -7,25 +7,25 @@
 #' @export
 
 simuloiAlleeli <- function(allfreqs, pop, loc) {
-    if (length(dim(allfreqs)) == 0) {
-        freqs <- 1
+  if (length(dim(allfreqs)) == 0) {
+    freqs <- 1
+  } else {
+    if (length(dim(allfreqs)) == 3) { # distinguish between array and matrix
+      freqs <- allfreqs[, loc, pop]
     } else {
-        if (length(dim(allfreqs)) == 3) { # distinguish between array and matrix
-            freqs <- allfreqs[, loc, pop]
-        } else {
-            freqs <- allfreqs[, loc]
-        }
+      freqs <- allfreqs[, loc]
     }
-    # freqs <- ifelse(is.null(length(dim(allfreqs)), allfreqs[loc], 0)
-    # freqs <- switch() + 1,
-    #     allfreqs[, loc],
-    #     allfreqs[, loc, pop]
-    # )
+  }
+  # freqs <- ifelse(is.null(length(dim(allfreqs)), allfreqs[loc], 0)
+  # freqs <- switch() + 1,
+  #     allfreqs[, loc],
+  #     allfreqs[, loc, pop]
+  # )
 
 
-    cumsumma <- cumsum(freqs)
-    arvo <- runif(1)
-    isommat <- which(cumsumma > arvo)
-    all <- min(isommat)
-    return(all)
+  cumsumma <- cumsum(freqs)
+  arvo <- runif(1)
+  isommat <- which(cumsumma > arvo)
+  all <- min(isommat)
+  return(all)
 }

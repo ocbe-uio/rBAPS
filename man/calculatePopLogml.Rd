@@ -12,7 +12,7 @@ calculatePopLogml(points, fii)
 \item{fii}{fii}
 }
 \description{
-Calculates fuzzy (log) marginal likelihood for a population of 
+Calculates fuzzy (log) marginal likelihood for a population of
 real values using estimate "fii" for the dispersion value, and Jeffreys prior
 for the mean parameter.
 }

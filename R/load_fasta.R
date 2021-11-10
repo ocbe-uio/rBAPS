@@ -9,29 +9,28 @@
 #' @return A character matrix with filtered SNP data
 #'
 #' @examples
-#' msa <- system.file("ext", "seqs.fa", package="rBAPS")
+#' msa <- system.file("ext", "seqs.fa", package = "rBAPS")
 #' snp.matrix <- load_fasta(msa)
-#'
 #' @author Gerry Tonkin-Hill, Waldir Leoncio
 #' @seealso rhierbaps::load_fasta
 #' @importFrom ape read.FASTA as.DNAbin
 #' @export
-load_fasta <- function(msa, keep.singletons=FALSE) {
+load_fasta <- function(msa, keep.singletons = FALSE) {
 
-  #Check inputs
-  if(class(msa)=="character"){
+  # Check inputs
+  if (class(msa) == "character") {
     if (!file.exists(msa)) stop("Invalid msa or the file does not exist!")
     seqs <- ape::read.FASTA(msa)
-  } else if(class(msa)=="matrix"){
+  } else if (class(msa) == "matrix") {
     seqs <- ape::as.DNAbin(msa)
-  } else if(class(msa)=="DNAbin"){
+  } else if (class(msa) == "DNAbin") {
     seqs <- msa
-  } else{
+  } else {
     stop("incorrect input for msa!")
   }
   if (!is.logical(keep.singletons)) stop("Invalid keep.singletons! Must be on of TRUE/FALSE.")
 
-  #Load sequences using ape. This does a lot of the checking for us.
+  # Load sequences using ape. This does a lot of the checking for us.
   seq_names <- labels(seqs)
   seqs <- as.character(as.matrix(seqs))
   rownames(seqs) <- seq_names
@@ -43,21 +42,21 @@ load_fasta <- function(msa, keep.singletons=FALSE) {
     warning("Characters not in acgtnACGTN- will be treated as missing (-)...")
   }
 
-  #Remove conserved columns
-  conserved <- colSums(t(t(seqs)==seqs[1,]))==nrow(seqs)
+  # Remove conserved columns
+  conserved <- colSums(t(t(seqs) == seqs[1, ])) == nrow(seqs)
   seqs <- seqs[, !conserved]
 
-  if(!keep.singletons){
-    #remove singletons as they are uninformative in the algorithm
-    is_singleton <- apply(seqs, 2, function(x){
+  if (!keep.singletons) {
+    # remove singletons as they are uninformative in the algorithm
+    is_singleton <- apply(seqs, 2, function(x) {
       tab <- table(x)
-      return(x %in% names(tab)[tab==1])
+      return(x %in% names(tab)[tab == 1])
     })
     seqs[is_singleton] <- "-"
   }
 
-  #Convert gaps and unknowns to same symbol
-  seqs[seqs=="n"] <- "-"
+  # Convert gaps and unknowns to same symbol
+  seqs[seqs == "n"] <- "-"
 
   return(seqs)
 }

@@ -4,10 +4,10 @@
 #' @param x array
 #'
 isempty <- function(x) {
-    if (class(x)[1] %in% c("array", "matrix")) {
-        dim_mat_x <- dim(x)
-    } else {
-        dim_mat_x <- dim(matrix(x))
-    }
-    return(any(dim_mat_x == 0) | is.null(dim_mat_x))
+  if (class(x)[1] %in% c("array", "matrix")) {
+    dim_mat_x <- dim(x)
+  } else {
+    dim_mat_x <- dim(matrix(x))
+  }
+  return(any(dim_mat_x == 0) | is.null(dim_mat_x))
 }

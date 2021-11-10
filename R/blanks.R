@@ -6,9 +6,9 @@
 #' @author Waldir Leoncio
 #' @export
 blanks <- function(n) {
-	if (n < 0) {
-		warning("Negative n passed. Treating as n = 0")
-		n <- 0
-	}
-	paste(rep(" ", n), collapse="")
+  if (n < 0) {
+    warning("Negative n passed. Treating as n = 0")
+    n <- 0
+  }
+  paste(rep(" ", n), collapse = "")
 }

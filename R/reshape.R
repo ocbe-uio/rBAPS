@@ -10,15 +10,15 @@
 #' @note The Matlab function also accepts as input the dismemberment of sz as
 #' scalars.
 reshape <- function(A, sz) {
-    # Validation
-    if (prod(sz) != prod(dim(A))) {
-        stop("To RESHAPE the number of elements must not change.")
-    }
-    if (length(sz) == 1) {
-        stop("Size vector must have at least two elements.")
-    }
+  # Validation
+  if (prod(sz) != prod(dim(A))) {
+    stop("To RESHAPE the number of elements must not change.")
+  }
+  if (length(sz) == 1) {
+    stop("Size vector must have at least two elements.")
+  }
 
-    # Reshaping A
-    A <- array(A, sz)
-    return(A)
+  # Reshaping A
+  A <- array(A, sz)
+  return(A)
 }

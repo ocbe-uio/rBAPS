@@ -8,15 +8,15 @@
 #' @note Actually works for any `x`, but there's no need to bother imposing
 #' validation controls here.
 zeros_or_ones <- function(n, x) {
-    # Expanding n to length 2 if necessary
-    if (length(n) == 1) n <- c(n, n)
+  # Expanding n to length 2 if necessary
+  if (length(n) == 1) n <- c(n, n)
 
-    # Returning a matrix or an array
-    if (length(n) == 2) {
-        return(matrix(x, n[1], n[2]))
-    } else {
-        return(array(x, dim=n))
-    }
+  # Returning a matrix or an array
+  if (length(n) == 2) {
+    return(matrix(x, n[1], n[2]))
+  } else {
+    return(array(x, dim = n))
+  }
 }
 
 #' @title Matrix of zeros
@@ -26,12 +26,12 @@ zeros_or_ones <- function(n, x) {
 #' @param n2 number of columns
 #' @param ... extra dimensions
 zeros <- function(n1, n2 = n1, ...) {
-    if (length(n1) == 1) {
-        n <- c(n1, n2, ...)
-    } else {
-        n <- n1
-    }
-    return(zeros_or_ones(n, 0))
+  if (length(n1) == 1) {
+    n <- c(n1, n2, ...)
+  } else {
+    n <- n1
+  }
+  return(zeros_or_ones(n, 0))
 }
 
 #' @title Matrix of ones
@@ -41,10 +41,10 @@ zeros <- function(n1, n2 = n1, ...) {
 #' @param n2 number of columns
 #' @param ... extra dimensions
 ones <- function(n1, n2 = n1, ...) {
-    if (length(n1) == 1) {
-        n <- c(n1, n2, ...)
-    } else {
-        n <- n1
-    }
-    return(zeros_or_ones(n, 1))
+  if (length(n1) == 1) {
+    n <- c(n1, n2, ...)
+  } else {
+    n <- n1
+  }
+  return(zeros_or_ones(n, 1))
 }

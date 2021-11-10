@@ -16,6 +16,6 @@ a 4-mark presentation of proportion
 Convert proportion to string
 }
 \note{
-The `round` function in R, being ISO-compliant, rounds 8.5 to 8. The 
+The `round` function in R, being ISO-compliant, rounds 8.5 to 8. The
 Matlab equivalent rounds it to 9.
 }

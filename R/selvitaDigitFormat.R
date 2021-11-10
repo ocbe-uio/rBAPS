@@ -3,28 +3,28 @@
 #' @return df
 #' @export
 selvitaDigitFormat <- function(line) {
-	# line on ensimm�inen pop-sanan j�lkeinen rivi
-	# Genepop-formaatissa olevasta datasta. funktio selvitt��
-	# rivin muodon perusteella, ovatko datan alleelit annettu
-	# 2 vai 3 numeron avulla.
-	n <- 1
-	merkki <- substring(line, n, n)
-	while (merkki != ',') {
-		n <- n + 1
-		merkki <- substring(line, n, n)
-	}
+  # line on ensimm�inen pop-sanan j�lkeinen rivi
+  # Genepop-formaatissa olevasta datasta. funktio selvitt��
+  # rivin muodon perusteella, ovatko datan alleelit annettu
+  # 2 vai 3 numeron avulla.
+  n <- 1
+  merkki <- substring(line, n, n)
+  while (merkki != ",") {
+    n <- n + 1
+    merkki <- substring(line, n, n)
+  }
 
-	while (!any(merkki %in% as.character(0:9))) {
-		n <- n + 1
-		merkki <- substring(line, n, n)
-	}
-	numeroja <- 0
-	while (any(merkki %in% as.character(0:9))) {
-		numeroja <- numeroja + 1
-		n <- n + 1
-		merkki <- substring(line, n, n)
-	}
+  while (!any(merkki %in% as.character(0:9))) {
+    n <- n + 1
+    merkki <- substring(line, n, n)
+  }
+  numeroja <- 0
+  while (any(merkki %in% as.character(0:9))) {
+    numeroja <- numeroja + 1
+    n <- n + 1
+    merkki <- substring(line, n, n)
+  }
 
-	df <- numeroja / 2
-	return(df)
+  df <- numeroja / 2
+  return(df)
 }

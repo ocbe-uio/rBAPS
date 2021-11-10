@@ -5,7 +5,7 @@
 #' @note Recognized whitespace characters are ` ` and `\\t`.
 #' @author Waldir Leoncio
 isspace <- function(A) {
-	A_split <- unlist(strsplit(A, ''))
-	TF <- A_split %in% c(' ', '\t')
-	return(as.numeric(TF))
+  A_split <- unlist(strsplit(A, ""))
+  TF <- A_split %in% c(" ", "\t")
+  return(as.numeric(TF))
 }

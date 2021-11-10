@@ -10,84 +10,84 @@
 #' @param method either 'si', 'av', 'co' 'ce' or 'wa'
 #' @note This is also a base Matlab function. The reason why the source code is also present here is unclear.
 #' @export
-linkage <- function(Y, method = 'co') {
-	#TODO: compare R output with MATLAB output
-	k <- size(Y)[1]
-	n <- size(Y)[2]
-	m <- (1 + sqrt(1 + 8 * n)) / 2
-	if ((k != 1) | (m != trunc(m))) {
-		stop(
-			'The first input has to match the output',
-			'of the PDIST function in size.'
-		)
-	}
-	method <- tolower(substr(method, 1, 2)) # simplify the switch string.
-	monotonic <- 1
-	Z <- zeros(m - 1, 3) # allocate the output matrix.
-	N <- zeros(1, 2 * m - 1)
-	N[1:m] <- 1
-	n <- m; # since m is changing, we need to save m in n.
-	R <- 1:n
-	for (s in 1:(n - 1)) {
-		X <- as.matrix(as.vector(Y), ncol=1)
+linkage <- function(Y, method = "co") {
+  # TODO: compare R output with MATLAB output
+  k <- size(Y)[1]
+  n <- size(Y)[2]
+  m <- (1 + sqrt(1 + 8 * n)) / 2
+  if ((k != 1) | (m != trunc(m))) {
+    stop(
+      "The first input has to match the output",
+      "of the PDIST function in size."
+    )
+  }
+  method <- tolower(substr(method, 1, 2)) # simplify the switch string.
+  monotonic <- 1
+  Z <- zeros(m - 1, 3) # allocate the output matrix.
+  N <- zeros(1, 2 * m - 1)
+  N[1:m] <- 1
+  n <- m # since m is changing, we need to save m in n.
+  R <- 1:n
+  for (s in 1:(n - 1)) {
+    X <- as.matrix(as.vector(Y), ncol = 1)
 
-		v <- min_MATLAB(X)$mins
-		k <- min_MATLAB(X)$idx
+    v <- min_MATLAB(X)$mins
+    k <- min_MATLAB(X)$idx
 
-		i <- floor(m + 1 / 2 - sqrt(m ^ 2 - m + 1 / 4 - 2 * (k - 1)))
-		j <- k - (i - 1) * (m - i / 2) + i
+    i <- floor(m + 1 / 2 - sqrt(m^2 - m + 1 / 4 - 2 * (k - 1)))
+    j <- k - (i - 1) * (m - i / 2) + i
 
-		Z[s, ] <- c(R[i], R[j], v) # update one more row to the output matrix A
+    Z[s, ] <- c(R[i], R[j], v) # update one more row to the output matrix A
 
-		# Temp variables
-		if (i > 1) {
-			I1 <- 1:(i - 1)
-		} else {
-			I1 <- NULL
-		}
-		if (i + 1 <= j - 1) {
-			I2 <- (i + 1):(j - 1)
-		} else {
-			I2 <- NULL
-		}
-		if (j + 1 <= m) {
-			I3 <- (j + 1):m
-		} else {
-			I3 <- NULL
-		}
-		U <- c(I1, I2, I3)
-		I <- c(
-			I1 * (m - (I1 + 1) / 2) - m + i,
-			i * (m - (i + 1) / 2) - m + I2,
-			i * (m - (i + 1) / 2) - m + I3
-		)
-		J <- c(
-			I1 * (m - (I1 + 1) / 2) - m + j,
-			I2 * (m - (I2 + 1) / 2) - m + j,
-			j * (m - (j + 1) / 2) - m + I3
-		)
-		# Workaround in R for negative values in I and J
-		# I <- I[I > 0 & I <= length(Y)]
-		# J <- J[J > 0 & J <= length(Y)]
-		switch(method,
-			'si' = Y[I] <- apply(cbind(Y[I], Y[J]), 1, min), # single linkage
-			'av' = Y[I] <- Y[I] + Y[J], # average linkage
-			'co' = Y[I] <- apply(cbind(Y[I], Y[J]), 1, max), #complete linkage
-			'ce' = {
-				K <- N[R[i]] + N[R[j]] # centroid linkage
-				Y[I] <- (N[R[i]] * Y[I] + N[R[j]] * Y[J] -
-					(N[R[i]] * N[R[j]] * v ^ 2) / K) / K
-			},
-			'wa' = Y[I] <- ((N[R[U]] + N[R[i]]) * Y[I] + (N[R[U]] + N[R[j]]) *
-				Y[J] - N[R[U]] * v) / (N[R[i]] + N[R[j]] + N[R[U]])
-		)
-		J <- c(J, i * (m - (i + 1) / 2) - m + j)
-		Y <- Y[-J] # no need for the cluster information about j
-		# update m, N, R
-		m <- m - 1
-		N[n + s] <- N[R[i]] + N[R[j]]
-		R[i] <- n + s
-		R[j:(n - 1)] <- R[(j + 1):n]
-	}
-	return(Z)
+    # Temp variables
+    if (i > 1) {
+      I1 <- 1:(i - 1)
+    } else {
+      I1 <- NULL
+    }
+    if (i + 1 <= j - 1) {
+      I2 <- (i + 1):(j - 1)
+    } else {
+      I2 <- NULL
+    }
+    if (j + 1 <= m) {
+      I3 <- (j + 1):m
+    } else {
+      I3 <- NULL
+    }
+    U <- c(I1, I2, I3)
+    I <- c(
+      I1 * (m - (I1 + 1) / 2) - m + i,
+      i * (m - (i + 1) / 2) - m + I2,
+      i * (m - (i + 1) / 2) - m + I3
+    )
+    J <- c(
+      I1 * (m - (I1 + 1) / 2) - m + j,
+      I2 * (m - (I2 + 1) / 2) - m + j,
+      j * (m - (j + 1) / 2) - m + I3
+    )
+    # Workaround in R for negative values in I and J
+    # I <- I[I > 0 & I <= length(Y)]
+    # J <- J[J > 0 & J <= length(Y)]
+    switch(method,
+      "si" = Y[I] <- apply(cbind(Y[I], Y[J]), 1, min), # single linkage
+      "av" = Y[I] <- Y[I] + Y[J], # average linkage
+      "co" = Y[I] <- apply(cbind(Y[I], Y[J]), 1, max), # complete linkage
+      "ce" = {
+        K <- N[R[i]] + N[R[j]] # centroid linkage
+        Y[I] <- (N[R[i]] * Y[I] + N[R[j]] * Y[J] -
+          (N[R[i]] * N[R[j]] * v^2) / K) / K
+      },
+      "wa" = Y[I] <- ((N[R[U]] + N[R[i]]) * Y[I] + (N[R[U]] + N[R[j]]) *
+        Y[J] - N[R[U]] * v) / (N[R[i]] + N[R[j]] + N[R[U]])
+    )
+    J <- c(J, i * (m - (i + 1) / 2) - m + j)
+    Y <- Y[-J] # no need for the cluster information about j
+    # update m, N, R
+    m <- m - 1
+    N[n + s] <- N[R[i]] + N[R[j]]
+    R[i] <- n + s
+    R[j:(n - 1)] <- R[(j + 1):n]
+  }
+  return(Z)
 }
