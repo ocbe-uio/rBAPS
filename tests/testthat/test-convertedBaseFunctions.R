@@ -139,7 +139,7 @@ test_that("isempty works as expected", {
   B <- matrix(rep(NA, 4), 2)
   C <- matrix(rep(0, 4), 2)
   cat1 <- as.factor(c(NA, NA))
-  cat2 <- as.factor(c())
+  cat2 <- factor()
   str1 <- matrix(rep("", 3))
   expect_true(isempty(A))
   expect_false(isempty(B))

@@ -516,7 +516,7 @@ indMix <- function(c, npops, dispText = TRUE) {
 
       if (ready == 0) {
         if (vaihe == 1) {
-          roundTypes <- c(1)
+          roundTypes <- 1
         } else if (vaihe == 2) {
           roundTypes <- c(2, 1)
         } else if (vaihe == 3) {

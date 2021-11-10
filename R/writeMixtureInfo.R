@@ -185,7 +185,7 @@ writeMixtureInfo <- function(logml, rowsFromInd, data, adjprior, priorTerm, outP
     if (fid != -1) {
       append(fid, " ")
       append(fid, " ")
-      append(fid, c("KL-divergence matrix in PHYLIP format:"))
+      append(fid, "KL-divergence matrix in PHYLIP format:")
       append(fid, "\n")
     }
 
@@ -290,7 +290,7 @@ writeMixtureInfo <- function(logml, rowsFromInd, data, adjprior, priorTerm, outP
       append(fid, "\n")
       append(fid, " ")
       append(fid, "\n")
-      append(fid, c("Probabilities for number of clusters"))
+      append(fid, "Probabilities for number of clusters")
       append(fid, "\n")
     }
 
