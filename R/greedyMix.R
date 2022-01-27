@@ -5,6 +5,7 @@
 #' @importFrom utils read.delim
 #' @importFrom vcfR read.vcfR
 #' @importFrom Rsamtools scanBam
+#' @importFrom adegenet read.genepop .readExt
 #' @references Samtools: a suite of programs for interacting
 #' with high-throughput sequencing data. <http://www.htslib.org/>
 #' @export
@@ -33,8 +34,14 @@ greedyMix <- function(data, format, verbose = TRUE) {
   } else if (format == "bam") {
     out <- Rsamtools::scanBam(data)
   } else if (format == "genepop") {
-    # TODO #19: implement load_genepop()
-    stop("GenePop files not yet supported.")
+    if (toupper(adegenet::.readExt(data)) == "TXT") {
+      message("Creating a copy of the file with the .gen extension")
+      dataGen <- gsub("txt", "gen", data)
+      file.copy(data, dataGen)
+      out <- adegenet::read.genepop(dataGen)
+    } else {
+      out <- adegenet::read.genepop(data)
+    }
   } else {
     stop("Format not supported.")
   }
