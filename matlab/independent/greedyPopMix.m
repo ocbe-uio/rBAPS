@@ -42,18 +42,18 @@ if isequal(input_type,'BAPS-format')  %Raakadata
     end
     data = load([pathname filename]);
     ninds = testaaOnkoKunnollinenBapsData(data);  %TESTAUS
-    if (ninds==0) 
+    if (ninds==0)
         disp('Incorrect Data-file.');
-        return;    
+        return;
     end
     [data, rows, alleleCodes, noalle, adjprior, priorTerm] = handlePopData(data);
     rowsFromInd = 0;  %Ei tiedet?
     h0 = findobj('Tag','filename1_text');
     set(h0,'String',filename); clear h0;
-    
+
     load_names = questdlg('Do you wish to specify the names of the groups?',...
         'Input group names?','Yes','No','Yes');
-    if isequal(load_names,'Yes') 
+    if isequal(load_names,'Yes')
         waitALittle;
         [filename, pathname] = uigetfile('*.txt', 'Load group names');
         popnames = initPopNames([pathname filename]);
@@ -64,7 +64,7 @@ if isequal(input_type,'BAPS-format')  %Raakadata
     else
         popnames = [];
     end
-            
+
 elseif isequal(input_type,'GenePop-format')
     waitALittle;
     [filename, pathname] = uigetfile('*.txt', 'Load data in GenePop-format');
@@ -82,10 +82,10 @@ elseif isequal(input_type,'GenePop-format')
     [data, popnames]=lueGenePopDataPop([pathname filename]);
     [data, rows, alleleCodes, noalle, adjprior, priorTerm] = handlePopData(data);
     rowsFromInd = 2;  %Tiedet‰‰n GenePop:in tapauksessa.
-    
+
     h0 = findobj('Tag','filename1_text');
-    set(h0,'String',filename); clear h0;    
-end 
+    set(h0,'String',filename); clear h0;
+end
 
 if ~isequal(input_type, 'Preprocessed data')
     a_data = data(:,1:end-1);
@@ -100,7 +100,7 @@ if ~isequal(input_type, 'Preprocessed data')
     clear('counts', 'sumcounts','pathname','filename','vast2',...
         'vast3','vast4');
     [Z,dist] = getPopDistancesByKL(adjprior);  %Saadaan COUNTS:in avulla.
-    
+
     save_preproc = questdlg('Do you wish to save pre-processed data?',...
         'Save pre-processed data?',...
         'Yes','No','Yes');
@@ -117,25 +117,25 @@ if ~isequal(input_type, 'Preprocessed data')
         clear c;
     end;
 end
-        
+
 if isequal(input_type, 'Preprocessed data')
     waitALittle;
     [filename, pathname] = uigetfile('*.mat', 'Load pre-processed data');
     if filename==0
         return;
     end
-    
+
     if ~isempty(partitionCompare)
         fprintf(1,'Data: %s\n',[pathname filename]);
     end
-    
+
     h0 = findobj('Tag','filename1_text');
     set(h0,'String',filename); clear h0;
     %load([pathname filename],'c');
     %if ~exist('c')   %TESTAUS
     %    disp('Incorrect file format.');
     %    return
-    %elseif ~isfield(c,'rows') 
+    %elseif ~isfield(c,'rows')
     %    disp('Incorrect file format.');
     %    return
     %end
@@ -193,7 +193,7 @@ end
 if fixedK
     [logml, npops, partitionSummary]=indMix_fixK(c);
 else
-    [logml, npops, partitionSummary]=indMix(c);   
+    [logml, npops, partitionSummary]=indMix(c);
 end
 
 if logml==1
@@ -256,8 +256,8 @@ end
 
 function [newData, rows, alleleCodes, noalle, adjprior, priorTerm] = handlePopData(raw_data)
 % Alkuper‰isen datan viimeinen sarake kertoo, milt?yksilˆlt?
-% kyseinen rivi on per‰isin. Funktio muuttaa alleelikoodit 
-% siten, ett?yhden lokuksen j koodit saavat arvoja 
+% kyseinen rivi on per‰isin. Funktio muuttaa alleelikoodit
+% siten, ett?yhden lokuksen j koodit saavat arvoja
 % v‰lill?1,...,noalle(j). Ennen t‰t?muutosta alleeli, jonka
 % koodi on nolla muutetaan.
 
@@ -308,7 +308,7 @@ adjprior = zeros(max(noalle),nloci);
 priorTerm = 0;
 for j=1:nloci
     adjprior(:,j) = [repmat(1/noalle(j), [noalle(j),1]) ; ones(max(noalle)-noalle(j),1)];
-    priorTerm = priorTerm + noalle(j)*gammaln(1/noalle(j)); 
+    priorTerm = priorTerm + noalle(j)*gammaln(1/noalle(j));
 end
 
 
@@ -351,7 +351,7 @@ for pop1 = 1:npops-1
         div21 = sum(sum(dist2.*log2((dist2+10^-10) ./ (dist1+10^-10))))/nloci;
         div = (div12+div21)/2;
         distances(pointer) = div;
-        pointer = pointer+1;    
+        pointer = pointer+1;
     end
 end
 Z=linkage(distances');
@@ -363,9 +363,9 @@ function Z = linkage(Y, method)
 [k, n] = size(Y);
 m = (1+sqrt(1+8*n))/2;
 if k ~= 1 | m ~= fix(m)
-  error('The first input has to match the output of the PDIST function in size.');   
+  error('The first input has to match the output of the PDIST function in size.');
 end
-if nargin == 1 % set default switch to be 'co' 
+if nargin == 1 % set default switch to be 'co'
    method = 'co';
 end
 method = lower(method(1:2)); % simplify the switch string.
@@ -373,19 +373,19 @@ monotonic = 1;
 Z = zeros(m-1,3); % allocate the output matrix.
 N = zeros(1,2*m-1);
 N(1:m) = 1;
-n = m; % since m is changing, we need to save m in n. 
+n = m; % since m is changing, we need to save m in n.
 R = 1:n;
 for s = 1:(n-1)
    X = Y;
    [v, k] = min(X);
    i = floor(m+1/2-sqrt(m^2-m+1/4-2*(k-1)));
    j = k - (i-1)*(m-i/2)+i;
-   Z(s,:) = [R(i) R(j) v]; % update one more row to the output matrix A   
+   Z(s,:) = [R(i) R(j) v]; % update one more row to the output matrix A
    I1 = 1:(i-1); I2 = (i+1):(j-1); I3 = (j+1):m; % these are temp variables.
    U = [I1 I2 I3];
    I = [I1.*(m-(I1+1)/2)-m+i i*(m-(i+1)/2)-m+I2 i*(m-(i+1)/2)-m+I3];
    J = [I1.*(m-(I1+1)/2)-m+j I2.*(m-(I2+1)/2)-m+j j*(m-(j+1)/2)-m+I3];
-   
+
    switch method
    case 'si' %single linkage
       Y(I) = min(Y(I),Y(J));
@@ -402,12 +402,12 @@ for s = 1:(n-1)
    end
    J = [J i*(m-(i+1)/2)-m+j];
    Y(J) = []; % no need for the cluster information about j.
-   
+
    % update m, N, R
-   m = m-1; 
+   m = m-1;
    N(n+s) = N(R(i)) + N(R(j));
    R(i) = n+s;
-   R(j:(n-1))=R((j+1):n); 
+   R(j:(n-1))=R((j+1):n);
 end
 
 
@@ -464,7 +464,7 @@ line3 = fgetl(fid);  %kolmas
 
 if (isequal(line1,-1) | isequal(line2,-1) | isequal(line3,-1))
     disp('Incorrect file format'); fclose(fid);
-    return 
+    return
 end
 if (testaaPop(line1)==1 | testaaPop(line2)==1)
     disp('Incorrect file format'); fclose(fid);
@@ -476,7 +476,7 @@ if testaaPop(line3)==1
     line4 = fgetl(fid);
     if isequal(line4,-1)
         disp('Incorrect file format'); fclose(fid);
-        return 
+        return
     end
     if ~any(line4==',')
         % Rivin nelj?t‰ytyy sis‰lt‰‰ pilkku.
@@ -498,7 +498,7 @@ else
     lineNumb = 4;
     while (testaaPop(line)~=1 & ~isequal(line,-1))
         line = fgetl(fid);
-        lineNumb = lineNumb+1;    
+        lineNumb = lineNumb+1;
     end
     if isequal(line,-1)
         disp('Incorrect file format'); fclose(fid);
@@ -508,7 +508,7 @@ else
     line4 = fgetl(fid);  %Eka rivi pop sanan j‰lkeen
     if isequal(line4,-1)
         disp('Incorrect file format'); fclose(fid);
-        return 
+        return
     end
     if ~any(line4==',')
         % Rivin t‰ytyy sis‰lt‰‰ pilkku.
@@ -519,7 +519,7 @@ else
     while ~isequal(line4(pointer),',')  %Tiedet‰‰n, ett?pys‰htyy.
         pointer = pointer+1;
     end
- 
+
     line4 = line4(pointer+1:end);  %pilkun j‰lkeinen osa
     nloci2 = rivinSisaltamienMjonojenLkm(line4);
     if (nloci2~=nloci)
@@ -563,8 +563,8 @@ poimiNimi=1;
 digitFormat = -1;
 while line ~= -1
     line = fgetl(fid);
-    
-    if poimiNimi==1  
+
+    if poimiNimi==1
         %Edellinen rivi oli 'pop'
         nimienLkm = nimienLkm+1;
         ninds = ninds+1;
@@ -579,12 +579,12 @@ while line ~= -1
         popnames{nimienLkm, 1} = {nimi};   %N‰in se on greedyMix:iss‰kin?!?
         popnames{nimienLkm, 2} = ninds;
         poimiNimi=0;
-        
+
         data = addAlleles(data, ninds, line, divider);
-        
+
     elseif testaaPop(line)
         poimiNimi = 1;
-        
+
     elseif line ~= -1
         ninds = ninds+1;
         data = addAlleles(data, ninds, line, divider);
@@ -600,16 +600,16 @@ for pop = 1:npops
     if pop<npops
         while ind<popnames{pop+1,2}
             data([ind*2-1 ind*2],end) = pop;
-            ind = ind+1;    
+            ind = ind+1;
         end
     else
         while ind<=ninds
             data([ind*2-1 ind*2],end) = pop;
-            ind = ind+1;    
+            ind = ind+1;
         end
     end
 end
-        
+
 %-------------------------------------------------------
 
 function nimi = lueNimi(line)
@@ -663,7 +663,7 @@ pit = length(line);
 tila = 0;    %0, jos odotetaan v‰lilyˆntej? 1 jos odotetaan muita merkkej?
 for i=1:pit
     merkki = line(i);
-    if (isspace(merkki) & tila==0) 
+    if (isspace(merkki) & tila==0)
         %Ei tehd?mit‰‰n.
     elseif (isspace(merkki) & tila==1)
         tila = 0;
@@ -682,16 +682,16 @@ function pal = testaaPop(rivi)
 % kirjainyhdistelmist? Pop, pop, POP. Kaikissa muissa
 % tapauksissa pal=0.
 
-if length(rivi)<3 
+if length(rivi)<3
     pal = 0;
     return
 end
 if (all(rivi(1:3)=='Pop') | ...
     all(rivi(1:3)=='pop') | ...
     all(rivi(1:3)=='POP'))
-    pal = 1;    
+    pal = 1;
     return
-else 
+else
     pal = 0;
     return
 end
@@ -732,7 +732,7 @@ for j=1:nloci
     if ekaAlleeli==0 ekaAlleeli=-999; end;
     tokaAlleeli = rem(alleeliTaulu(j),divider);
     if tokaAlleeli==0 tokaAlleeli=-999; end
-    
+
     data(2*ind-1,j) = ekaAlleeli;
     data(2*ind,j) = tokaAlleeli;
 end
@@ -805,19 +805,19 @@ muutokset(i2) = new_i1_logml - i1_logml ...
 
 function diffInCounts = computeDiffInCounts(rows, max_noalle, nloci, data)
 % Muodostaa max_noalle*nloci taulukon, jossa on niiden alleelien
-% lukum‰‰r‰t (vastaavasti kuin COUNTS:issa), jotka ovat data:n 
+% lukum‰‰r‰t (vastaavasti kuin COUNTS:issa), jotka ovat data:n
 % riveill?rows. rows pit‰‰ olla vaakavektori.
 
 diffInCounts = zeros(max_noalle, nloci);
 for i=rows
     row = data(i,:);
     notEmpty = find(row>=0);
-    
+
     if length(notEmpty)>0
         diffInCounts(row(notEmpty) + (notEmpty-1)*max_noalle) = ...
             diffInCounts(row(notEmpty) + (notEmpty-1)*max_noalle) + 1;
     end
-end    
+end
 
 %------------------------------------------------------------------------
 
@@ -830,8 +830,8 @@ function updateGlobalVariables(ind, i2, diffInCounts, ...
 % Suorittaa globaalien muuttujien muutokset, kun yksil?ind
 % on siirret‰‰n koriin i2.
 
-global PARTITION; 
-global COUNTS; 
+global PARTITION;
+global COUNTS;
 global SUMCOUNTS;
 global POP_LOGML;
 
@@ -856,7 +856,7 @@ function [muutokset, diffInCounts] = laskeMuutokset2( ...
     i1, globalRows, data, adjprior, priorTerm);
 % Palauttaa npops*1 taulun, jossa i:s alkio kertoo, mik?olisi
 % muutos logml:ss? mik‰li korin i1 kaikki yksilˆt siirret‰‰n
-% koriin i. 
+% koriin i.
 
 global COUNTS;      global SUMCOUNTS;
 global PARTITION;   global POP_LOGML;
@@ -966,7 +966,7 @@ for pop2 = 1:npops2
 
         i2 = [1:i1-1 , i1+1:npops];
         i2_logml = POP_LOGML(i2)';
-    
+
         COUNTS(:,:,i2) = COUNTS(:,:,i2)+repmat(diffInCounts, [1 1 npops-1]);
         SUMCOUNTS(i2,:) = SUMCOUNTS(i2,:)+repmat(diffInSumCounts,[npops-1 1]);
         new_i2_logml = computePopulationLogml(i2, adjprior, priorTerm)';
@@ -975,7 +975,7 @@ for pop2 = 1:npops2
 
         muutokset(pop2,i2) = new_i1_logml - i1_logml ...
             + new_i2_logml - i2_logml;
-    end    
+    end
 end
 
 %------------------------------------------------------------------------------------
@@ -985,7 +985,7 @@ function muutokset = laskeMuutokset5(inds, globalRows, data, adjprior, ...
 
 % Palauttaa length(inds)*1 taulun, jossa i:s alkio kertoo, mik?olisi
 % muutos logml:ss? mik‰li yksil?i vaihtaisi koria i1:n ja i2:n v‰lill?
-    
+
 global COUNTS;      global SUMCOUNTS;
 global PARTITION;   global POP_LOGML;
 
@@ -1012,14 +1012,14 @@ for i = 1:ninds
     SUMCOUNTS(pop1,:) = SUMCOUNTS(pop1,:)-diffInSumCounts;
     COUNTS(:,:,pop2) = COUNTS(:,:,pop2)+diffInCounts;
     SUMCOUNTS(pop2,:) = SUMCOUNTS(pop2,:)+diffInSumCounts;
-    
+
     new_logmls = computePopulationLogml([i1 i2], adjprior, priorTerm);
     muutokset(i) = sum(new_logmls);
-    
+
     COUNTS(:,:,pop1) = COUNTS(:,:,pop1)+diffInCounts;
     SUMCOUNTS(pop1,:) = SUMCOUNTS(pop1,:)+diffInSumCounts;
     COUNTS(:,:,pop2) = COUNTS(:,:,pop2)-diffInCounts;
-    SUMCOUNTS(pop2,:) = SUMCOUNTS(pop2,:)-diffInSumCounts; 
+    SUMCOUNTS(pop2,:) = SUMCOUNTS(pop2,:)-diffInSumCounts;
 end
 
 muutokset = muutokset - i1_logml - i2_logml;
@@ -1074,7 +1074,7 @@ dist2 = dist(apu);
 
 
 function npops = poistaTyhjatPopulaatiot(npops)
-% Poistaa tyhjentyneet populaatiot COUNTS:ista ja 
+% Poistaa tyhjentyneet populaatiot COUNTS:ista ja
 % SUMCOUNTS:ista. P‰ivitt‰‰ npops:in ja PARTITION:in.
 
 global COUNTS;
@@ -1129,7 +1129,7 @@ ploidisuus = questdlg('Specify the type of individuals in the data: ',...
     'Individual type?', 'Haploid', 'Diploid', 'Tetraploid', ...
     'Diploid');
 
-switch ploidisuus    
+switch ploidisuus
 case 'Haploid'
     rowsFromInd = 1;
 case 'Diploid'
@@ -1142,36 +1142,11 @@ if ~isempty(popnames)
     for i = 1:size(rows,1)
         popnames2{i,1} = popnames{i,1};
         rivi = rows(i,1):rows(i,2);
-        popnames2{i,2} = (rivi(rowsFromInd))/rowsFromInd;    
+        popnames2{i,2} = (rivi(rowsFromInd))/rowsFromInd;
     end
-else 
+else
     popnames2 = [];
 end
-
-%------------------------------------------------------------------
-
-function fiksaaPartitioYksiloTasolle(rows, rowsFromInd)
-
-global PARTITION;
-totalRows = 0;
-for ind = 1:size(rows,1)
-    totalRows = totalRows + (rows(ind,2)-rows(ind,1)+1);
-end
-partitio2 = zeros(totalRows/rowsFromInd,1);
-
-for ind = 1:size(rows,1)
-    kaikkiRivit = rows(ind,1):rows(ind,2);
-    for riviNumero = rowsFromInd:rowsFromInd:length(kaikkiRivit)
-    %for riviNumero = rowsFromInd:rowsFromInd:length(rows{ind})
-        %rivi = rows{ind}(riviNumero);
-        rivi = kaikkiRivit(riviNumero);
-        partitio2(rivi/rowsFromInd) = PARTITION(ind);
-    end
-end
-PARTITION = partitio2;
-
-%---------------------------------------------------------------
-
 
 %--------------------------------------------------------------------
 
@@ -1233,12 +1208,12 @@ for m=1:cluster_count
     indsInM = find(PARTITION==m);
     length_of_beginning = 11 + floor(log10(m));
     cluster_size = length(indsInM);
-    
+
     if names
         text = ['Cluster ' num2str(m) ': {' char(popnames{indsInM(1)})];
         for k = 2:cluster_size
             text = [text ', ' char(popnames{indsInM(k)})];
-        end;    
+        end;
     else
         text = ['Cluster ' num2str(m) ': {' num2str(indsInM(1))];
         for k = 2:cluster_size
@@ -1369,7 +1344,7 @@ if npops > 1
 %             fprintf(fid, '%s \n', [rivi]); fprintf(fid, '\n');
 %         end
     end
-    
+
 
 
     dist_mat = dist_mat + dist_mat'; % make it symmetric
@@ -1469,7 +1444,7 @@ num2 = num/10;
 function digit = palautaYks(num,yks)
 % palauttaa luvun num 10^yks termin kertoimen
 % string:in?
-% yks t‰ytyy olla kokonaisluku, joka on 
+% yks t‰ytyy olla kokonaisluku, joka on
 % v‰hint‰‰n -1:n suuruinen. Pienemmill?
 % luvuilla tapahtuu jokin pyˆristysvirhe.
 
@@ -1496,7 +1471,7 @@ if abs(div)<100
     if arvo>0
         mjono(1) = num2str(arvo);
     end
-    
+
 else
     suurinYks = floor(log10(div));
     mjono(6) = num2str(suurinYks);
@@ -1574,7 +1549,7 @@ T = zeros(m,1);
          end
       end
    end
-   
+
 function T = clusternum(X, T, k, c)
 m = size(X,1)+1;
 while(~isempty(k))
@@ -1585,7 +1560,7 @@ while(~isempty(k))
    % Assign this node number to leaf children
    t = (children<=m);
    T(children(t)) = c;
-   
+
    % Move to next level
    k = children(~t) - m;
 end
