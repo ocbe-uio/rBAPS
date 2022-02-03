@@ -31,8 +31,8 @@ linkage <- function(Y, method = "co") {
   for (s in 1:(n - 1)) {
     X <- as.matrix(as.vector(Y), ncol = 1)
 
-    v <- min_MATLAB(X)$mins
-    k <- min_MATLAB(X)$idx
+    v <- matlab2r::min(X)$mins
+    k <- matlab2r::min(X)$idx
 
     i <- floor(m + 1 / 2 - sqrt(m^2 - m + 1 / 4 - 2 * (k - 1)))
     j <- k - (i - 1) * (m - i / 2) + i
