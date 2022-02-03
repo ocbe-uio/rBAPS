@@ -130,8 +130,8 @@ admix1 <- function(tietue) {
           osuusTaulu[q] <- 1
           arvot[q] <- computeIndLogml(omaFreqs, osuusTaulu)
         }
-        iso_arvo <- max(arvot)
-        isoimman_indeksi <- match(max(arvot), arvot)
+        iso_arvo <- base::max(arvot)
+        isoimman_indeksi <- match(base::max(arvot), arvot)
         osuusTaulu <- zeros(1, npops)
         osuusTaulu[isoimman_indeksi] <- 1
         PARTITION[ind] <- isoimman_indeksi
@@ -149,7 +149,7 @@ admix1 <- function(tietue) {
   }
 
   # Analyze further only individuals who have log-likelihood ratio larger than 3:
-  to_investigate <- t(find(likelihood > 3))
+  to_investigate <- t(matlab2r::find(likelihood > 3))
   cat("Possibly admixed individuals:\n")
   for (i in 1:length(to_investigate)) {
     cat(as.character(to_investigate[i]))
@@ -200,8 +200,8 @@ admix1 <- function(tietue) {
             osuusTaulu[q] <- 1
             arvot[q] <- computeIndLogml(omaFreqs, osuusTaulu)
           }
-          iso_arvo <- max(arvot)
-          isoimman_indeksi <- match(max(arvot), arvot)
+          iso_arvo <- base::max(arvot)
+          isoimman_indeksi <- match(base::max(arvot), arvot)
           osuusTaulu <- zeros(1, npops)
           osuusTaulu[isoimman_indeksi] <- 1
           PARTITION[ind] <- isoimman_indeksi
@@ -233,13 +233,13 @@ admix1 <- function(tietue) {
   missing_levels <- zeros(npops, 3) # the mean values for different levels.
   missing_level_partition <- zeros(ninds, 1) # level of each individual (one of the levels of its population).
   for (i in 1:npops) {
-    inds <- find(PARTITION == i)
+    inds <- matlab2r::find(PARTITION == i)
     # Proportions of non-missing data for the individuals:
     non_missing_data <- zeros(length(inds), 1)
     for (j in 1:length(inds)) {
       ind <- inds[j]
       non_missing_data[j] <- length(
-        find(data[(ind - 1) * rowsFromInd + 1:ind * rowsFromInd, ] > 0)
+        matlab2r::find(data[(ind - 1) * rowsFromInd + 1:ind * rowsFromInd, ] > 0)
       ) / (rowsFromInd * nloci)
     }
     if (all(non_missing_data > 0.9)) {
@@ -258,7 +258,7 @@ admix1 <- function(tietue) {
       n_levels <- length(unique(part))
       n_missing_levels[i] <- n_levels
       for (j in 1:n_levels) {
-        missing_levels[i, j] <- mean(non_missing_data[find(part == j)])
+        missing_levels[i, j] <- mean(non_missing_data[matlab2r::find(part == j)])
       }
     }
   }
@@ -269,7 +269,7 @@ admix1 <- function(tietue) {
   for (pop in t(admix_populaatiot)) {
     for (level in 1:n_missing_levels[pop]) {
       potential_inds_in_this_pop_and_level <-
-        find(
+        matlab2r::find(
           PARTITION == pop & missing_level_partition == level &
             likelihood > 3
         ) # Potential admix individuals here.
@@ -338,8 +338,8 @@ admix1 <- function(tietue) {
       # In case of a rounding error, the sum is made equal to unity by
       # fixing the largest value.
       if ((PARTITION[ind] > 0) & (sum(proportionsIt[ind, ]) != 1)) {
-        isoin <- max(proportionsIt[ind, ])
-        indeksi <- match(isoin, max(proportionsIt[ind, ]))
+        isoin <- base::max(proportionsIt[ind, ])
+        indeksi <- match(isoin, base::max(proportionsIt[ind, ]))
         erotus <- sum(proportionsIt[ind, ]) - 1
         proportionsIt[ind, indeksi] <- isoin - erotus
       }
@@ -352,7 +352,7 @@ admix1 <- function(tietue) {
     pop <- PARTITION[ind]
     if (pop == 0) { # Individual is outlier
       uskottavuus[ind] <- 1
-    } else if (isempty(find(to_investigate == ind))) {
+    } else if (isempty(matlab2r::find(to_investigate == ind))) {
       # Individual had log-likelihood ratio<3
       uskottavuus[ind] <- 1
     } else {

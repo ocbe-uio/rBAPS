@@ -14,7 +14,7 @@ updateGlobalVariables <- function(ind, i2, diffInCounts, adjprior, priorTerm) {
   )
 
   LOGDIFF[, c(i1, i2)] <- -Inf
-  inx <- c(find(PARTITION == i1), find(PARTITION == i2))
+  inx <- c(matlab2r::find(PARTITION == i1), matlab2r::find(PARTITION == i2))
   LOGDIFF[inx, ] <- -Inf
 }
 
@@ -22,7 +22,7 @@ updateGlobalVariables2 <- function(i1, i2, diffInCounts, adjprior, priorTerm) {
   # % Suorittaa globaalien muuttujien muutokset, kun kaikki
   # % korissa i1 olevat yksil�t siirret��n koriin i2.
 
-  inds <- find(PARTITION == i1)
+  inds <- matlab2r::find(PARTITION == i1)
   PARTITION[inds] <- i2
 
   COUNTS[, , i1] <- COUNTS[, , i1] - diffInCounts
@@ -34,7 +34,7 @@ updateGlobalVariables2 <- function(i1, i2, diffInCounts, adjprior, priorTerm) {
   POP_LOGML[i2] <- computePopulationLogml(i2, adjprior, priorTerm)
 
   LOGDIFF[, c(i1, i2)] <- -Inf
-  inx <- c(find(PARTITION == i1), find(PARTITION == i2))
+  inx <- c(matlab2r::find(PARTITION == i1), matlab2r::find(PARTITION == i2))
   LOGDIFF[inx, ] <- -Inf
 }
 
@@ -56,6 +56,6 @@ updateGlobalVariables3 <- function(muuttuvat, diffInCounts, adjprior, priorTerm,
   )
 
   LOGDIFF[, c(i1, i2)] <- -Inf
-  inx <- c(find(PARTITION == i1), find(PARTITION == i2))
+  inx <- c(matlab2r::find(PARTITION == i1), matlab2r::find(PARTITION == i2))
   LOGDIFF[inx, ] <- -Inf
 }

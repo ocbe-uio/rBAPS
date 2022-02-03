@@ -64,7 +64,7 @@ writeMixtureInfo <- function(logml, rowsFromInd, data, adjprior, priorTerm, outP
     append(fid, c("Best Partition: ", "\n"))
   }
   for (m in 1:cluster_count) {
-    indsInM <- find(PARTITION == m)
+    indsInM <- matlab2r::find(PARTITION == m)
     length_of_beginning <- 11 + floor(log10(m))
     cluster_size <- length(indsInM)
 
@@ -139,8 +139,8 @@ writeMixtureInfo <- function(logml, rowsFromInd, data, adjprior, priorTerm, outP
         nimi <- as.character(popnames[i])
         nameSizes[i] <- length(nimi)
       }
-      maxSize <- max(nameSizes)
-      maxSize <- max(maxSize, 5)
+      maxSize <- base::max(nameSizes)
+      maxSize <- base::max(maxSize, 5)
       erotus <- maxSize - 5
       alku <- blanks(erotus)
       ekarivi <- c(alku, "  ind", blanks(6 + erotus))
@@ -193,8 +193,8 @@ writeMixtureInfo <- function(logml, rowsFromInd, data, adjprior, priorTerm, outP
     nloci <- size(COUNTS, 2)
     d <- zeros(maxnoalle, nloci, npops)
     prior <- adjprior
-    prior[find(prior == 1)] <- 0
-    nollia <- find(all(prior == 0)) # Loci in which only one allele was detected.
+    prior[matlab2r::find(prior == 1)] <- 0
+    nollia <- matlab2r::find(all(prior == 0)) # Loci in which only one allele was detected.
     prior[1, nollia] <- 1
     for (pop1 in 1:npops) {
       d[, , pop1] <- (squeeze(COUNTS[, , pop1]) + prior) /
@@ -261,7 +261,7 @@ writeMixtureInfo <- function(logml, rowsFromInd, data, adjprior, priorTerm, outP
 
   partitionSummary <- sortrows(partitionSummary, 2)
   partitionSummary <- partitionSummary[size(partitionSummary, 1):1, ]
-  partitionSummary <- partitionSummary[find(partitionSummary[, 2] > -1e49), ]
+  partitionSummary <- partitionSummary[matlab2r::find(partitionSummary[, 2] > -1e49), ]
   if (size(partitionSummary, 1) > 10) {
     vikaPartitio <- 10
   } else {
@@ -298,12 +298,12 @@ writeMixtureInfo <- function(logml, rowsFromInd, data, adjprior, priorTerm, outP
     len <- length(npopsTaulu)
     probs <- zeros(len, 1)
     partitionSummary[, 2] <- partitionSummary[, 2] -
-      max(partitionSummary[, 2])
+      base::max(partitionSummary[, 2])
     sumtn <- sum(exp(partitionSummary[, 2]))
     for (i in 1:len) {
       npopstn <- sum(
         exp(
-          partitionSummary[find(
+          partitionSummary[matlab2r::find(
             partitionSummary[, 1] == npopsTaulu[i]
           ), 2]
         )

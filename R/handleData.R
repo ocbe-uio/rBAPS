@@ -24,9 +24,9 @@ handleData <- function(raw_data) {
   nloci <- size(raw_data, 2) - 1
 
   dataApu <- data[, 1:nloci]
-  nollat <- find(dataApu == 0)
+  nollat <- matlab2r::find(dataApu == 0)
   if (!isempty(nollat)) {
-    isoinAlleeli <- max(max(dataApu))
+    isoinAlleeli <- base::max(max(dataApu))
     dataApu[nollat] <- isoinAlleeli + 1
     data[, 1:nloci] <- dataApu
   }
@@ -39,16 +39,16 @@ handleData <- function(raw_data) {
   for (i in 1:nloci) {
     alleelitLokuksessaI <- unique(data[, i])
     alleelitLokuksessa[[i]] <- sort(alleelitLokuksessaI[
-      find(
+      matlab2r::find(
         alleelitLokuksessaI >= 0
       )
     ])
     noalle[i] <- length(alleelitLokuksessa[[i]])
   }
-  alleleCodes <- zeros(max(noalle), nloci)
+  alleleCodes <- zeros(base::max(noalle), nloci)
   for (i in 1:nloci) {
     alleelitLokuksessaI <- alleelitLokuksessa[[i]]
-    puuttuvia <- max(noalle) - length(alleelitLokuksessaI)
+    puuttuvia <- base::max(noalle) - length(alleelitLokuksessaI)
     alleleCodes[, i] <- as.matrix(
       c(alleelitLokuksessaI, zeros(puuttuvia, 1))
     )
@@ -56,21 +56,21 @@ handleData <- function(raw_data) {
 
   for (loc in seq_len(nloci)) {
     for (all in seq_len(noalle[loc])) {
-      data[find(data[, loc] == alleleCodes[all, loc]), loc] <- all
+      data[matlab2r::find(data[, loc] == alleleCodes[all, loc]), loc] <- all
     }
   }
 
-  nind <- max(data[, ncol(data)])
+  nind <- base::max(data[, ncol(data)])
   nrows <- size(data, 1)
   ncols <- size(data, 2)
   rowsFromInd <- zeros(nind, 1)
   for (i in 1:nind) {
-    rowsFromInd[i] <- length(find(data[, ncol(data)] == i))
+    rowsFromInd[i] <- length(matlab2r::find(data[, ncol(data)] == i))
   }
-  maxRowsFromInd <- max(rowsFromInd)
+  maxRowsFromInd <- base::max(rowsFromInd)
   a <- -999
   emptyRow <- repmat(a, c(1, ncols))
-  lessThanMax <- find(rowsFromInd < maxRowsFromInd)
+  lessThanMax <- matlab2r::find(rowsFromInd < maxRowsFromInd)
   missingRows <- maxRowsFromInd * nind - nrows
   data <- rbind(data, zeros(missingRows, ncols))
   pointer <- 1
@@ -81,12 +81,12 @@ handleData <- function(raw_data) {
   newData <- data
   rowsFromInd <- maxRowsFromInd
 
-  adjprior <- zeros(max(noalle), nloci)
+  adjprior <- zeros(base::max(noalle), nloci)
   priorTerm <- 0
   for (j in 1:nloci) {
     adjprior[, j] <- as.matrix(c(
       repmat(1 / noalle[j], c(noalle[j], 1)),
-      ones(max(noalle) - noalle[j], 1)
+      ones(base::max(noalle) - noalle[j], 1)
     ))
     priorTerm <- priorTerm + noalle[j] * lgamma(1 / noalle[j])
   }

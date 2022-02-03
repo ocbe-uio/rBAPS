@@ -68,7 +68,7 @@ laskeMuutokset <- function(ind, globalRows, data, adjprior, priorTerm) {
   COUNTS[, , i1] <- COUNTS[, , i1] + diffInCounts
   SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] + diffInSumCounts
 
-  i2 <- find(muutokset == -Inf) # Etsit��n populaatiot jotka muuttuneet viime kerran j�lkeen. (Searching for populations that have changed since the last time)
+  i2 <- matlab2r::find(muutokset == -Inf) # Etsit��n populaatiot jotka muuttuneet viime kerran j�lkeen. (Searching for populations that have changed since the last time)
   i2 <- setdiff(i2, i1)
   i2_logml <- POP_LOGML[i2]
 
@@ -95,7 +95,7 @@ laskeMuutokset2 <- function(i1, globalRows, data, adjprior, priorTerm) {
 
   i1_logml <- POP_LOGML[i1]
 
-  inds <- find(PARTITION == i1)
+  inds <- matlab2r::find(PARTITION == i1)
   ninds <- length(inds)
 
   if (ninds == 0) {
@@ -138,7 +138,7 @@ laskeMuutokset2 <- function(i1, globalRows, data, adjprior, priorTerm) {
 laskeMuutokset3 <- function(T2, inds2, globalRows, data, adjprior, priorTerm, i1) {
   # Palauttaa length(unique(T2))*npops taulun, jossa (i,j):s alkio
   # kertoo, mik� olisi muutos logml:ss�, jos populaation i1 osapopulaatio
-  # inds2(find(T2==i)) siirret��n koriin j.
+  # inds2(matlab2r::find(T2==i)) siirret��n koriin j.
 
   npops <- size(COUNTS, 3)
   npops2 <- length(unique(T2))
@@ -146,7 +146,7 @@ laskeMuutokset3 <- function(T2, inds2, globalRows, data, adjprior, priorTerm, i1
 
   i1_logml <- POP_LOGML[i1]
   for (pop2 in 1:npops2) {
-    inds <- inds2[find(T2 == pop2)]
+    inds <- inds2[matlab2r::find(T2 == pop2)]
     ninds <- length(inds)
     if (ninds > 0) {
       rows <- list()

@@ -48,7 +48,7 @@ indMix <- function(c, npops, dispText = TRUE) {
       return()
     } else {
       npopsTaulu <- as.numeric(npopstext)
-      ykkoset <- find(npopsTaulu == 1)
+      ykkoset <- matlab2r::find(npopsTaulu == 1)
       npopsTaulu[ykkoset] <- NA # Mik�li ykk�si� annettu yl�rajaksi, ne poistetaan (if ones are given as an upper limit, they are deleted)
       if (isempty(npopsTaulu)) {
         logml <- 1
@@ -233,13 +233,13 @@ indMix <- function(c, npops, dispText = TRUE) {
           maxMuutos <- 0
           ninds <- size(rows, 1)
           for (pop in 1:npops) {
-            inds2 <- find(PARTITION == pop)
+            inds2 <- matlab2r::find(PARTITION == pop)
             ninds2 <- length(inds2)
             if (ninds2 > 2) {
               dist2 <- laskeOsaDist(inds2, dist, ninds)
               Z2 <- linkage(t(dist2))
               if (round == 3) {
-                npops2 <- max(min(20, floor(ninds2 / 5)), 2)
+                npops2 <- base::max(base::min(20, floor(ninds2 / 5)), 2)
               } else if (round == 4) {
                 npops2 <- 2 # Moneenko osaan jaetaan
               }
@@ -253,7 +253,7 @@ indMix <- function(c, npops, dispText = TRUE) {
                 maxMuutos <- isoin
                 muuttuvaPop2 <- indeksi %% npops2
                 if (muuttuvaPop2 == 0) muuttuvaPop2 <- npops2
-                muuttuvat <- inds2[find(T2 == muuttuvaPop2)]
+                muuttuvat <- inds2[matlab2r::find(T2 == muuttuvaPop2)]
                 i2 <- ceiling(indeksi / npops2)
               }
             }
@@ -310,7 +310,7 @@ indMix <- function(c, npops, dispText = TRUE) {
             j <- j + 1
             pop <- pops[j]
             totalMuutos <- 0
-            inds <- find(PARTITION == pop)
+            inds <- matlab2r::find(PARTITION == pop)
             if (round == 5) {
               aputaulu <- c(inds, rand(length(inds), 1))
               aputaulu <- sortrows(aputaulu, 2)
@@ -398,7 +398,7 @@ indMix <- function(c, npops, dispText = TRUE) {
           while (j < npops) {
             j <- j + 1
             pop <- pops[j]
-            inds2 <- find(PARTITION == pop)
+            inds2 <- matlab2r::find(PARTITION == pop)
             ninds2 <- length(inds2)
             if (ninds2 > 5) {
               partition <- PARTITION
@@ -410,7 +410,7 @@ indMix <- function(c, npops, dispText = TRUE) {
               dist2 <- laskeOsaDist(inds2, dist, ninds)
               Z2 <- linkage(t(dist2))
               T2 <- cluster_own(Z2, 2)
-              muuttuvat <- inds2[find(T2 == 1)]
+              muuttuvat <- inds2[matlab2r::find(T2 == 1)]
 
               muutokset <- laskeMuutokset3(
                 T2, inds2, rows, data, adjprior, priorTerm, pop
