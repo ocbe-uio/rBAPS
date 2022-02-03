@@ -1,8 +1,9 @@
-[![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![](https://img.shields.io/github/last-commit/ocbe-uio/rBAPS.svg)](https://github.com/ocbe-uio/rBAPS/commits/master)
-[![](https://img.shields.io/github/languages/code-size/ocbe-uio/rBAPS.svg)](https://github.com/ocbe-uio/rBAPS)
-[![R build status](https://github.com/ocbe-uio/rBAPS/workflows/R-CMD-check/badge.svg)](https://github.com/ocbe-uio/rBAPS/actions)
-[![](https://codecov.io/gh/ocbe-uio/rBAPS/branch/develop/graph/badge.svg)](https://codecov.io/gh/ocbe-uio/rBAPS)
+[![Project Status: WIP - Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![last commit](https://img.shields.io/github/last-commit/ocbe-uio/rBAPS.svg)](https://github.com/ocbe-uio/rBAPS/commits/master)
+[![code size](https://img.shields.io/github/languages/code-size/ocbe-uio/rBAPS.svg)](https://github.com/ocbe-uio/rBAPS)
+[![check status](https://github.com/ocbe-uio/rBAPS/workflows/R-CMD-check/badge.svg)](https://github.com/ocbe-uio/rBAPS/actions)
+[![codecov](https://codecov.io/gh/ocbe-uio/rBAPS/branch/develop/graph/badge.svg)](https://codecov.io/gh/ocbe-uio/rBAPS)
+[![CodeFactor](https://www.codefactor.io/repository/github/ocbe-uio/rBAPS/badge)](https://www.codefactor.io/repository/github/ocbe-uio/rBAPS)
 
 # rBAPS
 R implementation of the compiled Matlab BAPS software for Bayesian Analysis of Population Structure.
