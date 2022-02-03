@@ -8,17 +8,19 @@
 #' Z = linkage(X) returns a matrix Z that encodes a tree containing hierarchical clusters of the rows of the input data matrix X.
 #' @param Y matrix
 #' @param method either 'si', 'av', 'co' 'ce' or 'wa'
-#' @note This is also a base Matlab function. The reason why the source code is also present here is unclear.
+#' @note This is also a base MATLAB function. The reason why the BAPS
+#' source code also contains a LINKAGE function is unclear. One could speculate
+#' that BAPS should use this function instead of the base one, so this is why
+#' this function is part of this package (instead of a MATLAB-replicating
+#' package such as matlab2r)
 #' @export
 linkage <- function(Y, method = "co") {
-  # TODO: compare R output with MATLAB output
   k <- size(Y)[1]
   n <- size(Y)[2]
   m <- (1 + sqrt(1 + 8 * n)) / 2
   if ((k != 1) | (m != trunc(m))) {
     stop(
-      "The first input has to match the output",
-      "of the PDIST function in size."
+      "The first input has to match the output of the PDIST function in size."
     )
   }
   method <- tolower(substr(method, 1, 2)) # simplify the switch string.
@@ -30,9 +32,8 @@ linkage <- function(Y, method = "co") {
   R <- 1:n
   for (s in 1:(n - 1)) {
     X <- as.matrix(as.vector(Y), ncol = 1)
-
-    v <- min_MATLAB(X)$mins
-    k <- min_MATLAB(X)$idx
+    v <- matlab2r::min(X)$mins
+    k <- matlab2r::min(X)$idx
 
     i <- floor(m + 1 / 2 - sqrt(m^2 - m + 1 / 4 - 2 * (k - 1)))
     j <- k - (i - 1) * (m - i / 2) + i
@@ -70,9 +71,9 @@ linkage <- function(Y, method = "co") {
     # I <- I[I > 0 & I <= length(Y)]
     # J <- J[J > 0 & J <= length(Y)]
     switch(method,
-      "si" = Y[I] <- apply(cbind(Y[I], Y[J]), 1, min), # single linkage
+      "si" = Y[I] <- apply(cbind(Y[I], Y[J]), 1, base::min), # single linkage
       "av" = Y[I] <- Y[I] + Y[J], # average linkage
-      "co" = Y[I] <- apply(cbind(Y[I], Y[J]), 1, max), # complete linkage
+      "co" = Y[I] <- apply(cbind(Y[I], Y[J]), 1, base::max), # complete linkage
       "ce" = {
         K <- N[R[i]] + N[R[j]] # centroid linkage
         Y[I] <- (N[R[i]] * Y[I] + N[R[j]] * Y[J] -

@@ -26,6 +26,6 @@ simuloiAlleeli <- function(allfreqs, pop, loc) {
   cumsumma <- cumsum(freqs)
   arvo <- runif(1)
   isommat <- which(cumsumma > arvo)
-  all <- min(isommat)
+  all <- base::min(isommat)
   return(all)
 }

@@ -1,11 +1,11 @@
 newGetDistances <- function(data, rowsFromInd) {
-  ninds <- max(data[, ncol(data)])
+  ninds <- base::max(data[, ncol(data)])
   nloci <- size(data, 2) - 1
   riviLkm <- choose(ninds, 2)
 
-  empties <- find(data < 0)
+  empties <- matlab2r::find(data < 0)
   data[empties] <- 0
-  data <- apply(data, 2, as.numeric) # max(noalle) oltava <256
+  data <- apply(data, 2, as.numeric) # base::max(noalle) oltava <256
 
   pariTaulu <- zeros(riviLkm, 2)
   aPointer <- 1
@@ -51,10 +51,10 @@ newGetDistances <- function(data, rowsFromInd) {
   }
 
   rm(x, y, vertailutNyt)
-  nollat <- find(vertailuja == 0)
+  nollat <- matlab2r::find(vertailuja == 0)
   dist <- zeros(length(vertailuja), 1)
   dist[nollat] <- 1
-  muut <- find(vertailuja > 0)
+  muut <- matlab2r::find(vertailuja > 0)
   dist[muut] <- summa[muut] / vertailuja[muut]
   rm(summa, vertailuja)
   Z <- linkage(t(dist))

@@ -11,9 +11,9 @@ learn_partition_modified <- function(ordered) {
   part <- learn_simple_partition(ordered, 0.05)
   nclust <- length(unique(part))
   if (nclust == 3) {
-    mini_1 <- min(ordered(which(part == 1)))
-    mini_2 <- min(ordered(which(part == 2)))
-    mini_3 <- min(ordered(which(part == 3)))
+    mini_1 <- base::ordered(which(part == 1))
+    mini_2 <- base::min(ordered(which(part == 2)))
+    mini_3 <- base::min(ordered(which(part == 3)))
     if (mini_1 > 0.9 & mini_2 > 0.9) {
       part[part == 2] <- 1
       part[part == 3] <- 2

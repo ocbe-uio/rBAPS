@@ -2,7 +2,7 @@ arvoSeuraavaTila <- function(muutokset, logml) {
   # Suorittaa yksil�n seuraavan tilan arvonnan
 
   y <- logml + muutokset # siirron j�lkeiset logml:t
-  y <- y - max(y)
+  y <- y - base::max(y)
   y <- exp(y)
   summa <- sum(y)
   y <- y / summa

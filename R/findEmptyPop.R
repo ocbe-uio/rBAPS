@@ -6,7 +6,7 @@ findEmptyPop <- function(npops) {
     emptyPop <- -1
   } else {
     popDiff <- diff(c(0, pops, npops + 1))
-    emptyPop <- min(find(popDiff > 1))
+    emptyPop <- base::min(matlab2r::find(popDiff > 1))
   }
   return(list(emptyPop = emptyPop, pops = pops))
 }

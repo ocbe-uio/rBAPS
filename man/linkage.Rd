@@ -23,5 +23,9 @@ output format of PDIST.
 Z = linkage(X) returns a matrix Z that encodes a tree containing hierarchical clusters of the rows of the input data matrix X.
 }
 \note{
-This is also a base Matlab function. The reason why the source code is also present here is unclear.
+This is also a base MATLAB function. The reason why the BAPS
+source code also contains a LINKAGE function is unclear. One could speculate
+that BAPS should use this function instead of the base one, so this is why
+this function is part of this package (instead of a MATLAB-replicating
+package such as matlab2r)
 }

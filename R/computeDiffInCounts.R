@@ -6,7 +6,7 @@ computeDiffInCounts <- function(rows, max_noalle, nloci, data) {
   diffInCounts <- zeros(max_noalle, nloci)
   for (i in seq_len(nrow(data))) {
     row <- data[i, ]
-    notEmpty <- as.matrix(find(row >= 0))
+    notEmpty <- as.matrix(matlab2r::find(row >= 0))
 
     if (length(notEmpty) > 0) {
       diffInCounts[row(notEmpty) + (notEmpty - 1) * max_noalle] <-

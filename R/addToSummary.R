@@ -4,7 +4,7 @@ addToSummary <- function(logml, partitionSummary, worstIndex) {
   # annettua logml arvoa, niin lis�t��n worstIndex:in kohtaan uusi logml ja
   # nykyist� partitiota vastaava nclusters:in arvo. Muutoin ei tehd� mit��n.
 
-  apu <- find(abs(partitionSummary[, 2] - logml) < 1e-5)
+  apu <- matlab2r::find(abs(partitionSummary[, 2] - logml) < 1e-5)
   if (isempty(apu)) {
     # Nyt l�ydetty partitio ei ole viel� kirjattuna summaryyn.
     npops <- length(unique(PARTITION))

@@ -10,13 +10,13 @@ etsiParas <- function(osuus, osuusTaulu, omaFreqs, logml) {
   while (ready != 1) {
     muutokset <- laskeMuutokset4(osuus, osuusTaulu, omaFreqs, logml)
 
-    # Work around R's max() limitation on complex numbers
+    # Work around R's base::max() limitation on complex numbers
     if (any(sapply(muutokset, class) == "complex")) {
-      maxRe <- max(Re(as.vector(muutokset)))
-      maxIm <- max(Im(as.vector(muutokset)))
+      maxRe <- base::max(Re(as.vector(muutokset)))
+      maxIm <- base::max(Im(as.vector(muutokset)))
       maxMuutos <- complex(real = maxRe, imaginary = maxIm)
     } else {
-      maxMuutos <- max(as.vector(muutokset))
+      maxMuutos <- base::max(as.vector(muutokset))
     }
     indeksi <- which(muutokset == maxMuutos)
     if (Re(maxMuutos) > 0) {

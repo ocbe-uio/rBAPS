@@ -1,10 +1,10 @@
 computeLogml <- function(counts, sumcounts, noalle, data, rowsFromInd) {
   nloci <- size(counts, 2)
   npops <- size(counts, 3)
-  adjnoalle <- zeros(max(noalle), nloci)
+  adjnoalle <- zeros(base::max(noalle), nloci)
   for (j in 1:nloci) {
     adjnoalle[1:noalle[j], j] <- noalle(j)
-    if ((noalle(j) < max(noalle))) {
+    if ((noalle(j) < base::max(noalle))) {
       adjnoalle[noalle[j] + 1:ncol(adjnoalle), j] <- 1
     }
   }

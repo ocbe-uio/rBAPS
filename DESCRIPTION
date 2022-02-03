@@ -1,6 +1,6 @@
 Package: rBAPS
 Title: Bayesian Analysis of Population Structure
-Version: 0.0.0.9004
+Version: 0.0.0.9005
 Date: 2020-11-09
 Authors@R:
     c(
@@ -40,4 +40,4 @@ RoxygenNote: 7.1.2
 Suggests:
     testthat (>= 2.1.0)
 Imports:
-    methods, ape, vcfR, Rsamtools, adegenet
+    methods, ape, vcfR, Rsamtools, adegenet, matlab2r

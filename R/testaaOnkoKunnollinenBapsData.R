@@ -12,7 +12,7 @@ testaaOnkoKunnollinenBapsData <- function(data) {
     return(ninds)
   }
   lastCol <- data[, ncol(data)]
-  ninds <- max(lastCol)
+  ninds <- base::max(lastCol)
   if (any(1:ninds != unique(lastCol))) {
     ninds <- 0
     return(ninds)
