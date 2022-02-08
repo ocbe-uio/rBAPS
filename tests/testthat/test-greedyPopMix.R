@@ -8,4 +8,11 @@ test_that("Auxiliary functions work properly", {
     rowsFromInd = 2
   )
   expect_equal(findOutRowsFromInd(x, y, "Diploid"), z)
+  expect_equal(
+    getPopDistancesByKL(x2),
+    list(
+      Z = matrix(c(c(1, 101:198), c(2:100), rep(0, 99)), nrow = 99, ncol = 3),
+      distances = as.matrix(rep(0, 4950))
+    )
+  )
 })
