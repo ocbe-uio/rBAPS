@@ -7,6 +7,7 @@ test_that("Auxiliary functions work properly", {
     popnames2 = matrix(c(11:13, seq(1.5, 2.5, 0.5)), 3),
     rowsFromInd = 2
   )
+  x2 <- matrix(seq(4, 14, 2), 3)
   expect_equal(findOutRowsFromInd(x, y, "Diploid"), z)
   expect_equal(
     getPopDistancesByKL(x2),
