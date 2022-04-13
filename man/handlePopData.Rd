@@ -10,5 +10,8 @@ handlePopData(raw_data)
 \item{raw_data}{raw data}
 }
 \description{
-The last column of the original data tells you which? that line is from. The function changes the allele codes so that the codes for one locus have values between 1,, Noah (j). Before this change, an allele whose code is zero is changed.
+The last column of the original data tells you which
+<missing translation> that line is from. The function changes the allele
+codes so that the codes for one locus have values between 1 and noalle[j].
+Before this change, an allele whose code is zero is changed.
 }
