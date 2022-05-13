@@ -8,16 +8,16 @@ lueGenePopDataPop <- function(tiedostonNimi) {
   # Data annetaan muodossa, jossa viimeinen sarake kertoo ryhmän.
   # popnames on kuten ennenkin.
 
-  fid <- fopen(tiedostonNimi)
-  line <- fgetl(fid)  # ensimmäinen rivi
-  line <- fgetl(fid)  # toinen rivi
+  fid <- readLines(tiedostonNimi)
+  line <- fid[1]  # ensimmäinen rivi
+  line <- fid[2]  # toinen rivi
   count <- rivinSisaltamienMjonojenLkm(line)
 
-  line <- fgetl(fid)
+  line <- fid[3]
   lokusRiveja <- 1
   while (testaaPop(line) == 0) {
       lokusRiveja <- lokusRiveja + 1
-      line <- fgetl(fid)
+      line <- fid[2 + lokusRiveja]
   }
 
   if (lokusRiveja > 1) {
@@ -32,9 +32,9 @@ lueGenePopDataPop <- function(tiedostonNimi) {
   ninds <- 0
   poimiNimi <- 1
   digitFormat = -1
-  while (line != -1) {
-      line <- fgetl(fid)
-
+  while (lokusRiveja < length(fid) - 2) {
+    lokusRiveja <- lokusRiveja + 1 # Keeps the loop moving along
+    line <- fid[lokusRiveja + 2]
       if (poimiNimi == 1) {
           # Edellinen rivi oli 'pop'
           nimienLkm <- nimienLkm + 1
@@ -47,8 +47,8 @@ lueGenePopDataPop <- function(tiedostonNimi) {
               digitFormat <- selvitaDigitFormat(line)
               divider <- 10 ^ digitFormat
           }
-          popnames[nimienLkm, 1] = nimi   # Näin se on greedyMix:issäkin?!?
-          popnames[nimienLkm, 2] = ninds
+          popnames[nimienLkm, 1] <- nimi   # Näin se on greedyMix:issäkin?!?
+          popnames[nimienLkm, 2] <- ninds
           poimiNimi <- 0
 
           data <- addAlleles(data, ninds, line, divider)
@@ -56,14 +56,14 @@ lueGenePopDataPop <- function(tiedostonNimi) {
       } else if (testaaPop(line)) {
           poimiNimi <- 1
 
-      } else if (line != -1) {
+      } else if (!is.na(line)) {
           ninds <- ninds + 1
           data <- addAlleles(data, ninds, line, divider)
       }
   }
 
-  data <- data[1:ninds * 2, ]
-  popnames <- popnames[1:nimienLkm, ]
+  data <- data[1:(ninds * 2), ]
+  popnames <- popnames[seq_len(nimienLkm), ]
   npops <- size(popnames, 1)
   ind <- 1
   for (pop in 1:npops) {
