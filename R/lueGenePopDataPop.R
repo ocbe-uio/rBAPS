@@ -1,3 +1,9 @@
+#' @title Read GenePop Data
+#' @note The data is given in the form where the last column tells the
+#' group. popnames are as before.
+#' @param tiedostonNimi Name of the file
+#' @return List containing data and popnames
+#' @export
 lueGenePopDataPop <- function(tiedostonNimi) {
   # Data annetaan muodossa, jossa viimeinen sarake kertoo ryhmän.
   # popnames on kuten ennenkin.
