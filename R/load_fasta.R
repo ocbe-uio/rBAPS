@@ -18,12 +18,12 @@
 load_fasta <- function(msa, keep.singletons = FALSE) {
 
   # Check inputs
-  if (class(msa) == "character") {
+  if (is(msa, "character")) {
     if (!file.exists(msa)) stop("Invalid msa or the file does not exist!")
     seqs <- ape::read.FASTA(msa)
-  } else if (class(msa) == "matrix") {
+  } else if (is(msa, "matrix")) {
     seqs <- ape::as.DNAbin(msa)
-  } else if (class(msa) == "DNAbin") {
+  } else if (is(msa, "DNAbin")) {
     seqs <- msa
   } else {
     stop("incorrect input for msa!")
