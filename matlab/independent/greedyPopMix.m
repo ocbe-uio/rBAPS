@@ -88,7 +88,7 @@ elseif isequal(input_type,'GenePop-format')
 end
 
 if ~isequal(input_type, 'Preprocessed data')
-    a_data = data(:,1:end-1);
+    2
 
     npops = size(rows,1);
     PARTITION = 1:npops';  %Jokainen "yksil? eli populaatio on oma ryhmäns?

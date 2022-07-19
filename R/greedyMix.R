@@ -46,4 +46,5 @@ greedyMix <- function(data, format, verbose = TRUE) {
     stop("Format not supported.")
   }
   return(out)
+  # TODO: add handleData(out) or some other post-processing of data
 }

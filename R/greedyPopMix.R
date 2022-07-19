@@ -8,13 +8,31 @@
 #' @importFrom vcfR read.vcfR
 #' @importFrom Rsamtools scanBam
 #' @importFrom adegenet read.genepop .readExt
+#' @importFrom matlab2r uiputfile
 #' @references Samtools: a suite of programs for interacting
 #' with high-throughput sequencing data. <http://www.htslib.org/>
 #' @export
 greedyPopMix <- function(data, format, partitionCompare = NULL, verbose = TRUE) {
   # Replacing original file reading code with greedyMix()
-  greedyMix(data, format, verbose)
-  # TODO: find out where the elements above come from. Maybe greedyMix should create them?
+  rawdata <- greedyMix(data, format, verbose)
+
+  # Other function calls to produce necessary objects
+  data_greedyMix_handle <- handlePopData(rawdata)
+  data <- data_greedyMix_handle$data
+  rowsFromInd <- data_greedyMix_handle$rowsFromInd
+  alleleCodes <- data_greedyMix_handle$alleleCodes
+  noalle <- data_greedyMix_handle$noalle
+  adjprior <- data_greedyMix_handle$adjprior
+  priorTerm <- data_greedyMix_handle$priorTerm
+  rm(data_greedyMix_handle)
+  Z_dist <- getPopDistancesByKL(adjprior)
+  Z_dist$Z -> Z
+  Z_dist$dist -> dist
+  rm(Z_dist)
+  a_data <- data[, 1:(ncol(data) - 1)]
+  sumcounts_counts_logml <- initialPopCounts(a_data, npops, rows, noalle, adjprior)
+  sumcounts_counts_logml$logml -> logml
+  rm(sumcounts_counts_logml)
   c <- list()
   c$data <- data
   c$rows <- rows
@@ -34,10 +52,10 @@ greedyPopMix <- function(data, format, partitionCompare = NULL, verbose = TRUE) 
     for (i in 1:npartitions) {
       # number of unique partition lables
         npops <- length(unique(partitions[, i]))
-        partitionInd <- zeros(rows(end), 1)
+        partitionInd <- zeros(length(rows), 1)
         partitionSample <- partitions[, i]
         for (j in 1:nsamplingunits) {
-          partitionInd[c$rows[j, 1]:c.rows[j, 2]] <- partitionSample[j]
+          partitionInd[c$rows[j, 1]:c$rows[j, 2]] <- partitionSample[j]
         }
         partitionLogml[i] <- initialCounts(
           partitionInd, data[, 1:(ncol(data) - 1)], npops, c$rows, noalle,
@@ -47,17 +65,21 @@ greedyPopMix <- function(data, format, partitionCompare = NULL, verbose = TRUE) 
     # return the logml result
     partitionCompare$logmls <- partitionLogml
   }
-  data = data(:,1:end-1);
   data <- data[, 1:(ncol(data) - 1)]
+  logml_npops_partitionSummary <- indMix(c)
+  logml_npops_partitionSummary$logml -> logml
+  logml_npops_partitionSummary$npops -> npops
+  logml_npops_partitionSummary$partitionSummary -> partitionSummary
+  rm(logml_npops_partitionSummary)
   changesInLogml <- writeMixtureInfoPop(
     logml, rows, data, adjprior, priorTerm,
-    outp, inp, partitionSummary, popnames, fixedK
+    NULL, NULL, partitionSummary, popnames, fixedK = FALSE
   )
   talle <- questdlg(
     'Do you want to save the mixture populations so that you can use them later in admixture analysis?',
     'Save results?', c('Yes', 'No'), 'Yes'
   )
-  if (isequal(talle, 'Yes')) {
+  if (tolower(talle) == 'yes') {
     waitALittle()
     filename_pathname <- uiputfile()
     if (rowsFromInd == 0) {
