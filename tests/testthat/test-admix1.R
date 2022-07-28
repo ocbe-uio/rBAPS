@@ -46,7 +46,6 @@ test_that("type convertions behave like on Matlab", {
   expect_equal(proportion2str(0.4), "0.40")
   expect_equal(proportion2str(0.89), "0.89")
   expect_equal(proportion2str(-0.4), "0.0-40") # also bugged in original
-  # TODO: fix after release, as long as it doesn't break anything else
 })
 
 test_that("computeRows behaves like on Matlab", {

@@ -31,7 +31,7 @@ lueGenePopDataPop <- function(tiedostonNimi) {
   nimienLkm <- 0
   ninds <- 0
   poimiNimi <- 1
-  digitFormat = -1
+  digitFormat <- -1
   while (lokusRiveja < length(fid) - 2) {
     lokusRiveja <- lokusRiveja + 1 # Keeps the loop moving along
     line <- fid[lokusRiveja + 2]

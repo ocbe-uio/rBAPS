@@ -135,7 +135,8 @@ writeMixtureInfoPop <- function(logml, rows, data, adjprior, priorTerm,
     nollia <- find(all(prior == 0)) # Lokukset, joissa oli havaittu vain yht?alleelia.
     prior[1, nollia] <- 1
     for (pop1 in 1:npops) {
-      d[, , pop1] <- (squeeze(COUNTS[, , pop1]) + prior) / repmat(sum(squeeze(COUNTS[, , pop1]) + prior), c(maxnoalle, 1))
+      d[, , pop1] <- (squeeze(COUNTS[, , pop1]) + prior) /
+        repmat(sum(squeeze(COUNTS[, , pop1]) + prior), c(maxnoalle, 1))
     }
     ekarivi <- as.character(npops)
     cat(ekarivi, "\n")
@@ -166,13 +167,23 @@ writeMixtureInfoPop <- function(logml, rows, data, adjprior, priorTerm,
     }
   }
   cat(" \n \n \n")
-  cat("List of sizes of 10 best visited partitions and corresponding log(ml) values\n")
+  cat(
+    "List of sizes of 10 best visited partitions and corresponding",
+    "log(ml) values\n"
+  )
   if (exists("fid")) {
     append(fid, " \n\n")
     append(fid, " \n\n")
     append(fid, " \n\n")
     append(fid, " \n\n")
-    append(fid, "List of sizes of 10 best visited partitions and corresponding log(ml) values\n")
+    append(
+      fid,
+      cat(
+        "List of sizes of 10 best visited partitions and corresponding",
+        "log(ml) values\n"
+      )
+    )
+
   }
   partitionSummary <- sortrows(partitionSummary, 2)
   partitionSummary <- partitionSummary[size(partitionSummary, 1):-1, ]
@@ -183,7 +194,11 @@ writeMixtureInfoPop <- function(logml, rows, data, adjprior, priorTerm,
     vikaPartitio <- size(partitionSummary, 1)
   }
   for (part in 1:vikaPartitio) {
-    line <- c(as.character(partitionSummary[part, 1]), "    ", as.character(partitionSummary[part, 2]))
+    line <- c(
+      as.character(partitionSummary[part, 1]),
+      "    ",
+      as.character(partitionSummary[part, 2])
+    )
     cat(line, "\n")
     if (exists("fid")) {
       append(fid, c(line, "\n"))
@@ -204,7 +219,9 @@ writeMixtureInfoPop <- function(logml, rows, data, adjprior, priorTerm,
     partitionSummary[, 2] <- partitionSummary[, 2] - max(partitionSummary[, 2])
     sumtn <- sum(exp(partitionSummary[, 2]))
     for (i in 1:len) {
-      npopstn <- sum(exp(partitionSummary(find(partitionSummary[, 1] == npopsTaulu(i)), 2)))
+      npopstn <- sum(
+        exp(partitionSummary(find(partitionSummary[, 1] == npopsTaulu(i)), 2))
+      )
       probs[i] <- npopstn / sumtn
     }
     for (i in 1:len) {

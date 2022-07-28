@@ -15,7 +15,7 @@ test_that("Auxiliary functions work properly", {
   expect_equal(
     getPopDistancesByKL(x2),
     list(
-      Z = matrix(c(c(1, 101:198), c(2:100), rep(0, 99)), nrow = 99, ncol = 3),
+      Z = matrix(c(c(1, 101:198), 2:100, rep(0, 99)), nrow = 99, ncol = 3),
       distances = as.matrix(rep(0, 4950))
     )
   )
@@ -27,7 +27,7 @@ test_that("Auxiliary functions work properly", {
     rows        = matrix(c(1: 3, 1: 3), 3),
     alleleCodes = matrix(c(1, 4, 9, 2, 5, 8), 3),
     noalle      = matrix(c(3, 3), 1),
-    adjprior    = matrix(rep(3/9, 6), 3),
+    adjprior    = matrix(rep(3 / 9, 6), 3),
     priorTerm   = 5.9125
   )
   expect_equal(handlePopData(x3), y3, tol = 1e-4)

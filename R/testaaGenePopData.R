@@ -1,7 +1,9 @@
 #' @title Tests GenePop data
 #' @param tiedostonNimi Filename
-#' @return kunnossa (binary "ok" condition value) == 0 if the data is not valid genePop data. Otherwise, kunnossa == 1.
-#' @details GenePop data are textfiles that follow the GenePop format. This function checks if such file is properly formatted as GenePop.
+#' @return kunnossa (binary "ok" condition value) == 0 if the data is not valid
+#' genePop data. Otherwise, kunnossa == 1.
+#' @details GenePop data are textfiles that follow the GenePop format. This
+#' function checks if such file is properly formatted as GenePop.
 testaaGenePopData <- function(tiedostonNimi) {
   # kunnossa == 0, jos data ei ole kelvollinen genePop data.
   # Muussa tapauksessa kunnossa == 1.
@@ -36,7 +38,10 @@ testaaGenePopData <- function(tiedostonNimi) {
       # Tiedet��n, ett?pys�htyy
       pointer <- pointer + 1
     }
-    line4 <- substring(line4, pointer + 1) # pilkun j�lkeinen osa (the part after the comma)
+
+    # pilkun j�lkeinen osa (the part after the comma)
+    line4 <- substring(line4, pointer + 1)
+
     nloci2 <- rivinSisaltamienMjonojenLkm(line4)
     if (nloci2 != nloci) stop("Incorrect file format 1195")
   } else {
@@ -59,7 +64,10 @@ testaaGenePopData <- function(tiedostonNimi) {
       # Tiedet��n, ett?pys�htyy
       pointer <- pointer + 1
     }
-    line4 <- substring(line4, pointer + 1) # pilkun j�lkeinen osa (the part after the comma)
+
+    # pilkun j�lkeinen osa (the part after the comma)
+    line4 <- substring(line4, pointer + 1)
+
     nloci2 <- rivinSisaltamienMjonojenLkm(line4)
     if (nloci2 != nloci) stop("Incorrect file format 1228")
   }

@@ -1,4 +1,1 @@
-library(testthat)
-library(rBAPS)
-
-test_check("rBAPS")
+testthat::test_check("rBAPS")

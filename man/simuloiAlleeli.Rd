@@ -17,5 +17,6 @@ simuloiAlleeli(allfreqs, pop, loc)
 Simuloi populaation pop lokukseen loc alleelin.
 }
 \note{
-This function is (only?) called by `simulateIndividuals()`. Therefore, exporting it is probably unnecessary.
+This function is (only?) called by `simulateIndividuals()`. Therefore,
+exporting it is probably unnecessary.
 }

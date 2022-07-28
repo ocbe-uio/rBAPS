@@ -11,7 +11,7 @@ etsiParas <- function(osuus, osuusTaulu, omaFreqs, logml) {
     muutokset <- laskeMuutokset4(osuus, osuusTaulu, omaFreqs, logml)
 
     # Work around R's base::max() limitation on complex numbers
-    if (any(sapply(muutokset, class) == "complex")) {
+    if (any(vapply(muutokset, class, vector("character", 1)) == "complex")) {
       maxRe <- base::max(Re(as.vector(muutokset)))
       maxIm <- base::max(Im(as.vector(muutokset)))
       maxMuutos <- complex(real = maxRe, imaginary = maxIm)

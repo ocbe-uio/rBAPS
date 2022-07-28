@@ -11,12 +11,17 @@
 #' @param popnames popnames
 #' @param fixedK fixedK
 #' @export
-writeMixtureInfo <- function(logml, rowsFromInd, data, adjprior, priorTerm, outPutFile, inputFile, partitionSummary, popnames, fixedK) {
+writeMixtureInfo <- function(
+  logml, rowsFromInd, data, adjprior, priorTerm, outPutFile, inputFile,
+  partitionSummary, popnames, fixedK
+) {
   changesInLogml <- list()
   ninds <- size(data, 1) / rowsFromInd
   npops <- size(COUNTS, 3)
   # Check that the names refer to individuals
-  names <- (size(popnames, 1) == ninds) # Tarkistetaan ett?nimet viittaavat yksil�ihin
+
+  # Tarkistetaan ett?nimet viittaavat yksil�ihin
+  names <- (size(popnames, 1) == ninds)
 
   if (length(outPutFile) > 0) {
     fid <- load(outPutFile)
@@ -194,7 +199,10 @@ writeMixtureInfo <- function(logml, rowsFromInd, data, adjprior, priorTerm, outP
     d <- zeros(maxnoalle, nloci, npops)
     prior <- adjprior
     prior[matlab2r::find(prior == 1)] <- 0
-    nollia <- matlab2r::find(all(prior == 0)) # Loci in which only one allele was detected.
+
+    # Loci in which only one allele was detected.
+    nollia <- matlab2r::find(all(prior == 0))
+
     prior[1, nollia] <- 1
     for (pop1 in 1:npops) {
       d[, , pop1] <- (squeeze(COUNTS[, , pop1]) + prior) /

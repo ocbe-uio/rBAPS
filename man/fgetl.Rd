@@ -10,7 +10,9 @@ fgetl(file)
 \item{file}{character vector to be read, usually an output of `fopen()`}
 }
 \value{
-If the file is nonempty, then fgetl returns tline as a character vector. If the file is empty and contains only the end-of-file marker, then fgetl returns tline as a numeric value -1.
+If the file is nonempty, then fgetl returns tline as a character
+vector. If the file is empty and contains only the end-of-file marker, then
+fgetl returns tline as a numeric value -1.
 }
 \description{
 Equivalent function to its homonymous Matlab equivalent.

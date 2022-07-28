@@ -12,7 +12,8 @@
 #' @references Samtools: a suite of programs for interacting
 #' with high-throughput sequencing data. <http://www.htslib.org/>
 #' @export
-greedyPopMix <- function(data, format, partitionCompare = NULL, verbose = TRUE) {
+greedyPopMix <- function(data, format, partitionCompare = NULL, verbose = TRUE
+) {
   # Replacing original file reading code with greedyMix()
   rawdata <- greedyMix(data, format, verbose)
 
@@ -26,12 +27,12 @@ greedyPopMix <- function(data, format, partitionCompare = NULL, verbose = TRUE) 
   priorTerm <- data_greedyMix_handle$priorTerm
   rm(data_greedyMix_handle)
   Z_dist <- getPopDistancesByKL(adjprior)
-  Z_dist$Z -> Z
-  Z_dist$dist -> dist
+  Z <- Z_dist$Z
+  dist <- Z_dist$dist
   rm(Z_dist)
   a_data <- data[, 1:(ncol(data) - 1)]
   sumcounts_counts_logml <- initialPopCounts(a_data, npops, rows, noalle, adjprior)
-  sumcounts_counts_logml$logml -> logml
+  logml <- sumcounts_counts_logml$logml
   rm(sumcounts_counts_logml)
   c <- list()
   c$data <- data
@@ -76,17 +77,17 @@ greedyPopMix <- function(data, format, partitionCompare = NULL, verbose = TRUE) 
     NULL, NULL, partitionSummary, popnames, fixedK = FALSE
   )
   talle <- questdlg(
-    'Do you want to save the mixture populations so that you can use them later in admixture analysis?',
-    'Save results?', c('Yes', 'No'), 'Yes'
+    "Do you want to save the mixture populations so that you can use them later in admixture analysis?",
+    "Save results?", c("Yes", "No"), "Yes"
   )
-  if (tolower(talle) == 'yes') {
+  if (tolower(talle) == "yes") {
     waitALittle()
     filename_pathname <- uiputfile()
     if (rowsFromInd == 0) {
       # BAPS format was used, rowsFromInd is not known.
       popnames_rowsFromInd <- findOutRowsFromInd(popnames, rows)
-      popnames_rowsFromInd$popnames -> popnames
-      popnames_rowsFromInd$rows -> rows
+      popnames <- popnames_rowsFromInd$popnames
+      rows <- popnames_rowsFromInd$rows
       rm(popnames_rowsFromInd)
     }
     groupPartition <- PARTITION
@@ -101,7 +102,7 @@ greedyPopMix <- function(data, format, partitionCompare = NULL, verbose = TRUE) 
     c$data <- data
     c$npops <- npops
     c$noalle <- noalle
-    c$mixtureType = 'popMix'
+    c$mixtureType <- "popMix"
     c$groupPartition <- groupPartition
     c$rows <- rows
     c$logml <- logml

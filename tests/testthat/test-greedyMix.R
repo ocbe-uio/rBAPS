@@ -1,11 +1,7 @@
 context("Auxiliary functions to greedyMix")
 
 # Defining the relative path to current inst -----------------------------------
-if (interactive()) {
-  path_inst <- "../../inst/ext"
-} else {
-  path_inst <- system.file("ext", "", package = "rBAPS")
-}
+path_inst <- system.file("ext", "", package = "rBAPS")
 
 # Reading datasets -------------------------------------------------------------
 baps_diploid <- read.delim(
@@ -50,7 +46,6 @@ df_bam <- greedyMix(
   data    = file.path(path_inst, "bam_example.bam"),
   format  = "BAM",
 )
-# TODO #19: add example reading Genpop
 test_that("Files are imported correctly", {
   expect_equal(dim(df_fasta), c(5, 99))
   expect_equal(dim(df_vcf), c(variants = 2, fix_cols = 8, gt_cols = 3))

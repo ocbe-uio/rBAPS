@@ -17,7 +17,8 @@ cluster_own <- function(Z, nclust) {
       if (i <= m) { # original node, no leafs
         T[i] <- clsnum
         clsnum <- clsnum + 1
-      } else if (i < (2 * m - maxclust + 1)) { # created before cutoff, search down the tree
+      } else if (i < (2 * m - maxclust + 1)) {
+        # created before cutoff, search down the tree
         T <- clusternum(Z, T, i - m, clsnum)
         clsnum <- clsnum + 1
       }
@@ -25,7 +26,8 @@ cluster_own <- function(Z, nclust) {
       if (i <= m) { # original node, no leafs
         T[i] <- clsnum
         clsnum <- clsnum + 1
-      } else if (i < (2 * m - maxclust + 1)) { # created before cutoff, search down the tree
+      } else if (i < (2 * m - maxclust + 1)) {
+        # created before cutoff, search down the tree
         T <- clusternum(Z, T, i - m, clsnum)
         clsnum <- clsnum + 1
       }

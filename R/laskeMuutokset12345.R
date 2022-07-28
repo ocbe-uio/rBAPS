@@ -135,7 +135,8 @@ laskeMuutokset2 <- function(i1, globalRows, data, adjprior, priorTerm) {
 }
 
 
-laskeMuutokset3 <- function(T2, inds2, globalRows, data, adjprior, priorTerm, i1) {
+laskeMuutokset3 <- function(T2, inds2, globalRows, data, adjprior, priorTerm, i1
+) {
   # Palauttaa length(unique(T2))*npops taulun, jossa (i,j):s alkio
   # kertoo, mik� olisi muutos logml:ss�, jos populaation i1 osapopulaatio
   # inds2(matlab2r::find(T2==i)) siirret��n koriin j.

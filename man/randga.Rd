@@ -15,8 +15,11 @@ randga(a, b)
 One realization of Gamma(a, b)
 }
 \description{
-Generates one random number from shape parameter a and rate parameter b
+Generates one random number from shape parameter a and rate
+parameter b
 }
 \details{
-The generated random variable has mean a / b. It will be positively-skewed for small values, but converges to a symmetric distribution for very large numbers of a and b.
+The generated random variable has mean a / b. It will be
+positively-skewed for small values, but converges to a symmetric distribution
+for very large numbers of a and b.
 }

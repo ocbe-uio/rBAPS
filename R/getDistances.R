@@ -1,11 +1,12 @@
 getDistances <- function(data_matrix, nclusters) {
 
-  # %finds initial admixture clustering solution with nclusters clusters, uses simple mean Hamming distance
-  # %gives partition in 8 - bit format
-  # %allocates all alleles of a single individual into the same basket
-  # %data_matrix contains #Loci + 1 columns, last column indicate whose alleles are placed in each row,
-  # %i.e. ranges from 1 to #individuals. For diploids there are 2 rows per individual, for haploids only a single row
-  # %missing values are indicated by zeros in the partition and by negative integers in the data_matrix.
+  # finds initial admixture clustering solution with nclusters clusters, uses
+  # simple mean Hamming distance; gives partition in 8 - bit format; allocates
+  # all alleles of a single individual into the same basket; data_matrix
+  # contains #Loci + 1 columns, last column indicate whose alleles are placed in
+  # each row, i.e. ranges from 1 to #individuals. For diploids there are 2 rows
+  # per individual, for haploids only a single row; missing values are indicated
+  # by zeros in the partition and by negative integers in the data_matrix.
 
   size_data <- size(data_matrix)
   nloci <- size_data[2] - 1
