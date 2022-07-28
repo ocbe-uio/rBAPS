@@ -1,6 +1,6 @@
 Package: rBAPS
 Title: Bayesian Analysis of Population Structure
-Version: 0.0.0.9008
+Version: 0.0.0.9009
 Date: 2020-11-09
 Authors@R:
     c(
@@ -36,7 +36,7 @@ Description: Partial R implementation of the BAPS software
 License: GPL-3
 BugReports: https://github.com/ocbe-uio/rBAPS/issues
 Encoding: UTF-8
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 Suggests:
     testthat (>= 2.1.0)
 Imports:
