@@ -1,6 +1,7 @@
 #' @title simuloiAlleeli
 #' @description Simuloi populaation pop lokukseen loc alleelin.
-#' @note This function is (only?) called by `simulateIndividuals()`. Therefore, exporting it is probably unnecessary.
+#' @note This function is (only?) called by `simulateIndividuals()`. Therefore,
+#' exporting it is probably unnecessary.
 #' @param allfreqs allfreqa
 #' @param pop pop
 #' @param loc loc

@@ -4,7 +4,9 @@ computePopulationLogml <- function(pops, adjprior, priorTerm) {
   # ======================================================== #
   # Limiting COUNTS size                                     #
   # ======================================================== #
-  COUNTS <- COUNTS[seq_len(nrow(adjprior)), seq_len(ncol(adjprior)), pops, drop = FALSE]
+  COUNTS <- COUNTS[
+    seq_len(nrow(adjprior)), seq_len(ncol(adjprior)), pops, drop = FALSE
+  ]
 
   x <- size(COUNTS, 1)
   y <- size(COUNTS, 2)
@@ -14,14 +16,16 @@ computePopulationLogml <- function(pops, adjprior, priorTerm) {
   # Computation                                              #
   # ======================================================== #
   isarray <- length(dim(repmat(adjprior, c(1, 1, length(pops))))) > 2
-  # FIXME: 3rd dimension of COUNTS getting dropped
   term1 <- squeeze(
     sum(
       sum(
         reshape(
           lgamma(
             repmat(adjprior, c(1, 1, length(pops))) +
-              COUNTS[seq_len(nrow(adjprior)), seq_len(ncol(adjprior)), pops, drop = !isarray]
+              COUNTS[
+                seq_len(nrow(adjprior)), seq_len(ncol(adjprior)), pops,
+                drop = !isarray
+              ]
           ),
           c(x, y, z)
         ),

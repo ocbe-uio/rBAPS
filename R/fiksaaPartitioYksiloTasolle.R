@@ -13,5 +13,6 @@ fiksaaPartitioYksiloTasolle <- function(rows, rowsFromInd) {
       partitio2[rivi / rowsFromInd] <- PARTITION[ind]
     }
   }
-  PARTITION <<- partitio2
+  global_env <- as.environment(1L)
+  assign("PARTITION", partitio2, envir = global_env)
 }

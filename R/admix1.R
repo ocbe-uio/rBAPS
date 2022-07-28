@@ -21,8 +21,6 @@ admix1 <- function(tietue) {
       cat("---------------------------------------------------\n")
       message("Reading mixture result from: ", pathname_filename, "...")
     }
-    Sys.sleep(0.0001) # TODO: remove
-
     # ASK: what is this supposed to do? What do graphic obj have to do here?
     # h0 = findobj('Tag','filename1_text');
     # set(h0,'String',filename); clear h0;
@@ -42,12 +40,10 @@ admix1 <- function(tietue) {
 
     if (isfield(c, "gene_lengths") &
       strcmp(c$mixtureType, "linear_mix") |
-      strcmp(c$mixtureType, "codon_mix")) { # if the mixture is from a linkage model
-      # Redirect the call to the linkage admixture function.
-      # call function noindex to remove the index column
+      strcmp(c$mixtureType, "codon_mix")) {
+      # if the mixture is from a linkage model Redirect the call to the linkage
+      # admixture function. call function noindex to remove the index column
       c$data <- noIndex(c$data, c$noalle)
-      # linkage_admix(c) # TODO: obsolete. remove.
-      # return
       stop("linkage_admix not implemented")
     }
     PARTITION <- c$PARTITION
@@ -148,7 +144,8 @@ admix1 <- function(tietue) {
     }
   }
 
-  # Analyze further only individuals who have log-likelihood ratio larger than 3:
+  # Analyze further only individuals who have log-likelihood ratio larger than
+  # 3
   to_investigate <- t(matlab2r::find(likelihood > 3))
   cat("Possibly admixed individuals:\n")
   for (i in 1:length(to_investigate)) {
@@ -229,9 +226,15 @@ admix1 <- function(tietue) {
 
   # Initialize the data structures, which are required in taking the missing
   # data into account:
-  n_missing_levels <- zeros(npops, 1) # number of different levels of "missingness" in each pop (max 3).
-  missing_levels <- zeros(npops, 3) # the mean values for different levels.
-  missing_level_partition <- zeros(ninds, 1) # level of each individual (one of the levels of its population).
+
+  # number of different levels of "missingness" in each pop (max 3).
+  n_missing_levels <- zeros(npops, 1)
+
+  # the mean values for different levels.
+  missing_levels <- zeros(npops, 3)
+
+  # level of each individual (one of the levels of its population).
+  missing_level_partition <- zeros(ninds, 1)
   for (i in 1:npops) {
     inds <- matlab2r::find(PARTITION == i)
     # Proportions of non-missing data for the individuals:
@@ -239,7 +242,9 @@ admix1 <- function(tietue) {
     for (j in 1:length(inds)) {
       ind <- inds[j]
       non_missing_data[j] <- length(
-        matlab2r::find(data[(ind - 1) * rowsFromInd + 1:ind * rowsFromInd, ] > 0)
+        matlab2r::find(
+          data[(ind - 1) * rowsFromInd + 1:ind * rowsFromInd, ] > 0
+        )
       ) / (rowsFromInd * nloci)
     }
     if (all(non_missing_data > 0.9)) {
@@ -247,8 +252,6 @@ admix1 <- function(tietue) {
       missing_levels[i, 1] <- mean(non_missing_data)
       missing_level_partition[inds] <- 1
     } else {
-      # TODO: fix syntax
-      # [ordered, ordering] = sort(non_missing_data);
       ordered <- ordering <- sort(non_missing_data)
       # part = learn_simple_partition(ordered, 0.05);
       part <- learn_partition_modified(ordered)
@@ -258,7 +261,9 @@ admix1 <- function(tietue) {
       n_levels <- length(unique(part))
       n_missing_levels[i] <- n_levels
       for (j in 1:n_levels) {
-        missing_levels[i, j] <- mean(non_missing_data[matlab2r::find(part == j)])
+        missing_levels[i, j] <- mean(
+          non_missing_data[matlab2r::find(part == j)]
+        )
       }
     }
   }
@@ -369,8 +374,8 @@ admix1 <- function(tietue) {
     }
   }
 
-  tulostaAdmixtureTiedot(proportionsIt, uskottavuus, alaRaja, iterationCount) # TODO: textual outputs. probably not necessary. translate nonetheless
-  viewPartition(proportionsIt, popnames) # TODO: adapt
+  tulostaAdmixtureTiedot(proportionsIt, uskottavuus, alaRaja, iterationCount)
+  viewPartition(proportionsIt, popnames)
 
   talle <- inputdlg("Do you want to save the admixture results? [Y/n]", "y")
   if (talle %in% c("y", "Y", "yes", "Yes")) {

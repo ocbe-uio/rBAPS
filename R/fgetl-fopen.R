@@ -1,7 +1,9 @@
 #' @title Read line from file, removing newline characters
 #' @description Equivalent function to its homonymous Matlab equivalent.
 #' @param file character vector to be read, usually an output of `fopen()`
-#' @return If the file is nonempty, then fgetl returns tline as a character vector. If the file is empty and contains only the end-of-file marker, then fgetl returns tline as a numeric value -1.
+#' @return If the file is nonempty, then fgetl returns tline as a character
+#' vector. If the file is empty and contains only the end-of-file marker, then
+#' fgetl returns tline as a numeric value -1.
 #' @author Waldir Leoncio
 #' @seealso fopen
 #' @export
