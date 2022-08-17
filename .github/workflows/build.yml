@@ -72,12 +72,20 @@ jobs:
             done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
 
         # Installing package dependencies ------------------------ #
-        - name: Installing package dependencies
+        - name: Installing package dependencies (release)
+          if: ${{ matrix.config.r == 'release' }}
           run: |
             remotes::install_cran(c("rcmdcheck", "BiocManager"))
             BiocManager::install("GenomicRanges")
             BiocManager::install("Rsamtools")
             remotes::install_deps(dependencies = TRUE)
+          shell: Rscript {0}
+        - name: Installing package dependencies (devel)
+          if: ${{ matrix.config.r == 'devel' }}
+          run: |
+            remotes::install_cran(c("rcmdcheck", "BiocManager"))
+            remotes::install_deps(dependencies = TRUE)
+            BiocManager::install(version = "devel")
           shell: Rscript {0}
 
         # Checking package --------------------------------------- #
