@@ -142,8 +142,9 @@ indMix <- function(c, npops, dispText = TRUE) {
 
           for (ind in inds) {
             i1 <- PARTITION[ind]
-            muutokset_diffInCounts <- laskeMuutokset(
-              # FIXME: using 100-length global variables instead of the ones in this function
+            muutokset_diffInCounts <- greedyMix_muutokset$new()
+            # FIXME: using 100-length global variables instead of the ones in this function
+            muutokset_diffInCounts <- muutokset_diffInCounts$laskeMuutokset(
               ind, rows, data, adjprior, priorTerm
             )
             muutokset <- muutokset_diffInCounts$muutokset
@@ -190,7 +191,8 @@ indMix <- function(c, npops, dispText = TRUE) {
         } else if (round == 2) { # Populaation yhdist�minen toiseen.
           maxMuutos <- 0
           for (pop in 1:npops) {
-            muutokset_diffInCounts <- laskeMuutokset2(
+            muutokset_diffInCounts <- greedyMix_muutokset$new()
+            muutokset_diffInCounts <- muutokset_diffInCounts$laskeMuutokset2(
               pop, rows, data, adjprior, priorTerm
             )
             muutokset <- muutokset_diffInCounts$muutokset
@@ -244,7 +246,8 @@ indMix <- function(c, npops, dispText = TRUE) {
                 npops2 <- 2 # Moneenko osaan jaetaan
               }
               T2 <- cluster_own(Z2, npops2)
-              muutokset <- laskeMuutokset3(
+              muutokset_diffInCounts <- greedyMix_muutokset$new()
+              muutokset <- muutokset_diffInCounts$laskeMuutokset3(
                 T2, inds2, rows, data, adjprior, priorTerm, pop
               )
               isoin <- matlab2r::max(muutokset)[[1]]
@@ -326,8 +329,8 @@ indMix <- function(c, npops, dispText = TRUE) {
             while (length(inds) > 0 & i < length(inds)) {
               i <- i + 1
               ind <- inds[i]
-
-              muutokset_diffInCounts <- laskeMuutokset(
+              muutokset_diffInCounts <- greedyMix_muutokset$new()
+              muutokset_diffInCounts <- muutokset_diffInCounts$laskeMuutokset(
                 ind, rows, data, adjprior, priorTerm
               )
               muutokset <- muutokset_diffInCounts$muutokset
@@ -411,8 +414,8 @@ indMix <- function(c, npops, dispText = TRUE) {
               Z2 <- linkage(t(dist2))
               T2 <- cluster_own(Z2, 2)
               muuttuvat <- inds2[matlab2r::find(T2 == 1)]
-
-              muutokset <- laskeMuutokset3(
+              muutokset <- greedyMix_muutokset$new()
+              muutokset <- muutokset$laskeMuutokset3(
                 T2, inds2, rows, data, adjprior, priorTerm, pop
               )
               totalMuutos <- muutokset(1, emptyPop)
@@ -436,7 +439,8 @@ indMix <- function(c, npops, dispText = TRUE) {
               while (muutettu == 1) {
                 muutettu <- 0
                 # Siirret��n yksil�it� populaatioiden v�lill�
-                muutokset <- laskeMuutokset5(
+                muutokset <- greedyMix_muutokset$new()
+                muutokset <- muutokset$laskeMuutokset5(
                   inds2, rows, data, adjprior, priorTerm,
                   pop, emptyPop
                 )
