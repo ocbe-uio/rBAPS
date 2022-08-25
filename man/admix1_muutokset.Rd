@@ -2,7 +2,7 @@
 % Please edit documentation in R/laskeMuutokset12345.R
 \name{admix1_muutokset}
 \alias{admix1_muutokset}
-\title{Calculate changes (?)}
+\title{Calculate changes (admix1 class)}
 \description{
 Palauttaa npops*npops taulun, jonka alkio (i,j) kertoo, mik?on
 muutos logml:ss? mikäli populaatiosta i siirretään osuuden verran

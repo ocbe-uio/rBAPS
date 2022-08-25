@@ -1,16 +1,37 @@
-#' @title Calculate changes (?)
+#' @title Calculate changes (spatial mixture class)
+#' @importFrom R6 R6Class
+spatialMixture_muutokset <- R6Class(
+  classname = "spatialMixture_muutokset",
+  public = list(
+    #' @param ind ind
+    #' @param rowsFromInd rowsFromInd
+    #' @param data data
+    #' @param adjprior adjprior
+    #' @param priorTerm priorTerm
+    #' @param logml logml
+    #' @param cliques cliques
+    #' @param separators separators
+    laskeMuutokset = function(
+      ind, rowsFromInd, data, adjprior, priorTerm, logml, cliques, separators
+    ) {
+      stop("Not yet implemented") # TODO: implement
+    }
+  )
+)
+
+#' @title Calculate changes (admix1 class)
 #' @description Palauttaa npops*npops taulun, jonka alkio (i,j) kertoo, mik?on
 #' muutos logml:ss? mikäli populaatiosta i siirretään osuuden verran
 #' todennäköisyysmassaa populaatioon j. Mikäli populaatiossa i ei ole mitään
 #' siirrettävää, on vastaavassa kohdassa rivi nollia.
 #' @importFrom R6 R6Class
-#' @param osuus Percentages?
-#' @param osuusTaulu Percentage table?
-#' @param omaFreqs own Freqs?
-#' @param logml log maximum likelihood
 admix1_muutokset <- R6Class(
   classname = "admix1_muutokset",
   public = list(
+    #' @param osuus Percentages?
+    #' @param osuusTaulu Percentage table?
+    #' @param omaFreqs own Freqs?
+    #' @param logml log maximum likelihood
     laskeMuutokset4 = function(osuus, osuusTaulu, omaFreqs, logml) {
       if (isGlobalEmpty(COUNTS)) {
         npops <- 1
