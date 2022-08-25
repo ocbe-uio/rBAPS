@@ -3,42 +3,48 @@
 #' muutos logml:ss? mikäli populaatiosta i siirretään osuuden verran
 #' todennäköisyysmassaa populaatioon j. Mikäli populaatiossa i ei ole mitään
 #' siirrettävää, on vastaavassa kohdassa rivi nollia.
+#' @importFrom R6 R6Class
 #' @param osuus Percentages?
-#' @param omaFreqs own Freqs?
 #' @param osuusTaulu Percentage table?
+#' @param omaFreqs own Freqs?
 #' @param logml log maximum likelihood
-#' @export
-laskeMuutokset4 <- function(osuus, osuusTaulu, omaFreqs, logml) {
-  if (isGlobalEmpty(COUNTS)) {
-    npops <- 1
-  } else {
-    npops <- ifelse(is.na(dim(COUNTS)[3]), 1, dim(COUNTS)[3])
-  }
-  notEmpty <- which(osuusTaulu > 0.005)
-  muutokset <- zeros(npops)
-  empties <- !notEmpty
-
-  for (i1 in notEmpty) {
-    osuusTaulu[i1] <- osuusTaulu[i1] - osuus
-    for (i2 in c(colon(1, i1 - 1), colon(i1 + 1, npops))) {
-      osuusTaulu[i2] <- osuusTaulu[i2] + osuus
-      loggis <- computeIndLogml(omaFreqs, osuusTaulu)
-
-      # Work around Matlab OOB bug
-      if (i1 > nrow(muutokset)) {
-        muutokset <- rbind(muutokset, muutokset * 0)
+admix1_muutokset <- R6Class(
+  classname = "admix1_muutokset",
+  public = list(
+    laskeMuutokset4 = function(osuus, osuusTaulu, omaFreqs, logml) {
+      if (isGlobalEmpty(COUNTS)) {
+        npops <- 1
+      } else {
+        npops <- ifelse(is.na(dim(COUNTS)[3]), 1, dim(COUNTS)[3])
       }
-      if (i2 > ncol(muutokset)) {
-        muutokset <- cbind(muutokset, muutokset * 0)
-      }
+      notEmpty <- which(osuusTaulu > 0.005)
+      muutokset <- zeros(npops)
+      empties <- !notEmpty
 
-      muutokset[i1, i2] <- loggis - logml
-      osuusTaulu[i2] <- osuusTaulu[i2] - osuus
+      for (i1 in notEmpty) {
+        osuusTaulu[i1] <- osuusTaulu[i1] - osuus
+        for (i2 in c(colon(1, i1 - 1), colon(i1 + 1, npops))) {
+          osuusTaulu[i2] <- osuusTaulu[i2] + osuus
+          loggis <- computeIndLogml(omaFreqs, osuusTaulu)
+
+          # Work around Matlab OOB bug
+          if (i1 > nrow(muutokset)) {
+            muutokset <- rbind(muutokset, muutokset * 0)
+          }
+          if (i2 > ncol(muutokset)) {
+            muutokset <- cbind(muutokset, muutokset * 0)
+          }
+
+          muutokset[i1, i2] <- loggis - logml
+          osuusTaulu[i2] <- osuusTaulu[i2] - osuus
+        }
+        osuusTaulu[i1] <- osuusTaulu[i1] + osuus
+      }
+      return(muutokset)
     }
-    osuusTaulu[i1] <- osuusTaulu[i1] + osuus
-  }
-  return(muutokset)
-}
+  )
+)
+
 
 # Palauttaa npops*1 taulun, jossa i:s alkio kertoo, mik� olisi
 # muutos logml:ss�, mik�li yksil� ind siirret��n koriin i.

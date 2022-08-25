@@ -147,9 +147,9 @@ test_that("suoritaMuutos works like on Matlab", {
 })
 
 test_that("laskeMuutokset4 works like on Matlab", {
-  mx1 <- t(c(.4, 7))
+  x <- admix1_muutokset$new()
   expect_equivalent(
-    object = laskeMuutokset4(2, mx1, c(8, 2), 3),
+    object = x$laskeMuutokset4(2, t(c(.4, 7)), c(8, 2), 3),
     expected = t(c(0, .3742)),
     tol = .0001
   )

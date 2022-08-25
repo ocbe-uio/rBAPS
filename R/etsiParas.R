@@ -8,7 +8,8 @@
 etsiParas <- function(osuus, osuusTaulu, omaFreqs, logml) {
   ready <- 0
   while (ready != 1) {
-    muutokset <- laskeMuutokset4(osuus, osuusTaulu, omaFreqs, logml)
+    muutokset <- admix1_muutokset$new()
+    muutokset <- muutokset$laskeMuutokset4(osuus, osuusTaulu, omaFreqs, logml)
 
     # Work around R's base::max() limitation on complex numbers
     if (any(vapply(muutokset, class, vector("character", 1)) == "complex")) {
