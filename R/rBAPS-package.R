@@ -7,6 +7,6 @@
 #' Check the "BugReports" field on the package description for the URL.
 #' @importFrom matlab2r blanks cell colon find inputdlg
 #' isempty isfield isspace max min ones questdlg rand repmat reshape
-#' size sortrows squeeze strcmp times zeros
+#' size sortrows squeeze strcmp times zeros disp
 #' @importFrom stats runif
 NULL
