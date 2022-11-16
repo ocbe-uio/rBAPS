@@ -4,12 +4,14 @@
 \alias{testaaKoordinaatit}
 \title{Test the coordinates}
 \usage{
-testaaKoordinaatit(ninds, coordinates)
+testaaKoordinaatit(ninds, coordinates, interactive = TRUE)
 }
 \arguments{
 \item{ninds}{ninds}
 
 \item{coordinates}{coordinates}
+
+\item{interactive}{prompt user for relevant questions during execution}
 }
 \value{
 a list of defectives ("viallinen") and coordinates
