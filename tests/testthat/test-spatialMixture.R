@@ -15,3 +15,21 @@ test_that("functions work with basic input", {
   expect_equal(computeDiffInCliqCounts(r, 0), matrix(c(0, 0, 0)))
   expect_equal(mysetdiff(t, y), c(2, 5))
 })
+
+test_that("testaaKoordinaatit works as expected", {
+  m1 <- matrix(c(11.1, 22.2, 33.3, 44.4), 2, byrow = TRUE)
+  m2 <- matrix(c(11.1, 22.2, 33.3, 44.4, 55.5, 66.6), byrow = TRUE)
+  m3 <- matrix(c(11, 22.2, 11, 44.4, 11, 66.6), ncol = 2, byrow = TRUE)
+  expect_equal(
+    testaaKoordinaatit(2, m1), list("viallinen" = 0, "coordinates" = m1)
+  )
+  expect_warning(testaaKoordinaatit(2, m2), "Wrong coordinates dimension!")
+  expect_equal(
+    {set.seed(5676402); testaaKoordinaatit(3, m3, FALSE)},
+    list(
+      "viallinen" = 0,
+      "coordinates" = matrix(
+        c(11.99, 22.2, 11.50, 44.4, 11.00, 66.6), ncol = 2, byrow = TRUE)
+      )
+  )
+})
