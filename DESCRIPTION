@@ -40,4 +40,4 @@ RoxygenNote: 7.2.3
 Suggests:
     testthat (>= 2.1.0)
 Imports:
-    methods, ape, vcfR, Rsamtools, adegenet, matlab2r, R6
+    methods, ape, vcfR, Rsamtools, adegenet, matlab2r, R6, zeallot
