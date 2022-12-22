@@ -39,6 +39,7 @@ test_that("lakseKlitik() and subfunctions produce expected output", {
   # TODO: test triangulate()
   # TODO: test neighbors()
   # TODO: test myintersect()
+  # TODO: test mysubset()
   # TODO: test findCliques()
   # TODO: test cliques_to_jtree()
   # TODO: test lakseKlitik()

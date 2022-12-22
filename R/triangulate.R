@@ -22,7 +22,7 @@ triangulate <- function(G, order) {
 
     exclude <- 0
     for (c in 1:length(cliques)) {
-      if (mysubset(nodes, cliques[[c]])) { # not maximal)
+      if (mysubset(nodes, cliques[[c]])) { # not maximal) # TODO: translate mysubset
         exclude <- 1
         break
       }
