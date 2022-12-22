@@ -9,4 +9,5 @@
 #' isempty isfield isspace max min ones questdlg rand repmat reshape
 #' size sortrows squeeze strcmp times zeros disp
 #' @importFrom stats runif
+#' @importFrom zeallot %<-%
 NULL

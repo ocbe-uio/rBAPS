@@ -33,3 +33,21 @@ test_that("testaaKoordinaatit works as expected", {
       )
   )
 })
+
+test_that("lakseKlitik() and subfunctions produce expected output", {
+  # TODO: test elim_order()
+  # TODO: test triangulate()
+  # TODO: test neighbors()
+  # TODO: test myintersect()
+  # TODO: test mysubset()
+  # TODO: test findCliques()
+  # TODO: test cliques_to_jtree()
+  # TODO: test minimum_spanning_tree()
+  # TODO: test myunion()
+  # TODO: test argmin()
+  # TODO: test mysize()
+  # TODO: test ind2subv()
+  # TODO: test myisvector()
+  # TODO: ... and anythin left from findCliques.m
+  # TODO: test lakseKlitik()
+})
