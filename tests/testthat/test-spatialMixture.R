@@ -37,6 +37,7 @@ test_that("testaaKoordinaatit works as expected", {
 test_that("lakseKlitik() and subfunctions produce expected output", {
   # TODO: test elim_order()
   # TODO: test triangulate()
+  # TODO: test neighbors()
   # TODO: test myintersect()
   # TODO: test findCliques()
   # TODO: test cliques_to_jtree()
