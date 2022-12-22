@@ -14,7 +14,7 @@ triangulate <- function(G, order) {
   for (i in 1:n) {
     u <- order[i]
     U <- find(!eliminated)# uneliminated
-    nodes <- myintersect(neighbors(G, u), U)# look up neighbors in the partially filled - in graph   # TODO: translate neighbors
+    nodes <- myintersect(neighbors(G, u), U)# look up neighbors in the partially filled - in graph
     nodes <- myunion(nodes, u)# the clique will always contain at least u # TODO: translate myunion
     G[nodes, nodes] <- 1# make them all connected to each other
     G <- setdiag(G, 0) # TODO: translate setdiag
