@@ -42,5 +42,7 @@ test_that("lakseKlitik() and subfunctions produce expected output", {
   # TODO: test mysubset()
   # TODO: test findCliques()
   # TODO: test cliques_to_jtree()
+  # TODO: test minimum_spanning_tree()
+  # TODO: test myunion()
   # TODO: test lakseKlitik()
 })
