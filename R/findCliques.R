@@ -4,6 +4,7 @@ findCliques <- function(M) {
   # Hyצdynnetההn Kevin Murphyn algoritmeja Graph Theory toolboxista.
   # Pהivitetty 12.8.2005
   order <- elim_order(M, ones(length(M))) # TODO: translate from findCliques.m
+  G <- cliques <- root <- NULL
   c(G, cliques) %<-% triangulate(M, order) # TODO: translate from findCliques.m
   c(jtree, root) %<-% cliques_to_jtree(cliques, ones(length(M))) # TODO: translate from findCliques.m
   ncliq <- length(cliques)
