@@ -3,10 +3,10 @@ findCliques <- function(M) {
   # separaattorit.
   # Hyצdynnetההn Kevin Murphyn algoritmeja Graph Theory toolboxista.
   # Pהivitetty 12.8.2005
-  order <- elim_order(M, ones(length(M))) # TODO: translate from findCliques.m
+  order <- elim_order(M, ones(length(M)))
   G <- cliques <- root <- NULL
-  c(G, cliques) %<-% triangulate(M, order) # TODO: translate from findCliques.m
-  c(jtree, root) %<-% cliques_to_jtree(cliques, ones(length(M))) # TODO: translate from findCliques.m
+  c(G, cliques) %<-% triangulate(M, order)
+  c(jtree, root) %<-% cliques_to_jtree(cliques, ones(length(M)))
   ncliq <- length(cliques)
   separators <- cell(ncliq - 1, 1)    # n - solmuisessa puussa n - 1 viivaa
 

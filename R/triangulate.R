@@ -15,14 +15,14 @@ triangulate <- function(G, order) {
     u <- order[i]
     U <- find(!eliminated)# uneliminated
     nodes <- myintersect(neighbors(G, u), U)# look up neighbors in the partially filled - in graph
-    nodes <- myunion(nodes, u)# the clique will always contain at least u # TODO: translate myunion
+    nodes <- myunion(nodes, u)# the clique will always contain at least u
     G[nodes, nodes] <- 1# make them all connected to each other
-    G <- setdiag(G, 0) # TODO: translate setdiag
+    G <- setdiag(G, 0)
     eliminated[u] <- 1
 
     exclude <- 0
     for (c in 1:length(cliques)) {
-      if (mysubset(nodes, cliques[[c]])) { # not maximal) # TODO: translate mysubset
+      if (mysubset(nodes, cliques[[c]])) { # not maximal)
         exclude <- 1
         break
       }
