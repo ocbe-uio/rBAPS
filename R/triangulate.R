@@ -16,64 +16,24 @@ triangulate <- function(G, order) {
     U <- find(!eliminated)# uneliminated
     nodes <- myintersect(neighbors(G, u), U)# look up neighbors in the partially filled - in graph   # TODO: translate neighbors
     nodes <- myunion(nodes, u)# the clique will always contain at least u # TODO: translate myunion
-  ----------------------- line 21 -----------------------
-    G(nodes,nodes) = 1; % make them all connected to each other
     G[nodes, nodes] <- 1# make them all connected to each other
-  ----------------------- line 22 -----------------------
-    G = setdiag(G,0);
-    G <- setdiag(G, 0)
-  ----------------------- line 23 -----------------------
-    eliminated(u) = 1;
+    G <- setdiag(G, 0) # TODO: translate setdiag
     eliminated[u] <- 1
-  ----------------------- line 24 -----------------------
 
-
-  ----------------------- line 25 -----------------------
-    exclude = 0;
     exclude <- 0
-  ----------------------- line 26 -----------------------
-    for c=1:length(cliques)
     for (c in 1:length(cliques)) {
-  ----------------------- line 27 -----------------------
-    if mysubset(nodes,cliques{c}) % not maximal
-    if (mysubset(nodes, cliques{c})# not maximal) {
-  ----------------------- line 28 -----------------------
-    exclude = 1;
-    exclude <- 1
-  ----------------------- line 29 -----------------------
-    break;
-    break
-  ----------------------- line 30 -----------------------
-    end
+      if (mysubset(nodes, cliques[[c]])) { # not maximal)
+        exclude <- 1
+        break
+      }
     }
-  ----------------------- line 31 -----------------------
-  end
-  }
-  ----------------------- line 32 -----------------------
-    if ~exclude
     if (!exclude) {
-  ----------------------- line 33 -----------------------
-      cnum = length(cliques)+1;
       cnum <- length(cliques) + 1
-  ----------------------- line 34 -----------------------
-      cliques{cnum} = nodes;
-      cliques{cnum} = nodes
-  ----------------------- line 35 -----------------------
-    end
+      cliques[[cnum]] <- nodes
     }
-  ----------------------- line 36 -----------------------
-  end
   }
-  ----------------------- line 37 -----------------------
 
-
-  ----------------------- line 38 -----------------------
-  %fill_ins = sparse(triu(max(0, G - MG), 1));
   # fill_ins <- sparse(triu(max(0, G - MG), 1))
-  ----------------------- line 39 -----------------------
-  fill_ins=1;
-  fill_ins=1
-  ----------------------- line 40 -----------------------
-  NA
+  fill_ins <- 1
   return(list("G" = G, "cliques" = cliques, "fill_ins" = fill_ins))
 }
