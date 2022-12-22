@@ -44,5 +44,10 @@ test_that("lakseKlitik() and subfunctions produce expected output", {
   # TODO: test cliques_to_jtree()
   # TODO: test minimum_spanning_tree()
   # TODO: test myunion()
+  # TODO: test argmin()
+  # TODO: test mysize()
+  # TODO: test ind2subv()
+  # TODO: test myisvector()
+  # TODO: ... and anythin left from findCliques.m
   # TODO: test lakseKlitik()
 })
