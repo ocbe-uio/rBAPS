@@ -10,5 +10,5 @@
 #' size sortrows squeeze strcmp times zeros disp
 #' @importFrom stats runif
 #' @importFrom zeallot %<-%
-#' @importFrom matlab2r nargin
+#' @importFrom matlab2r nargin log2
 NULL
