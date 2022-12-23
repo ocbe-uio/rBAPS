@@ -10,7 +10,7 @@ dec2bitv <- function(d, n) {
   d <- d[]
 
   f <- e <- NA
-  c(f, e) <- log2(max(d)) # How many digits do we need to represent the numbers?
+  c(f, e) <- matlab2r::log2(max(d)) # How many digits do we need to represent the numbers?
     bits <- floor(d * 2 ^ (seq(1 - max(n, e), 0))) %% 2
   return(bits)
 }
