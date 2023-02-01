@@ -25,9 +25,9 @@ getPopDistancesByKL <- function(adjprior) {
     for (pop2 in (pop1 + 1):npops) {
       dist1 <- d[, , pop1]
       dist2 <- d[, , pop2]
-      div12 <- sum(sum(dist1 * log2((dist1 + 10^-10) / (dist2 + 10^-10)))) /
+      div12 <- sum(sum(dist1 * base::log2((dist1 + 10^-10) / (dist2 + 10^-10)))) /
         nloci
-      div21 <- sum(sum(dist2 * log2((dist2 + 10^-10) / (dist1 + 10^-10)))) /
+      div21 <- sum(sum(dist2 * base::log2((dist2 + 10^-10) / (dist1 + 10^-10)))) /
         nloci
       div <- (div12 + div21) / 2
       distances[pointer] <- div
