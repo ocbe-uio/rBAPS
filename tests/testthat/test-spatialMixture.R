@@ -51,3 +51,11 @@ test_that("lakseKlitik() and subfunctions produce expected output", {
   # TODO: ... and anythin left from findCliques.m
   # TODO: test lakseKlitik()
 })
+
+test_that("testFastaData() produces same output as on MATLAB", {
+  msa <- system.file("ext", "seqs.fa", package = "rBAPS")
+  test_msa <- testFastaData(msa)
+  expect_equal(test_msa$ninds, 515)
+  expect_equal(dim(test_msa$data), c(515, 745))
+  expect_named(table(test_msa$data), c("-9", as.character(1:515)))
+})

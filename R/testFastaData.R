@@ -1,19 +1,20 @@
 testFastaData <- function(inFile) {
   #  added by Lu Cheng, 11.11.2012
-  if (!exists(inFile, 'file')) {
+  if (!file.exists(inFile)) {
     stop('Fasta file ', inFile, ' does not exist!')
   }
 
   seqs <- load_fasta(inFile)
   heds <- colnames(seqs)
-  ninds <- length(seqs)
+  ninds <- nrow(seqs) # not sure if this should be nrow, ncols or length
 
   data <- as.matrix(seqs)
-  newData <- ones(size(data)) * -9
+  newData <- matrix(-9, nrow = nrow(data), ncol = ncol(data))
   newData[toupper(data) == 'A'] <- 1
   newData[toupper(data) == 'C'] <- 2
   newData[toupper(data) == 'G'] <- 3
   newData[toupper(data) == 'T'] <- 4
-  data <- c(newData, t(1:ninds))
+
+  data <- cbind(newData, seq(1, ninds))
   return(list("ninds" = ninds, "data" = data, "heds" = heds))
 }
