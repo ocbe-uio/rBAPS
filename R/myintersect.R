@@ -8,22 +8,22 @@ myintersect <- function(A, B) {
   if (is.null(A)) {
     ma <- 0
   } else {
-    ma <- max(A)
+    ma <- base::max(A)
   }
 
   if (is.null(B)) {
     mb <- 0
   } else {
-    mb <- max(B)
+    mb <- base::max(B)
   }
 
-  if (ma == 0 | mb == 0) {
+  if (ma == 0 || mb == 0) {
     C <- vector()
   } else {
     # bits <- sparse(1, max(ma, mb))
-    bits <- zeros(1, max(ma, mb))
-    bits[A] <- 1
-    C <- B[as.logical(bits[B])]
+    bits <- zeros(1, base::max(ma, mb))
+    bits[as.vector(A)] <- 1
+    C <- B[as.logical(bits[as.vector(B)])]
   }
-  return(C)
+  return(sort(C))
 }
