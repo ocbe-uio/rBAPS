@@ -1,7 +1,8 @@
 myisvector <- function(V) {
   # Kuten isvector(V)
+  V <- as.matrix(V)
+  A <- c(nrow(V), ncol(V))
 
-  A <- size(V)
-  r <- (length(A) == 2) & (min(A) == 1)
+  r <- (base::max(size(A)) == 2) & (base::min(A) == 1)
   return(r)
 }
