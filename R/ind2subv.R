@@ -21,7 +21,7 @@ ind2subv <- function(siz, ndx) {
   }
 
   if (all(siz == 2)) {
-    sub <- dec2bitv(ndx - 1, n)
+    sub <- t(vapply(ndx, function(x) dec2bitv(x - 1, n), c(0, 0, 0)))
     sub <- sub[, seq(n, 1, - 1)] + 1
     return(sub)
   }
@@ -31,7 +31,7 @@ ind2subv <- function(siz, ndx) {
   sub <- zeros(length(ndx), n)
   for (i in seq(n, 1, -1)) {# i'th digit
     sub[, i] <- floor(ndx / cp[i]) + 1
-    ndx <- ndx %% cp(i)
+    ndx <- ndx %% cp[i]
   }
   return(sub)
 }

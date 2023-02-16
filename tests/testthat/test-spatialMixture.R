@@ -58,7 +58,14 @@ test_that("lakseKlitik() and subfunctions produce expected output", {
   expect_equal(dec2bitv(10, 1), c(1, 0, 1, 0))
   expect_equal(dec2bitv(10, 5), c(0, 1, 0, 1, 0))
   expect_equal(dec2bitv(10, 10), c(0, 0, 0, 0, 0, 0, 1, 0, 1, 0))
-  # TODO: test ind2subv()
+  expect_equal(
+    ind2subv(c(2, 2, 2), 1:8),
+    matrix(c(rep(1:2, 4), rep(1:2, 2, each = 2), rep(1:2, 1, each = 4)), 8)
+  )
+  expect_equal(
+    ind2subv(c(1, 2, 4, 3), 1:5),
+    matrix(c(rep(1, 5), 1, 2, 1, 2, 1, 1, 1, 2, 2, 3, rep(1, 5)), ncol = 4)
+  )
   # TODO: test argmin()
   # TODO: test elim_order()
   # TODO: test triangulate()
