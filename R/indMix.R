@@ -132,7 +132,6 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
         warning("max_iter reached. Stopping prematurely.")
         break
       }
-      # FIXME: loop caught in here
       muutoksia <- 0
 
       if (dispText) {
@@ -154,7 +153,6 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
           for (ind in inds) {
             i1 <- PARTITION[ind]
             muutokset_diffInCounts <- greedyMix_muutokset$new()
-            # FIXME: using 100-length global variables instead of the ones in this function
             muutokset_diffInCounts <- muutokset_diffInCounts$laskeMuutokset(
               ind, rows, data, adjprior, priorTerm
             )
@@ -517,8 +515,6 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
           }
         }
       }
-      # FIXME: muutoksia is never 0, so vaihe never equals 5 and ready 1
-      # print(paste("i1 =", i1, "i2 =", i2, "maxMuutos =", maxMuutos)) # TEMP
       if (muutoksia == 0) {
         if (vaihe <= 4) {
           vaihe <= vaihe + 1
