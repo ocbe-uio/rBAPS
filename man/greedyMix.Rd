@@ -4,7 +4,18 @@
 \alias{greedyMix}
 \title{Clustering of individuals}
 \usage{
-greedyMix(data, format, verbose = TRUE)
+greedyMix(
+  data,
+  format,
+  c.rows,
+  partitionCompare.partitions,
+  ninds,
+  inp,
+  popnames,
+  fixedK = FALSE,
+  partition_compare = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{data}{data file}
