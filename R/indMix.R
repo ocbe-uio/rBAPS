@@ -75,7 +75,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
   partitionSummary[, 1] <- zeros(30, 1)
   worstLogml <- -1e50
   worstIndex <- 1
-  for (run in 1:nruns) {
+  for (run in seq_along(nruns)) {
     npops <- npopsTaulu[[run]]
     if (dispText) {
       dispLine()
@@ -98,7 +98,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
       logml <- sumcounts_counts_logml$logml
 
       PARTITION <- zeros(ninds, 1)
-      for (i in 1:ninds) {
+      for (i in seq_len(ninds)) {
         apu <- rows[i]
         PARTITION[i] <- initialPartition[apu[1]]
       }
@@ -139,13 +139,13 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
         message(paste("Performing steps:", as.character(roundTypes)))
       }
 
-      for (n in 1:length(roundTypes)) {
+      for (n in seq_len(roundTypes)) {
         round <- roundTypes[n]
         kivaluku <- 0
 
         if (kokeiltu[round] == 1) { # Askelta kokeiltu viime muutoksen j�lkeen
         } else if (round == 0 | round == 1) { # Yksil�n siirt�minen toiseen populaatioon.
-          inds <- 1:ninds
+          inds <- seq_len(ninds)
           aputaulu <- cbind(inds, rand(ninds, 1))
           aputaulu <- sortrows(aputaulu, 2)
           inds <- t(aputaulu[, 1])
@@ -276,7 +276,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
             muutoksia <- 1
             kokeiltu <- zeros(nRoundTypes, 1)
             rivit <- list()
-            for (i in 1:length(muuttuvat)) {
+            for (i in seq_len(muuttuvat)) {
               ind <- muuttuvat[i]
               lisa <- rows[ind, 1]:rows[ind, 2]
               rivit <- rbind(rivit, t(lisa))
@@ -432,7 +432,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
               totalMuutos <- muutokset(1, emptyPop)
 
               rivit <- list()
-              for (i in 1:length(muuttuvat)) {
+              for (i in seq_len(muuttuvat)) {
                 ind <- muuttuvat[i]
                 lisa <- rows[ind, 1]:rows[ind, 2]
                 rivit <- c(rivit, lisa)
