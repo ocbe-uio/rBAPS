@@ -27,7 +27,7 @@ greedyMix <- function(
     )
   }
   # Generating partition summary ===============================================
-  logml_npops_partitionSummary <- indMixWrapper(c);
+  logml_npops_partitionSummary <- indMixWrapper(data, npops, fixedK);
   logml <- logml_npops_partitionSummary[["logml"]]
   npops <- logml_npops_partitionSummary[["npops"]]
   partitionSummary <- logml_npops_partitionSummary[["partitionSummary"]]
