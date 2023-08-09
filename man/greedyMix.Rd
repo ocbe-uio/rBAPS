@@ -7,23 +7,55 @@
 greedyMix(
   data,
   format,
-  partitionCompare,
-  ninds,
-  rowsFromInd,
-  noalle,
-  adjprior,
-  priorTerm,
-  alleleCodesinp,
-  popnames,
+  partitionCompare = NULL,
+  ninds = NULL,
+  rowsFromInd = NULL,
+  noalle = NULL,
+  adjprior = NULL,
+  npops = 1L,
+  priorTerm = NULL,
+  counts = NULL,
+  sumcounts = NULL,
+  max_iter = 100L,
+  alleleCodes = NULL,
+  inp = NULL,
+  popnames = NULL,
   fixedK = FALSE,
-  partition_compare = FALSE,
-  verbose = TRUE
+  verbose = FALSE
 )
 }
 \arguments{
 \item{data}{data file}
 
 \item{format}{Data format. Format supported: "FASTA", "VCF" ,"BAM", "GenePop"}
+
+\item{partitionCompare}{a list of partitions to compare}
+
+\item{ninds}{number of individuals}
+
+\item{rowsFromInd}{a list of rows for each individual}
+
+\item{noalle}{number of alleles}
+
+\item{adjprior}{ajuster prior probabilities}
+
+\item{npops}{number of populations}
+
+\item{priorTerm}{prior terms}
+
+\item{counts}{counts}
+
+\item{sumcounts}{sumcounts}
+
+\item{max_iter}{maximum number of iterations}
+
+\item{alleleCodes}{allele codes}
+
+\item{inp}{input file}
+
+\item{popnames}{population names}
+
+\item{fixedK}{if \code{TRUE}, the number of populations is fixed}
 
 \item{verbose}{if \code{TRUE}, prints extra output information}
 }
