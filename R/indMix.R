@@ -125,7 +125,13 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
       )
     }
 
+    iter <- 1L
     while (ready != 1) {
+      iter <- iter + 1L
+      if (iter > max_iter) {
+        warning("max_iter reached. Stopping.")
+        break
+      }
       # FIXME: loop caught in here
       muutoksia <- 0
 
