@@ -7,7 +7,7 @@ poistaTyhjatPopulaatiot <- function(npops) {
   LOGDIFF <- LOGDIFF[, notEmpty]
 
   for (n in 1:length(notEmpty)) {
-    apu <- matlab2r::find(PARTITION == notEmpty(n))
+    apu <- matlab2r::find(PARTITION == notEmpty[n])
     PARTITION[apu] <- n
   }
   npops <- length(notEmpty)
