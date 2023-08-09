@@ -7,8 +7,7 @@
 greedyMix(
   data,
   format,
-  c.rows,
-  partitionCompare.partitions,
+  partitionCompare,
   ninds,
   rowsFromInd,
   noalle,

@@ -13,7 +13,7 @@
 #' data <- system.file("extdata", "FASTA_clustering_haploid.fasta", package = "rBAPS")
 #' greedyMix(data, "fasta")
 greedyMix <- function(
-  data, format, c.rows, partitionCompare.partitions, ninds, rowsFromInd, noalle,
+  data, format, partitionCompare, ninds, rowsFromInd, noalle,
   adjprior, priorTerm, alleleCodesinp, popnames, fixedK = FALSE,
   partition_compare = FALSE, verbose = TRUE
 ) {
@@ -22,10 +22,12 @@ greedyMix <- function(
 
   if (partition_compare) {
     logmls <- comparePartitions(
-      data, c.rows, partitionCompare.partitions, ninds, rowsFromInd, noalle,
-      adjprior
+      data, nrows(data), partitionCompare[["partitions"]], ninds, rowsFromInd,
+      noalle, adjprior
     )
   }
+
+
   # Generating partition summary ===============================================
   logml_npops_partitionSummary <- indMixWrapper(data, npops, fixedK);
   logml <- logml_npops_partitionSummary[["logml"]]
