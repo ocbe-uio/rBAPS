@@ -138,7 +138,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
         message(paste("Performing steps:", as.character(roundTypes)))
       }
 
-      for (n in seq_len(roundTypes)) {
+      for (n in seq_along(roundTypes)) {
         round <- roundTypes[n]
         kivaluku <- 0
 
