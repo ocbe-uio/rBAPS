@@ -136,7 +136,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
       muutoksia <- 0
 
       if (dispText) {
-        message(paste("\nPerforming steps:", as.character(roundTypes)))
+        message(paste("Performing steps:", as.character(roundTypes)))
       }
 
       for (n in 1:length(roundTypes)) {
@@ -549,9 +549,8 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
     npops <- poistaTyhjatPopulaatiot(npops)
     POP_LOGML <- computePopulationLogml(1:npops, adjprior, priorTerm)
     if (dispText) {
-      print(paste("Found partition with", as.character(npops), "populations."))
-      print(paste("Log(ml) =", as.character(logml)))
-      print(" ")
+      message("Found partition with ", as.character(npops), " populations.")
+      message("Log(ml) = ", as.character(logml))
     }
 
     if (logml > logmlBest) {
