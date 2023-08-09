@@ -201,7 +201,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
           }
         } else if (round == 2) { # Populaation yhdist�minen toiseen.
           maxMuutos <- 0
-          for (pop in 1:npops) {
+          for (pop in seq_len(npops)) {
             muutokset_diffInCounts <- greedyMix_muutokset$new()
             muutokset_diffInCounts <- muutokset_diffInCounts$laskeMuutokset2(
               pop, rows, data, adjprior, priorTerm
@@ -245,7 +245,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
         } else if (round == 3 || round == 4) { # Populaation jakaminen osiin.
           maxMuutos <- 0
           ninds <- size(rows, 1)
-          for (pop in 1:npops) {
+          for (pop in seq_len(npops)) {
             inds2 <- matlab2r::find(PARTITION == pop)
             ninds2 <- length(inds2)
             if (ninds2 > 2) {
@@ -547,7 +547,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
     # TALLENNETAAN
 
     npops <- poistaTyhjatPopulaatiot(npops)
-    POP_LOGML <- computePopulationLogml(1:npops, adjprior, priorTerm)
+    POP_LOGML <- computePopulationLogml(seq_len(npops), adjprior, priorTerm)
     if (dispText) {
       message("Found partition with ", as.character(npops), " populations.")
       message("Log(ml) = ", as.character(logml))
