@@ -33,7 +33,7 @@ Clustering of individuals
 }
 \examples{
 data <- system.file("extdata", "FASTA_clustering_haploid.fasta", package = "rBAPS")
-greedyMix(data)
+greedyMix(data, "fasta")
 }
 \references{
 Samtools: a suite of programs for interacting

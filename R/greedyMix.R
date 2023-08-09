@@ -11,7 +11,7 @@
 #' @export
 #' @examples
 #' data <- system.file("extdata", "FASTA_clustering_haploid.fasta", package = "rBAPS")
-#' greedyMix(data)
+#' greedyMix(data, "fasta")
 greedyMix <- function(
   data, format, c.rows, partitionCompare.partitions, ninds, rowsFromInd, noalle,
   adjprior, priorTerm, alleleCodesinp, popnames, fixedK = FALSE,
