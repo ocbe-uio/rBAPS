@@ -16,6 +16,10 @@ greedyMix(data, format, verbose = TRUE)
 \description{
 Clustering of individuals
 }
+\examples{
+data <- system.file("extdata", "FASTA_clustering_haploid.fasta", package = "rBAPS")
+greedyMix(data)
+}
 \references{
 Samtools: a suite of programs for interacting
 with high-throughput sequencing data. <http://www.htslib.org/>

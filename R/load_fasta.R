@@ -9,7 +9,7 @@
 #' @return A character matrix with filtered SNP data
 #'
 #' @examples
-#' msa <- system.file("ext", "seqs.fa", package = "rBAPS")
+#' msa <- system.file("extdata", "seqs.fa", package = "rBAPS")
 #' snp.matrix <- load_fasta(msa)
 #' @author Gerry Tonkin-Hill, Waldir Leoncio
 #' @seealso rhierbaps::load_fasta

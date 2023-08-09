@@ -79,7 +79,7 @@ test_that("lakseKlitik() and subfunctions produce expected output", {
 })
 
 test_that("testFastaData() produces same output as on MATLAB", {
-  msa <- system.file("ext", "seqs.fa", package = "rBAPS")
+  msa <- system.file("extdata", "seqs.fa", package = "rBAPS")
   test_msa <- testFastaData(msa)
   expect_equal(test_msa$ninds, 515)
   expect_equal(dim(test_msa$data), c(515, 745))

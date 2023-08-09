@@ -1,11 +1,11 @@
 context("Auxiliary functions to greedyMix")
 
 # Defining the relative path to current inst -----------------------------------
-path_inst <- system.file("ext", "", package = "rBAPS")
+path_inst <- system.file("extdata", "", package = "rBAPS")
 
 # Reading datasets -------------------------------------------------------------
 baps_diploid <- read.delim(
-  file = paste(path_inst, "BAPS_format_clustering_diploid.txt", sep = "/"),
+  file = file.path(path_inst, "BAPS_format_clustering_diploid.txt"),
   sep = " ",
   header = FALSE
 )

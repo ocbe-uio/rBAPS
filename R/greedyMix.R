@@ -9,6 +9,9 @@
 #' @references Samtools: a suite of programs for interacting
 #' with high-throughput sequencing data. <http://www.htslib.org/>
 #' @export
+#' @examples
+#' data <- system.file("extdata", "FASTA_clustering_haploid.fasta", package = "rBAPS")
+#' greedyMix(data)
 greedyMix <- function(data, format, verbose = TRUE) {
   # Parsing data format ------------------------------------------------------
 
