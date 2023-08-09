@@ -14,8 +14,9 @@
 #' greedyMix(data, "fasta")
 greedyMix <- function(
   data, format, partitionCompare = NULL, ninds = NULL, rowsFromInd = NULL,
-  noalle = NULL, adjprior = NULL, npops = 1L, priorTerm = NULL,
-  alleleCodes = NULL, inp = NULL, popnames = NULL, fixedK = FALSE, verbose = TRUE
+  noalle = NULL, adjprior = NULL, npops = 1L, priorTerm = NULL, counts = NULL,
+  sumcounts = NULL, max_iter = 100L, alleleCodes = NULL, inp = NULL,
+  popnames = NULL, fixedK = FALSE, verbose = FALSE
 ) {
   # Importing and handling data ================================================
   data <- importFile(data, format, verbose)
@@ -39,7 +40,7 @@ greedyMix <- function(
 
 
   # Generating partition summary ===============================================
-  logml_npops_partitionSummary <- indMixWrapper(c, npops, fixedK, verbose);
+  logml_npops_partitionSummary <- indMixWrapper(c, npops, counts, sumcounts, max_iter, fixedK, verbose);
   logml <- logml_npops_partitionSummary[["logml"]]
   npops <- logml_npops_partitionSummary[["npops"]]
   partitionSummary <- logml_npops_partitionSummary[["partitionSummary"]]
