@@ -1,4 +1,4 @@
-indMix <- function(c, npops, dispText = TRUE) {
+indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, dispText = FALSE) {
   # Greedy search algorithm with unknown number of classes for regular
   # clustering.
   # Input npops is not used if called by greedyMix or greedyPopMix.
@@ -17,7 +17,10 @@ indMix <- function(c, npops, dispText = TRUE) {
   if (isfield(c, "dist")) {
     dist <- c$dist
     Z <- c$Z
+  } else {
+    Z <- NULL
   }
+
 
   rm(c)
   nargin <- length(as.list(match.call())) - 1
@@ -84,25 +87,27 @@ indMix <- function(c, npops, dispText = TRUE) {
       )
     }
     ninds <- size(rows, 1)
-    initialPartition <- admixture_initialization(initData, npops, Z)
-    sumcounts_counts_logml <- initialCounts(
-      initialPartition, data, npops, rows, noalle, adjprior
-    )
-    sumcounts <- sumcounts_counts_logml$sumcounts
-    counts <- sumcounts_counts_logml$counts
-    logml <- sumcounts_counts_logml$logml
 
-    PARTITION <- zeros(ninds, 1)
-    for (i in 1:ninds) {
-      apu <- rows[i]
-      PARTITION[i] <- initialPartition[apu[1]]
+    if (!is.null(Z)) {
+      initialPartition <- admixture_initialization(initData, npops, Z)
+      sumcounts_counts_logml <- initialCounts(
+        initialPartition, data, npops, rows, noalle, adjprior
+      )
+      sumcounts <- sumcounts_counts_logml$sumcounts
+      counts <- sumcounts_counts_logml$counts
+      logml <- sumcounts_counts_logml$logml
+
+      PARTITION <- zeros(ninds, 1)
+      for (i in 1:ninds) {
+        apu <- rows[i]
+        PARTITION[i] <- initialPartition[apu[1]]
+      }
     }
 
     COUNTS <- counts
     SUMCOUNTS <- sumcounts
-    POP_LOGML <- computePopulationLogml(1:npops, adjprior, priorTerm)
+    POP_LOGML <- computePopulationLogml(seq_len(npops), adjprior, priorTerm)
     LOGDIFF <- repmat(-Inf, c(ninds, npops))
-    rm(initialPartition, counts, sumcounts)
 
     # PARHAAN MIXTURE-PARTITION ETSIMINEN
     nRoundTypes <- 7

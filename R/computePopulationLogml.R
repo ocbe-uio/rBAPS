@@ -4,9 +4,13 @@ computePopulationLogml <- function(pops, adjprior, priorTerm) {
   # ======================================================== #
   # Limiting COUNTS size                                     #
   # ======================================================== #
-  COUNTS <- COUNTS[
-    seq_len(nrow(adjprior)), seq_len(ncol(adjprior)), pops, drop = FALSE
-  ]
+  if (!is.null(adjprior)) {
+    nr <- seq_len(nrow(adjprior))
+    nc <- seq_len(ncol(adjprior))
+    COUNTS <- COUNTS[nr, nc, pops, drop = FALSE]
+  } else {
+    COUNTS <- NA
+  }
 
   x <- size(COUNTS, 1)
   y <- size(COUNTS, 2)
@@ -15,25 +19,24 @@ computePopulationLogml <- function(pops, adjprior, priorTerm) {
   # ======================================================== #
   # Computation                                              #
   # ======================================================== #
-  isarray <- length(dim(repmat(adjprior, c(1, 1, length(pops))))) > 2
-  term1 <- squeeze(
-    sum(
+  term1 <- NULL
+  if (!is.null(adjprior)) {
+    isarray <- length(dim(repmat(adjprior, c(1, 1, length(pops))))) > 2
+    term1 <- squeeze(
       sum(
-        reshape(
-          lgamma(
-            repmat(adjprior, c(1, 1, length(pops))) +
-              COUNTS[
-                seq_len(nrow(adjprior)), seq_len(ncol(adjprior)), pops,
-                drop = !isarray
-              ]
+        sum(
+          reshape(
+            lgamma(
+              repmat(adjprior, c(1, 1, length(pops))) + COUNTS[nr, nc, pops, drop = !isarray]
+            ),
+            c(x, y, z)
           ),
-          c(x, y, z)
+          1
         ),
-        1
-      ),
-      2
+        2
+      )
     )
-  )
+  }
   if (is.null(priorTerm)) priorTerm <- 0
   popLogml <- term1 - sum(lgamma(1 + SUMCOUNTS[pops, ]), 2) - priorTerm
   return(popLogml)

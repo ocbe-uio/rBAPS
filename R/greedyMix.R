@@ -13,14 +13,24 @@
 #' data <- system.file("extdata", "FASTA_clustering_haploid.fasta", package = "rBAPS")
 #' greedyMix(data, "fasta")
 greedyMix <- function(
-  data, format, partitionCompare, ninds, rowsFromInd, noalle,
-  adjprior, priorTerm, alleleCodesinp, popnames, fixedK = FALSE,
-  partition_compare = FALSE, verbose = TRUE
+  data, format, partitionCompare = NULL, ninds = NULL, rowsFromInd = NULL,
+  noalle = NULL, adjprior = NULL, npops = 1L, priorTerm = NULL,
+  alleleCodes = NULL, inp = NULL, popnames = NULL, fixedK = FALSE, verbose = TRUE
 ) {
   # Importing and handling data ================================================
   data <- importFile(data, format, verbose)
+  c <- list(
+    # TODO: get elements from handleData()?
+    noalle = noalle,
+    rows = NA,
+    data = data,
+    adjprior = adjprior,
+    priorTerm = priorTerm,
+    rowsFromInd = rowsFromInd
+  )
 
-  if (partition_compare) {
+  # Comparing partitions =======================================================
+  if (!is.null(partitionCompare)) {
     logmls <- comparePartitions(
       data, nrows(data), partitionCompare[["partitions"]], ninds, rowsFromInd,
       noalle, adjprior
@@ -29,11 +39,20 @@ greedyMix <- function(
 
 
   # Generating partition summary ===============================================
-  logml_npops_partitionSummary <- indMixWrapper(data, npops, fixedK);
+  logml_npops_partitionSummary <- indMixWrapper(c, npops, fixedK, verbose);
   logml <- logml_npops_partitionSummary[["logml"]]
   npops <- logml_npops_partitionSummary[["npops"]]
   partitionSummary <- logml_npops_partitionSummary[["partitionSummary"]]
-  stopifnot(logml != 1)
+
+  # Generating output object ===================================================
+  out <- list(
+      "alleleCodes" = alleleCodes, "adjprior" = adjprior, "popnames" = popnames,
+      "rowsFromInd" = rowsFromInd, "data" = data, "npops" = npops,
+      "noalle" = noalle, "mixtureType" = "mix", "logml" = logml
+    )
+  if (logml == 1) {
+    return(out)
+  }
 
   # Writing mixture info =======================================================
   changesInLogml <- writeMixtureInfo(
@@ -41,14 +60,6 @@ greedyMix <- function(
     popnames, fixedK
   )
 
-  # Returning results ==========================================================
-  return(
-    list(
-      "alleleCodes" = alleleCodes, "adjprior" = adjprior, "popnames" = popnames,
-      "rowsFromInd" = rowsFromInd, "data" = data, "npops" = npops,
-      "noalle" = noalle, "mixtureType" = "mix", "logml" = logml,
-      "changesInLogml" = changesInLogml
-    )
-  )
-
+  # Updateing results ==========================================================
+  return(c(out, "changesInLogml" = changesInLogml))
 }
