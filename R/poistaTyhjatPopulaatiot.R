@@ -1,7 +1,7 @@
 poistaTyhjatPopulaatiot <- function(npops) {
   # % Poistaa tyhjentyneet populaatiot COUNTS:ista ja
   # % SUMCOUNTS:ista. P�ivitt�� npops:in ja PARTITION:in.
-  notEmpty <- matlab2r::find(any(SUMCOUNTS, 2))
+  notEmpty <- matlab2r::find(apply(SUMCOUNTS, 1, function(x) any(x > 0)))
   COUNTS <- COUNTS[, , notEmpty]
   SUMCOUNTS <- SUMCOUNTS[notEmpty, ]
   LOGDIFF <- LOGDIFF[, notEmpty]
