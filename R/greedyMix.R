@@ -13,17 +13,12 @@
 #' data <- system.file("extdata", "FASTA_clustering_haploid.fasta", package = "rBAPS")
 #' greedyMix(data)
 greedyMix <- function(
-  data, format, c.rows, partitionCompare.partitions, ninds, inp, popnames,
-  fixedK = FALSE, partition_compare = FALSE, verbose = TRUE
+  data, format, c.rows, partitionCompare.partitions, ninds, rowsFromInd, noalle,
+  adjprior, priorTerm, alleleCodesinp, popnames, fixedK = FALSE,
+  partition_compare = FALSE, verbose = TRUE
 ) {
   # Importing and handling data ================================================
-  raw_data <- importFile(data, format, verbose)
-  data <- handleData(raw_data)
-  alleleCodes <- data[["alleleCodes"]]
-  noalle <- data[["noalle"]]
-  rowsFromInd <- data[["rowsFromInd"]]
-  adjprior <- data[["adjprior"]]
-  priorTerm <- data[["priorTerm"]]
+  data <- importFile(data, format, verbose)
 
   if (partition_compare) {
     logmls <- comparePartitions(

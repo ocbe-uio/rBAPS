@@ -1,5 +1,5 @@
 #' @title Handle Data
-#' @param raw_data Raw data
+#' @param raw_data Raw data in Genepop or BAPS format
 #' @details The last column of the original data tells you from which
 #' individual that line is from. The function first examines how many line
 #' maximum is from one individual giving know if it is haploid, diploid, etc.
@@ -7,7 +7,7 @@
 #' maximum. If the code of an allele is = 0, the function changes that allele
 #' code to the smallest code that is larger than any code in use. After this,
 #' the function changes the allele codes so that one locus j
-#' codes get values between? 1, ..., Noah (j).
+#' codes get values between? 1, ..., noalle(j).
 handleData <- function(raw_data) {
   # Alkuper?isen datan viimeinen sarake kertoo, milt?yksil?lt?
   # kyseinen rivi on per?isin. Funktio tutkii ensin, ett?montako
@@ -29,9 +29,6 @@ handleData <- function(raw_data) {
     dataApu[nollat] <- isoinAlleeli + 1
     data[, 1:nloci] <- dataApu
   }
-  # dataApu <- []
-  # nollat <- []
-  # isoinAlleeli <- []
 
   noalle <- zeros(1, nloci)
   alleelitLokuksessa <- cell(nloci, 1, expandable = TRUE)
