@@ -5,8 +5,6 @@
 #' @param allfreqs allfreqa
 #' @param pop pop
 #' @param loc loc
-#' @export
-
 simuloiAlleeli <- function(allfreqs, pop, loc) {
   if (length(dim(allfreqs)) == 0) {
     freqs <- 1

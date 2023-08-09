@@ -4,7 +4,6 @@
 #' @param rowsFromInd rowsFromInd
 #' @param inds matrix
 #' @param ninds ninds
-#' @export
 computeRows <- function(rowsFromInd, inds, ninds) {
   if (!is(inds, "matrix")) inds <- as.matrix(inds)
   if (identical(dim(inds), c(nrow(inds), 1L))) {

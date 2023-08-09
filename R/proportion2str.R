@@ -3,7 +3,6 @@
 #' @return a 4-mark presentation of proportion
 #' @note The `round` function in R, being ISO-compliant, rounds 8.5 to 8. The
 #' Matlab equivalent rounds it to 9.
-#' @export
 proportion2str <- function(prob) {
   if (abs(prob) < 1e-3) {
     str <- "0.00"

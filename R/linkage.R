@@ -13,7 +13,6 @@
 #' that BAPS should use this function instead of the base one, so this is why
 #' this function is part of this package (instead of a MATLAB-replicating
 #' package such as matlab2r)
-#' @export
 linkage <- function(Y, method = "co") {
   k <- size(Y)[1]
   n <- size(Y)[2]

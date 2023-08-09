@@ -1,4 +1,3 @@
-#' @export
 #' @title Etsi Paras
 #' @description Search for the best?
 #' @param osuus Percentages?

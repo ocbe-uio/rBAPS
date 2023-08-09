@@ -3,7 +3,6 @@
 #' @param rivi Line
 #' @return pal = 1 if the line starts with one of the following
 # letter combinations: Pop, pop, POP. In all others cases, pal = 0
-#' @export
 testaaPop <- function(rivi) {
   # pal=1, mik�li rivi alkaa jollain seuraavista
   # kirjainyhdistelmist? Pop, pop, POP. Kaikissa muissa

@@ -2,7 +2,6 @@
 #' @description Reads GenePop-formatted data
 #' @param tiedostonNimi Name of the file
 #' @return list containing data and popnames
-#' @export
 lueGenePopData <- function(tiedostonNimi) {
   fid <- readLines(tiedostonNimi)
   line <- fid[1] # ensimmäinen rivi

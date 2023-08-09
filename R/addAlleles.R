@@ -4,7 +4,6 @@
 #' @param line line
 #' @param divider divider
 #' @return data (after alleles were added)
-#' @export
 addAlleles <- function(data, ind, line, divider) {
   # Lisaa BAPS-formaatissa olevaan datataulukkoon
   # yksil�� ind vastaavat rivit. Yksil�n alleelit

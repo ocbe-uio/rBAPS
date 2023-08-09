@@ -1,5 +1,4 @@
 #' @title Learn partition (modified)
-#' @export
 #' @param ordered ordered
 #' @return part
 #' @description This function is called only if some individual has less than

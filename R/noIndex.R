@@ -5,7 +5,6 @@
 #' @return puredata: a data contains no index column.
 #' @param data data
 #' @param noalle noalle
-#' @export
 noIndex <- function(data, noalle) {
   limit <- ifelse(is(noalle, "matrix"), ncol(noalle), length(noalle))
   if (size(data, 2) == limit + 1) {

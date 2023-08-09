@@ -3,7 +3,6 @@
 #' @param description description
 #' @param width width
 #' @return newline
-#' @export
 takeLine <- function(description, width) {
   # Returns one line from the description: line ends to the first
   # space after width:th mark.

@@ -5,7 +5,6 @@
 #' @param npops npops
 #' @param rowsFromInd rowsFromInd
 #' @param alaraja alaraja
-#' @export
 poistaLiianPienet <- function(npops, rowsFromInd, alaraja) {
   popSize <- zeros(1, npops)
   if (npops > 0) {

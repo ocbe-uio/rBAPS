@@ -6,7 +6,6 @@
 #' alleleCodes, adjprior, popnames, rowsFromInd, data, npops, noalle
 #' @param tietue tietue
 #' @importFrom methods is
-#' @export
 admix1 <- function(tietue) {
   if (!is.list(tietue)) {
     message("Load mixture result file. These are the files in this directory:")

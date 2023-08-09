@@ -10,7 +10,6 @@
 #' @param partitionSummary partitionSummary
 #' @param popnames popnames
 #' @param fixedK fixedK
-#' @export
 writeMixtureInfo <- function(
   logml, rowsFromInd, data, adjprior, priorTerm, outPutFile, inputFile,
   partitionSummary, popnames, fixedK

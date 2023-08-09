@@ -2,7 +2,6 @@
 #' @description Returns a string representation of a logml
 #' @param logml input Logml
 #' @return String version of logml
-#' @export
 logml2String <- function(logml) {
   # Palauttaa logml:n string-esityksen.
   mjono <- "       "

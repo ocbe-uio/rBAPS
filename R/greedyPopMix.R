@@ -11,7 +11,6 @@
 #' @importFrom matlab2r uiputfile
 #' @references Samtools: a suite of programs for interacting
 #' with high-throughput sequencing data. <http://www.htslib.org/>
-#' @export
 greedyPopMix <- function(data, format, partitionCompare = NULL, verbose = TRUE
 ) {
   # Replacing original file reading code with greedyMix()

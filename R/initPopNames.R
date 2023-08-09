@@ -1,7 +1,6 @@
 #' @title Initialize Pop Names
 #' @param nameFile nameFile
 #' @param indexFile indexFile
-#' @export
 initPopNames <- function(nameFile, indexFile) {
   # Palauttaa tyhj�n, mik�li nimitiedosto ja indeksitiedosto
   #  eiv�t olleet yht?pitki?

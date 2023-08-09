@@ -3,7 +3,6 @@
 #' @param coordinates coordinates
 #' @param interactive prompt user for relevant questions during execution
 #' @return a list of defectives ("viallinen") and coordinates
-#' @export
 testaaKoordinaatit <- function(ninds, coordinates, interactive = TRUE) {
  # Testaa onko koordinaatit kunnollisia.
  # modified by Lu Cheng, 05.12.2012

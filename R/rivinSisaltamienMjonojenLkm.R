@@ -2,7 +2,6 @@
 #' @param line line number
 #' @return count
 #' @description Returns the number of queues contained in the line. There must be a space between the queues.
-#' @export
 rivinSisaltamienMjonojenLkm <- function(line) {
   # Palauttaa line:n sis�lt�mien mjonojen lukum��r�n.
   # Mjonojen v�liss?t�ytyy olla v�lily�nti.
