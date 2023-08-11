@@ -88,20 +88,18 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
     }
     ninds <- size(rows, 1)
 
-    if (!is.null(Z)) {
-      initialPartition <- admixture_initialization(initData, npops, Z)
-      sumcounts_counts_logml <- initialCounts(
-        initialPartition, data, npops, rows, noalle, adjprior
-      )
-      sumcounts <- sumcounts_counts_logml$sumcounts
-      counts <- sumcounts_counts_logml$counts
-      logml <- sumcounts_counts_logml$logml
+    initialPartition <- admixture_initialization(initData, npops, Z)
+    sumcounts_counts_logml <- initialCounts(
+      initialPartition, data, npops, rows, noalle, adjprior
+    )
+    sumcounts <- sumcounts_counts_logml$sumcounts
+    counts <- sumcounts_counts_logml$counts
+    logml <- sumcounts_counts_logml$logml
 
-      PARTITION <- zeros(ninds, 1)
-      for (i in seq_len(ninds)) {
-        apu <- rows[i]
-        PARTITION[i] <- initialPartition[apu[1]]
-      }
+    PARTITION <- zeros(ninds, 1)
+    for (i in seq_len(ninds)) {
+      apu <- rows[i]
+      PARTITION[i] <- initialPartition[apu[1]]
     }
 
     COUNTS <- counts
