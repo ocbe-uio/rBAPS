@@ -145,8 +145,8 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
         if (kokeiltu[round] == 1) { # Askelta kokeiltu viime muutoksen j�lkeen
         } else if (round == 0 | round == 1) { # Yksil�n siirt�minen toiseen populaatioon.
           inds <- seq_len(ninds)
-          aputaulu <- cbind(inds, rand(ninds, 1))
-          aputaulu <- sortrows(aputaulu, 2)
+          aputaulu <- cbind(t(inds), rand(ninds, 1))
+          aputaulu <- matrix(sortrows(aputaulu, 2), nrow = nrow(aputaulu))
           inds <- t(aputaulu[, 1])
           muutosNyt <- 0
 

@@ -27,7 +27,7 @@
 #' data <- system.file("extdata", "FASTA_clustering_haploid.fasta", package = "rBAPS")
 #' greedyMix(data, "fasta")
 greedyMix <- function(
-  data, format, partitionCompare = NULL, ninds = NULL, npops = 1L,
+  data, format, partitionCompare = NULL, ninds = 1L, npops = 1L,
   counts = NULL, sumcounts = NULL, max_iter = 100L, alleleCodes = NULL,
   inp = NULL, popnames = NULL, fixedK = FALSE, verbose = FALSE
 ) {
@@ -52,6 +52,8 @@ greedyMix <- function(
 
 
   # Generating partition summary ===============================================
+  ekat <- seq(1L, c[["rowsFromInd"]], ninds * c[["rowsFromInd"]]) # ekat = (1:rowsFromInd:ninds*rowsFromInd)';
+  c[["rows"]] <- c(ekat, ekat + c[["rowsFromInd"]] - 1L) # c.rows = [ekat ekat+rowsFromInd-1]
   logml_npops_partitionSummary <- indMixWrapper(c, npops, counts, sumcounts, max_iter, fixedK, verbose);
   logml <- logml_npops_partitionSummary[["logml"]]
   npops <- logml_npops_partitionSummary[["npops"]]
@@ -59,10 +61,11 @@ greedyMix <- function(
 
   # Generating output object ===================================================
   out <- list(
-      "alleleCodes" = alleleCodes, "adjprior" = c[["adjprior"]], "popnames" = popnames,
-      "rowsFromInd" = c[["rowsFromInd"]], "data" = data, "npops" = npops,
-      "noalle" = c[["noalle"]], "mixtureType" = "mix", "logml" = logml
-    )
+    "alleleCodes" = alleleCodes, "adjprior" = c[["adjprior"]],
+    "popnames" = popnames, "rowsFromInd" = c[["rowsFromInd"]],
+    "data" = c[["data"]], "npops" = npops, "noalle" = c[["noalle"]],
+    "mixtureType" = "mix", "logml" = logml
+  )
   if (logml == 1) {
     return(out)
   }
