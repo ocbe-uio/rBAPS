@@ -133,7 +133,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
       muutoksia <- 0
 
       if (dispText) {
-        message(paste("Performing steps:", as.character(roundTypes)))
+        message("Performing steps: ", paste(roundTypes, collapse = " "))
       }
 
       for (n in seq_along(roundTypes)) {
