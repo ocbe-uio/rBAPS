@@ -1,6 +1,6 @@
 Package: rBAPS
 Title: Bayesian Analysis of Population Structure
-Version: 0.0.0.9021
+Version: 0.0.0.9022
 Date: 2020-11-09
 Authors@R:
     c(
