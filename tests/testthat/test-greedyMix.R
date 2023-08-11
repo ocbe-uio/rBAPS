@@ -31,7 +31,7 @@ test_that("handleData works as expected", {
   expect_equal(data_obs, data_exp)
 })
 
-context("Opening files on greedyMix")
+context("Processing files through greedyMix")
 
 df_fasta <- greedyMix(
   data   = file.path(path_inst, "FASTA_clustering_haploid.fasta"),
