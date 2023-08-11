@@ -4,12 +4,12 @@
 \alias{load_fasta}
 \title{load_fasta}
 \usage{
-load_fasta(msa, keep.singletons = FALSE)
+load_fasta(msa, keep_singletons = FALSE, output_numbers = TRUE)
 }
 \arguments{
 \item{msa}{Either the location of a fasta file or ape DNAbin object containing the multiple sequence alignment data to be clustered}
 
-\item{keep.singletons}{A logical indicating whether to consider singleton mutations in calculating the clusters}
+\item{keep_singletons}{A logical indicating whether to consider singleton mutations in calculating the clusters}
 }
 \value{
 A character matrix with filtered SNP data
