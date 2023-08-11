@@ -1,5 +1,6 @@
 #' @title Handle Data
 #' @param raw_data Raw data in Genepop or BAPS format
+#' @param format data format
 #' @details The last column of the original data tells you from which
 #' individual that line is from. The function first examines how many line
 #' maximum is from one individual giving know if it is haploid, diploid, etc.
@@ -8,7 +9,7 @@
 #' code to the smallest code that is larger than any code in use. After this,
 #' the function changes the allele codes so that one locus j
 #' codes get values between? 1, ..., noalle(j).
-handleData <- function(raw_data) {
+handleData <- function(raw_data, format = "Genepop") {
   # Alkuper?isen datan viimeinen sarake kertoo, milt?yksil?lt?
   # kyseinen rivi on per?isin. Funktio tutkii ensin, ett?montako
   # rivi?maksimissaan on per?isin yhdelt?yksil?lt? jolloin saadaan
@@ -20,12 +21,16 @@ handleData <- function(raw_data) {
   # T?m?n j?lkeen funktio muuttaa alleelikoodit siten, ett?yhden lokuksen j
   # koodit saavat arvoja v?lill?1,...,noalle(j).
   data <- as.matrix(raw_data)
-  nloci <- size(raw_data, 2) - 1
+  if (format %in% c("genepop", "baps")) {
+    nloci <- size(raw_data, 2) - 1
+  } else {
+    nloci <- size(raw_data, 2)
+  }
 
   dataApu <- data[, 1:nloci]
   nollat <- matlab2r::find(dataApu == 0)
   if (!isempty(nollat)) {
-    isoinAlleeli <- base::max(max(dataApu))
+    isoinAlleeli <- base::max(base::max(dataApu))
     dataApu[nollat] <- isoinAlleeli + 1
     data[, 1:nloci] <- dataApu
   }
@@ -35,9 +40,7 @@ handleData <- function(raw_data) {
   for (i in 1:nloci) {
     alleelitLokuksessaI <- unique(data[, i])
     alleelitLokuksessa[[i]] <- sort(alleelitLokuksessaI[
-      matlab2r::find(
-        alleelitLokuksessaI >= 0
-      )
+      matlab2r::find(alleelitLokuksessaI >= 0)
     ])
     noalle[i] <- length(alleelitLokuksessa[[i]])
   }
@@ -45,9 +48,7 @@ handleData <- function(raw_data) {
   for (i in 1:nloci) {
     alleelitLokuksessaI <- alleelitLokuksessa[[i]]
     puuttuvia <- base::max(noalle) - length(alleelitLokuksessaI)
-    alleleCodes[, i] <- as.matrix(
-      c(alleelitLokuksessaI, zeros(puuttuvia, 1))
-    )
+    alleleCodes[, i] <- as.matrix(c(alleelitLokuksessaI, zeros(puuttuvia, 1)))
   }
 
   for (loc in seq_len(nloci)) {
@@ -56,7 +57,7 @@ handleData <- function(raw_data) {
     }
   }
 
-  nind <- base::max(data[, ncol(data)])
+  nind <- as.integer(base::max(data[, ncol(data)]))
   nrows <- size(data, 1)
   ncols <- size(data, 2)
   rowsFromInd <- zeros(nind, 1)
@@ -67,11 +68,11 @@ handleData <- function(raw_data) {
   a <- -999
   emptyRow <- repmat(a, c(1, ncols))
   lessThanMax <- matlab2r::find(rowsFromInd < maxRowsFromInd)
-  missingRows <- maxRowsFromInd * nind - nrows
+  missingRows <- max(maxRowsFromInd * nind - nrows, 0L)
   data <- rbind(data, zeros(missingRows, ncols))
   pointer <- 1
   for (ind in t(lessThanMax)) { # K?y l?pi ne yksil?t, joilta puuttuu rivej?
-    miss <- maxRowsFromInd - rowsFromInd(ind) # T?lt?yksil?lt?puuttuvien lkm.
+    miss <- maxRowsFromInd - rowsFromInd[ind] # T?lt?yksil?lt?puuttuvien lkm.
   }
   data <- sortrows(data, ncols) # Sorttaa yksil?iden mukaisesti
   newData <- data
