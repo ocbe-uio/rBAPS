@@ -9,9 +9,6 @@ greedyMix(
   format,
   partitionCompare = NULL,
   ninds = NULL,
-  rowsFromInd = NULL,
-  noalle = NULL,
-  adjprior = NULL,
   npops = 1L,
   priorTerm = NULL,
   counts = NULL,
@@ -33,12 +30,6 @@ greedyMix(
 
 \item{ninds}{number of individuals}
 
-\item{rowsFromInd}{a list of rows for each individual}
-
-\item{noalle}{number of alleles}
-
-\item{adjprior}{ajuster prior probabilities}
-
 \item{npops}{number of populations}
 
 \item{priorTerm}{prior terms}
@@ -58,6 +49,12 @@ greedyMix(
 \item{fixedK}{if \code{TRUE}, the number of populations is fixed}
 
 \item{verbose}{if \code{TRUE}, prints extra output information}
+
+\item{rowsFromInd}{a list of rows for each individual}
+
+\item{noalle}{number of alleles}
+
+\item{adjprior}{ajuster prior probabilities}
 }
 \description{
 Clustering of individuals

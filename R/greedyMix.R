@@ -27,28 +27,26 @@
 #' data <- system.file("extdata", "FASTA_clustering_haploid.fasta", package = "rBAPS")
 #' greedyMix(data, "fasta")
 greedyMix <- function(
-  data, format, partitionCompare = NULL, ninds = NULL, rowsFromInd = NULL,
-  noalle = NULL, adjprior = NULL, npops = 1L, priorTerm = NULL, counts = NULL,
-  sumcounts = NULL, max_iter = 100L, alleleCodes = NULL, inp = NULL,
-  popnames = NULL, fixedK = FALSE, verbose = FALSE
+  data, format, partitionCompare = NULL, ninds = NULL, npops = 1L,
+  counts = NULL, sumcounts = NULL, max_iter = 100L, alleleCodes = NULL,
+  inp = NULL, popnames = NULL, fixedK = FALSE, verbose = FALSE
 ) {
   # Importing and handling data ================================================
   data <- importFile(data, format, verbose)
+  data <- handleData(data, tolower(format))
   c <- list(
-    # TODO: get elements from handleData()?
-    noalle = noalle,
-    rows = NA,
-    data = data,
-    adjprior = adjprior,
-    priorTerm = priorTerm,
-    rowsFromInd = rowsFromInd
+    noalle = data[["noalle"]],
+    data = data[["newData"]],
+    adjprior = data[["adjprior"]],
+    priorTerm = data[["priorTerm"]],
+    rowsFromInd = data[["rowsFromInd"]]
   )
 
   # Comparing partitions =======================================================
   if (!is.null(partitionCompare)) {
     logmls <- comparePartitions(
-      data, nrow(data), partitionCompare[["partitions"]], ninds, rowsFromInd,
-      noalle, adjprior
+      c[["data"]], nrow(c[["data"]]), partitionCompare[["partitions"]], ninds,
+      c[["rowsFromInd"]], c[["noalle"]], c[["adjprior"]]
     )
   }
 
@@ -61,9 +59,9 @@ greedyMix <- function(
 
   # Generating output object ===================================================
   out <- list(
-      "alleleCodes" = alleleCodes, "adjprior" = adjprior, "popnames" = popnames,
-      "rowsFromInd" = rowsFromInd, "data" = data, "npops" = npops,
-      "noalle" = noalle, "mixtureType" = "mix", "logml" = logml
+      "alleleCodes" = alleleCodes, "adjprior" = c[["adjprior"]], "popnames" = popnames,
+      "rowsFromInd" = c[["rowsFromInd"]], "data" = data, "npops" = npops,
+      "noalle" = c[["noalle"]], "mixtureType" = "mix", "logml" = logml
     )
   if (logml == 1) {
     return(out)
