@@ -1,4 +1,4 @@
-indMix <- function(c, npops, dispText = TRUE) {
+indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, dispText = FALSE) {
   # Greedy search algorithm with unknown number of classes for regular
   # clustering.
   # Input npops is not used if called by greedyMix or greedyPopMix.
@@ -17,7 +17,10 @@ indMix <- function(c, npops, dispText = TRUE) {
   if (isfield(c, "dist")) {
     dist <- c$dist
     Z <- c$Z
+  } else {
+    Z <- NULL
   }
+
 
   rm(c)
   nargin <- length(as.list(match.call())) - 1
@@ -65,14 +68,14 @@ indMix <- function(c, npops, dispText = TRUE) {
   nruns <- length(npopsTaulu)
 
   initData <- data
-  data <- data[, 1:(ncol(data) - 1)]
+  data <- data[, seq_along(noalle)]  # Original code always dropped last column.
 
   logmlBest <- -1e50
   partitionSummary <- -1e50 * ones(30, 2) # Tiedot 30 parhaasta partitiosta (npops ja logml)
   partitionSummary[, 1] <- zeros(30, 1)
   worstLogml <- -1e50
   worstIndex <- 1
-  for (run in 1:nruns) {
+  for (run in seq_along(nruns)) {
     npops <- npopsTaulu[[run]]
     if (dispText) {
       dispLine()
@@ -84,6 +87,7 @@ indMix <- function(c, npops, dispText = TRUE) {
       )
     }
     ninds <- size(rows, 1)
+
     initialPartition <- admixture_initialization(initData, npops, Z)
     sumcounts_counts_logml <- initialCounts(
       initialPartition, data, npops, rows, noalle, adjprior
@@ -93,16 +97,15 @@ indMix <- function(c, npops, dispText = TRUE) {
     logml <- sumcounts_counts_logml$logml
 
     PARTITION <- zeros(ninds, 1)
-    for (i in 1:ninds) {
+    for (i in seq_len(ninds)) {
       apu <- rows[i]
       PARTITION[i] <- initialPartition[apu[1]]
     }
 
     COUNTS <- counts
     SUMCOUNTS <- sumcounts
-    POP_LOGML <- computePopulationLogml(1:npops, adjprior, priorTerm)
+    POP_LOGML <- computePopulationLogml(seq_len(npops), adjprior, priorTerm)
     LOGDIFF <- repmat(-Inf, c(ninds, npops))
-    rm(initialPartition, counts, sumcounts)
 
     # PARHAAN MIXTURE-PARTITION ETSIMINEN
     nRoundTypes <- 7
@@ -120,30 +123,34 @@ indMix <- function(c, npops, dispText = TRUE) {
       )
     }
 
+    iter <- 1L
     while (ready != 1) {
-      # FIXME: loop caught in here
+      iter <- iter + 1L
+      if (iter > max_iter) {
+        warning("max_iter reached. Stopping prematurely.")
+        break
+      }
       muutoksia <- 0
 
       if (dispText) {
-        message(paste("\nPerforming steps:", as.character(roundTypes)))
+        message("Performing steps: ", paste(roundTypes, collapse = " "))
       }
 
-      for (n in 1:length(roundTypes)) {
+      for (n in seq_along(roundTypes)) {
         round <- roundTypes[n]
         kivaluku <- 0
 
         if (kokeiltu[round] == 1) { # Askelta kokeiltu viime muutoksen j�lkeen
         } else if (round == 0 | round == 1) { # Yksil�n siirt�minen toiseen populaatioon.
-          inds <- 1:ninds
-          aputaulu <- cbind(inds, rand(ninds, 1))
-          aputaulu <- sortrows(aputaulu, 2)
+          inds <- seq_len(ninds)
+          aputaulu <- cbind(t(inds), rand(ninds, 1))
+          aputaulu <- matrix(sortrows(aputaulu, 2), nrow = nrow(aputaulu))
           inds <- t(aputaulu[, 1])
           muutosNyt <- 0
 
           for (ind in inds) {
             i1 <- PARTITION[ind]
             muutokset_diffInCounts <- greedyMix_muutokset$new()
-            # FIXME: using 100-length global variables instead of the ones in this function
             muutokset_diffInCounts <- muutokset_diffInCounts$laskeMuutokset(
               ind, rows, data, adjprior, priorTerm
             )
@@ -190,7 +197,7 @@ indMix <- function(c, npops, dispText = TRUE) {
           }
         } else if (round == 2) { # Populaation yhdist�minen toiseen.
           maxMuutos <- 0
-          for (pop in 1:npops) {
+          for (pop in seq_len(npops)) {
             muutokset_diffInCounts <- greedyMix_muutokset$new()
             muutokset_diffInCounts <- muutokset_diffInCounts$laskeMuutokset2(
               pop, rows, data, adjprior, priorTerm
@@ -234,7 +241,7 @@ indMix <- function(c, npops, dispText = TRUE) {
         } else if (round == 3 || round == 4) { # Populaation jakaminen osiin.
           maxMuutos <- 0
           ninds <- size(rows, 1)
-          for (pop in 1:npops) {
+          for (pop in seq_len(npops)) {
             inds2 <- matlab2r::find(PARTITION == pop)
             ninds2 <- length(inds2)
             if (ninds2 > 2) {
@@ -265,7 +272,7 @@ indMix <- function(c, npops, dispText = TRUE) {
             muutoksia <- 1
             kokeiltu <- zeros(nRoundTypes, 1)
             rivit <- list()
-            for (i in 1:length(muuttuvat)) {
+            for (i in seq_len(muuttuvat)) {
               ind <- muuttuvat[i]
               lisa <- rows[ind, 1]:rows[ind, 2]
               rivit <- rbind(rivit, t(lisa))
@@ -421,7 +428,7 @@ indMix <- function(c, npops, dispText = TRUE) {
               totalMuutos <- muutokset(1, emptyPop)
 
               rivit <- list()
-              for (i in 1:length(muuttuvat)) {
+              for (i in seq_len(muuttuvat)) {
                 ind <- muuttuvat[i]
                 lisa <- rows[ind, 1]:rows[ind, 2]
                 rivit <- c(rivit, lisa)
@@ -506,8 +513,6 @@ indMix <- function(c, npops, dispText = TRUE) {
           }
         }
       }
-      # FIXME: muutoksia is never 0, so vaihe never equals 5 and ready 1
-      print(paste("i1 =", i1, "i2 =", i2, "maxMuutos =", maxMuutos)) # TEMP
       if (muutoksia == 0) {
         if (vaihe <= 4) {
           vaihe <= vaihe + 1
@@ -536,11 +541,10 @@ indMix <- function(c, npops, dispText = TRUE) {
     # TALLENNETAAN
 
     npops <- poistaTyhjatPopulaatiot(npops)
-    POP_LOGML <- computePopulationLogml(1:npops, adjprior, priorTerm)
+    POP_LOGML <- computePopulationLogml(seq_len(npops), adjprior, priorTerm)
     if (dispText) {
-      print(paste("Found partition with", as.character(npops), "populations."))
-      print(paste("Log(ml) =", as.character(logml)))
-      print(" ")
+      message("Found partition with ", as.character(npops), " populations.")
+      message("Log(ml) = ", as.character(logml))
     }
 
     if (logml > logmlBest) {

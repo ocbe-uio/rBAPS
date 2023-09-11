@@ -2,7 +2,7 @@ initialCounts <- function(partition, data, npops, rows, noalle, adjprior) {
   nloci <- size(data, 2)
   ninds <- size(rows, 1)
 
-  koot <- rows[, 1] - rows[, 2] + 1
+  koot <- rows[1] - rows[2] + 1
   maxSize <- base::max(koot)
 
   counts <- zeros(base::max(noalle), nloci, npops)

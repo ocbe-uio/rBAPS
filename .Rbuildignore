@@ -4,7 +4,6 @@ PITFALLS.md
 CHANGELOG.md
 CITATION.cff
 .travis.yml
-inst/ext/ExamplesDataFormatting
+inst/testdata
 .github
 aux
-

@@ -4,7 +4,6 @@
 #' for the mean parameter.
 #' @param points points
 #' @param fii fii
-#' @export
 calculatePopLogml <- function(points, fii) {
   n <- length(points)
   fuzzy_ones <- sum(points)

@@ -4,7 +4,6 @@
 #' codes so that the codes for one locus have values between 1 and noalle[j].
 #' Before this change, an allele whose code is zero is changed.
 #' @param raw_data raw data
-#' @export
 handlePopData <- function(raw_data) {
   # Alkuperäisen datan viimeinen sarake kertoo, milt?yksilölt?
   # kyseinen rivi on peräisin. Funktio muuttaa alleelikoodit

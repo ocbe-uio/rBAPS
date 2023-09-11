@@ -3,7 +3,6 @@
 #' @param fii fii
 #' @description Goes through all the ways to divide the points into two or
 #' three groups. Chooses the partition which obtains highest logml.
-#' @export
 learn_simple_partition <- function(ordered_points, fii) {
   npoints <- length(ordered_points)
 

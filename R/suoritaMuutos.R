@@ -3,7 +3,6 @@
 #' @param osuusTaulu Percentage table?
 #' @param osuus percentage?
 #' @param indeksi index
-#' @export
 suoritaMuutos <- function(osuusTaulu, osuus, indeksi) {
   if (isGlobalEmpty(COUNTS)) {
     npops <- 1

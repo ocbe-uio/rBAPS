@@ -18,7 +18,7 @@ vector of length `nc` with r.v. realizations from Gamma(rate=1)
 Generates random numbers
 }
 \examples{
-randdir(matrix(c(10, 30, 60), 3), 3)
+rBAPS:::randdir(matrix(c(10, 30, 60), 3), 3)
 }
 \seealso{
 randga

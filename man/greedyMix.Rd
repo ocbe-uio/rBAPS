@@ -4,17 +4,55 @@
 \alias{greedyMix}
 \title{Clustering of individuals}
 \usage{
-greedyMix(data, format, verbose = TRUE)
+greedyMix(
+  data,
+  format,
+  partitionCompare = NULL,
+  ninds = 1L,
+  npops = 1L,
+  counts = NULL,
+  sumcounts = NULL,
+  max_iter = 100L,
+  alleleCodes = NULL,
+  inp = NULL,
+  popnames = NULL,
+  fixedK = FALSE,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{data}{data file}
 
 \item{format}{Data format. Format supported: "FASTA", "VCF" ,"BAM", "GenePop"}
 
+\item{partitionCompare}{a list of partitions to compare}
+
+\item{ninds}{number of individuals}
+
+\item{npops}{number of populations}
+
+\item{counts}{counts}
+
+\item{sumcounts}{sumcounts}
+
+\item{max_iter}{maximum number of iterations}
+
+\item{alleleCodes}{allele codes}
+
+\item{inp}{input file}
+
+\item{popnames}{population names}
+
+\item{fixedK}{if \code{TRUE}, the number of populations is fixed}
+
 \item{verbose}{if \code{TRUE}, prints extra output information}
 }
 \description{
 Clustering of individuals
+}
+\examples{
+data <- system.file("extdata", "FASTA_clustering_haploid.fasta", package = "rBAPS")
+greedyMix(data, "fasta")
 }
 \references{
 Samtools: a suite of programs for interacting

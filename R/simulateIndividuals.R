@@ -6,8 +6,6 @@
 #' @param allfreqs allfreqs
 #' @param pop pop
 #' @param missing_level missing_level
-#' @export
-
 simulateIndividuals <- function(n, rowsFromInd, allfreqs, pop, missing_level) {
   nloci <- size(allfreqs, 2)
 

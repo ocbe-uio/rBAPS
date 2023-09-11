@@ -4,12 +4,15 @@
 \alias{load_fasta}
 \title{load_fasta}
 \usage{
-load_fasta(msa, keep.singletons = FALSE)
+load_fasta(msa, keep_singletons = FALSE, output_numbers = TRUE)
 }
 \arguments{
 \item{msa}{Either the location of a fasta file or ape DNAbin object containing the multiple sequence alignment data to be clustered}
 
-\item{keep.singletons}{A logical indicating whether to consider singleton mutations in calculating the clusters}
+\item{keep_singletons}{A logical indicating whether to consider singleton mutations in calculating the clusters}
+
+\item{output_numbers}{A logical indicating whether to output the data as
+numbers (TRUE) or letters (FALSE)}
 }
 \value{
 A character matrix with filtered SNP data
@@ -19,8 +22,8 @@ Loads a fasta file into matrix format ready for
 running the hierBAPS algorithm.
 }
 \examples{
-msa <- system.file("ext", "seqs.fa", package = "rBAPS")
-snp.matrix <- load_fasta(msa)
+msa <- system.file("extdata", "seqs.fa", package = "rBAPS")
+snp.matrix <- rBAPS:::load_fasta(msa)
 }
 \seealso{
 rhierbaps::load_fasta

@@ -4,10 +4,12 @@
 \alias{handleData}
 \title{Handle Data}
 \usage{
-handleData(raw_data)
+handleData(raw_data, format = "Genepop")
 }
 \arguments{
-\item{raw_data}{Raw data}
+\item{raw_data}{Raw data in Genepop or BAPS format}
+
+\item{format}{data format}
 }
 \description{
 Handle Data
@@ -20,5 +22,5 @@ After this function. Add blank lines for individuals with fewer rows as
 maximum. If the code of an allele is = 0, the function changes that allele
 code to the smallest code that is larger than any code in use. After this,
 the function changes the allele codes so that one locus j
-codes get values between? 1, ..., Noah (j).
+codes get values between? 1, ..., noalle(j).
 }

@@ -2,7 +2,6 @@
 #' @description Lisää a priori jokaista alleelia joka populaation joka lokukseen
 #' j 1/noalle(j) verran.
 #' @param noalle noalle
-#' @export
 computeAllFreqs2 <- function(noalle) {
   COUNTS <- ifelse(isGlobalEmpty(COUNTS), vector(), COUNTS)
   SUMCOUNTS <- ifelse(isGlobalEmpty(SUMCOUNTS), vector(), COUNTS)

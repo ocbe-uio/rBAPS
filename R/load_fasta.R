@@ -4,18 +4,19 @@
 #' running the hierBAPS algorithm.
 #'
 #' @param msa Either the location of a fasta file or ape DNAbin object containing the multiple sequence alignment data to be clustered
-#' @param keep.singletons A logical indicating whether to consider singleton mutations in calculating the clusters
+#' @param keep_singletons A logical indicating whether to consider singleton mutations in calculating the clusters
+#' @param output_numbers A logical indicating whether to output the data as
+#' numbers (TRUE) or letters (FALSE)
 #'
 #' @return A character matrix with filtered SNP data
 #'
 #' @examples
-#' msa <- system.file("ext", "seqs.fa", package = "rBAPS")
-#' snp.matrix <- load_fasta(msa)
+#' msa <- system.file("extdata", "seqs.fa", package = "rBAPS")
+#' snp.matrix <- rBAPS:::load_fasta(msa)
 #' @author Gerry Tonkin-Hill, Waldir Leoncio
 #' @seealso rhierbaps::load_fasta
 #' @importFrom ape read.FASTA as.DNAbin
-#' @export
-load_fasta <- function(msa, keep.singletons = FALSE) {
+load_fasta <- function(msa, keep_singletons = FALSE, output_numbers = TRUE) {
 
   # Check inputs
   if (is(msa, "character")) {
@@ -28,7 +29,9 @@ load_fasta <- function(msa, keep.singletons = FALSE) {
   } else {
     stop("incorrect input for msa!")
   }
-  if (!is.logical(keep.singletons)) stop("Invalid keep.singletons! Must be on of TRUE/FALSE.")
+  if (!is.logical(keep_singletons)) {
+    stop("Invalid keep_singletons! Must be one of TRUE/FALSE.")
+  }
 
   # Load sequences using ape. This does a lot of the checking for us.
   seq_names <- labels(seqs)
@@ -46,8 +49,8 @@ load_fasta <- function(msa, keep.singletons = FALSE) {
   conserved <- colSums(t(t(seqs) == seqs[1, ])) == nrow(seqs)
   seqs <- seqs[, !conserved]
 
-  if (!keep.singletons) {
-    # remove singletons as they are uninformative in the algorithm
+  if (!keep_singletons) {
+    # remove_singletons as they are uninformative in the algorithm
     is_singleton <- apply(seqs, 2, function(x) {
       tab <- table(x)
       return(x %in% names(tab)[tab == 1])
@@ -57,6 +60,12 @@ load_fasta <- function(msa, keep.singletons = FALSE) {
 
   # Convert gaps and unknowns to same symbol
   seqs[seqs == "n"] <- "-"
+
+  # Replace letters with numbers, dashes with zeros
+  if (output_numbers) {
+    seqs <- matrix(match(seqs, c("a", "c", "g", "t")), nrow(seqs))
+    seqs[is.na(seqs)] <- 0
+  }
 
   return(seqs)
 }

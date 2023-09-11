@@ -349,12 +349,15 @@ greedyMix_muutokset <- R6Class(
       i1_logml <- POP_LOGML[i1]
       muutokset[i1] <- 0
 
-      rows <- globalRows[ind, 1]:globalRows[ind, 2]
+      if (is.null(dim(globalRows))) {
+        rows <- globalRows[1]:globalRows[2]
+      } else {
+        rows <- globalRows[ind, 1]:globalRows[ind, 2]
+      }
       diffInCounts <- computeDiffInCounts(
         rows, size(COUNTS, 1), size(COUNTS, 2), data
       )
       diffInSumCounts <- colSums(diffInCounts)
-
       COUNTS[, , i1] <- COUNTS[, , i1] - diffInCounts
       SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] - diffInSumCounts
       new_i1_logml <- computePopulationLogml(i1, adjprior, priorTerm)

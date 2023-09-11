@@ -2,7 +2,6 @@
 #' @description Returns the part of the line from the beginning that is before the comma. Useful for returning the name of a GenePop area
 #' @param line line
 #' @return nimi
-#' @export
 lueNimi <- function(line) {
   # ==========================================================================
   # Validation

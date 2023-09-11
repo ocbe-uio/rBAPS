@@ -7,8 +7,6 @@
 #' @param data data
 #' @param allFreqs allFreqs
 #' @param rowsFromInd rowsFromInd
-#' @export
-
 computePersonalAllFreqs <- function(ind, data, allFreqs, rowsFromInd) {
   if (isGlobalEmpty(COUNTS)) {
     nloci <- npops <- 1

@@ -6,7 +6,6 @@
 #' fgetl returns tline as a numeric value -1.
 #' @author Waldir Leoncio
 #' @seealso fopen
-#' @export
 fgetl <- function(file) {
   # ==========================================================================
   # Validation
@@ -27,5 +26,4 @@ fgetl <- function(file) {
 #' @return The same as `readLines(filename)`
 #' @author Waldir Leoncio
 #' @seealso fgetl
-#' @export
 fopen <- function(filename) readLines(filename)

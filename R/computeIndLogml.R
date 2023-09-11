@@ -3,7 +3,6 @@
 #' määritellyiksi kuten osuusTaulu:ssa.
 #' @param omaFreqs own Freqs?
 #' @param osuusTaulu Percentage table?
-#' @export
 computeIndLogml <- function(omaFreqs, osuusTaulu) {
   omaFreqs <- as.matrix(omaFreqs)
   osuusTaulu <- as.matrix(osuusTaulu)

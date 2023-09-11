@@ -1,6 +1,16 @@
 #' @title Clustering of individuals
 #' @param data data file
 #' @param format Data format. Format supported: "FASTA", "VCF" ,"BAM", "GenePop"
+#' @param partitionCompare a list of partitions to compare
+#' @param ninds number of individuals
+#' @param npops number of populations
+#' @param counts counts
+#' @param sumcounts sumcounts
+#' @param max_iter maximum number of iterations
+#' @param alleleCodes allele codes
+#' @param inp input file
+#' @param popnames population names
+#' @param fixedK if \code{TRUE}, the number of populations is fixed
 #' @param verbose if \code{TRUE}, prints extra output information
 #' @importFrom utils read.delim
 #' @importFrom vcfR read.vcfR
@@ -9,41 +19,59 @@
 #' @references Samtools: a suite of programs for interacting
 #' with high-throughput sequencing data. <http://www.htslib.org/>
 #' @export
-greedyMix <- function(data, format, verbose = TRUE) {
-  # Parsing data format ------------------------------------------------------
+#' @examples
+#' data <- system.file("extdata", "FASTA_clustering_haploid.fasta", package = "rBAPS")
+#' greedyMix(data, "fasta")
+greedyMix <- function(
+  data, format, partitionCompare = NULL, ninds = 1L, npops = 1L,
+  counts = NULL, sumcounts = NULL, max_iter = 100L, alleleCodes = NULL,
+  inp = NULL, popnames = NULL, fixedK = FALSE, verbose = FALSE
+) {
+  # Importing and handling data ================================================
+  data <- importFile(data, format, verbose)
+  data <- handleData(data, tolower(format))
+  c <- list(
+    noalle = data[["noalle"]],
+    data = data[["newData"]],
+    adjprior = data[["adjprior"]],
+    priorTerm = data[["priorTerm"]],
+    rowsFromInd = data[["rowsFromInd"]]
+  )
 
-  if (missing(format)) {
-    format <- gsub(".*\\.(.+)$", "\\1", data)
-    message("Format not provided. Guessing from file extension: ", format)
-  }
-  format <- tolower(format)
-
-  # Dispatching to proper loading function -----------------------------------
-
-  if (format == "fasta") {
-    out <- load_fasta(data)
-  } else if (format == "vcf") {
-    out <- vcfR::read.vcfR(data, verbose = verbose)
-  } else if (format == "sam") {
-    stop(
-      "SAM files not directly supported. ",
-      "Install the samtools software and execute\n\n",
-      "samtools view -b ", data, " > out_file.bam\n\nto convert to BAM ",
-      "and try running this function again with 'format=BAM'"
+  # Comparing partitions =======================================================
+  if (!is.null(partitionCompare)) {
+    logmls <- comparePartitions(
+      c[["data"]], nrow(c[["data"]]), partitionCompare[["partitions"]], ninds,
+      c[["rowsFromInd"]], c[["noalle"]], c[["adjprior"]]
     )
-  } else if (format == "bam") {
-    out <- Rsamtools::scanBam(data)
-  } else if (format == "genepop") {
-    if (toupper(adegenet::.readExt(data)) == "TXT") {
-      message("Creating a copy of the file with the .gen extension")
-      dataGen <- gsub("txt", "gen", data)
-      file.copy(data, dataGen)
-      out <- adegenet::read.genepop(dataGen)
-    } else {
-      out <- adegenet::read.genepop(data)
-    }
-  } else {
-    stop("Format not supported.")
   }
-  return(out)
+
+
+  # Generating partition summary ===============================================
+  ekat <- seq(1L, c[["rowsFromInd"]], ninds * c[["rowsFromInd"]]) # ekat = (1:rowsFromInd:ninds*rowsFromInd)';
+  c[["rows"]] <- c(ekat, ekat + c[["rowsFromInd"]] - 1L) # c.rows = [ekat ekat+rowsFromInd-1]
+  logml_npops_partitionSummary <- indMixWrapper(c, npops, counts, sumcounts, max_iter, fixedK, verbose)
+  logml <- logml_npops_partitionSummary[["logml"]]
+  npops <- logml_npops_partitionSummary[["npops"]]
+  partitionSummary <- logml_npops_partitionSummary[["partitionSummary"]]
+
+  # Generating output object ===================================================
+  out <- list(
+    "alleleCodes" = alleleCodes, "adjprior" = c[["adjprior"]],
+    "popnames" = popnames, "rowsFromInd" = c[["rowsFromInd"]],
+    "data" = c[["data"]], "npops" = npops, "noalle" = c[["noalle"]],
+    "mixtureType" = "mix", "logml" = logml
+  )
+  if (logml == 1) {
+    return(out)
+  }
+
+  # Writing mixture info =======================================================
+  changesInLogml <- writeMixtureInfo(
+    logml, c[["rowsFromInd"]], c[["data"]], c[["adjprior"]], c[["priorTerm"]],
+    NULL, inp, partitionSummary, popnames, fixedK
+  )
+
+  # Updateing results ==========================================================
+  return(c(out, "changesInLogml" = changesInLogml))
 }

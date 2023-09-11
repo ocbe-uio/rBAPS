@@ -2,7 +2,6 @@
 #' @description Test if loaded BAPS data is proper
 #' @param data dataset
 #' @return ninds
-#' @export
 testaaOnkoKunnollinenBapsData <- function(data) {
   # Tarkastaa onko viimeisess?sarakkeessa kaikki
   # luvut 1,2,...,n johonkin n:��n asti.
