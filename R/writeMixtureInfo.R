@@ -26,8 +26,9 @@ writeMixtureInfo <- function(
     fid <- load(outPutFile)
   } else {
     fid <- -1
-    # TODO: replace sink with option that will record input and output
-    sink("baps4_output.baps", split = TRUE) # save in text anyway.
+    outPutFile <- file.path(tempdir(), "baps4_output.baps")
+    message("Output saved to", outPutFile)
+    sink(outPutFile, split = TRUE) # save in text anyway.
   }
 
   dispLine()
@@ -330,6 +331,10 @@ writeMixtureInfo <- function(
         }
       }
     }
+  }
+  # Closing sink(s)
+  while (sink.number() > 0L) {
+    sink()
   }
   return(changesInLogml)
 }
