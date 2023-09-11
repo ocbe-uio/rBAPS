@@ -69,7 +69,7 @@ greedyMix <- function(
   # Writing mixture info =======================================================
   changesInLogml <- writeMixtureInfo(
     logml, c[["rowsFromInd"]], c[["data"]], c[["adjprior"]], c[["priorTerm"]],
-    NULL, inp, partitionSummary, popnames, fixedK
+    NULL, inp, partitionSummary, popnames, fixedK, verbose
   )
 
   # Updateing results ==========================================================
