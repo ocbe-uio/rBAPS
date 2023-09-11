@@ -42,7 +42,7 @@ raw_vcf <- importFile(
   format  = "VCF",
   verbose = FALSE
 )
-df_bam <- importFile(
+raw_bam <- importFile(
   data    = file.path(path_inst, "bam_example.bam"),
   format  = "BAM",
 )
@@ -56,7 +56,7 @@ test_that("Files are imported correctly", {
       format  = "SAM",
     )
   )
-  expect_equal(length(df_bam[[1]]), 13)
+  expect_equal(length(raw_bam[[1]]), 13)
 })
 
 df_fasta <- greedyMix(
