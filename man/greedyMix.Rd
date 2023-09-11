@@ -8,9 +8,8 @@ greedyMix(
   data,
   format,
   partitionCompare = NULL,
-  ninds = NULL,
+  ninds = 1L,
   npops = 1L,
-  priorTerm = NULL,
   counts = NULL,
   sumcounts = NULL,
   max_iter = 100L,
@@ -31,8 +30,6 @@ greedyMix(
 \item{ninds}{number of individuals}
 
 \item{npops}{number of populations}
-
-\item{priorTerm}{prior terms}
 
 \item{counts}{counts}
 
@@ -55,6 +52,8 @@ greedyMix(
 \item{noalle}{number of alleles}
 
 \item{adjprior}{ajuster prior probabilities}
+
+\item{priorTerm}{prior terms}
 }
 \description{
 Clustering of individuals

@@ -31,12 +31,12 @@ writeMixtureInfo <- function(
   }
 
   dispLine()
-  cat("RESULTS OF INDIVIDUAL LEVEL MIXTURE ANALYSIS:")
-  cat(c("Data file: ", inputFile))
-  cat("Model: independent")
-  cat(c("Number of clustered individuals: ", ownNum2Str(ninds)))
-  cat(c("Number of groups in optimal partition: ", ownNum2Str(npops)))
-  cat(c("Log(marginal likelihood) of optimal partition: ", ownNum2Str(logml)))
+  cat("RESULTS OF INDIVIDUAL LEVEL MIXTURE ANALYSIS:\n")
+  cat("Data file: ", inputFile, "\n")
+  cat("Model: independent\n")
+  cat("Number of clustered individuals: ", ownNum2Str(ninds), "\n")
+  cat("Number of groups in optimal partition: ", ownNum2Str(npops), "\n")
+  cat("Log(marginal likelihood) of optimal partition: ", ownNum2Str(logml), "\n")
   cat(" ")
   if (fid != -1) {
     append(fid, "RESULTS OF INDIVIDUAL LEVEL MIXTURE ANALYSIS:\n")
@@ -87,10 +87,10 @@ writeMixtureInfo <- function(
         "Cluster ", as.character(m), ": {", as.character(indsInM[1])
       )
       for (k in 2:cluster_size) {
-        text <- c(text, ", ", as.character(indsInM[k]))
+        text <- c(text, ",", as.character(indsInM[k]))
       }
     }
-    text <- c(text, "}")
+    text <- c(text, "}\n")
     while (length(text) > 58) {
       # Take one line and display it.
       new_line <- takeLine(text, 58)
@@ -106,7 +106,7 @@ writeMixtureInfo <- function(
         text <- ""
       }
     }
-    if (text != "") {
+    if (any(text != "")) {
       cat(text)
       if (fid != -1) {
         append(fid, text)
@@ -116,11 +116,11 @@ writeMixtureInfo <- function(
   }
 
   if (npops > 1) {
-    cat(" ")
-    cat(" ")
+    cat("\n")
+    cat("\n")
     cat(
       "Changes in log(marginal likelihood)",
-      " if indvidual i is moved to group j:"
+      " if indvidual i is moved to group j:\n"
     )
     if (fid != -1) {
       append(fid, " ")
@@ -131,7 +131,7 @@ writeMixtureInfo <- function(
         fid,
         c(
           "Changes in log(marginal likelihood)",
-          "if indvidual i is moved to group j:"
+          "if indvidual i is moved to group j:\n"
         )
       )
       append(fid, "\n")
@@ -167,9 +167,9 @@ writeMixtureInfo <- function(
 
       if (names) {
         nimi <- as.character(popnames[ind])
-        rivi <- c(blanks(maxSize - length(nimi)), nimi, ":")
+        rivi <- c(blanks(maxSize - length(nimi)), nimi, ":\n")
       } else {
-        rivi <- c(blanks(4 - floor(log10(ind))), ownNum2Str(ind), ":")
+        rivi <- c("\n", blanks(4 - floor(log10(ind))), ownNum2Str(ind), ":\n")
       }
       for (j in 1:npops) {
         rivi <- c(rivi, "  ", logml2String(omaRound(muutokset[j])))
@@ -181,9 +181,9 @@ writeMixtureInfo <- function(
       }
     }
 
-    cat(" ")
-    cat(" ")
-    cat("KL-divergence matrix in PHYLIP format:")
+    cat("\n")
+    cat("\n")
+    cat("KL-divergence matrix in PHYLIP format:\n")
 
     dist_mat <- zeros(npops, npops)
     if (fid != -1) {
@@ -193,6 +193,7 @@ writeMixtureInfo <- function(
       append(fid, "\n")
     }
 
+    COUNTS <- COUNTS[seq_len(nrow(adjprior)), seq_len(ncol(adjprior)), , drop = FALSE]
     maxnoalle <- size(COUNTS, 1)
     nloci <- size(COUNTS, 2)
     d <- zeros(maxnoalle, nloci, npops)
@@ -204,8 +205,8 @@ writeMixtureInfo <- function(
 
     prior[1, nollia] <- 1
     for (pop1 in 1:npops) {
-      d[, , pop1] <- (squeeze(COUNTS[, , pop1]) + prior) /
-        repmat(sum(squeeze(COUNTS[, , pop1]) + prior), c(maxnoalle, 1))
+      squeezed_COUNTS_prior <- squeeze(COUNTS[, , pop1]) + prior
+      d[, , pop1] <- squeezed_COUNTS_prior / sum(squeezed_COUNTS_prior)
     }
     ekarivi <- as.character(npops)
     cat(ekarivi)
@@ -215,14 +216,14 @@ writeMixtureInfo <- function(
     }
 
     for (pop1 in 1:npops) {
-      for (pop2 in 1:(pop1 - 1)) {
+      for (pop2 in seq_len(pop1 - 1)) {
         dist1 <- d[, , pop1]
         dist2 <- d[, , pop2]
         div12 <- sum(
-          sum(dist1 * log2((dist1 + 10^-10) / (dist2 + 10^-10)))
+          sum(dist1 * base::log2((dist1 + 10^-10) / (dist2 + 10^-10)))
         ) / nloci
         div21 <- sum(
-          sum(dist2 * log2((dist2 + 10^-10) / (dist1 + 10^-10)))
+          sum(dist2 * base::log2((dist2 + 10^-10) / (dist1 + 10^-10)))
         ) / nloci
         div <- (div12 + div21) / 2
         dist_mat[pop1, pop2] <- div
@@ -232,9 +233,9 @@ writeMixtureInfo <- function(
 
     dist_mat <- dist_mat + t(dist_mat) # make it symmetric
     for (pop1 in 1:npops) {
-      rivi <- c("Cluster_", as.character(pop1), " ")
+      rivi <- c("\nCluster_", as.character(pop1), "\n")
       for (pop2 in 1:npops) {
-        rivi <- c(rivi, kldiv2str(dist_mat[pop1, pop2]), " ")
+        rivi <- c(rivi, kldiv2str(dist_mat[pop1, pop2]))
       }
       cat(rivi)
       if (fid != -1) {
@@ -244,11 +245,11 @@ writeMixtureInfo <- function(
     }
   }
 
-  cat(" ")
-  cat(" ")
+  cat("\n")
+  cat("\n")
   cat(
     "List of sizes of 10 best visited partitions",
-    "and corresponding log(ml) values"
+    "and corresponding log(ml) values\n"
   )
 
   if (fid != -1) {
@@ -278,7 +279,7 @@ writeMixtureInfo <- function(
     line <- c(
       as.character(partitionSummary[part, 1]),
       "    ",
-      as.character(partitionSummary(part, 2))
+      as.character(partitionSummary[part, 2])
     )
     cat(line)
     if (fid != -1) {
@@ -288,9 +289,9 @@ writeMixtureInfo <- function(
   }
 
   if (!fixedK) {
-    cat(" ")
-    cat(" ")
-    cat("Probabilities for number of clusters")
+    cat("\n")
+    cat("\n")
+    cat("Probabilities for number of clusters\n")
 
     if (fid != -1) {
       append(fid, " ")
@@ -322,7 +323,7 @@ writeMixtureInfo <- function(
         line <- c(
           as.character(npopsTaulu[i]), "   ", as.character(probs[i])
         )
-        cat(line)
+        cat(line, "\n")
         if (fid != -1) {
           append(fid, line)
           append(fid, "\n")

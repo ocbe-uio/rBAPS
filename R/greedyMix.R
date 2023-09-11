@@ -54,7 +54,7 @@ greedyMix <- function(
   # Generating partition summary ===============================================
   ekat <- seq(1L, c[["rowsFromInd"]], ninds * c[["rowsFromInd"]]) # ekat = (1:rowsFromInd:ninds*rowsFromInd)';
   c[["rows"]] <- c(ekat, ekat + c[["rowsFromInd"]] - 1L) # c.rows = [ekat ekat+rowsFromInd-1]
-  logml_npops_partitionSummary <- indMixWrapper(c, npops, counts, sumcounts, max_iter, fixedK, verbose);
+  logml_npops_partitionSummary <- indMixWrapper(c, npops, counts, sumcounts, max_iter, fixedK, verbose)
   logml <- logml_npops_partitionSummary[["logml"]]
   npops <- logml_npops_partitionSummary[["npops"]]
   partitionSummary <- logml_npops_partitionSummary[["partitionSummary"]]
@@ -72,8 +72,8 @@ greedyMix <- function(
 
   # Writing mixture info =======================================================
   changesInLogml <- writeMixtureInfo(
-    logml, rowsFromInd, data, adjprior, priorTerm, NULL, inp, partitionSummary,
-    popnames, fixedK
+    logml, c[["rowsFromInd"]], c[["data"]], c[["adjprior"]], c[["priorTerm"]],
+    NULL, inp, partitionSummary, popnames, fixedK
   )
 
   # Updateing results ==========================================================

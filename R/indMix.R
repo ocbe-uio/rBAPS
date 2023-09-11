@@ -68,7 +68,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
   nruns <- length(npopsTaulu)
 
   initData <- data
-  data <- data[, 1:(ncol(data) - 1)]
+  data <- data[, seq_along(noalle)]  # Original code always dropped last column.
 
   logmlBest <- -1e50
   partitionSummary <- -1e50 * ones(30, 2) # Tiedot 30 parhaasta partitiosta (npops ja logml)

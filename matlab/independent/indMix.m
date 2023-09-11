@@ -87,7 +87,7 @@ for run = 1:nruns
         apu = rows(i);
         PARTITION(i) = initialPartition(apu(1));
     end
-    
+
     COUNTS = counts; SUMCOUNTS = sumcounts;
     POP_LOGML = computePopulationLogml(1:npops, adjprior, priorTerm);
     LOGDIFF = repmat(-Inf,ninds,npops);
@@ -98,7 +98,7 @@ for run = 1:nruns
     kokeiltu = zeros(nRoundTypes, 1);
     roundTypes = [1 1];  %Ykkösvaiheen sykli kahteen kertaan.
     ready = 0; vaihe = 1;
-    
+
     if dispText
         disp(' ');
         disp(['Mixture analysis started with initial ' num2str(npops) ' populations.']);
@@ -106,11 +106,11 @@ for run = 1:nruns
 
     while ready ~= 1
         muutoksia = 0;
-        
+
         if dispText
             disp(['Performing steps: ' num2str(roundTypes)]);
         end
-        
+
         for n = 1:length(roundTypes)
 
             round = roundTypes(n);
@@ -465,7 +465,7 @@ for run = 1:nruns
 
     npops = poistaTyhjatPopulaatiot(npops);
     POP_LOGML = computePopulationLogml(1:npops, adjprior, priorTerm);
-    if dispText       
+    if dispText
         disp(['Found partition with ' num2str(npops) ' populations.']);
         disp(['Log(ml) = ' num2str(logml)]);
         disp(' ');
@@ -491,7 +491,7 @@ COUNTS = countsBest;
 SUMCOUNTS = sumCountsBest;
 POP_LOGML = pop_logmlBest;
 LOGDIFF = logdiffbest;
-    
+
 %--------------------------------------------------------------------------
 
 function clearGlobalVars
@@ -509,9 +509,9 @@ function Z = linkage(Y, method)
 [k, n] = size(Y);
 m = (1+sqrt(1+8*n))/2;
 if k ~= 1 | m ~= fix(m)
-  error('The first input has to match the output of the PDIST function in size.');   
+  error('The first input has to match the output of the PDIST function in size.');
 end
-if nargin == 1 % set default switch to be 'co' 
+if nargin == 1 % set default switch to be 'co'
    method = 'co';
 end
 method = lower(method(1:2)); % simplify the switch string.
@@ -519,19 +519,19 @@ monotonic = 1;
 Z = zeros(m-1,3); % allocate the output matrix.
 N = zeros(1,2*m-1);
 N(1:m) = 1;
-n = m; % since m is changing, we need to save m in n. 
+n = m; % since m is changing, we need to save m in n.
 R = 1:n;
 for s = 1:(n-1)
    X = Y;
    [v, k] = min(X);
    i = floor(m+1/2-sqrt(m^2-m+1/4-2*(k-1)));
    j = k - (i-1)*(m-i/2)+i;
-   Z(s,:) = [R(i) R(j) v]; % update one more row to the output matrix A   
+   Z(s,:) = [R(i) R(j) v]; % update one more row to the output matrix A
    I1 = 1:(i-1); I2 = (i+1):(j-1); I3 = (j+1):m; % these are temp variables.
    U = [I1 I2 I3];
    I = [I1.*(m-(I1+1)/2)-m+i i*(m-(i+1)/2)-m+I2 i*(m-(i+1)/2)-m+I3];
    J = [I1.*(m-(I1+1)/2)-m+j I2.*(m-(I2+1)/2)-m+j j*(m-(j+1)/2)-m+I3];
-   
+
    switch method
    case 'si' %single linkage
       Y(I) = min(Y(I),Y(J));
@@ -548,12 +548,12 @@ for s = 1:(n-1)
    end
    J = [J i*(m-(i+1)/2)-m+j];
    Y(J) = []; % no need for the cluster information about j.
-   
+
    % update m, N, R
-   m = m-1; 
+   m = m-1;
    N(n+s) = N(R(i)) + N(R(j));
    R(i) = n+s;
-   R(j:(n-1))=R((j+1):n); 
+   R(j:(n-1))=R((j+1):n);
 end
 
 
@@ -623,7 +623,7 @@ function [muutokset, diffInCounts] = ...
 %
 % Lisäys 25.9.2007:
 % Otettu käyttöön globaali muuttuja LOGDIFF, johon on tallennettu muutokset
-% logml:ssä siirrettäessä yksilöitä toisiin populaatioihin. 
+% logml:ssä siirrettäessä yksilöitä toisiin populaatioihin.
 
 global COUNTS;      global SUMCOUNTS;
 global PARTITION;   global POP_LOGML;
@@ -647,7 +647,7 @@ COUNTS(:,:,i1) = COUNTS(:,:,i1)+diffInCounts;
 SUMCOUNTS(i1,:) = SUMCOUNTS(i1,:)+diffInSumCounts;
 
 i2 = find(muutokset==-Inf);     % Etsitään populaatiot jotka muuttuneet viime kerran jälkeen.
-i2 = setdiff(i2,i1);            
+i2 = setdiff(i2,i1);
 i2_logml = POP_LOGML(i2);
 
 ni2 = length(i2);
@@ -668,19 +668,19 @@ LOGDIFF(ind,:) = muutokset;
 
 function diffInCounts = computeDiffInCounts(rows, max_noalle, nloci, data)
 % Muodostaa max_noalle*nloci taulukon, jossa on niiden alleelien
-% lukumäärät (vastaavasti kuin COUNTS:issa), jotka ovat data:n 
+% lukumäärät (vastaavasti kuin COUNTS:issa), jotka ovat data:n
 % riveillä rows. rows pitää olla vaakavektori.
 
 diffInCounts = zeros(max_noalle, nloci);
 for i=rows
     row = data(i,:);
     notEmpty = find(row>=0);
-    
+
     if length(notEmpty)>0
         diffInCounts(row(notEmpty) + (notEmpty-1)*max_noalle) = ...
             diffInCounts(row(notEmpty) + (notEmpty-1)*max_noalle) + 1;
     end
-end    
+end
 
 %------------------------------------------------------------------------
 
@@ -693,8 +693,8 @@ function updateGlobalVariables(ind, i2, diffInCounts, ...
 % Suorittaa globaalien muuttujien muutokset, kun yksilö ind
 % on siirretään koriin i2.
 
-global PARTITION; 
-global COUNTS; 
+global PARTITION;
+global COUNTS;
 global SUMCOUNTS;
 global POP_LOGML;
 global LOGDIFF;
@@ -724,7 +724,7 @@ function [muutokset, diffInCounts] = laskeMuutokset2( ...
     i1, globalRows, data, adjprior, priorTerm);
 % Palauttaa npops*1 taulun, jossa i:s alkio kertoo, mikä olisi
 % muutos logml:ssä, mikäli korin i1 kaikki yksilöt siirretään
-% koriin i. 
+% koriin i.
 
 global COUNTS;      global SUMCOUNTS;
 global PARTITION;   global POP_LOGML;
@@ -839,7 +839,7 @@ for pop2 = 1:npops2
 
         i2 = [1:i1-1 , i1+1:npops];
         i2_logml = POP_LOGML(i2)';
-    
+
         COUNTS(:,:,i2) = COUNTS(:,:,i2)+repmat(diffInCounts, [1 1 npops-1]);
         SUMCOUNTS(i2,:) = SUMCOUNTS(i2,:)+repmat(diffInSumCounts,[npops-1 1]);
         new_i2_logml = computePopulationLogml(i2, adjprior, priorTerm)';
@@ -848,7 +848,7 @@ for pop2 = 1:npops2
 
         muutokset(pop2,i2) = new_i1_logml - i1_logml ...
             + new_i2_logml - i2_logml;
-    end    
+    end
 end
 
 %------------------------------------------------------------------------------------
@@ -858,7 +858,7 @@ function muutokset = laskeMuutokset5(inds, globalRows, data, adjprior, ...
 
 % Palauttaa length(inds)*1 taulun, jossa i:s alkio kertoo, mikä olisi
 % muutos logml:ssä, mikäli yksilö i vaihtaisi koria i1:n ja i2:n välillä.
-    
+
 global COUNTS;      global SUMCOUNTS;
 global PARTITION;   global POP_LOGML;
 
@@ -885,14 +885,14 @@ for i = 1:ninds
     SUMCOUNTS(pop1,:) = SUMCOUNTS(pop1,:)-diffInSumCounts;
     COUNTS(:,:,pop2) = COUNTS(:,:,pop2)+diffInCounts;
     SUMCOUNTS(pop2,:) = SUMCOUNTS(pop2,:)+diffInSumCounts;
-    
+
     new_logmls = computePopulationLogml([i1 i2], adjprior, priorTerm);
     muutokset(i) = sum(new_logmls);
-    
+
     COUNTS(:,:,pop1) = COUNTS(:,:,pop1)+diffInCounts;
     SUMCOUNTS(pop1,:) = SUMCOUNTS(pop1,:)+diffInSumCounts;
     COUNTS(:,:,pop2) = COUNTS(:,:,pop2)-diffInCounts;
-    SUMCOUNTS(pop2,:) = SUMCOUNTS(pop2,:)-diffInSumCounts; 
+    SUMCOUNTS(pop2,:) = SUMCOUNTS(pop2,:)-diffInSumCounts;
 end
 
 muutokset = muutokset - i1_logml - i2_logml;
@@ -952,7 +952,7 @@ dist2 = dist(apu);
 
 
 function npops = poistaTyhjatPopulaatiot(npops)
-% Poistaa tyhjentyneet populaatiot COUNTS:ista ja 
+% Poistaa tyhjentyneet populaatiot COUNTS:ista ja
 % SUMCOUNTS:ista. Päivittää npops:in ja PARTITION:in.
 
 global COUNTS;
@@ -1006,7 +1006,7 @@ if abs(logml)<10000
     end
     if logml<0
         mjono(pointer-1) = '-';
-    end 
+    end
 else
     suurinYks = 4;
     while abs(logml)/(10^(suurinYks+1)) >= 1
@@ -1035,8 +1035,8 @@ end
 
 function digit = palautaYks(num,yks)
 % palauttaa luvun num 10^yks termin kertoimen
-% string:inä 
-% yks täytyy olla kokonaisluku, joka on 
+% string:inä
+% yks täytyy olla kokonaisluku, joka on
 % vähintään -1:n suuruinen. Pienemmillä
 % luvuilla tapahtuu jokin pyöristysvirhe.
 
@@ -1063,7 +1063,7 @@ if abs(div)<100
     if arvo>0
         mjono(1) = num2str(arvo);
     end
-    
+
 else
     suurinYks = floor(log10(div));
     mjono(6) = num2str(suurinYks);
@@ -1125,7 +1125,7 @@ T = zeros(m,1);
          end
       end
    end
-   
+
 function T = clusternum(X, T, k, c)
 m = size(X,1)+1;
 while(~isempty(k))
@@ -1136,7 +1136,7 @@ while(~isempty(k))
    % Assign this node number to leaf children
    t = (children<=m);
    T(children(t)) = c;
-   
+
    % Move to next level
    k = children(~t) - m;
 end
