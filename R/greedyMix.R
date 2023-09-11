@@ -3,11 +3,7 @@
 #' @param format Data format. Format supported: "FASTA", "VCF" ,"BAM", "GenePop"
 #' @param partitionCompare a list of partitions to compare
 #' @param ninds number of individuals
-#' @param rowsFromInd a list of rows for each individual
-#' @param noalle number of alleles
-#' @param adjprior ajuster prior probabilities
 #' @param npops number of populations
-#' @param priorTerm prior terms
 #' @param counts counts
 #' @param sumcounts sumcounts
 #' @param max_iter maximum number of iterations

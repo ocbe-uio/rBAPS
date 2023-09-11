@@ -10,6 +10,9 @@ load_fasta(msa, keep_singletons = FALSE, output_numbers = TRUE)
 \item{msa}{Either the location of a fasta file or ape DNAbin object containing the multiple sequence alignment data to be clustered}
 
 \item{keep_singletons}{A logical indicating whether to consider singleton mutations in calculating the clusters}
+
+\item{output_numbers}{A logical indicating whether to output the data as
+numbers (TRUE) or letters (FALSE)}
 }
 \value{
 A character matrix with filtered SNP data
@@ -20,7 +23,7 @@ running the hierBAPS algorithm.
 }
 \examples{
 msa <- system.file("extdata", "seqs.fa", package = "rBAPS")
-snp.matrix <- load_fasta(msa)
+snp.matrix <- rBAPS:::load_fasta(msa)
 }
 \seealso{
 rhierbaps::load_fasta

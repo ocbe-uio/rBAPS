@@ -46,14 +46,6 @@ greedyMix(
 \item{fixedK}{if \code{TRUE}, the number of populations is fixed}
 
 \item{verbose}{if \code{TRUE}, prints extra output information}
-
-\item{rowsFromInd}{a list of rows for each individual}
-
-\item{noalle}{number of alleles}
-
-\item{adjprior}{ajuster prior probabilities}
-
-\item{priorTerm}{prior terms}
 }
 \description{
 Clustering of individuals

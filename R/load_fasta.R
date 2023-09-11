@@ -5,16 +5,17 @@
 #'
 #' @param msa Either the location of a fasta file or ape DNAbin object containing the multiple sequence alignment data to be clustered
 #' @param keep_singletons A logical indicating whether to consider singleton mutations in calculating the clusters
+#' @param output_numbers A logical indicating whether to output the data as
+#' numbers (TRUE) or letters (FALSE)
 #'
 #' @return A character matrix with filtered SNP data
 #'
 #' @examples
 #' msa <- system.file("extdata", "seqs.fa", package = "rBAPS")
-#' snp.matrix <- load_fasta(msa)
+#' snp.matrix <- rBAPS:::load_fasta(msa)
 #' @author Gerry Tonkin-Hill, Waldir Leoncio
 #' @seealso rhierbaps::load_fasta
 #' @importFrom ape read.FASTA as.DNAbin
-#' @export
 load_fasta <- function(msa, keep_singletons = FALSE, output_numbers = TRUE) {
 
   # Check inputs
