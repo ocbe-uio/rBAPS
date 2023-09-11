@@ -10,9 +10,10 @@
 #' @param partitionSummary partitionSummary
 #' @param popnames popnames
 #' @param fixedK fixedK
+#' @param verbose if \code{TRUE}, prints extra output information
 writeMixtureInfo <- function(
   logml, rowsFromInd, data, adjprior, priorTerm, outPutFile, inputFile,
-  partitionSummary, popnames, fixedK
+  partitionSummary, popnames, fixedK, verbose
 ) {
   changesInLogml <- list()
   ninds <- size(data, 1) / rowsFromInd
@@ -30,15 +31,16 @@ writeMixtureInfo <- function(
     message("Output saved to", outPutFile)
     sink(outPutFile, split = TRUE) # save in text anyway.
   }
-
-  dispLine()
-  cat("RESULTS OF INDIVIDUAL LEVEL MIXTURE ANALYSIS:\n")
-  cat("Data file: ", inputFile, "\n")
-  cat("Model: independent\n")
-  cat("Number of clustered individuals: ", ownNum2Str(ninds), "\n")
-  cat("Number of groups in optimal partition: ", ownNum2Str(npops), "\n")
-  cat("Log(marginal likelihood) of optimal partition: ", ownNum2Str(logml), "\n")
-  cat(" ")
+  if (verbose) {
+    dispLine()
+    cat("RESULTS OF INDIVIDUAL LEVEL MIXTURE ANALYSIS:\n")
+    cat("Data file: ", inputFile, "\n")
+    cat("Model: independent\n")
+    cat("Number of clustered individuals: ", ownNum2Str(ninds), "\n")
+    cat("Number of groups in optimal partition: ", ownNum2Str(npops), "\n")
+    cat("Log(marginal likelihood) of optimal partition: ", ownNum2Str(logml), "\n")
+    cat(" ")
+  }
   if (fid != -1) {
     append(fid, "RESULTS OF INDIVIDUAL LEVEL MIXTURE ANALYSIS:\n")
     append(fid, c("Data file: ", inputFile, "\n"))
@@ -64,7 +66,7 @@ writeMixtureInfo <- function(
   }
 
   cluster_count <- length(unique(PARTITION))
-  cat("Best Partition: ")
+  if (verbose) cat("Best Partition: ")
   if (fid != -1) {
     append(fid, c("Best Partition: ", "\n"))
   }
@@ -96,7 +98,7 @@ writeMixtureInfo <- function(
       # Take one line and display it.
       new_line <- takeLine(text, 58)
       text <- (length(new_line) + 1):length(text)
-      cat(new_line)
+      if (verbose) cat(new_line)
       if (fid != -1) {
         append(fid, new_line)
         append(fid, "\n")
@@ -108,7 +110,7 @@ writeMixtureInfo <- function(
       }
     }
     if (any(text != "")) {
-      cat(text)
+      if (verbose) cat(text)
       if (fid != -1) {
         append(fid, text)
         append(fid, "\n")
@@ -117,12 +119,14 @@ writeMixtureInfo <- function(
   }
 
   if (npops > 1) {
-    cat("\n")
-    cat("\n")
-    cat(
-      "Changes in log(marginal likelihood)",
-      " if indvidual i is moved to group j:\n"
-    )
+    if (verbose) {
+      cat("\n")
+      cat("\n")
+      cat(
+        "Changes in log(marginal likelihood)",
+        " if indvidual i is moved to group j:\n"
+      )
+    }
     if (fid != -1) {
       append(fid, " ")
       append(fid, "\n")
@@ -155,7 +159,7 @@ writeMixtureInfo <- function(
     for (i in 1:cluster_count) {
       ekarivi <- c(ekarivi, ownNum2Str(i), blanks(8 - floor(log10(i))))
     }
-    cat(ekarivi)
+    if (verbose) cat(ekarivi)
     if (fid != -1) {
       append(fid, ekarivi)
       append(fid, "\n")
@@ -175,16 +179,13 @@ writeMixtureInfo <- function(
       for (j in 1:npops) {
         rivi <- c(rivi, "  ", logml2String(omaRound(muutokset[j])))
       }
-      cat(rivi)
+      if (verbose) cat(rivi)
       if (fid != -1) {
         append(fid, rivi)
         append(fid, "\n")
       }
     }
-
-    cat("\n")
-    cat("\n")
-    cat("KL-divergence matrix in PHYLIP format:\n")
+    if (verbose) cat("\n\nKL-divergence matrix in PHYLIP format:\n")
 
     dist_mat <- zeros(npops, npops)
     if (fid != -1) {
@@ -210,7 +211,7 @@ writeMixtureInfo <- function(
       d[, , pop1] <- squeezed_COUNTS_prior / sum(squeezed_COUNTS_prior)
     }
     ekarivi <- as.character(npops)
-    cat(ekarivi)
+    if (verbose) cat(ekarivi)
     if (fid != -1) {
       append(fid, ekarivi)
       append(fid, "\n")
@@ -238,20 +239,19 @@ writeMixtureInfo <- function(
       for (pop2 in 1:npops) {
         rivi <- c(rivi, kldiv2str(dist_mat[pop1, pop2]))
       }
-      cat(rivi)
+      if (verbose) cat(rivi)
       if (fid != -1) {
         append(fid, rivi)
         append(fid, "\n")
       }
     }
   }
-
-  cat("\n")
-  cat("\n")
-  cat(
-    "List of sizes of 10 best visited partitions",
-    "and corresponding log(ml) values\n"
-  )
+  if (verbose) {
+    cat(
+      "\n\nList of sizes of 10 best visited partitions",
+      "and corresponding log(ml) values\n"
+    )
+  }
 
   if (fid != -1) {
     append(fid, " ")
@@ -282,7 +282,7 @@ writeMixtureInfo <- function(
       "    ",
       as.character(partitionSummary[part, 2])
     )
-    cat(line)
+    if (verbose) cat(line)
     if (fid != -1) {
       append(fid, line)
       append(fid, "\n")
@@ -290,10 +290,7 @@ writeMixtureInfo <- function(
   }
 
   if (!fixedK) {
-    cat("\n")
-    cat("\n")
-    cat("Probabilities for number of clusters\n")
-
+    if (verbose) cat("\n\nProbabilities for number of clusters\n")
     if (fid != -1) {
       append(fid, " ")
       append(fid, "\n")
@@ -324,7 +321,7 @@ writeMixtureInfo <- function(
         line <- c(
           as.character(npopsTaulu[i]), "   ", as.character(probs[i])
         )
-        cat(line, "\n")
+        if (verbose) cat(line, "\n")
         if (fid != -1) {
           append(fid, line)
           append(fid, "\n")

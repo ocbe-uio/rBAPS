@@ -14,7 +14,8 @@ writeMixtureInfo(
   inputFile,
   partitionSummary,
   popnames,
-  fixedK
+  fixedK,
+  verbose
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ writeMixtureInfo(
 \item{popnames}{popnames}
 
 \item{fixedK}{fixedK}
+
+\item{verbose}{if \code{TRUE}, prints extra output information}
 }
 \description{
 Writes information about the mixture
