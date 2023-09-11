@@ -21,13 +21,15 @@ handleData <- function(raw_data, format = "Genepop") {
   # koodi pienimm?ksi koodiksi, joka isompi kuin mik??n k?yt?ss?oleva koodi.
   # T?m?n j?lkeen funktio muuttaa alleelikoodit siten, ett?yhden lokuksen j
   # koodit saavat arvoja v?lill?1,...,noalle(j).
+  nloci <- switch(
+    tolower(format),
+    "genepop" = ncol(raw_data) - 1L,
+    "baps"    = ncol(raw_data) - 1L,
+    "fasta"   = ncol(raw_data),
+    "vcf"     = stop("VCF format not supported for processing yet"),
+    "bam"     = stop("BAM format not supported for processing yet")
+  )
   data <- as.matrix(raw_data)
-  if (format %in% c("genepop", "baps")) {
-    nloci <- size(raw_data, 2) - 1
-  } else {
-    nloci <- size(raw_data, 2)
-  }
-
   dataApu <- data[, 1:nloci]
   nollat <- matlab2r::find(dataApu == 0)
   if (!isempty(nollat)) {
