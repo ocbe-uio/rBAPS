@@ -33,29 +33,39 @@ test_that("handleData works as expected", {
 
 context("Processing files through greedyMix")
 
-df_fasta <- greedyMix(
+raw_fasta <- importFile(
   data   = file.path(path_inst, "FASTA_clustering_haploid.fasta"),
   format = "FASTA"
 )
-df_vcf <- greedyMix(
+raw_vcf <- importFile(
   data    = file.path(path_inst, "vcf_example.vcf"),
   format  = "VCF",
   verbose = FALSE
 )
-df_bam <- greedyMix(
+df_bam <- importFile(
   data    = file.path(path_inst, "bam_example.bam"),
   format  = "BAM",
 )
+
 test_that("Files are imported correctly", {
-  expect_equal(dim(df_fasta), c(5, 99))
-  expect_equal(dim(df_vcf), c(variants = 2, fix_cols = 8, gt_cols = 3))
+  expect_equal(dim(raw_fasta), c(5, 99))
+  expect_equal(dim(raw_vcf), c(variants = 2, fix_cols = 8, gt_cols = 3))
   expect_error(
-    greedyMix(
+    importFile(
       data    = paste(path_inst, "sam_example.sam", sep = "/"),
       format  = "SAM",
     )
   )
   expect_equal(length(df_bam[[1]]), 13)
+})
+
+df_fasta <- greedyMix(
+  data   = file.path(path_inst, "FASTA_clustering_haploid.fasta"),
+  format = "FASTA"
+)
+test_that("greedyMix() works", {
+  expect_error(greedyMix(file.path(path_inst, "vcf_example.vcf")))
+  expect_error(greedyMix(file.path(path_inst, "bam_example.bam")))
 })
 
 context("Linkage")
