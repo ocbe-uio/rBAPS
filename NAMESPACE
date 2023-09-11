@@ -2,6 +2,7 @@
 
 export(greedyMix)
 export(handleData)
+export(importFile)
 export(load_fasta)
 importFrom(R6,R6Class)
 importFrom(Rsamtools,scanBam)

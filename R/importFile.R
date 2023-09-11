@@ -1,3 +1,14 @@
+#' @title Import data file
+#' @description Imports data from several formats (FASTA, VCF, SAM, BAM,
+#' Genepop).
+#' @param data raw dataset
+#' @param format data format (guesses from extension if not provided)
+#' @param verbose if \code{TRUE}, prints extra output information
+#' @return The data in a format that can be used by the other functions
+#' @export
+#' @examples
+#' path_inst <- system.file("extdata", "", package = "rBAPS")
+#' importFile(file.path(path_inst, "FASTA_clustering_haploid.fasta"))
 importFile <- function(data, format, verbose) {
   # Parsing data format ------------------------------------------------------
 
