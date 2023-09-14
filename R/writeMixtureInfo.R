@@ -15,7 +15,6 @@ writeMixtureInfo <- function(
   logml, rowsFromInd, data, adjprior, priorTerm, outPutFile, inputFile,
   partitionSummary, popnames, fixedK, verbose
 ) {
-  changesInLogml <- list()
   ninds <- size(data, 1) / rowsFromInd
   npops <- size(COUNTS, 3)
   # Check that the names refer to individuals

@@ -73,5 +73,5 @@ greedyMix <- function(
   )
 
   # Updateing results ==========================================================
-  return(c(out, "changesInLogml" = changesInLogml))
+  return(c(out, list("changesInLogml" = changesInLogml)))
 }
