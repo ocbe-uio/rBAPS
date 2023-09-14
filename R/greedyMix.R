@@ -23,7 +23,7 @@
 #' data <- system.file("extdata", "FASTA_clustering_haploid.fasta", package = "rBAPS")
 #' greedyMix(data, "fasta")
 greedyMix <- function(
-  data, format, partitionCompare = NULL, ninds = 1L, npops = 1L,
+  data, format = gsub("^.*\\.", "", data), partitionCompare = NULL, ninds = 1L, npops = 1L,
   counts = NULL, sumcounts = NULL, max_iter = 100L, alleleCodes = NULL,
   inp = NULL, popnames = NULL, fixedK = FALSE, verbose = FALSE
 ) {
@@ -73,5 +73,5 @@ greedyMix <- function(
   )
 
   # Updateing results ==========================================================
-  return(c(out, "changesInLogml" = changesInLogml))
+  return(c(out, list("changesInLogml" = changesInLogml)))
 }

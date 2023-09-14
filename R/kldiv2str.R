@@ -1,10 +1,11 @@
-kldiv2str <- function(div) {
-  mjono <- "      "
+kldiv2str <- function(div, max_chars = 6L) {
+  if (max_chars > 6L) message("max_chars > 6L, truncating to 6L")
+  mjono <- rep(" ", max_chars)
   if (abs(div) < 100) {
     # Ei tarvita e-muotoa
-    mjono[6] <- as.character((floor(div * 1000)) %% 10)
-    mjono[5] <- as.character((floor(div * 100)) %% 10)
-    mjono[4] <- as.character((floor(div * 10)) %% 10)
+    if (max_chars >= 6) mjono[6] <- as.character((floor(div * 1000)) %% 10)
+    if (max_chars >= 5) mjono[5] <- as.character((floor(div * 100)) %% 10)
+    if (max_chars >= 4) mjono[4] <- as.character((floor(div * 10)) %% 10)
     mjono[3] <- "."
     mjono[2] <- as.character((floor(div)) %% 10)
     arvo <- (floor(div / 10)) %% 10

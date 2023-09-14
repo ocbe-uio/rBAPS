@@ -1,10 +1,12 @@
 #' @title Logml to string
 #' @description Returns a string representation of a logml
 #' @param logml input Logml
+#' @param
+#' @param leading_zeros_replacement string to replace leading zeros with
 #' @return String version of logml
-logml2String <- function(logml) {
+logml2String <- function(logml, leading_zeros_replacement = " ") {
+  mjono <- rep(" ", 7L)
   # Palauttaa logml:n string-esityksen.
-  mjono <- "       "
 
   if (logml == -Inf) {
     mjono[7] <- "-"
@@ -20,8 +22,9 @@ logml2String <- function(logml) {
     mjono[3] <- palautaYks(abs(logml), 2)
     mjono[2] <- palautaYks(abs(logml), 3)
     pointer <- 2
-    while (mjono[pointer] == "0" & pointer < 7) {
-      mjono[pointer] <- " "
+    while (mjono[pointer] == "0" && pointer < 7) {
+      # Removes leading zeros
+      mjono[pointer] <- leading_zeros_replacement
       pointer <- pointer + 1
     }
     if (logml < 0) {

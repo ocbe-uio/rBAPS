@@ -4,10 +4,12 @@
 \alias{logml2String}
 \title{Logml to string}
 \usage{
-logml2String(logml)
+logml2String(logml, leading_zeros_replacement = " ")
 }
 \arguments{
 \item{logml}{input Logml}
+
+\item{leading_zeros_replacement}{string to replace leading zeros with}
 }
 \value{
 String version of logml

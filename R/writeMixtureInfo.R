@@ -15,7 +15,6 @@ writeMixtureInfo <- function(
   logml, rowsFromInd, data, adjprior, priorTerm, outPutFile, inputFile,
   partitionSummary, popnames, fixedK, verbose
 ) {
-  changesInLogml <- list()
   ninds <- size(data, 1) / rowsFromInd
   npops <- size(COUNTS, 3)
   # Check that the names refer to individuals
@@ -76,41 +75,34 @@ writeMixtureInfo <- function(
     cluster_size <- length(indsInM)
 
     if (names) {
-      text <- c(
-        "Cluster ",
-        as.character(m),
-        ": {",
-        as.character(popnames[[indsInM[1]]])
-      )
+      text <- c("Cluster", m, ": {", popnames[[indsInM[1]]])
       for (k in 2:cluster_size) {
-        text <- c(text, ", ", as.character(popnames[[indsInM[k]]]))
+        text <- c(text, ", ", popnames[[indsInM[k]]])
       }
     } else {
-      text <- c(
-        "Cluster ", as.character(m), ": {", as.character(indsInM[1])
-      )
+      text <- c("Cluster", m, ": {", indsInM[1])
       for (k in 2:cluster_size) {
-        text <- c(text, ",", as.character(indsInM[k]))
+        text <- c(text, ", ", indsInM[k])
       }
     }
     text <- c(text, "}\n")
     while (length(text) > 58) {
-      # Take one line and display it.
+      # Take one line (new_line) and display it.
       new_line <- takeLine(text, 58)
-      text <- (length(new_line) + 1):length(text)
-      if (verbose) cat(new_line)
+      text <- text[(length(new_line) + 1):length(text)]
+      if (verbose) cat(new_line, sep = "")
       if (fid != -1) {
         append(fid, new_line)
         append(fid, "\n")
       }
-      if (length(text) > 0) {
-        text <- c(blanks(length_of_beginning), text)
-      } else {
+      if (any(is.na(text))) {
         text <- ""
+      } else {
+        text <- c(blanks(length_of_beginning), text)
       }
     }
     if (any(text != "")) {
-      if (verbose) cat(text)
+      if (verbose) cat(text, sep = "")
       if (fid != -1) {
         append(fid, text)
         append(fid, "\n")
@@ -169,7 +161,6 @@ writeMixtureInfo <- function(
     changesInLogml <- t(LOGDIFF)
     for (ind in 1:ninds) {
       muutokset <- changesInLogml[, ind]
-
       if (names) {
         nimi <- as.character(popnames[ind])
         rivi <- c(blanks(maxSize - length(nimi)), nimi, ":\n")
@@ -177,22 +168,19 @@ writeMixtureInfo <- function(
         rivi <- c("\n", blanks(4 - floor(log10(ind))), ownNum2Str(ind), ":\n")
       }
       for (j in 1:npops) {
-        rivi <- c(rivi, "  ", logml2String(omaRound(muutokset[j])))
+        rivi <- c(rivi, logml2String(omaRound(muutokset[j]), ""))
       }
-      if (verbose) cat(rivi)
+      if (verbose) cat(rivi, sep = "")
       if (fid != -1) {
         append(fid, rivi)
         append(fid, "\n")
       }
     }
-    if (verbose) cat("\n\nKL-divergence matrix in PHYLIP format:\n")
+    if (verbose) cat("\n\nKL-divergence matrix in PHYLIP format: ")
 
     dist_mat <- zeros(npops, npops)
     if (fid != -1) {
-      append(fid, " ")
-      append(fid, " ")
-      append(fid, "KL-divergence matrix in PHYLIP format:")
-      append(fid, "\n")
+      append(fid, "  KL-divergence matrix in PHYLIP format: ")
     }
 
     COUNTS <- COUNTS[seq_len(nrow(adjprior)), seq_len(ncol(adjprior)), , drop = FALSE]
@@ -237,9 +225,9 @@ writeMixtureInfo <- function(
     for (pop1 in 1:npops) {
       rivi <- c("\nCluster_", as.character(pop1), "\n")
       for (pop2 in 1:npops) {
-        rivi <- c(rivi, kldiv2str(dist_mat[pop1, pop2]))
+        rivi <- c(rivi, kldiv2str(dist_mat[pop1, pop2], 4L))
       }
-      if (verbose) cat(rivi)
+      if (verbose) cat(rivi, sep = "")
       if (fid != -1) {
         append(fid, rivi)
         append(fid, "\n")
