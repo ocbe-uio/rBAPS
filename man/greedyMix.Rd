@@ -6,7 +6,7 @@
 \usage{
 greedyMix(
   data,
-  format,
+  format = gsub("^.*\\\\.", "", data),
   partitionCompare = NULL,
   ninds = 1L,
   npops = 1L,
