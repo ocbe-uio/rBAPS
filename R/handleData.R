@@ -30,17 +30,17 @@ handleData <- function(raw_data, format = "Genepop") {
     "bam"     = stop("BAM format not supported for processing yet")
   )
   data <- as.matrix(raw_data)
-  dataApu <- data[, 1:nloci]
+  dataApu <- data[, seq_len(nloci)]
   nollat <- matlab2r::find(dataApu == 0)
   if (!isempty(nollat)) {
     isoinAlleeli <- base::max(base::max(dataApu))
     dataApu[nollat] <- isoinAlleeli + 1
-    data[, 1:nloci] <- dataApu
+    data[, seq_len(nloci)] <- dataApu
   }
 
   noalle <- zeros(1, nloci)
   alleelitLokuksessa <- cell(nloci, 1, expandable = TRUE)
-  for (i in 1:nloci) {
+  for (i in seq_len(nloci)) {
     alleelitLokuksessaI <- unique(data[, i])
     alleelitLokuksessa[[i]] <- sort(alleelitLokuksessaI[
       matlab2r::find(alleelitLokuksessaI >= 0)
@@ -48,7 +48,7 @@ handleData <- function(raw_data, format = "Genepop") {
     noalle[i] <- length(alleelitLokuksessa[[i]])
   }
   alleleCodes <- zeros(base::max(noalle), nloci)
-  for (i in 1:nloci) {
+  for (i in seq_len(nloci)) {
     alleelitLokuksessaI <- alleelitLokuksessa[[i]]
     puuttuvia <- base::max(noalle) - length(alleelitLokuksessaI)
     alleleCodes[, i] <- as.matrix(c(alleelitLokuksessaI, zeros(puuttuvia, 1)))
@@ -83,7 +83,7 @@ handleData <- function(raw_data, format = "Genepop") {
 
   adjprior <- zeros(base::max(noalle), nloci)
   priorTerm <- 0
-  for (j in 1:nloci) {
+  for (j in seq_len(nloci)) {
     adjprior[, j] <- as.matrix(c(
       repmat(1 / noalle[j], c(noalle[j], 1)),
       ones(base::max(noalle) - noalle[j], 1)
