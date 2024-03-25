@@ -2,7 +2,6 @@
 #' @param data data file
 #' @param format Data format. Format supported: "FASTA", "VCF" ,"BAM", "GenePop"
 #' @param partitionCompare a list of partitions to compare
-#' @param ninds number of individuals
 #' @param npops number of populations
 #' @param counts counts
 #' @param sumcounts sumcounts
@@ -23,7 +22,7 @@
 #' data <- system.file("extdata", "FASTA_clustering_haploid.fasta", package = "rBAPS")
 #' greedyMix(data, "fasta")
 greedyMix <- function(
-  data, format = gsub("^.*\\.", "", data), partitionCompare = NULL, ninds = 1L, npops = 1L,
+  data, format = gsub("^.*\\.", "", data), partitionCompare = NULL, npops = 1L,
   counts = NULL, sumcounts = NULL, max_iter = 100L, alleleCodes = NULL,
   inp = NULL, popnames = NULL, fixedK = FALSE, verbose = FALSE
 ) {
@@ -46,10 +45,10 @@ greedyMix <- function(
     )
   }
 
-
   # Generating partition summary ===============================================
-  ekat <- seq(1L, c[["rowsFromInd"]], ninds * c[["rowsFromInd"]]) # ekat = (1:rowsFromInd:ninds*rowsFromInd)';
-  c[["rows"]] <- c(ekat, ekat + c[["rowsFromInd"]] - 1L) # c.rows = [ekat ekat+rowsFromInd-1]
+  ninds <- length(unique(data$data[, ncol(data$data)]))
+  ekat <- seq(1L, ninds * c[["rowsFromInd"]], c[["rowsFromInd"]])
+  c[["rows"]] <- cbind(ekat, ekat + c[["rowsFromInd"]] - 1L)
   logml_npops_partitionSummary <- indMixWrapper(c, npops, counts, sumcounts, max_iter, fixedK, verbose)
   logml <- logml_npops_partitionSummary[["logml"]]
   npops <- logml_npops_partitionSummary[["npops"]]
