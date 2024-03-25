@@ -42,8 +42,6 @@ importFile <- function(data, format, verbose) {
     } else {
       out <- adegenet::read.genepop(data)
     }
-  } else if (format == "baps") {
-    out <- process_BAPS_data(data, NULL)$data
   } else {
     stop("Format not supported.")
   }

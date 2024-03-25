@@ -27,15 +27,30 @@ greedyMix <- function(
   inp = NULL, popnames = NULL, fixedK = FALSE, verbose = FALSE
 ) {
   # Importing and handling data ================================================
-  data <- importFile(data, format, verbose)
-  data <- handleData(data, tolower(format))
-  c <- list(
-    noalle = data[["noalle"]],
-    data = data[["newData"]],
-    adjprior = data[["adjprior"]],
-    priorTerm = data[["priorTerm"]],
-    rowsFromInd = data[["rowsFromInd"]]
-  )
+  if (tolower(format) %in% "baps") {
+    data <- process_BAPS_data(data, NULL)
+    c <- list(
+      noalle = data[["noalle"]],
+      data = data[["data"]],
+      adjprior = data[["adjprior"]],
+      priorTerm = data[["priorTerm"]],
+      rowsFromInd = data[["rowsFromInd"]],
+      Z = data[["Z"]],
+      dist = data[["dist"]]
+    )
+  } else {
+    data <- importFile(data, format, verbose)
+    data <- handleData(data, tolower(format))
+    c <- list(
+      noalle = data[["noalle"]],
+      data = data[["newData"]],
+      adjprior = data[["adjprior"]],
+      priorTerm = data[["priorTerm"]],
+      rowsFromInd = data[["rowsFromInd"]],
+      Z = data[["Z"]],
+      dist = data[["dist"]]
+    )
+  }
 
   # Comparing partitions =======================================================
   if (!is.null(partitionCompare)) {
