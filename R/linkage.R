@@ -26,11 +26,11 @@ linkage <- function(Y, method = "co") {
   monotonic <- 1
   Z <- zeros(m - 1, 3) # allocate the output matrix.
   N <- zeros(1, 2 * m - 1)
-  N[1:m] <- 1
+  N[seq_len(m)] <- 1
   n <- m # since m is changing, we need to save m in n.
-  R <- 1:n
+  R <- seq_len(n)
   for (s in 1:(n - 1)) {
-    X <- as.matrix(as.vector(Y), ncol = 1)
+    X <- as.matrix(as.vector(Y), nrow = 1)
     v <- matlab2r::min(X)$mins
     k <- matlab2r::min(X)$idx
 
@@ -83,11 +83,14 @@ linkage <- function(Y, method = "co") {
     )
     J <- c(J, i * (m - (i + 1) / 2) - m + j)
     Y <- Y[-J] # no need for the cluster information about j
+
     # update m, N, R
     m <- m - 1
     N[n + s] <- N[R[i]] + N[R[j]]
     R[i] <- n + s
-    R[j:(n - 1)] <- R[(j + 1):n]
+    if (j < n) {
+      R[j:(n - 1)] <- R[(j + 1):n]
+    }
   }
   return(Z)
 }

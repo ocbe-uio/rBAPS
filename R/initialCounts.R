@@ -7,8 +7,8 @@ initialCounts <- function(partition, data, npops, rows, noalle, adjprior) {
 
   counts <- zeros(base::max(noalle), nloci, npops)
   sumcounts <- zeros(npops, nloci)
-  for (i in 1:npops) {
-    for (j in 1:nloci) {
+  for (i in seq_len(npops)) {
+    for (j in seq_len(nloci)) {
       havainnotLokuksessa <- matlab2r::find(partition == i & data[, j] >= 0)
       sumcounts[i, j] <- length(havainnotLokuksessa)
       for (k in 1:noalle[j]) {

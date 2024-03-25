@@ -21,11 +21,9 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
     Z <- NULL
   }
 
-
-  rm(c)
-  nargin <- length(as.list(match.call())) - 1
-  if (nargin < 2) {
-    dispText <- 1
+  if (missing(npops)) {
+    # Recreate npopsTaulu from objects other than npops
+    dispText <- TRUE
     npopstext <- matrix()
     ready <- FALSE
     teksti <- "Input upper bound to the number of populations (possibly multiple values)"
@@ -75,7 +73,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
   partitionSummary[, 1] <- zeros(30, 1)
   worstLogml <- -1e50
   worstIndex <- 1
-  for (run in seq_along(nruns)) {
+  for (run in seq_len(nruns)) {
     npops <- npopsTaulu[[run]]
     if (dispText) {
       dispLine()
@@ -110,7 +108,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
     # PARHAAN MIXTURE-PARTITION ETSIMINEN
     nRoundTypes <- 7
     kokeiltu <- zeros(nRoundTypes, 1)
-    roundTypes <- c(1, 1) # Ykk�svaiheen sykli kahteen kertaan.
+    roundTypes <- t(c(1, 1)) # Ykk�svaiheen sykli kahteen kertaan.
     ready <- 0
     vaihe <- 1
 
@@ -143,9 +141,9 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
         if (kokeiltu[round] == 1) { # Askelta kokeiltu viime muutoksen j�lkeen
         } else if (round == 0 | round == 1) { # Yksil�n siirt�minen toiseen populaatioon.
           inds <- seq_len(ninds)
-          aputaulu <- cbind(t(inds), rand(ninds, 1))
+          aputaulu <- cbind(inds, rand(ninds, 1))
           aputaulu <- matrix(sortrows(aputaulu, 2), nrow = nrow(aputaulu))
-          inds <- t(aputaulu[, 1])
+          inds <- aputaulu[, 1]
           muutosNyt <- 0
 
           for (ind in inds) {
@@ -324,7 +322,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
             if (round == 5) {
               aputaulu <- c(inds, rand(length(inds), 1))
               aputaulu <- sortrows(aputaulu, 2)
-              inds <- t(aputaulu[, 1])
+              inds <- aputaulu[, 1]
             } else if (round == 6) {
               inds <- returnInOrder(
                 inds, pop, rows, data, adjprior, priorTerm
@@ -525,15 +523,15 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
 
       if (ready == 0) {
         if (vaihe == 1) {
-          roundTypes <- 1
+          roundTypes <- t(1)
         } else if (vaihe == 2) {
-          roundTypes <- c(2, 1)
+          roundTypes <- t(c(2, 1))
         } else if (vaihe == 3) {
-          roundTypes <- c(5, 5, 7)
+          roundTypes <- t(c(5, 5, 7))
         } else if (vaihe == 4) {
-          roundTypes <- c(4, 3, 1)
+          roundTypes <- t(c(4, 3, 1))
         } else if (vaihe == 5) {
-          roundTypes <- c(6, 7, 2, 3, 4, 1)
+          roundTypes <- t(c(6, 7, 2, 3, 4, 1))
         }
       }
     }
