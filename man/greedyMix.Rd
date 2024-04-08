@@ -48,8 +48,10 @@ greedyMix(
 Clustering of individuals
 }
 \examples{
-data <- system.file("extdata", "FASTA_clustering_haploid.fasta", package = "rBAPS")
-greedyMix(data, "fasta")
+\dontrun{ # TEMP: unwrap once #24 is resolved
+data <- system.file("extdata", "BAPS_format_clustering_diploid.txt", package = "rBAPS")
+greedyMix(data, "baps")
+} # TEMP: unwrap once #24 is resolved
 }
 \references{
 Samtools: a suite of programs for interacting
