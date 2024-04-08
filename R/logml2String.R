@@ -1,7 +1,6 @@
 #' @title Logml to string
 #' @description Returns a string representation of a logml
 #' @param logml input Logml
-#' @param
 #' @param leading_zeros_replacement string to replace leading zeros with
 #' @return String version of logml
 logml2String <- function(logml, leading_zeros_replacement = " ") {

@@ -8,7 +8,6 @@ greedyMix(
   data,
   format = gsub("^.*\\\\.", "", data),
   partitionCompare = NULL,
-  ninds = 1L,
   npops = 1L,
   counts = NULL,
   sumcounts = NULL,
@@ -26,8 +25,6 @@ greedyMix(
 \item{format}{Data format. Format supported: "FASTA", "VCF" ,"BAM", "GenePop"}
 
 \item{partitionCompare}{a list of partitions to compare}
-
-\item{ninds}{number of individuals}
 
 \item{npops}{number of populations}
 

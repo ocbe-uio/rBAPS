@@ -1,6 +1,5 @@
 #' @title Bayesian Analysis of Population Structure
 #' @description This is a partial implementation of the BAPS software
-#' @docType package
 #' @name rBAPS
 #' @note Found a bug? Want to suggest a feature? Contribute to the scientific
 #' and open source communities by opening an issue on our home page.
@@ -11,4 +10,5 @@
 #' @importFrom stats runif
 #' @importFrom zeallot %<-%
 #' @importFrom matlab2r nargin log2
-NULL
+#' @importFrom utils read.table
+"_PACKAGE"

@@ -19,8 +19,8 @@
 #' with high-throughput sequencing data. <http://www.htslib.org/>
 #' @export
 #' @examples
-#' data <- system.file("extdata", "FASTA_clustering_haploid.fasta", package = "rBAPS")
-#' greedyMix(data, "fasta")
+#' data <- system.file("extdata", "BAPS_format_clustering_diploid.txt", package = "rBAPS")
+#' greedyMix(data, "baps")
 greedyMix <- function(
   data, format = gsub("^.*\\.", "", data), partitionCompare = NULL, npops = 1L,
   counts = NULL, sumcounts = NULL, max_iter = 100L, alleleCodes = NULL,
