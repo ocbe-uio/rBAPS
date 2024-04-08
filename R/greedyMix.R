@@ -53,6 +53,7 @@ greedyMix <- function(
   }
 
   # Comparing partitions =======================================================
+  ninds <- length(unique(c[["data"]][, ncol(c[["data"]])]))
   if (!is.null(partitionCompare)) {
     logmls <- comparePartitions(
       c[["data"]], nrow(c[["data"]]), partitionCompare[["partitions"]], ninds,
@@ -61,7 +62,6 @@ greedyMix <- function(
   }
 
   # Generating partition summary ===============================================
-  ninds <- length(unique(data$data[, ncol(data$data)]))
   ekat <- seq(1L, ninds * c[["rowsFromInd"]], c[["rowsFromInd"]])
   c[["rows"]] <- cbind(ekat, ekat + c[["rowsFromInd"]] - 1L)
   logml_npops_partitionSummary <- indMixWrapper(c, npops, counts, sumcounts, max_iter, fixedK, verbose)
