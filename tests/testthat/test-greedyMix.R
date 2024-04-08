@@ -57,12 +57,15 @@ test_that("Files are imported correctly", {
     )
   )
   expect_equal(length(raw_bam[[1]]), 13)
+  expect_error(
+    greedyMix(
+      data   = file.path(path_inst, "FASTA_clustering_haploid.fasta"),
+      format = "FASTA"
+    ),
+    "FASTA format not yet supported on greedyMix"
+  )
 })
 
-df_fasta <- greedyMix(
-  data   = file.path(path_inst, "FASTA_clustering_haploid.fasta"),
-  format = "FASTA"
-)
 test_that("greedyMix() works", {
   expect_error(greedyMix(file.path(path_inst, "vcf_example.vcf")))
   expect_error(greedyMix(file.path(path_inst, "bam_example.bam")))

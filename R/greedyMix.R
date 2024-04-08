@@ -2,7 +2,6 @@
 #' @param data data file
 #' @param format Data format. Format supported: "FASTA", "VCF" ,"BAM", "GenePop"
 #' @param partitionCompare a list of partitions to compare
-#' @param ninds number of individuals
 #' @param npops number of populations
 #' @param counts counts
 #' @param sumcounts sumcounts
@@ -20,25 +19,46 @@
 #' with high-throughput sequencing data. <http://www.htslib.org/>
 #' @export
 #' @examples
-#' data <- system.file("extdata", "FASTA_clustering_haploid.fasta", package = "rBAPS")
-#' greedyMix(data, "fasta")
+#' \dontrun{ # TEMP: unwrap once #24 is resolved
+#' data <- system.file("extdata", "BAPS_format_clustering_diploid.txt", package = "rBAPS")
+#' greedyMix(data, "baps")
+#' } # TEMP: unwrap once #24 is resolved
 greedyMix <- function(
-  data, format = gsub("^.*\\.", "", data), partitionCompare = NULL, ninds = 1L, npops = 1L,
+  data, format = gsub("^.*\\.", "", data), partitionCompare = NULL, npops = 1L,
   counts = NULL, sumcounts = NULL, max_iter = 100L, alleleCodes = NULL,
   inp = NULL, popnames = NULL, fixedK = FALSE, verbose = FALSE
 ) {
   # Importing and handling data ================================================
-  data <- importFile(data, format, verbose)
-  data <- handleData(data, tolower(format))
-  c <- list(
-    noalle = data[["noalle"]],
-    data = data[["newData"]],
-    adjprior = data[["adjprior"]],
-    priorTerm = data[["priorTerm"]],
-    rowsFromInd = data[["rowsFromInd"]]
-  )
+  if (tolower(format) %in% "fasta") {
+    stop("FASTA format not yet supported on greedyMix")
+  }
+  if (tolower(format) %in% "baps") {
+    data <- process_BAPS_data(data, NULL)
+    c <- list(
+      noalle = data[["noalle"]],
+      data = data[["data"]],
+      adjprior = data[["adjprior"]],
+      priorTerm = data[["priorTerm"]],
+      rowsFromInd = data[["rowsFromInd"]],
+      Z = data[["Z"]],
+      dist = data[["dist"]]
+    )
+  } else {
+    data <- importFile(data, format, verbose)
+    data <- handleData(data, tolower(format))
+    c <- list(
+      noalle = data[["noalle"]],
+      data = data[["newData"]],
+      adjprior = data[["adjprior"]],
+      priorTerm = data[["priorTerm"]],
+      rowsFromInd = data[["rowsFromInd"]],
+      Z = data[["Z"]],
+      dist = data[["dist"]]
+    )
+  }
 
   # Comparing partitions =======================================================
+  ninds <- length(unique(c[["data"]][, ncol(c[["data"]])]))
   if (!is.null(partitionCompare)) {
     logmls <- comparePartitions(
       c[["data"]], nrow(c[["data"]]), partitionCompare[["partitions"]], ninds,
@@ -46,10 +66,9 @@ greedyMix <- function(
     )
   }
 
-
   # Generating partition summary ===============================================
-  ekat <- seq(1L, c[["rowsFromInd"]], ninds * c[["rowsFromInd"]]) # ekat = (1:rowsFromInd:ninds*rowsFromInd)';
-  c[["rows"]] <- c(ekat, ekat + c[["rowsFromInd"]] - 1L) # c.rows = [ekat ekat+rowsFromInd-1]
+  ekat <- seq(1L, ninds * c[["rowsFromInd"]], c[["rowsFromInd"]])
+  c[["rows"]] <- cbind(ekat, ekat + c[["rowsFromInd"]] - 1L)
   logml_npops_partitionSummary <- indMixWrapper(c, npops, counts, sumcounts, max_iter, fixedK, verbose)
   logml <- logml_npops_partitionSummary[["logml"]]
   npops <- logml_npops_partitionSummary[["npops"]]

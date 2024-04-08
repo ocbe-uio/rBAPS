@@ -2,6 +2,7 @@
 % Please edit documentation in R/rBAPS-package.R
 \docType{package}
 \name{rBAPS}
+\alias{rBAPS-package}
 \alias{rBAPS}
 \title{Bayesian Analysis of Population Structure}
 \description{
@@ -11,4 +12,21 @@ This is a partial implementation of the BAPS software
 Found a bug? Want to suggest a feature? Contribute to the scientific
 and open source communities by opening an issue on our home page.
 Check the "BugReports" field on the package description for the URL.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item Report bugs at \url{https://github.com/ocbe-uio/rBAPS/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Waldir Leoncio \email{w.l.netto@medisin.uio.no}
+
+Authors:
+\itemize{
+  \item Jukka Corander \email{jukka.corander@medisin.uio.no}
+  \item Gerry Tonkin-Hill \email{jukka.corander@medisin.uio.no}
+}
+
 }

@@ -35,7 +35,7 @@ newGetDistances <- function(data, rowsFromInd) {
   y <- zeros(size(toka))
   y <- apply(y, 2, as.integer)
 
-  for (j in 1:nloci) {
+  for (j in seq_len(nloci)) {
     for (k in 1:rowsFromInd) {
       x[, k] <- data[eka[, k], j]
       y[, k] <- data[toka[, k], j]

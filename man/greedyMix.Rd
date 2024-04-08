@@ -8,7 +8,6 @@ greedyMix(
   data,
   format = gsub("^.*\\\\.", "", data),
   partitionCompare = NULL,
-  ninds = 1L,
   npops = 1L,
   counts = NULL,
   sumcounts = NULL,
@@ -26,8 +25,6 @@ greedyMix(
 \item{format}{Data format. Format supported: "FASTA", "VCF" ,"BAM", "GenePop"}
 
 \item{partitionCompare}{a list of partitions to compare}
-
-\item{ninds}{number of individuals}
 
 \item{npops}{number of populations}
 
@@ -51,8 +48,10 @@ greedyMix(
 Clustering of individuals
 }
 \examples{
-data <- system.file("extdata", "FASTA_clustering_haploid.fasta", package = "rBAPS")
-greedyMix(data, "fasta")
+\dontrun{ # TEMP: unwrap once #24 is resolved
+data <- system.file("extdata", "BAPS_format_clustering_diploid.txt", package = "rBAPS")
+greedyMix(data, "baps")
+} # TEMP: unwrap once #24 is resolved
 }
 \references{
 Samtools: a suite of programs for interacting
