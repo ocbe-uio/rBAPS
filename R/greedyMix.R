@@ -27,6 +27,9 @@ greedyMix <- function(
   inp = NULL, popnames = NULL, fixedK = FALSE, verbose = FALSE
 ) {
   # Importing and handling data ================================================
+  if (tolower(format) %in% "fasta") {
+    stop("FASTA format not yet supported on greedyMix")
+  }
   if (tolower(format) %in% "baps") {
     data <- process_BAPS_data(data, NULL)
     c <- list(
