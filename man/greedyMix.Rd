@@ -8,7 +8,7 @@ greedyMix(
   data,
   format = gsub("^.*\\\\.", "", data),
   partitionCompare = NULL,
-  npops = 1L,
+  npops = 3L,
   counts = NULL,
   sumcounts = NULL,
   max_iter = 100L,
