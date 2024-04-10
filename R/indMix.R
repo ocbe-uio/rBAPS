@@ -512,7 +512,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
       }
       if (muutoksia == 0) {
         if (vaihe <= 4) {
-          vaihe <= vaihe + 1
+          vaihe <- vaihe + 1
         } else if (vaihe == 5) {
           ready <- 1
         }
