@@ -89,11 +89,11 @@ greedyPopMix <- function(data, format, partitionCompare = NULL, verbose = TRUE
       rows <- popnames_rowsFromInd$rows
       rm(popnames_rowsFromInd)
     }
-    groupPartition <- PARTITION
+    groupPartition <- globals$PARTITION
     fiksaaPartitioYksiloTasolle(rows, rowsFromInd)
-    c$PARTITION <- PARTITION
-    c$COUNTS <- COUNTS
-    c$SUMCOUNTS <- SUMCOUNTS
+    c$PARTITION <- globals$PARTITION
+    c$COUNTS <- globals$COUNTS
+    c$SUMCOUNTS <- globals$SUMCOUNTS
     c$alleleCodes <- alleleCodes
     c$adjprior <- adjprior
     c$rowsFromInd <- rowsFromInd

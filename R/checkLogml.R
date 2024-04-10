@@ -5,12 +5,12 @@ checkLogml <- function(priorTerm, adjprior, cliques, separators) {
   # global SEPCOUNTS
   # global PARTITION
 
-  npops <- length(unique(PARTITION))
+  npops <- length(unique(globals$PARTITION))
   cliqcounts <- computeCounts(cliques, separators, npops)$cliqcounts
   sepcounts <- computeCounts(cliques, separators, npops)$sepcounts
 
-  CLIQCOUNTS <- cliqcounts
-  SEPCOUNTS <- sepcounts
+  globals$CLIQCOUNTS <- cliqcounts
+  globals$SEPCOUNTS <- sepcounts
 
   logml <- computeLogml(adjprior, priorTerm)$logml
   spatialPrior <- computeLogml(adjprior, priorTerm)$spatialPrior

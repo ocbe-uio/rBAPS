@@ -16,7 +16,7 @@ writeMixtureInfo <- function(
   partitionSummary, popnames, fixedK, verbose
 ) {
   ninds <- size(data, 1) / rowsFromInd
-  npops <- size(COUNTS, 3)
+  npops <- size(globals$COUNTS, 3)
   # Check that the names refer to individuals
 
   # Tarkistetaan ett?nimet viittaavat yksil�ihin
@@ -64,13 +64,13 @@ writeMixtureInfo <- function(
     )
   }
 
-  cluster_count <- length(unique(PARTITION))
+  cluster_count <- length(unique(globals$PARTITION))
   if (verbose) cat("Best Partition: ")
   if (fid != -1) {
     append(fid, c("Best Partition: ", "\n"))
   }
   for (m in 1:cluster_count) {
-    indsInM <- matlab2r::find(PARTITION == m)
+    indsInM <- matlab2r::find(globals$PARTITION == m)
     length_of_beginning <- 11 + floor(log10(m))
     cluster_size <- length(indsInM)
 
@@ -158,7 +158,7 @@ writeMixtureInfo <- function(
     }
 
     # %ninds = size(data,1)/rowsFromInd;
-    changesInLogml <- t(LOGDIFF)
+    changesInLogml <- t(globals$LOGDIFF)
     for (ind in 1:ninds) {
       muutokset <- changesInLogml[, ind]
       if (names) {
@@ -183,9 +183,9 @@ writeMixtureInfo <- function(
       append(fid, "  KL-divergence matrix in PHYLIP format: ")
     }
 
-    COUNTS <- COUNTS[seq_len(nrow(adjprior)), seq_len(ncol(adjprior)), , drop = FALSE]
-    maxnoalle <- size(COUNTS, 1)
-    nloci <- size(COUNTS, 2)
+    globals$COUNTS <- globals$COUNTS[seq_len(nrow(adjprior)), seq_len(ncol(adjprior)), , drop = FALSE]
+    maxnoalle <- size(globals$COUNTS, 1)
+    nloci <- size(globals$COUNTS, 2)
     d <- zeros(maxnoalle, nloci, npops)
     prior <- adjprior
     prior[matlab2r::find(prior == 1)] <- 0
@@ -195,7 +195,7 @@ writeMixtureInfo <- function(
 
     prior[1, nollia] <- 1
     for (pop1 in 1:npops) {
-      squeezed_COUNTS_prior <- squeeze(COUNTS[, , pop1]) + prior
+      squeezed_COUNTS_prior <- squeeze(globals$COUNTS[, , pop1]) + prior
       d[, , pop1] <- squeezed_COUNTS_prior / sum(squeezed_COUNTS_prior)
     }
     ekarivi <- as.character(npops)

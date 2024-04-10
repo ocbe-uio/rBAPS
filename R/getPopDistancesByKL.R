@@ -1,10 +1,10 @@
 getPopDistancesByKL <- function(adjprior) {
   # Laskee populaatioille etהisyydet
   # kהyttהen KL-divergenssi?
-  COUNTS <- COUNTS[seq_len(nrow(adjprior)), seq_len(ncol(adjprior)), ]
-  maxnoalle <- size(COUNTS, 1)
-  nloci <- size(COUNTS, 2)
-  npops <- size(COUNTS, 3)
+  globals$COUNTS <- globals$COUNTS[seq_len(nrow(adjprior)), seq_len(ncol(adjprior)), ]
+  maxnoalle <- size(globals$COUNTS, 1)
+  nloci <- size(globals$COUNTS, 2)
+  npops <- size(globals$COUNTS, 3)
   distances <- zeros(choose(npops, 2), 1)
 
   d <- zeros(maxnoalle, nloci, npops)
@@ -16,8 +16,8 @@ getPopDistancesByKL <- function(adjprior) {
 
   prior[1, nollia] <- 1
   for (pop1 in 1:npops) {
-    d[, , pop1] <- (squeeze(COUNTS[, , pop1]) + prior) / repmat(
-      sum(squeeze(COUNTS[, , pop1]) + prior), c(maxnoalle, ncol(prior))
+    d[, , pop1] <- (squeeze(globals$COUNTS[, , pop1]) + prior) / repmat(
+      sum(squeeze(globals$COUNTS[, , pop1]) + prior), c(maxnoalle, ncol(prior))
     )
   }
   pointer <- 1

@@ -14,7 +14,7 @@ writeMixtureInfoPop <- function(logml, rows, data, adjprior, priorTerm,
                                 outPutFile, inputFile, partitionSummary,
                                 popnames, fixedK) {
   ninds <- size(rows, 1)
-  npops <- size(COUNTS, 3)
+  npops <- size(globals$COUNTS, 3)
   names <- size(popnames, 1) == ninds # Tarkistetaan ett?nimet viittaavat yksilöihin
   changesInLogml <- vector()
   if (!missing(outPutFile)) {
@@ -32,13 +32,13 @@ writeMixtureInfoPop <- function(logml, rows, data, adjprior, priorTerm,
     append(fid, c("Number of clusters in optimal partition:", ownNum2Str(npops), "\n"))
     append(fid, c("Log(marginal likelihood) of optimal partition:", ownNum2Str(logml), "\n\n"))
   }
-  cluster_count <- length(unique(PARTITION))
+  cluster_count <- length(unique(globals$PARTITION))
   cat("Best Partition:\n")
   if (exists("fid")) {
     append(fid, c("Best partition:\n"))
   }
   for (m in 1:cluster_count) {
-    indsInM <- find(PARTITION == m)
+    indsInM <- find(globals$PARTITION == m)
     length_of_beginning <- 11 + floor(log10(m))
     cluster_size <- length(indsInM)
     if (names) {
@@ -101,7 +101,7 @@ writeMixtureInfoPop <- function(logml, rows, data, adjprior, priorTerm,
     if (exists("fid")) {
       append(fid, c(ekarivi, "\n"))
     }
-    changesInLogml <- t(LOGDIFF)
+    changesInLogml <- t(globals$LOGDIFF)
     for (ind in 1:ninds) {
       muutokset <- changesInLogml[, ind]
       if (names) {
@@ -126,16 +126,16 @@ writeMixtureInfoPop <- function(logml, rows, data, adjprior, priorTerm,
       append(fid, " \n")
       append(fid, "KL - divergence matrix in PHYLIP format:\n")
     }
-    maxnoalle <- size(COUNTS, 1)
-    nloci <- size(COUNTS, 2)
+    maxnoalle <- size(globals$COUNTS, 1)
+    nloci <- size(globals$COUNTS, 2)
     d <- zeros(maxnoalle, nloci, npops)
     prior <- adjprior
     prior[find[prior == 1]] <- 0
     nollia <- find(all(prior == 0)) # Lokukset, joissa oli havaittu vain yht?alleelia.
     prior[1, nollia] <- 1
     for (pop1 in 1:npops) {
-      d[, , pop1] <- (squeeze(COUNTS[, , pop1]) + prior) /
-        repmat(sum(squeeze(COUNTS[, , pop1]) + prior), c(maxnoalle, 1))
+      d[, , pop1] <- (squeeze(globals$COUNTS[, , pop1]) + prior) /
+        repmat(sum(squeeze(globals$COUNTS[, , pop1]) + prior), c(maxnoalle, 1))
     }
     ekarivi <- as.character(npops)
     cat(ekarivi, "\n")

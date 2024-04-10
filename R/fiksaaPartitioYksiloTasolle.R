@@ -10,7 +10,7 @@ fiksaaPartitioYksiloTasolle <- function(rows, rowsFromInd) {
     kaikkiRivit <- rows[ind, 1]:rows[ind, 2]
     for (riviNumero in seq(rowsFromInd, length(kaikkiRivit), rowsFromInd)) {
       rivi <- kaikkiRivit[riviNumero]
-      partitio2[rivi / rowsFromInd] <- PARTITION[ind]
+      partitio2[rivi / rowsFromInd] <- globals$PARTITION[ind]
     }
   }
   global_env <- as.environment(1L)

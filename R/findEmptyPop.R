@@ -1,7 +1,7 @@
 findEmptyPop <- function(npops) {
   # % Palauttaa ensimm�isen tyhj�n populaation indeksin. Jos tyhji�
   # % populaatioita ei ole, palauttaa -1:n.
-  pops <- t(unique(PARTITION))
+  pops <- t(unique(globals$PARTITION))
   if (length(pops) == npops) {
     emptyPop <- -1
   } else {
