@@ -46,6 +46,11 @@ raw_bam <- importFile(
   data    = file.path(path_inst, "bam_example.bam"),
   format  = "BAM",
 )
+# TODO: uncomment for testing #24
+# raw_baps <- importFile(
+#   data   = file.path(path_inst, "FASTA_clustering_haploid.fasta"),
+#   format = "FASTA"
+# )
 
 test_that("Files are imported correctly", {
   expect_equal(dim(raw_fasta), c(5, 99))
