@@ -149,7 +149,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
             i1 <- baps.globals$PARTITION[ind]
             muutokset_diffInCounts <- greedyMix_muutokset$new()
             muutokset_diffInCounts <- muutokset_diffInCounts$laskeMuutokset(
-              ind, rows, data, adjprior, priorTerm
+              ind, rows, data, adjprior, priorTerm, npops
             )
             muutokset <- muutokset_diffInCounts$muutokset
             diffInCounts <- muutokset_diffInCounts$diffInCounts

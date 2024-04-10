@@ -341,8 +341,7 @@ greedyMix_muutokset <- R6Class(
     #' @param data data
     #' @param adjprior adjprior
     #' @param priorTerm priorTerm
-    laskeMuutokset = function(ind, globalRows, data, adjprior, priorTerm) {
-      npops <- size(COUNTS, 3)
+    laskeMuutokset = function(ind, globalRows, data, adjprior, priorTerm, npops) {
       muutokset <- baps.globals$LOGDIFF[ind, ]
 
       i1 <- baps.globals$PARTITION[ind]
