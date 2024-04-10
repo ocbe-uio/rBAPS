@@ -353,14 +353,14 @@ greedyMix_muutokset <- R6Class(
       } else {
         rows <- globalRows[ind, 1]:globalRows[ind, 2]
       }
+
       diffInCounts <- computeDiffInCounts(
-      )
         rows, size(baps.globals$COUNTS, 1), size(baps.globals$COUNTS, 2), data
+      )
       diffInSumCounts <- colSums(diffInCounts)
-      new_i1_logml <- computePopulationLogml(i1, adjprior, priorTerm)
-      browser() # TEMP. Tip: browserText()
       baps.globals$COUNTS[, , i1] <- baps.globals$COUNTS[, , i1] - diffInCounts
       baps.globals$SUMCOUNTS[i1, ] <- baps.globals$SUMCOUNTS[i1, ] - diffInSumCounts
+      new_i1_logml <- computePopulationLogml(i1, adjprior, priorTerm)
       baps.globals$COUNTS[, , i1] <- baps.globals$COUNTS[, , i1] + diffInCounts
       baps.globals$SUMCOUNTS[i1, ] <- baps.globals$SUMCOUNTS[i1, ] + diffInSumCounts
 
@@ -370,13 +370,13 @@ greedyMix_muutokset <- R6Class(
 
       ni2 <- length(i2)
 
-      new_i2_logml <- computePopulationLogml(i2, adjprior, priorTerm)
       baps.globals$COUNTS[, , i2] <- baps.globals$COUNTS[, , i2] + repmat(diffInCounts, c(1, 1, ni2))
       baps.globals$SUMCOUNTS[i2, ] <- baps.globals$SUMCOUNTS[i2, ] + repmat(diffInSumCounts, c(ni2, 1))
+      new_i2_logml <- computePopulationLogml(i2, adjprior, priorTerm)
       baps.globals$COUNTS[, , i2] <- baps.globals$COUNTS[, , i2] - repmat(diffInCounts, c(1, 1, ni2))
       baps.globals$SUMCOUNTS[i2, ] <- baps.globals$SUMCOUNTS[i2, ] - repmat(diffInSumCounts, c(ni2, 1))
 
-      muutokset[i2] <- new_i1_logml - i1_logml + new_i2_logml - i2_logml
+      muutokset[i2] <- new_i1_logml[, ] - i1_logml + new_i2_logml[, ] - i2_logml
       baps.globals$LOGDIFF[ind, ] <- muutokset
       return(list(muutokset = muutokset, diffInCounts = diffInCounts))
     },
