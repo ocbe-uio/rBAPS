@@ -4,7 +4,6 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
   # Input npops is not used if called by greedyMix or greedyPopMix.
 
   logml <- 1
-  clearGlobalVars()
 
   noalle <- c$noalle
   rows <- c$rows
@@ -94,16 +93,16 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
     counts <- sumcounts_counts_logml$counts
     logml <- sumcounts_counts_logml$logml
 
-    PARTITION <- zeros(ninds, 1)
+    assign("PARTITION", zeros(ninds, 1), baps.globals)
     for (i in seq_len(ninds)) {
       apu <- rows[i]
-      PARTITION[i] <- initialPartition[apu[1]]
+      baps.globals$PARTITION[i] <- initialPartition[apu[1]]
     }
 
-    COUNTS <- counts
-    SUMCOUNTS <- sumcounts
-    POP_LOGML <- computePopulationLogml(seq_len(npops), adjprior, priorTerm)
-    LOGDIFF <- repmat(-Inf, c(ninds, npops))
+    assign("COUNTS", counts, baps.globals)
+    assign("SUMCOUNTS", sumcounts, baps.globals)
+    assign("POP_LOGML", computePopulationLogml(seq_len(npops), adjprior, priorTerm), baps.globals)
+    assign("LOGDIFF", matrix(-Inf, nrow = ninds, ncol = npops), baps.globals)
 
     # PARHAAN MIXTURE-PARTITION ETSIMINEN
     nRoundTypes <- 7
@@ -147,7 +146,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
           muutosNyt <- 0
 
           for (ind in inds) {
-            i1 <- PARTITION[ind]
+            i1 <- baps.globals$PARTITION[ind]
             muutokset_diffInCounts <- greedyMix_muutokset$new()
             muutokset_diffInCounts <- muutokset_diffInCounts$laskeMuutokset(
               ind, rows, data, adjprior, priorTerm

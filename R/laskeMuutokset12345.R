@@ -343,10 +343,10 @@ greedyMix_muutokset <- R6Class(
     #' @param priorTerm priorTerm
     laskeMuutokset = function(ind, globalRows, data, adjprior, priorTerm) {
       npops <- size(COUNTS, 3)
-      muutokset <- LOGDIFF[ind, ]
+      muutokset <- baps.globals$LOGDIFF[ind, ]
 
-      i1 <- PARTITION[ind]
-      i1_logml <- POP_LOGML[i1]
+      i1 <- baps.globals$PARTITION[ind]
+      i1_logml <- baps.globals$POP_LOGML[i1]
       muutokset[i1] <- 0
 
       if (is.null(dim(globalRows))) {
@@ -355,29 +355,30 @@ greedyMix_muutokset <- R6Class(
         rows <- globalRows[ind, 1]:globalRows[ind, 2]
       }
       diffInCounts <- computeDiffInCounts(
-        rows, size(COUNTS, 1), size(COUNTS, 2), data
       )
+        rows, size(baps.globals$COUNTS, 1), size(baps.globals$COUNTS, 2), data
       diffInSumCounts <- colSums(diffInCounts)
-      COUNTS[, , i1] <- COUNTS[, , i1] - diffInCounts
-      SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] - diffInSumCounts
       new_i1_logml <- computePopulationLogml(i1, adjprior, priorTerm)
-      COUNTS[, , i1] <- COUNTS[, , i1] + diffInCounts
-      SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] + diffInSumCounts
+      browser() # TEMP. Tip: browserText()
+      baps.globals$COUNTS[, , i1] <- baps.globals$COUNTS[, , i1] - diffInCounts
+      baps.globals$SUMCOUNTS[i1, ] <- baps.globals$SUMCOUNTS[i1, ] - diffInSumCounts
+      baps.globals$COUNTS[, , i1] <- baps.globals$COUNTS[, , i1] + diffInCounts
+      baps.globals$SUMCOUNTS[i1, ] <- baps.globals$SUMCOUNTS[i1, ] + diffInSumCounts
 
       i2 <- matlab2r::find(muutokset == -Inf) # Etsit��n populaatiot jotka muuttuneet viime kerran j�lkeen. (Searching for populations that have changed since the last time)
       i2 <- setdiff(i2, i1)
-      i2_logml <- POP_LOGML[i2]
+      i2_logml <- baps.globals$POP_LOGML[i2]
 
       ni2 <- length(i2)
 
-      COUNTS[, , i2] <- COUNTS[, , i2] + repmat(diffInCounts, c(1, 1, ni2))
-      SUMCOUNTS[i2, ] <- SUMCOUNTS[i2, ] + repmat(diffInSumCounts, c(ni2, 1))
       new_i2_logml <- computePopulationLogml(i2, adjprior, priorTerm)
-      COUNTS[, , i2] <- COUNTS[, , i2] - repmat(diffInCounts, c(1, 1, ni2))
-      SUMCOUNTS[i2, ] <- SUMCOUNTS[i2, ] - repmat(diffInSumCounts, c(ni2, 1))
+      baps.globals$COUNTS[, , i2] <- baps.globals$COUNTS[, , i2] + repmat(diffInCounts, c(1, 1, ni2))
+      baps.globals$SUMCOUNTS[i2, ] <- baps.globals$SUMCOUNTS[i2, ] + repmat(diffInSumCounts, c(ni2, 1))
+      baps.globals$COUNTS[, , i2] <- baps.globals$COUNTS[, , i2] - repmat(diffInCounts, c(1, 1, ni2))
+      baps.globals$SUMCOUNTS[i2, ] <- baps.globals$SUMCOUNTS[i2, ] - repmat(diffInSumCounts, c(ni2, 1))
 
       muutokset[i2] <- new_i1_logml - i1_logml + new_i2_logml - i2_logml
-      LOGDIFF[ind, ] <- muutokset
+      baps.globals$LOGDIFF[ind, ] <- muutokset
       return(list(muutokset = muutokset, diffInCounts = diffInCounts))
     },
     #' @param i1 i1
