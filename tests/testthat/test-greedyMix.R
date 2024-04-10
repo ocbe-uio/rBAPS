@@ -5,7 +5,7 @@ path_inst <- system.file("extdata", "", package = "rBAPS")
 
 # Reading datasets -------------------------------------------------------------
 baps_diploid <- read.delim(
-  file = file.path(path_inst, "BAPS_format_clustering_diploid.txt"),
+  file = file.path(path_inst, "BAPS_clustering_diploid.txt"),
   sep = " ",
   header = FALSE
 )
