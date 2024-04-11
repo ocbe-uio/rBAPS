@@ -9,7 +9,7 @@ poistaLiianPienet <- function(npops, rowsFromInd, alaraja) {
   popSize <- zeros(1, npops)
   if (npops > 0) {
     for (i in 1:npops) {
-      popSize[i] <- length(which(PARTITION == i))
+      popSize[i] <- length(which(globals$PARTITION == i))
     }
   }
   miniPops <- which(popSize < alaraja)
@@ -20,19 +20,19 @@ poistaLiianPienet <- function(npops, rowsFromInd, alaraja) {
 
   outliers <- matrix(NA, 0, 0)
   for (pop in miniPops) {
-    inds <- which(PARTITION == pop)
+    inds <- which(globals$PARTITION == pop)
     cat("Removed individuals: ")
     cat(as.character(inds))
     outliers <- matrix(c(outliers, inds), ncol = 1)
   }
 
-  ninds <- length(PARTITION)
-  PARTITION[outliers] <- 0
-  korit <- unique(PARTITION(which(PARTITION > 0)))
+  ninds <- length(globals$PARTITION)
+  globals$PARTITION[outliers] <- 0
+  korit <- unique(globals$PARTITION(which(globals$PARTITION > 0)))
   for (n in 1:length(korit)) {
     kori <- korit[n]
-    yksilot <- which(PARTITION == kori)
-    PARTITION[yksilot] == n
+    yksilot <- which(globals$PARTITION == kori)
+    globals$PARTITION[yksilot] == n
   }
 
   # TODO: add COUNTS, SUMCOUNTS and PARTITION to return or use <-

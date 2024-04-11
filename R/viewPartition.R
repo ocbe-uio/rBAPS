@@ -1,5 +1,5 @@
 viewPartition <- function(osuudet, popnames) {
-  npops <- size(COUNTS, 3)
+  npops <- size(globals$COUNTS, 3)
   nind <- size(osuudet, 1)
 
   # TODO: translate if necessary. Remove if this function won't be used

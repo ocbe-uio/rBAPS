@@ -7,7 +7,7 @@ addToSummary <- function(logml, partitionSummary, worstIndex) {
   apu <- matlab2r::find(abs(partitionSummary[, 2] - logml) < 1e-5)
   if (isempty(apu)) {
     # Nyt l�ydetty partitio ei ole viel� kirjattuna summaryyn.
-    npops <- length(unique(PARTITION))
+    npops <- length(unique(globals$PARTITION))
     partitionSummary[worstIndex, 1] <- npops
     partitionSummary[worstIndex, 2] <- logml
     added <- 1

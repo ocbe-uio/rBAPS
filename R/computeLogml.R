@@ -14,14 +14,14 @@ computeLogml <- function(counts, sumcounts, noalle, data, rowsFromInd) {
   logml <- sum(
     sum(
       sum(
-        GAMMA_LN[
+        globals$GAMMA_LN[
           counts + 1 +
             repmat(rowsInG * (adjnoalle - 1), c(1, 1, npops))
         ]
       )
     )
   ) -
-    npops * sum(sum(GAMMA_LN[1, adjnoalle])) -
-    sum(sum(GAMMA_LN[sumcounts + 1, 1]))
+    npops * sum(sum(globals$GAMMA_LN[1, adjnoalle])) -
+    sum(sum(globals$GAMMA_LN[sumcounts + 1, 1]))
   return(logml)
 }

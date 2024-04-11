@@ -8,11 +8,11 @@
 #' @param allFreqs allFreqs
 #' @param rowsFromInd rowsFromInd
 computePersonalAllFreqs <- function(ind, data, allFreqs, rowsFromInd) {
-  if (isGlobalEmpty(COUNTS)) {
+  if (isGlobalEmpty(globals$COUNTS)) {
     nloci <- npops <- 1
   } else {
-    nloci <- ifelse(is.na(dim(COUNTS)[2]), 1, dim(COUNTS)[2])
-    npops <- ifelse(is.na(dim(COUNTS)[3]), 1, dim(COUNTS)[3])
+    nloci <- ifelse(is.na(dim(globals$COUNTS)[2]), 1, dim(globals$COUNTS)[2])
+    npops <- ifelse(is.na(dim(globals$COUNTS)[3]), 1, dim(globals$COUNTS)[3])
   }
 
   rows <- as.matrix(t(data))[computeRows(rowsFromInd, ind, 1), , drop = FALSE]

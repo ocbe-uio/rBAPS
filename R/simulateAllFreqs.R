@@ -3,14 +3,14 @@
 #' Add each allele to each locus in each population by j 1 / noalle(j). The Dirichlet distributions corresponding to the counts thus obtained simulate values for the allele frequencies of the populations.
 #' @param noalle noalle
 simulateAllFreqs <- function(noalle) {
-  if (isGlobalEmpty(COUNTS)) {
+  if (isGlobalEmpty(globals$COUNTS)) {
     max_noalle <- 0
     nloci <- 0
     npops <- 1
   } else {
-    max_noalle <- size(COUNTS, 1)
-    nloci <- size(COUNTS, 2)
-    npops <- size(COUNTS, 3)
+    max_noalle <- size(globals$COUNTS, 1)
+    nloci <- size(globals$COUNTS, 2)
+    npops <- size(globals$COUNTS, 3)
   }
 
   prioriAlleelit <- zeros(max_noalle, nloci)
@@ -21,9 +21,9 @@ simulateAllFreqs <- function(noalle) {
   }
   prioriAlleelit <- repmat(prioriAlleelit, matrix(c(1, 1, npops), 1))
   counts <- ifelse(
-    test = isGlobalEmpty(COUNTS),
+    test = isGlobalEmpty(globals$COUNTS),
     yes  = prioriAlleelit,
-    no   = COUNTS + prioriAlleelit
+    no   = globals$COUNTS + prioriAlleelit
   )
   allfreqs <- zeros(size(counts))
 

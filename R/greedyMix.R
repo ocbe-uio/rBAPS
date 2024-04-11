@@ -24,7 +24,7 @@
 #' greedyMix(data, "baps")
 #' } # TEMP: unwrap once #24 is resolved
 greedyMix <- function(
-  data, format = gsub("^.*\\.", "", data), partitionCompare = NULL, npops = 1L,
+  data, format = gsub("^.*\\.", "", data), partitionCompare = NULL, npops = 3L,
   counts = NULL, sumcounts = NULL, max_iter = 100L, alleleCodes = NULL,
   inp = NULL, popnames = NULL, fixedK = FALSE, verbose = FALSE
 ) {

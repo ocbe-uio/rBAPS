@@ -291,10 +291,10 @@ admix1_muutokset <- R6Class(
     #' @param omaFreqs own Freqs?
     #' @param logml log maximum likelihood
     laskeMuutokset4 = function(osuus, osuusTaulu, omaFreqs, logml) {
-      if (isGlobalEmpty(COUNTS)) {
+      if (isGlobalEmpty(globals$COUNTS)) {
         npops <- 1
       } else {
-        npops <- ifelse(is.na(dim(COUNTS)[3]), 1, dim(COUNTS)[3])
+        npops <- ifelse(is.na(dim(globals$COUNTS)[3]), 1, dim(globals$COUNTS)[3])
       }
       notEmpty <- which(osuusTaulu > 0.005)
       muutokset <- zeros(npops)
@@ -341,12 +341,11 @@ greedyMix_muutokset <- R6Class(
     #' @param data data
     #' @param adjprior adjprior
     #' @param priorTerm priorTerm
-    laskeMuutokset = function(ind, globalRows, data, adjprior, priorTerm) {
-      npops <- size(COUNTS, 3)
-      muutokset <- LOGDIFF[ind, ]
+    laskeMuutokset = function(ind, globalRows, data, adjprior, priorTerm, npops) {
+      muutokset <- globals$LOGDIFF[ind, ]
 
-      i1 <- PARTITION[ind]
-      i1_logml <- POP_LOGML[i1]
+      i1 <- globals$PARTITION[ind]
+      i1_logml <- globals$POP_LOGML[i1]
       muutokset[i1] <- 0
 
       if (is.null(dim(globalRows))) {
@@ -354,30 +353,31 @@ greedyMix_muutokset <- R6Class(
       } else {
         rows <- globalRows[ind, 1]:globalRows[ind, 2]
       }
+
       diffInCounts <- computeDiffInCounts(
-        rows, size(COUNTS, 1), size(COUNTS, 2), data
+        rows, size(globals$COUNTS, 1), size(globals$COUNTS, 2), data
       )
       diffInSumCounts <- colSums(diffInCounts)
-      COUNTS[, , i1] <- COUNTS[, , i1] - diffInCounts
-      SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] - diffInSumCounts
+      globals$COUNTS[, , i1] <- globals$COUNTS[, , i1] - diffInCounts
+      globals$SUMCOUNTS[i1, ] <- globals$SUMCOUNTS[i1, ] - diffInSumCounts
       new_i1_logml <- computePopulationLogml(i1, adjprior, priorTerm)
-      COUNTS[, , i1] <- COUNTS[, , i1] + diffInCounts
-      SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] + diffInSumCounts
+      globals$COUNTS[, , i1] <- globals$COUNTS[, , i1] + diffInCounts
+      globals$SUMCOUNTS[i1, ] <- globals$SUMCOUNTS[i1, ] + diffInSumCounts
 
       i2 <- matlab2r::find(muutokset == -Inf) # Etsit��n populaatiot jotka muuttuneet viime kerran j�lkeen. (Searching for populations that have changed since the last time)
       i2 <- setdiff(i2, i1)
-      i2_logml <- POP_LOGML[i2]
+      i2_logml <- globals$POP_LOGML[i2]
 
       ni2 <- length(i2)
 
-      COUNTS[, , i2] <- COUNTS[, , i2] + repmat(diffInCounts, c(1, 1, ni2))
-      SUMCOUNTS[i2, ] <- SUMCOUNTS[i2, ] + repmat(diffInSumCounts, c(ni2, 1))
+      globals$COUNTS[, , i2] <- globals$COUNTS[, , i2] + repmat(diffInCounts, c(1, 1, ni2))
+      globals$SUMCOUNTS[i2, ] <- globals$SUMCOUNTS[i2, ] + repmat(diffInSumCounts, c(ni2, 1))
       new_i2_logml <- computePopulationLogml(i2, adjprior, priorTerm)
-      COUNTS[, , i2] <- COUNTS[, , i2] - repmat(diffInCounts, c(1, 1, ni2))
-      SUMCOUNTS[i2, ] <- SUMCOUNTS[i2, ] - repmat(diffInSumCounts, c(ni2, 1))
+      globals$COUNTS[, , i2] <- globals$COUNTS[, , i2] - repmat(diffInCounts, c(1, 1, ni2))
+      globals$SUMCOUNTS[i2, ] <- globals$SUMCOUNTS[i2, ] - repmat(diffInSumCounts, c(ni2, 1))
 
-      muutokset[i2] <- new_i1_logml - i1_logml + new_i2_logml - i2_logml
-      LOGDIFF[ind, ] <- muutokset
+      muutokset[i2] <- new_i1_logml[, ] - i1_logml + new_i2_logml[, ] - i2_logml
+      globals$LOGDIFF[ind, ] <- muutokset
       return(list(muutokset = muutokset, diffInCounts = diffInCounts))
     },
     #' @param i1 i1
@@ -390,45 +390,45 @@ greedyMix_muutokset <- R6Class(
       # % muutos logml:ss�, mik�li korin i1 kaikki yksil�t siirret��n
       # % koriin i.
 
-      npops <- size(COUNTS, 3)
+      npops <- size(globals$COUNTS, 3)
       muutokset <- zeros(npops, 1)
 
-      i1_logml <- POP_LOGML[i1]
+      i1_logml <- globals$POP_LOGML[i1]
 
-      inds <- matlab2r::find(PARTITION == i1)
+      inds <- matlab2r::find(globals$PARTITION == i1)
       ninds <- length(inds)
 
       if (ninds == 0) {
-        diffInCounts <- zeros(size(COUNTS, 1), size(COUNTS, 2))
+        diffInCounts <- zeros(size(globals$COUNTS, 1), size(globals$COUNTS, 2))
         return()
       }
 
       rows <- list()
       for (i in 1:ninds) {
-        ind <- inds(i)
-        lisa <- globalRows(ind, 1):globalRows(ind, 2)
+        ind <- inds[i]
+        lisa <- globalRows[ind, 1]:globalRows[ind, 2]
         rows <- c(rows, t(lisa))
       }
 
       diffInCounts <- computeDiffInCounts(
-        t(rows), size(COUNTS, 1), size(COUNTS, 2), data
+        t(rows), size(globals$COUNTS, 1), size(globals$COUNTS, 2), data
       )
       diffInSumCounts <- sum(diffInCounts)
 
-      COUNTS[, , i1] <- COUNTS[, , i1] - diffInCounts
-      SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] - diffInSumCounts
+      globals$COUNTS[, , i1] <- globals$COUNTS[, , i1] - diffInCounts
+      globals$SUMCOUNTS[i1, ] <- globals$SUMCOUNTS[i1, ] - diffInSumCounts
       new_i1_logml <- computePopulationLogml(i1, adjprior, priorTerm)
-      COUNTS[, , i1] <- COUNTS[, , i1] + diffInCounts
-      SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] + diffInSumCounts
+      globals$COUNTS[, , i1] <- globals$COUNTS[, , i1] + diffInCounts
+      globals$SUMCOUNTS[i1, ] <- globals$SUMCOUNTS[i1, ] + diffInSumCounts
 
       i2 <- c(1:i1 - 1, i1 + 1:npops)
-      i2_logml <- POP_LOGML[i2]
+      i2_logml <- globals$POP_LOGML[i2]
 
-      COUNTS[, , i2] <- COUNTS[, , i2] + repmat(diffInCounts, c(1, 1, npops - 1))
-      SUMCOUNTS[i2, ] <- SUMCOUNTS[i2, ] + repmat(diffInSumCounts, c(npops - 1, 1))
+      globals$COUNTS[, , i2] <- globals$COUNTS[, , i2] + repmat(diffInCounts, c(1, 1, npops - 1))
+      globals$SUMCOUNTS[i2, ] <- globals$SUMCOUNTS[i2, ] + repmat(diffInSumCounts, c(npops - 1, 1))
       new_i2_logml <- computePopulationLogml(i2, adjprior, priorTerm)
-      COUNTS[, , i2] <- COUNTS[, , i2] - repmat(diffInCounts, c(1, 1, npops - 1))
-      SUMCOUNTS[i2, ] <- SUMCOUNTS[i2, ] - repmat(diffInSumCounts, c(npops - 1, 1))
+      globals$COUNTS[, , i2] <- globals$COUNTS[, , i2] - repmat(diffInCounts, c(1, 1, npops - 1))
+      globals$SUMCOUNTS[i2, ] <- globals$SUMCOUNTS[i2, ] - repmat(diffInSumCounts, c(npops - 1, 1))
 
       muutokset[i2] <- new_i1_logml - i1_logml + new_i2_logml - i2_logml
       return(list(muutokset = muutokset, diffInCounts = diffInCounts))

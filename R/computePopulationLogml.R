@@ -1,43 +1,21 @@
 computePopulationLogml <- function(pops, adjprior, priorTerm) {
   # Palauttaa length(pops)*1 taulukon, jossa on laskettu korikohtaiset
 
-  # ======================================================== #
-  # Limiting COUNTS size                                     #
-  # ======================================================== #
-  if (!is.null(adjprior)) {
-    nr <- seq_len(nrow(adjprior))
-    nc <- seq_len(ncol(adjprior))
-    COUNTS <- COUNTS[nr, nc, pops, drop = FALSE]
-  } else {
-    COUNTS <- NA
-  }
+  nr <- seq_len(nrow(adjprior))
+  nc <- seq_len(ncol(adjprior))
 
-  x <- size(COUNTS, 1)
-  y <- size(COUNTS, 2)
+  x <- size(globals$COUNTS, 1)
+  y <- size(globals$COUNTS, 2)
   z <- length(pops)
 
   # ======================================================== #
   # Computation                                              #
   # ======================================================== #
-  term1 <- NULL
-  if (!is.null(adjprior)) {
-    isarray <- length(dim(repmat(adjprior, c(1, 1, length(pops))))) > 2
-    term1 <- squeeze(
-      sum(
-        sum(
-          reshape(
-            lgamma(
-              repmat(adjprior, c(1, 1, length(pops))) + COUNTS[nr, nc, pops, drop = !isarray]
-            ),
-            c(x, y, z)
-          ),
-          1
-        ),
-        2
-      )
-    )
-  }
-  if (is.null(priorTerm)) priorTerm <- 0
-  popLogml <- term1 - sum(lgamma(1 + SUMCOUNTS[pops, ]), 2) - priorTerm
-  return(popLogml)
+  rep_adj <- repmat(adjprior, c(1, 1, z))
+  gamma_rep_counts <- matlab2r::gammaln(rep_adj + globals$COUNTS[, , pops])
+  gamma_sum_counts <- rowSums(matlab2r::gammaln(1 + globals$SUMCOUNTS[pops, , drop = FALSE]))
+  gamma_rep_counts_sum <- colSums(colSums(reshape(gamma_rep_counts, c(x, y, z))))
+  gamma_rep_counts_reshaped <- squeeze(gamma_rep_counts_sum)
+  popLogml <- gamma_rep_counts_reshaped - gamma_sum_counts - priorTerm
+  return(popLogml[, , drop = FALSE])
 }

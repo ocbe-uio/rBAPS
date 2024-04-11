@@ -4,7 +4,6 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
   # Input npops is not used if called by greedyMix or greedyPopMix.
 
   logml <- 1
-  clearGlobalVars()
 
   noalle <- c$noalle
   rows <- c$rows
@@ -94,16 +93,16 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
     counts <- sumcounts_counts_logml$counts
     logml <- sumcounts_counts_logml$logml
 
-    PARTITION <- zeros(ninds, 1)
+    assign("PARTITION", zeros(ninds, 1), globals)
     for (i in seq_len(ninds)) {
       apu <- rows[i]
-      PARTITION[i] <- initialPartition[apu[1]]
+      globals$PARTITION[i] <- initialPartition[apu[1]]
     }
 
-    COUNTS <- counts
-    SUMCOUNTS <- sumcounts
-    POP_LOGML <- computePopulationLogml(seq_len(npops), adjprior, priorTerm)
-    LOGDIFF <- repmat(-Inf, c(ninds, npops))
+    assign("COUNTS", counts, globals)
+    assign("SUMCOUNTS", sumcounts, globals)
+    assign("POP_LOGML", computePopulationLogml(seq_len(npops), adjprior, priorTerm), globals)
+    assign("LOGDIFF", matrix(-Inf, nrow = ninds, ncol = npops), globals)
 
     # PARHAAN MIXTURE-PARTITION ETSIMINEN
     nRoundTypes <- 7
@@ -147,10 +146,10 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
           muutosNyt <- 0
 
           for (ind in inds) {
-            i1 <- PARTITION[ind]
+            i1 <- globals$PARTITION[ind]
             muutokset_diffInCounts <- greedyMix_muutokset$new()
             muutokset_diffInCounts <- muutokset_diffInCounts$laskeMuutokset(
-              ind, rows, data, adjprior, priorTerm
+              ind, rows, data, adjprior, priorTerm, npops
             )
             muutokset <- muutokset_diffInCounts$muutokset
             diffInCounts <- muutokset_diffInCounts$diffInCounts
@@ -196,7 +195,9 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
         } else if (round == 2) { # Populaation yhdist�minen toiseen.
           maxMuutos <- 0
           for (pop in seq_len(npops)) {
-            muutokset_diffInCounts <- greedyMix_muutokset$new()
+            muutokset_diffInCounts <- greedyMix_muutokset$new
+            # FIXME: wrong input
+            browser() # TEMP. Tip: browserText()
             muutokset_diffInCounts <- muutokset_diffInCounts$laskeMuutokset2(
               pop, rows, data, adjprior, priorTerm
             )
@@ -278,7 +279,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
             diffInCounts <- computeDiffInCounts(
               t(rivit), size(COUNTS, 1), size(COUNTS, 2), data
             )
-            i1 <- PARTITION(muuttuvat[1])
+            i1 <- PARTITION[muuttuvat[1]]
             updateGlobalVariables3(
               muuttuvat, diffInCounts, adjprior, priorTerm, i2
             )
@@ -513,7 +514,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
       }
       if (muutoksia == 0) {
         if (vaihe <= 4) {
-          vaihe <= vaihe + 1
+          vaihe <- vaihe + 1
         } else if (vaihe == 5) {
           ready <- 1
         }

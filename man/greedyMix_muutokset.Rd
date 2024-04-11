@@ -28,7 +28,14 @@ logml:ss� siirrett�ess� yksil�it� toisiin populaatioihin.
 \if{latex}{\out{\hypertarget{method-greedyMix_muutokset-laskeMuutokset}{}}}
 \subsection{Method \code{laskeMuutokset()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{greedyMix_muutokset$laskeMuutokset(ind, globalRows, data, adjprior, priorTerm)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{greedyMix_muutokset$laskeMuutokset(
+  ind,
+  globalRows,
+  data,
+  adjprior,
+  priorTerm,
+  npops
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

@@ -5,7 +5,7 @@ path_inst <- system.file("extdata", "", package = "rBAPS")
 
 # Reading datasets -------------------------------------------------------------
 baps_diploid <- read.delim(
-  file = file.path(path_inst, "BAPS_format_clustering_diploid.txt"),
+  file = file.path(path_inst, "BAPS_clustering_diploid.txt"),
   sep = " ",
   header = FALSE
 )
@@ -46,6 +46,11 @@ raw_bam <- importFile(
   data    = file.path(path_inst, "bam_example.bam"),
   format  = "BAM",
 )
+# TODO: uncomment for testing #24
+# raw_baps <- importFile(
+#   data   = file.path(path_inst, "FASTA_clustering_haploid.fasta"),
+#   format = "FASTA"
+# )
 
 test_that("Files are imported correctly", {
   expect_equal(dim(raw_fasta), c(5, 99))

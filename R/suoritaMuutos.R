@@ -4,10 +4,10 @@
 #' @param osuus percentage?
 #' @param indeksi index
 suoritaMuutos <- function(osuusTaulu, osuus, indeksi) {
-  if (isGlobalEmpty(COUNTS)) {
+  if (isGlobalEmpty(globals$COUNTS)) {
     npops <- 1
   } else {
-    npops <- ifelse(is.na(dim(COUNTS)[3]), 1, dim(COUNTS)[3])
+    npops <- ifelse(is.na(dim(globals$COUNTS)[3]), 1, dim(globals$COUNTS)[3])
   }
 
   i1 <- indeksi %% npops
