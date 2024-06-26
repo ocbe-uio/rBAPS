@@ -341,6 +341,7 @@ greedyMix_muutokset <- R6Class(
     #' @param data data
     #' @param adjprior adjprior
     #' @param priorTerm priorTerm
+    #' @param npops Number of populations
     laskeMuutokset = function(ind, globalRows, data, adjprior, priorTerm, npops) {
       muutokset <- globals$LOGDIFF[ind, ]
 
