@@ -50,6 +50,8 @@ logml:ss� siirrett�ess� yksil�it� toisiin populaatioihin.
 \item{\code{adjprior}}{adjprior}
 
 \item{\code{priorTerm}}{priorTerm}
+
+\item{\code{npops}}{Number of populations}
 }
 \if{html}{\out{</div>}}
 }
