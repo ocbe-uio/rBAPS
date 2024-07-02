@@ -15,9 +15,9 @@ spatialMixture_muutokset <- R6Class(
     ) {
       #  Palauttaa npops * 1 taulun, jossa i:s alkio kertoo, mik?olisi
       #  muutos logml:ss? mikהli yksil?ind siirretההn koriin i.
-      #  diffInCounts on poistettava COUNTS:in siivusta i1 ja lisהttהv?
-      #  COUNTS:in siivuun i2, mikהli muutos toteutetaan.
-      npops <- size(COUNTS, 3)
+      #  diffInCounts on poistettava globals$COUNTS:in siivusta i1 ja lisהttהv?
+      #  globals$COUNTS:in siivuun i2, mikהli muutos toteutetaan.
+      npops <- size(globals$COUNTS, 3)
       muutokset <- zeros(npops, 1)
 
       emptyPop_pops <- findEmptyPop(npops)
@@ -25,42 +25,42 @@ spatialMixture_muutokset <- R6Class(
       pops <- emptyPop_pops$pops
       rm(emptyPop_pops)
 
-      i1 <- PARTITION(ind)
+      i1 <- globals$PARTITION(ind)
       i2 <- pops[find(pops != i1)]
       if (emptyPop > 0) {
         i2 <- c(i2, emptyPop)
       }
 
       rows <- ((ind - 1) * rowsFromInd + 1):(ind * rowsFromInd)
-      diffInCounts <- computeDiffInCounts(rows, size(COUNTS, 1), size(COUNTS, 2), data)
+      diffInCounts <- computeDiffInCounts(rows, size(globals$COUNTS, 1), size(globals$COUNTS, 2), data)
       diffInSumCounts <- sum(diffInCounts)
 
       diffInCliqCounts <- computeDiffInCliqCounts(cliques, ind)
       diffInSepCounts <- computeDiffInCliqCounts(separators, ind)
 
-      COUNTS[, ,i1] <- COUNTS[, , i1] - diffInCounts
-      SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] - diffInSumCounts
-      CLIQCOUNTS[, i1] <- CLIQCOUNTS[, i1] - diffInCliqCounts
-      SEPCOUNTS[, i1] <- SEPCOUNTS[, i1] - diffInSepCounts
+      globals$COUNTS[, ,i1] <- globals$COUNTS[, , i1] - diffInCounts
+      globals$SUMCOUNTS[i1, ] <- globals$SUMCOUNTS[i1, ] - diffInSumCounts
+      globals$CLIQCOUNTS[, i1] <- globals$CLIQCOUNTS[, i1] - diffInCliqCounts
+      globals$SEPCOUNTS[, i1] <- globals$SEPCOUNTS[, i1] - diffInSepCounts
 
       for (i in i2) {
-        CLIQCOUNTS[, i] <- CLIQCOUNTS[, i] + diffInCliqCounts
-        SEPCOUNTS[, i] <- SEPCOUNTS[, i] + diffInSepCounts
-        COUNTS[, ,i] <- COUNTS[, , i] + diffInCounts
-        SUMCOUNTS[i, ] <- SUMCOUNTS[i, ] + diffInSumCounts
+        globals$CLIQCOUNTS[, i] <- globals$CLIQCOUNTS[, i] + diffInCliqCounts
+        globals$SEPCOUNTS[, i] <- globals$SEPCOUNTS[, i] + diffInSepCounts
+        globals$COUNTS[, ,i] <- globals$COUNTS[, , i] + diffInCounts
+        globals$SUMCOUNTS[i, ] <- globals$SUMCOUNTS[i, ] + diffInSumCounts
 
         muutokset[i] <- computeLogml(adjprior, priorTerm) - logml
 
-        CLIQCOUNTS[, i] <- CLIQCOUNTS[, i] - diffInCliqCounts
-        SEPCOUNTS[, i] <- SEPCOUNTS[, i] - diffInSepCounts
-        COUNTS[, , i] <- COUNTS[, , i] - diffInCounts
-        SUMCOUNTS[i, ] <- SUMCOUNTS[i, ] - diffInSumCounts
+        globals$CLIQCOUNTS[, i] <- globals$CLIQCOUNTS[, i] - diffInCliqCounts
+        globals$SEPCOUNTS[, i] <- globals$SEPCOUNTS[, i] - diffInSepCounts
+        globals$COUNTS[, , i] <- globals$COUNTS[, , i] - diffInCounts
+        globals$SUMCOUNTS[i, ] <- globals$SUMCOUNTS[i, ] - diffInSumCounts
       }
 
-      COUNTS[, , i1] <- COUNTS[, , i1] + diffInCounts
-      SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] + diffInSumCounts
-      CLIQCOUNTS[, i1] <- CLIQCOUNTS[, i1] + diffInCliqCounts
-      SEPCOUNTS[, i1] <- SEPCOUNTS[, i1] + diffInSepCounts
+      globals$COUNTS[, , i1] <- globals$COUNTS[, , i1] + diffInCounts
+      globals$SUMCOUNTS[i1, ] <- globals$SUMCOUNTS[i1, ] + diffInSumCounts
+      globals$CLIQCOUNTS[, i1] <- globals$CLIQCOUNTS[, i1] + diffInCliqCounts
+      globals$SEPCOUNTS[, i1] <- globals$SEPCOUNTS[, i1] + diffInSepCounts
 
       #  Asetetaan muillekin tyhjille populaatioille sama muutos, kuin
       #  emptyPop:lle
@@ -87,11 +87,11 @@ spatialMixture_muutokset <- R6Class(
       #  koriin i.
       #  Laskee muutokset vain yhdelle tyhjהlle populaatiolle, muille tulee
       #  muutokseksi 0.
-      # global COUNTS      # global SUMCOUNTS
-      # global PARTITION   # global POP_LOGML
-      # global CLIQCOUNTS  # global SEPCOUNTS
+      # global globals$COUNTS      # global globals$SUMCOUNTS
+      # global globals$PARTITION   # global globals$POP_LOGML
+      # global globals$CLIQCOUNTS  # global globals$SEPCOUNTS
 
-      npops <- size(COUNTS, 3)
+      npops <- size(globals$COUNTS, 3)
       muutokset <- zeros(npops, 1)
 
       emptyPop <- findEmptyPop(npops)$emptyPop
@@ -102,37 +102,37 @@ spatialMixture_muutokset <- R6Class(
         i2 <- c(i2, emptyPop)
       }
 
-      inds <- find(PARTITION == i1)
+      inds <- find(globals$PARTITION == i1)
       rows <- computeRows(rowsFromInd, inds, length(inds))
 
-      diffInCounts <- computeDiffInCounts(rows, size(COUNTS, 1), size(COUNTS, 2), data)
+      diffInCounts <- computeDiffInCounts(rows, size(globals$COUNTS, 1), size(globals$COUNTS, 2), data)
       diffInSumCounts <- sum(diffInCounts)
       diffInCliqCounts <- computeDiffInCliqCounts(cliques, inds)
       diffInSepCounts <- computeDiffInCliqCounts(separators, inds)
 
-      COUNTS[, ,i1] <- COUNTS[, , i1] - diffInCounts
-      SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] - diffInSumCounts
-      CLIQCOUNTS[, i1] <- 0
-      SEPCOUNTS[, i1] <- 0
+      globals$COUNTS[, ,i1] <- globals$COUNTS[, , i1] - diffInCounts
+      globals$SUMCOUNTS[i1, ] <- globals$SUMCOUNTS[i1, ] - diffInSumCounts
+      globals$CLIQCOUNTS[, i1] <- 0
+      globals$SEPCOUNTS[, i1] <- 0
 
       for (i in i2) {
-        CLIQCOUNTS[, i] <- CLIQCOUNTS[, i] + diffInCliqCounts
-        SEPCOUNTS[, i] <- SEPCOUNTS[, i] + diffInSepCounts
-        COUNTS[, ,i] <- COUNTS[, , i] + diffInCounts
-        SUMCOUNTS[i, ] <- SUMCOUNTS[i, ] + diffInSumCounts
+        globals$CLIQCOUNTS[, i] <- globals$CLIQCOUNTS[, i] + diffInCliqCounts
+        globals$SEPCOUNTS[, i] <- globals$SEPCOUNTS[, i] + diffInSepCounts
+        globals$COUNTS[, ,i] <- globals$COUNTS[, , i] + diffInCounts
+        globals$SUMCOUNTS[i, ] <- globals$SUMCOUNTS[i, ] + diffInSumCounts
 
         muutokset[i] <- computeLogml(adjprior, priorTerm) - logml
 
-        CLIQCOUNTS[, i] <- CLIQCOUNTS[, i] - diffInCliqCounts
-        SEPCOUNTS[, i] <- SEPCOUNTS[, i] - diffInSepCounts
-        COUNTS[, ,i] <- COUNTS[, , i] - diffInCounts
-        SUMCOUNTS[i, ] <- SUMCOUNTS[i, ] - diffInSumCounts
+        globals$CLIQCOUNTS[, i] <- globals$CLIQCOUNTS[, i] - diffInCliqCounts
+        globals$SEPCOUNTS[, i] <- globals$SEPCOUNTS[, i] - diffInSepCounts
+        globals$COUNTS[, ,i] <- globals$COUNTS[, , i] - diffInCounts
+        globals$SUMCOUNTS[i, ] <- globals$SUMCOUNTS[i, ] - diffInSumCounts
       }
 
-      COUNTS[, ,i1] <- COUNTS[, , i1] + diffInCounts
-      SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] + diffInSumCounts
-      CLIQCOUNTS[, i1] <- diffInCliqCounts
-      SEPCOUNTS[, i1] <- diffInSepCounts
+      globals$COUNTS[, ,i1] <- globals$COUNTS[, , i1] + diffInCounts
+      globals$SUMCOUNTS[i1, ] <- globals$SUMCOUNTS[i1, ] + diffInSumCounts
+      globals$CLIQCOUNTS[, i1] <- diffInCliqCounts
+      globals$SEPCOUNTS[, i1] <- diffInSepCounts
       return(list(muutokset = muutokset, diffInCounts = diffInCounts))
     },
     #' @param T2 T2
@@ -154,11 +154,11 @@ spatialMixture_muutokset <- R6Class(
       #  inds2(find(T2 == i)) siirretההn koriin j.
       #  Laskee vain yhden tyhjהn populaation, muita kohden muutokseksi jהה 0.
 
-      # global COUNTS      # global SUMCOUNTS
-      # global PARTITION   # global POP_LOGML
-      # global CLIQCOUNTS  # global SEPCOUNTS
+      # global globals$COUNTS      # global globals$SUMCOUNTS
+      # global globals$PARTITION   # global globals$POP_LOGML
+      # global globals$CLIQCOUNTS  # global globals$SEPCOUNTS
 
-      npops <- size(COUNTS, 3)
+      npops <- size(globals$COUNTS, 3)
       npops2 <- length(unique(T2))
       muutokset <- zeros(npops2, npops)
 
@@ -168,15 +168,15 @@ spatialMixture_muutokset <- R6Class(
         if (ninds > 0) {
           rows <- computeRows(rowsFromInd, inds, ninds)
 
-          diffInCounts <- computeDiffInCounts(rows, size(COUNTS, 1), size(COUNTS, 2), data)
+          diffInCounts <- computeDiffInCounts(rows, size(globals$COUNTS, 1), size(globals$COUNTS, 2), data)
           diffInSumCounts <- sum(diffInCounts)
           diffInCliqCounts <- computeDiffInCliqCounts(cliques, inds)
           diffInSepCounts <- computeDiffInCliqCounts(separators, inds)
 
-          COUNTS[, ,i1] <- COUNTS[, , i1] - diffInCounts
-          SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] - diffInSumCounts
-          CLIQCOUNTS[, i1] <- CLIQCOUNTS[, i1] - diffInCliqCounts
-          SEPCOUNTS[, i1] <- SEPCOUNTS[, i1] - diffInSepCounts
+          globals$COUNTS[, ,i1] <- globals$COUNTS[, , i1] - diffInCounts
+          globals$SUMCOUNTS[i1, ] <- globals$SUMCOUNTS[i1, ] - diffInSumCounts
+          globals$CLIQCOUNTS[, i1] <- globals$CLIQCOUNTS[, i1] - diffInCliqCounts
+          globals$SEPCOUNTS[, i1] <- globals$SEPCOUNTS[, i1] - diffInSepCounts
 
           emptyPop <- findEmptyPop(npops)$emptyPop
           pops <- findEmptyPop(npops)$pops
@@ -186,23 +186,23 @@ spatialMixture_muutokset <- R6Class(
           }
 
           for (i in i2) {
-            CLIQCOUNTS[, i] <- CLIQCOUNTS[, i] + diffInCliqCounts
-            SEPCOUNTS[, i] <- SEPCOUNTS[, i] + diffInSepCounts
-            COUNTS[, ,i] <- COUNTS[, , i] + diffInCounts
-            SUMCOUNTS[i, ] <- SUMCOUNTS[i, ] + diffInSumCounts
+            globals$CLIQCOUNTS[, i] <- globals$CLIQCOUNTS[, i] + diffInCliqCounts
+            globals$SEPCOUNTS[, i] <- globals$SEPCOUNTS[, i] + diffInSepCounts
+            globals$COUNTS[, ,i] <- globals$COUNTS[, , i] + diffInCounts
+            globals$SUMCOUNTS[i, ] <- globals$SUMCOUNTS[i, ] + diffInSumCounts
 
             muutokset[pop2, i] <- computeLogml(adjprior, priorTerm) - logml
 
-            CLIQCOUNTS[, i] <- CLIQCOUNTS[, i] - diffInCliqCounts
-            SEPCOUNTS[, i] <- SEPCOUNTS[, i] - diffInSepCounts
-            COUNTS[, ,i] <- COUNTS[, , i] - diffInCounts
-            SUMCOUNTS[i, ] <- SUMCOUNTS[i, ] - diffInSumCounts
+            globals$CLIQCOUNTS[, i] <- globals$CLIQCOUNTS[, i] - diffInCliqCounts
+            globals$SEPCOUNTS[, i] <- globals$SEPCOUNTS[, i] - diffInSepCounts
+            globals$COUNTS[, ,i] <- globals$COUNTS[, , i] - diffInCounts
+            globals$SUMCOUNTS[i, ] <- globals$SUMCOUNTS[i, ] - diffInSumCounts
           }
 
-          COUNTS[, ,i1] <- COUNTS[, , i1] + diffInCounts
-          SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] + diffInSumCounts
-          CLIQCOUNTS[, i1] <- CLIQCOUNTS[, i1] + diffInCliqCounts
-          SEPCOUNTS[, i1] <- SEPCOUNTS[, i1] + diffInSepCounts
+          globals$COUNTS[, ,i1] <- globals$COUNTS[, , i1] + diffInCounts
+          globals$SUMCOUNTS[i1, ] <- globals$SUMCOUNTS[i1, ] + diffInSumCounts
+          globals$CLIQCOUNTS[, i1] <- globals$CLIQCOUNTS[, i1] + diffInCliqCounts
+          globals$SEPCOUNTS[, i1] <- globals$SEPCOUNTS[, i1] + diffInSepCounts
         }
       }
       return(muutokset)
@@ -224,18 +224,18 @@ spatialMixture_muutokset <- R6Class(
       #  Palauttaa length(inds) * 1 taulun, jossa i:s alkio kertoo, mik?olisi
       #  muutos logml:ss? mikהli yksil?i vaihtaisi koria i1:n ja i2:n vהlill?
 
-      # global COUNTS    # global SUMCOUNTS
-      # global PARTITION
-      # global CLIQCOUNTS  # global SEPCOUNTS
+      # global globals$COUNTS    # global globals$SUMCOUNTS
+      # global globals$PARTITION
+      # global globals$CLIQCOUNTS  # global globals$SEPCOUNTS
 
       ninds <- length(inds)
       muutokset <- zeros(ninds, 1)
-      cliqsize <- size(CLIQCOUNTS, 2)
-      sepsize <- size(SEPCOUNTS, 2)
+      cliqsize <- size(globals$CLIQCOUNTS, 2)
+      sepsize <- size(globals$SEPCOUNTS, 2)
 
       for (i in 1:ninds) {
         ind <- inds[i]
-        if (PARTITION[ind] == i1) {
+        if (globals$PARTITION[ind] == i1) {
           pop1 <- i1 # mist?
           pop2 <- i2 # mihin
         } else {
@@ -244,32 +244,32 @@ spatialMixture_muutokset <- R6Class(
         }
         rows <- ((ind - 1) * rowsFromInd + 1):(ind * rowsFromInd)
 
-        diffInCounts <- computeDiffInCounts(rows, size(COUNTS, 1), size(COUNTS, 2), data)
+        diffInCounts <- computeDiffInCounts(rows, size(globals$COUNTS, 1), size(globals$COUNTS, 2), data)
         diffInSumCounts <- sum(diffInCounts)
         diffInCliqCounts <- computeDiffInCliqCounts(cliques, ind)
         diffInSepCounts <- computeDiffInCliqCounts(separators, ind)
 
-        COUNTS[, ,pop1] <- COUNTS[, , pop1] - diffInCounts
-        SUMCOUNTS[pop1, ] <- SUMCOUNTS[pop1, ] - diffInSumCounts
-        COUNTS[, ,pop2] <- COUNTS[, , pop2] + diffInCounts
-        SUMCOUNTS[pop2, ] <- SUMCOUNTS[pop2, ] + diffInSumCounts
+        globals$COUNTS[, ,pop1] <- globals$COUNTS[, , pop1] - diffInCounts
+        globals$SUMCOUNTS[pop1, ] <- globals$SUMCOUNTS[pop1, ] - diffInSumCounts
+        globals$COUNTS[, ,pop2] <- globals$COUNTS[, , pop2] + diffInCounts
+        globals$SUMCOUNTS[pop2, ] <- globals$SUMCOUNTS[pop2, ] + diffInSumCounts
 
-        CLIQCOUNTS[, pop1] <- CLIQCOUNTS[, pop1] - diffInCliqCounts
-        CLIQCOUNTS[, pop2] <- CLIQCOUNTS[, pop2] + diffInCliqCounts
-        SEPCOUNTS[, pop1] <- SEPCOUNTS[, pop1] - diffInSepCounts
-        SEPCOUNTS[, pop2] <- SEPCOUNTS[, pop2] + diffInSepCounts
+        globals$CLIQCOUNTS[, pop1] <- globals$CLIQCOUNTS[, pop1] - diffInCliqCounts
+        globals$CLIQCOUNTS[, pop2] <- globals$CLIQCOUNTS[, pop2] + diffInCliqCounts
+        globals$SEPCOUNTS[, pop1] <- globals$SEPCOUNTS[, pop1] - diffInSepCounts
+        globals$SEPCOUNTS[, pop2] <- globals$SEPCOUNTS[, pop2] + diffInSepCounts
 
         muutokset[i] <- computeLogml(adjprior, priorTerm) - logml
 
-        COUNTS[, ,pop1] <- COUNTS[, , pop1] + diffInCounts
-        SUMCOUNTS[pop1, ] <- SUMCOUNTS[pop1, ] + diffInSumCounts
-        COUNTS[, ,pop2] <- COUNTS[, , pop2] - diffInCounts
-        SUMCOUNTS[pop2, ] <- SUMCOUNTS[pop2, ] - diffInSumCounts
+        globals$COUNTS[, ,pop1] <- globals$COUNTS[, , pop1] + diffInCounts
+        globals$SUMCOUNTS[pop1, ] <- globals$SUMCOUNTS[pop1, ] + diffInSumCounts
+        globals$COUNTS[, ,pop2] <- globals$COUNTS[, , pop2] - diffInCounts
+        globals$SUMCOUNTS[pop2, ] <- globals$SUMCOUNTS[pop2, ] - diffInSumCounts
 
-        CLIQCOUNTS[, pop1] <- CLIQCOUNTS[, pop1] + diffInCliqCounts
-        CLIQCOUNTS[, pop2] <- CLIQCOUNTS[, pop2] - diffInCliqCounts
-        SEPCOUNTS[, pop1] <- SEPCOUNTS[, pop1] + diffInSepCounts
-        SEPCOUNTS[, pop2] <- SEPCOUNTS[, pop2] - diffInSepCounts
+        globals$CLIQCOUNTS[, pop1] <- globals$CLIQCOUNTS[, pop1] + diffInCliqCounts
+        globals$CLIQCOUNTS[, pop2] <- globals$CLIQCOUNTS[, pop2] - diffInCliqCounts
+        globals$SEPCOUNTS[, pop1] <- globals$SEPCOUNTS[, pop1] + diffInSepCounts
+        globals$SEPCOUNTS[, pop2] <- globals$SEPCOUNTS[, pop2] - diffInSepCounts
 
       }
       return(muutokset)
@@ -327,8 +327,8 @@ admix1_muutokset <- R6Class(
 #' @title Calculate changes (greedyMix class)
 #' @description Palauttaa npops*1 taulun, jossa i:s alkio kertoo, mik� olisi
 #' muutos logml:ss�, mik�li yksil� ind siirret��n koriin i.
-#' diffInCounts on poistettava COUNTS:in siivusta i1 ja lis�tt�v�
-#' COUNTS:in siivuun i2, mik�li muutos toteutetaan.
+#' diffInCounts on poistettava globals$COUNTS:in siivusta i1 ja lis�tt�v�
+#' globals$COUNTS:in siivuun i2, mik�li muutos toteutetaan.
 #'
 #' Lis�ys 25.9.2007:
 #' Otettu k�ytt��n globaali muuttuja LOGDIFF, johon on tallennettu muutokset
@@ -401,11 +401,11 @@ greedyMix_muutokset <- R6Class(
 
       if (ninds == 0) {
         diffInCounts <- zeros(size(globals$COUNTS, 1), size(globals$COUNTS, 2))
-        return()
+        return(list("muutokset" = muutokset, "diffInCounts" = diffInCounts))
       }
 
       rows <- list()
-      for (i in 1:ninds) {
+      for (i in seq_len(ninds)) {
         ind <- inds[i]
         lisa <- globalRows[ind, 1]:globalRows[ind, 2]
         rows <- c(rows, t(lisa))
@@ -414,7 +414,7 @@ greedyMix_muutokset <- R6Class(
       diffInCounts <- computeDiffInCounts(
         t(rows), size(globals$COUNTS, 1), size(globals$COUNTS, 2), data
       )
-      diffInSumCounts <- sum(diffInCounts)
+      diffInSumCounts <- colSums(diffInCounts)
 
       globals$COUNTS[, , i1] <- globals$COUNTS[, , i1] - diffInCounts
       globals$SUMCOUNTS[i1, ] <- globals$SUMCOUNTS[i1, ] - diffInSumCounts
@@ -422,7 +422,11 @@ greedyMix_muutokset <- R6Class(
       globals$COUNTS[, , i1] <- globals$COUNTS[, , i1] + diffInCounts
       globals$SUMCOUNTS[i1, ] <- globals$SUMCOUNTS[i1, ] + diffInSumCounts
 
-      i2 <- c(1:i1 - 1, i1 + 1:npops)
+      if (i1 < npops) {
+        i2 <- c(1:(i1 - 1), (i1 + 1):npops)
+      } else {
+        i2 <- 1:(i1 - 1)
+      }
       i2_logml <- globals$POP_LOGML[i2]
 
       globals$COUNTS[, , i2] <- globals$COUNTS[, , i2] + repmat(diffInCounts, c(1, 1, npops - 1))
@@ -431,7 +435,8 @@ greedyMix_muutokset <- R6Class(
       globals$COUNTS[, , i2] <- globals$COUNTS[, , i2] - repmat(diffInCounts, c(1, 1, npops - 1))
       globals$SUMCOUNTS[i2, ] <- globals$SUMCOUNTS[i2, ] - repmat(diffInSumCounts, c(npops - 1, 1))
 
-      muutokset[i2] <- new_i1_logml - i1_logml + new_i2_logml - i2_logml
+      i1_diff <- new_i1_logml - i1_logml
+      muutokset[i2] <- rep(i1_diff, length(i2_logml)) + new_i2_logml - i2_logml
       return(list(muutokset = muutokset, diffInCounts = diffInCounts))
     },
     #' @param T2 T2
@@ -448,11 +453,11 @@ greedyMix_muutokset <- R6Class(
       # kertoo, mik� olisi muutos logml:ss�, jos populaation i1 osapopulaatio
       # inds2(matlab2r::find(T2==i)) siirret��n koriin j.
 
-      npops <- size(COUNTS, 3)
+      npops <- size(globals$COUNTS, 3)
       npops2 <- length(unique(T2))
       muutokset <- zeros(npops2, npops)
 
-      i1_logml <- POP_LOGML[i1]
+      i1_logml <- globals$POP_LOGML[i1]
       for (pop2 in 1:npops2) {
         inds <- inds2[matlab2r::find(T2 == pop2)]
         ninds <- length(inds)
@@ -464,26 +469,31 @@ greedyMix_muutokset <- R6Class(
             rows <- c(rows, t(lisa))
           }
           diffInCounts <- computeDiffInCounts(
-            t(rows), size(COUNTS, 1), size(COUNTS, 2), data
+            t(rows), size(globals$COUNTS, 1), size(globals$COUNTS, 2), data
           )
-          diffInSumCounts <- sum(diffInCounts)
+          diffInSumCounts <- colSums(diffInCounts)
 
-          COUNTS[, , i1] <- COUNTS[, , i1] - diffInCounts
-          SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] - diffInSumCounts
+          globals$COUNTS[, , i1] <- globals$COUNTS[, , i1] - diffInCounts
+          globals$SUMCOUNTS[i1, ] <- globals$SUMCOUNTS[i1, ] - diffInSumCounts
           new_i1_logml <- computePopulationLogml(i1, adjprior, priorTerm)
-          COUNTS[, , i1] <- COUNTS[, , i1] + diffInCounts
-          SUMCOUNTS[i1, ] <- SUMCOUNTS[i1, ] + diffInSumCounts
+          globals$COUNTS[, , i1] <- globals$COUNTS[, , i1] + diffInCounts
+          globals$SUMCOUNTS[i1, ] <- globals$SUMCOUNTS[i1, ] + diffInSumCounts
 
-          i2 <- c(1:i1 - 1, i1 + 1:npops)
-          i2_logml <- t(POP_LOGML[i2])
+          if (i1 < npops) {
+            i2 <- c(1:(i1 - 1), (i1 + 1):npops)
+          } else {
+            i2 <- 1:(i1 - 1)
+          }
+          i2_logml <- t(globals$POP_LOGML[i2])
 
-          COUNTS[, , i2] <- COUNTS[, , i2] + repmat(diffInCounts, c(1, 1, npops - 1))
-          SUMCOUNTS[i2, ] <- SUMCOUNTS[i2, ] + repmat(diffInSumCounts, c(npops - 1, 1))
+          globals$COUNTS[, , i2] <- globals$COUNTS[, , i2] + repmat(diffInCounts, c(1, 1, npops - 1))
+          globals$SUMCOUNTS[i2, ] <- globals$SUMCOUNTS[i2, ] + repmat(diffInSumCounts, c(npops - 1, 1))
           new_i2_logml <- t(computePopulationLogml(i2, adjprior, priorTerm))
-          COUNTS[, , i2] <- COUNTS[, , i2] - repmat(diffInCounts, c(1, 1, npops - 1))
-          SUMCOUNTS[i2, ] <- SUMCOUNTS[i2, ] - repmat(diffInSumCounts, c(npops - 1, 1))
+          globals$COUNTS[, , i2] <- globals$COUNTS[, , i2] - repmat(diffInCounts, c(1, 1, npops - 1))
+          globals$SUMCOUNTS[i2, ] <- globals$SUMCOUNTS[i2, ] - repmat(diffInSumCounts, c(npops - 1, 1))
 
-          muutokset[pop2, i2] <- new_i1_logml - i1_logml + new_i2_logml - i2_logml
+          i1_diff <- new_i1_logml - i1_logml
+          muutokset[pop2, i2] <- rep(i1_diff, length(i2_logml)) + new_i2_logml - i2_logml
         }
       }
       return(muutokset)
@@ -502,12 +512,12 @@ greedyMix_muutokset <- R6Class(
       ninds <- length(inds)
       muutokset <- zeros(ninds, 1)
 
-      i1_logml <- POP_LOGML[i1]
-      i2_logml <- POP_LOGML[i2]
+      i1_logml <- globals$POP_LOGML[i1]
+      i2_logml <- globals$POP_LOGML[i2]
 
       for (i in 1:ninds) {
         ind <- inds[i]
-        if (PARTITION[ind] == i1) {
+        if (globals$PARTITION[ind] == i1) {
           pop1 <- i1 # mist�
           pop2 <- i2 # mihin
         } else {
@@ -516,24 +526,24 @@ greedyMix_muutokset <- R6Class(
         }
         rows <- globalRows[ind, 1]:globalRows[ind, 2]
         diffInCounts <- computeDiffInCounts(
-          rows, size(COUNTS, 1), size(COUNTS, 2), data
+          rows, size(globals$COUNTS, 1), size(globals$COUNTS, 2), data
         )
         diffInSumCounts <- sum(diffInCounts)
 
 
 
-        COUNTS[, , pop1] <- COUNTS[, , pop1] - diffInCounts
-        SUMCOUNTS[pop1, ] <- SUMCOUNTS[pop1, ] - diffInSumCounts
-        COUNTS[, , pop2] <- COUNTS[, , pop2] + diffInCounts
-        SUMCOUNTS[pop2, ] <- SUMCOUNTS[pop2, ] + diffInSumCounts
+        globals$COUNTS[, , pop1] <- globals$COUNTS[, , pop1] - diffInCounts
+        globals$SUMCOUNTS[pop1, ] <- globals$SUMCOUNTS[pop1, ] - diffInSumCounts
+        globals$COUNTS[, , pop2] <- globals$COUNTS[, , pop2] + diffInCounts
+        globals$SUMCOUNTS[pop2, ] <- globals$SUMCOUNTS[pop2, ] + diffInSumCounts
 
         new_logmls <- computePopulationLogml(c(i1, i2), adjprior, priorTerm)
         muutokset[i] <- sum(new_logmls)
 
-        COUNTS[, , pop1] <- COUNTS[, , pop1] + diffInCounts
-        SUMCOUNTS[pop1, ] <- SUMCOUNTS[pop1, ] + diffInSumCounts
-        COUNTS[, , pop2] <- COUNTS[, , pop2] - diffInCounts
-        SUMCOUNTS[pop2, ] <- SUMCOUNTS[pop2, ] - diffInSumCounts
+        globals$COUNTS[, , pop1] <- globals$COUNTS[, , pop1] + diffInCounts
+        globals$SUMCOUNTS[pop1, ] <- globals$SUMCOUNTS[pop1, ] + diffInSumCounts
+        globals$COUNTS[, , pop2] <- globals$COUNTS[, , pop2] - diffInCounts
+        globals$SUMCOUNTS[pop2, ] <- globals$SUMCOUNTS[pop2, ] - diffInSumCounts
       }
 
       muutokset <- muutokset - i1_logml - i2_logml

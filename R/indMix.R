@@ -195,9 +195,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
         } else if (round == 2) { # Populaation yhdist�minen toiseen.
           maxMuutos <- 0
           for (pop in seq_len(npops)) {
-            muutokset_diffInCounts <- greedyMix_muutokset$new
-            # FIXME: wrong input
-            browser() # TEMP. Tip: browserText()
+            muutokset_diffInCounts <- greedyMix_muutokset$new()
             muutokset_diffInCounts <- muutokset_diffInCounts$laskeMuutokset2(
               pop, rows, data, adjprior, priorTerm
             )
@@ -241,7 +239,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
           maxMuutos <- 0
           ninds <- size(rows, 1)
           for (pop in seq_len(npops)) {
-            inds2 <- matlab2r::find(PARTITION == pop)
+            inds2 <- matlab2r::find(globals$PARTITION == pop)
             ninds2 <- length(inds2)
             if (ninds2 > 2) {
               dist2 <- laskeOsaDist(inds2, dist, ninds)
@@ -256,8 +254,8 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
               muutokset <- muutokset_diffInCounts$laskeMuutokset3(
                 T2, inds2, rows, data, adjprior, priorTerm, pop
               )
-              isoin <- matlab2r::max(muutokset)[[1]]
-              indeksi <- matlab2r::max(muutokset)[[2]]
+              isoin <- matlab2r::max(c(muutokset))[[1]]
+              indeksi <- matlab2r::max(c(muutokset))[[2]]
               if (isoin > maxMuutos) {
                 maxMuutos <- isoin
                 muuttuvaPop2 <- indeksi %% npops2
@@ -277,9 +275,9 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
               rivit <- rbind(rivit, t(lisa))
             }
             diffInCounts <- computeDiffInCounts(
-              t(rivit), size(COUNTS, 1), size(COUNTS, 2), data
+              t(rivit), size(globals$COUNTS, 1), size(globals$COUNTS, 2), data
             )
-            i1 <- PARTITION[muuttuvat[1]]
+            i1 <- globals$PARTITION[muuttuvat[1]]
             updateGlobalVariables3(
               muuttuvat, diffInCounts, adjprior, priorTerm, i2
             )
@@ -308,26 +306,24 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
         } else if (round == 5 || round == 6) {
           j <- 0
           muutettu <- 0
-          poplogml <- POP_LOGML
-          partition <- PARTITION
-          counts <- COUNTS
-          sumcounts <- SUMCOUNTS
-          logdiff <- LOGDIFF
+          poplogml <- globals$POP_LOGML
+          partition <- globals$PARTITION
+          counts <- globals$COUNTS
+          sumcounts <- globals$SUMCOUNTS
+          logdiff <- globals$LOGDIFF
 
           pops <- sample(npops)
           while (j < npops & muutettu == 0) {
             j <- j + 1
             pop <- pops[j]
             totalMuutos <- 0
-            inds <- matlab2r::find(PARTITION == pop)
+            inds <- matlab2r::find(globals$PARTITION == pop)
             if (round == 5) {
-              aputaulu <- c(inds, rand(length(inds), 1))
+              aputaulu <- matrix(c(inds, rand(length(inds), 1)), ncol = 2)
               aputaulu <- sortrows(aputaulu, 2)
               inds <- aputaulu[, 1]
-            } else if (round == 6) {
-              inds <- returnInOrder(
-                inds, pop, rows, data, adjprior, priorTerm
-              )
+            } else if (round == 6 && length(inds) > 0) {
+              inds <- returnInOrder(inds, pop, rows, data, adjprior, priorTerm)
             }
 
             i <- 0
@@ -386,12 +382,12 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
             } else {
               # Miss��n vaiheessa tila ei parantunut.
               # Perutaan kaikki muutokset.
-              PARTITION <- partition
-              SUMCOUNTS <- sumcounts
-              POP_LOGML <- poplogml
-              COUNTS <- counts
+              globals$PARTITION <- partition
+              globals$SUMCOUNTS <- sumcounts
+              globals$POP_LOGML <- poplogml
+              globals$COUNTS <- counts
               logml <- logml - totalMuutos
-              LOGDIFF <- logdiff
+              globals$LOGDIFF <- logdiff
               kokeiltu[round] <- 1
             }
           }
@@ -401,20 +397,20 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
           j <- 0
           pops <- sample(npops)
           muutoksiaNyt <- 0
-          if (emptyPop == -1) {
+          if (emptyPop$emptyPop == -1) {
             j <- npops
           }
           while (j < npops) {
             j <- j + 1
             pop <- pops[j]
-            inds2 <- matlab2r::find(PARTITION == pop)
+            inds2 <- matlab2r::find(globals$PARTITION == pop)
             ninds2 <- length(inds2)
             if (ninds2 > 5) {
-              partition <- PARTITION
-              sumcounts <- SUMCOUNTS
-              counts <- COUNTS
-              poplogml <- POP_LOGML
-              logdiff <- LOGDIFF
+              partition <- globals$PARTITION
+              sumcounts <- globals$SUMCOUNTS
+              counts <- globals$COUNTS
+              poplogml <- globals$POP_LOGML
+              logdiff <- globals$LOGDIFF
 
               dist2 <- laskeOsaDist(inds2, dist, ninds)
               Z2 <- linkage(t(dist2))
@@ -433,7 +429,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
                 rivit <- c(rivit, lisa)
               }
               diffInCounts <- computeDiffInCounts(
-                rivit, size(COUNTS, 1), size(COUNTS, 2), data
+                rivit, size(globals$COUNTS, 1), size(globals$COUNTS, 2), data
               )
 
               updateGlobalVariables3(
@@ -454,7 +450,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
                 maxMuutos <- indeksi <- matlab2r::max(muutokset)
 
                 muuttuva <- inds2(indeksi)
-                if (PARTITION(muuttuva) == pop) {
+                if (globals$PARTITION(muuttuva) == pop) {
                   i2 <- emptyPop
                 } else {
                   i2 <- pop
@@ -463,7 +459,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
                 if (maxMuutos > 1e-5) {
                   rivit <- rows[muuttuva, 1]:rows[muuttuva, 2]
                   diffInCounts <- computeDiffInCounts(
-                    rivit, size(COUNTS, 1), size(COUNTS, 2),
+                    rivit, size(globals$COUNTS, 1), size(globals$COUNTS, 2),
                     data
                   )
                   updateGlobalVariables3(
@@ -498,11 +494,11 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
                 j <- npops
               } else {
                 # palutetaan vanhat arvot
-                PARTITION <- partition
-                SUMCOUNTS <- sumcounts
-                COUNTS <- counts
-                POP_LOGML <- poplogml
-                LOGDIFF <- logdiff
+                globals$PARTITION <- partition
+                globals$SUMCOUNTS <- sumcounts
+                globals$COUNTS <- counts
+                globals$POP_LOGML <- poplogml
+                globals$LOGDIFF <- logdiff
               }
             }
           }
@@ -540,7 +536,7 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
     # TALLENNETAAN
 
     npops <- poistaTyhjatPopulaatiot(npops)
-    POP_LOGML <- computePopulationLogml(seq_len(npops), adjprior, priorTerm)
+    globals$POP_LOGML <- computePopulationLogml(seq_len(npops), adjprior, priorTerm)
     if (dispText) {
       message("Found partition with ", as.character(npops), " populations.")
       message("Log(ml) = ", as.character(logml))
@@ -550,11 +546,11 @@ indMix <- function(c, npops, counts = NULL, sumcounts = NULL, max_iter = 100L, d
       # P�ivitet��n parasta l�ydetty� partitiota.
       logmlBest <- logml
       npopsBest <- npops
-      partitionBest <- PARTITION
-      countsBest <- COUNTS
-      sumCountsBest <- SUMCOUNTS
-      pop_logmlBest <- POP_LOGML
-      logdiffbest <- LOGDIFF
+      partitionBest <- globals$PARTITION
+      countsBest <- globals$COUNTS
+      sumCountsBest <- globals$SUMCOUNTS
+      pop_logmlBest <- globals$POP_LOGML
+      logdiffbest <- globals$LOGDIFF
     }
   }
   return(
