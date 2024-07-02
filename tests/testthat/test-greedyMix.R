@@ -75,6 +75,13 @@ test_that("greedyMix() fails successfully", {
   expect_error(greedyMix(file.path(path_inst, "bam_example.bam")))
 })
 
+test_that("greedyMix() works when it should", {
+  baps_file <- file.path(path_inst, "BAPS_clustering_diploid.txt")
+  greedy_baps <- greedyMix(baps_file, "BAPS")
+  expect_type(greedy_baps, "list")
+  expect_length(greedy_baps, 10L)
+})
+
 context("Linkage")
 
 test_that("Linkages are properly calculated", {
