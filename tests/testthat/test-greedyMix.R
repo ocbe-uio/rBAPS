@@ -46,11 +46,10 @@ raw_bam <- importFile(
   data    = file.path(path_inst, "bam_example.bam"),
   format  = "BAM",
 )
-# TODO: uncomment for testing #24
-# raw_baps <- importFile(
-#   data   = file.path(path_inst, "FASTA_clustering_haploid.fasta"),
-#   format = "FASTA"
-# )
+raw_baps <- importFile(
+  data   = file.path(path_inst, "FASTA_clustering_haploid.fasta"),
+  format = "FASTA"
+)
 
 test_that("Files are imported correctly", {
   expect_equal(dim(raw_fasta), c(5, 99))
@@ -71,9 +70,16 @@ test_that("Files are imported correctly", {
   )
 })
 
-test_that("greedyMix() works", {
+test_that("greedyMix() fails successfully", {
   expect_error(greedyMix(file.path(path_inst, "vcf_example.vcf")))
   expect_error(greedyMix(file.path(path_inst, "bam_example.bam")))
+})
+
+test_that("greedyMix() works when it should", {
+  baps_file <- file.path(path_inst, "BAPS_clustering_diploid.txt")
+  greedy_baps <- greedyMix(baps_file, "BAPS")
+  expect_type(greedy_baps, "list")
+  expect_length(greedy_baps, 10L)
 })
 
 context("Linkage")

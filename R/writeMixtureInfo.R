@@ -257,8 +257,8 @@ writeMixtureInfo <- function(
   }
 
   partitionSummary <- sortrows(partitionSummary, 2)
-  partitionSummary <- partitionSummary[size(partitionSummary, 1):1, ]
-  partitionSummary <- partitionSummary[matlab2r::find(partitionSummary[, 2] > -1e49), ]
+  partitionSummary <- partitionSummary[size(partitionSummary, 1):1, , drop = FALSE]
+  partitionSummary <- partitionSummary[matlab2r::find(partitionSummary[, 2] > -1e49), , drop = FALSE]
   if (size(partitionSummary, 1) > 10) {
     vikaPartitio <- 10
   } else {

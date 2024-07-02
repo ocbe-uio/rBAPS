@@ -6,8 +6,8 @@
 \description{
 Palauttaa npops*1 taulun, jossa i:s alkio kertoo, mik� olisi
 muutos logml:ss�, mik�li yksil� ind siirret��n koriin i.
-diffInCounts on poistettava COUNTS:in siivusta i1 ja lis�tt�v�
-COUNTS:in siivuun i2, mik�li muutos toteutetaan.
+diffInCounts on poistettava globals$COUNTS:in siivusta i1 ja lis�tt�v�
+globals$COUNTS:in siivuun i2, mik�li muutos toteutetaan.
 
 Lis�ys 25.9.2007:
 Otettu k�ytt��n globaali muuttuja LOGDIFF, johon on tallennettu muutokset

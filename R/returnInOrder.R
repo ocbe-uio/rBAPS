@@ -4,21 +4,21 @@ returnInOrder <- function(inds, pop, globalRows, data, adjprior, priorTerm) {
   # % arvoa eniten.
 
   ninds <- length(inds)
-  apuTaulu <- c(inds, zeros(ninds, 1))
+  apuTaulu <- cbind(inds, zeros(ninds, 1))
 
   for (i in 1:ninds) {
     ind <- inds[i]
     rows <- globalRows[i, 1]:globalRows[i, 2]
     diffInCounts <- computeDiffInCounts(
-      rows, size[COUNTS, 1], size[COUNTS, 2], data
+      rows, size(globals$COUNTS, 1), size(globals$COUNTS, 2), data
     )
-    diffInSumCounts <- sum(diffInCounts)
+    diffInSumCounts <- colSums(diffInCounts)
 
-    COUNTS[, , pop] <- COUNTS[, , pop] - diffInCounts
-    SUMCOUNTS[pop, ] <- SUMCOUNTS[pop, ] - diffInSumCounts
+    globals$COUNTS[, , pop] <- globals$COUNTS[, , pop] - diffInCounts
+    globals$SUMCOUNTS[pop, ] <- globals$SUMCOUNTS[pop, ] - diffInSumCounts
     apuTaulu[i, 2] <- computePopulationLogml(pop, adjprior, priorTerm)
-    COUNTS[, , pop] <- COUNTS[, , pop] + diffInCounts
-    SUMCOUNTS[pop, ] <- SUMCOUNTS[pop, ] + diffInSumCounts
+    globals$COUNTS[, , pop] <- globals$COUNTS[, , pop] + diffInCounts
+    globals$SUMCOUNTS[pop, ] <- globals$SUMCOUNTS[pop, ] + diffInSumCounts
   }
   apuTaulu <- sortrows(apuTaulu, 2)
   inds <- apuTaulu[ninds:1, 1]
