@@ -19,10 +19,8 @@
 #' with high-throughput sequencing data. <http://www.htslib.org/>
 #' @export
 #' @examples
-#' \dontrun{ # TEMP: unwrap once #24 is resolved
-#' data <- system.file("extdata", "BAPS_format_clustering_diploid.txt", package = "rBAPS")
+#' data <- system.file("extdata", "BAPS_clustering_diploid.txt", package = "rBAPS")
 #' greedyMix(data, "baps")
-#' } # TEMP: unwrap once #24 is resolved
 greedyMix <- function(
   data, format = gsub("^.*\\.", "", data), partitionCompare = NULL, npops = 3L,
   counts = NULL, sumcounts = NULL, max_iter = 100L, alleleCodes = NULL,
