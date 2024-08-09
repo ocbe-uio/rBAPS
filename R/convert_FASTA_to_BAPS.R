@@ -11,5 +11,6 @@ convert_FASTA_to_BAPS <- function(file) {
   data <- load_fasta(file) # Processing data
   data <- cbind(data, seq_len(nrow(data))) # Add IDs of individuals (sequential)
   data[data == 0] <- -9 # Because zeros (missing) in BAPS are coded as -9
+  colnames(data) <- paste("V", seq_len(ncol(data)), sep = "")
   return(data)
 }

@@ -56,9 +56,13 @@ handleData <- function(raw_data, format = "Genepop") {
   }
 
   # This is where data gets converted to {1, 2, 3, 4} for {A, C, G, T}
-  for (loc in seq_len(nloci)) {
-    for (all in seq_len(noalle[loc])) {
-      data[matlab2r::find(data[, loc] == alleleCodes[all, loc]), loc] <- all
+  codes <- unique(as.vector(data[, -ncol(data)]))
+  skip_conversion <- base::min(codes) == -9 && base::max(codes) == 4
+  if (!skip_conversion) {
+    for (loc in seq_len(nloci)) {
+      for (all in seq_len(noalle[loc])) {
+        data[matlab2r::find(data[, loc] == alleleCodes[all, loc]), loc] <- all
+      }
     }
   }
 
