@@ -30,6 +30,7 @@ handleData <- function(raw_data, format = "Genepop") {
     "bam"     = stop("BAM format not supported for processing yet")
   )
   data <- as.matrix(raw_data)
+
   dataApu <- data[, seq_len(nloci)]
   nollat <- matlab2r::find(dataApu == 0)
   if (!isempty(nollat)) {
@@ -54,6 +55,7 @@ handleData <- function(raw_data, format = "Genepop") {
     alleleCodes[, i] <- as.matrix(c(alleelitLokuksessaI, zeros(puuttuvia, 1)))
   }
 
+  # This is where data gets converted to {1, 2, 3, 4} for {A, C, G, T}
   for (loc in seq_len(nloci)) {
     for (all in seq_len(noalle[loc])) {
       data[matlab2r::find(data[, loc] == alleleCodes[all, loc]), loc] <- all
