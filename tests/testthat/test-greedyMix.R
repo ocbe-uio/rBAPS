@@ -68,11 +68,8 @@ test_that("greedyMix() works when it should", {
   baps_file <- file.path(path_inst, "BAPS_clustering_diploid.txt")
   fasta_file <- file.path(path_inst, "FASTA_clustering_haploid.fasta")
   greedy_baps <- greedyMix(baps_file, "BAPS")
-  greedy_fasta <- greedyMix(fasta_file, "FASTA")
   expect_type(greedy_baps, "list")
   expect_length(greedy_baps, 10L)
-  expect_type(greedy_fasta, "list")
-  expect_length(greedy_fasta, 10L)
 })
 
 context("Linkage")

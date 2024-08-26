@@ -2,22 +2,22 @@
 % Please edit documentation in R/convert_FASTA_to_BAPS.R
 \name{convert_FASTA_to_BAPS}
 \alias{convert_FASTA_to_BAPS}
-\title{Convert an R object from FASTA to BAPS format}
+\title{Convert from FASTA to BAPS}
 \usage{
-convert_FASTA_to_BAPS(data)
+convert_FASTA_to_BAPS(file)
 }
 \arguments{
-\item{data}{dataset to be converted}
+\item{file}{filename of FASTA file}
 }
 \value{
 `data` in BAPS format
 }
 \description{
-Converts an R object from FASTA to BAPS format
+Converts a file (not an R object) from FASTA to BAPS format
 }
 \examples{
-data <- system.file("extdata", "FASTA_clustering_diploid.fasta", package = "rBAPS")
-convert_FASTA_to_BAPS(data)
+file <- system.file("extdata", "FASTA_clustering_haploid.fasta", package = "rBAPS")
+convert_FASTA_to_BAPS(file)
 }
 \author{
 Waldir Leoncio
