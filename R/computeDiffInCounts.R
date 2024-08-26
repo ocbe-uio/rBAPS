@@ -13,5 +13,5 @@ computeDiffInCounts <- function(rows, max_noalle, nloci, data) {
       diffInCounts[element] <- diffInCounts[element] + 1
     }
   }
-  return(diffInCounts)
+  return(as.matrix(diffInCounts))
 }

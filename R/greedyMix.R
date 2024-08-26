@@ -19,10 +19,8 @@
 #' with high-throughput sequencing data. <http://www.htslib.org/>
 #' @export
 #' @examples
-#' \dontrun{ # TEMP: unwrap once #24 is resolved
-#' data <- system.file("extdata", "BAPS_format_clustering_diploid.txt", package = "rBAPS")
+#' data <- system.file("extdata", "BAPS_clustering_diploid.txt", package = "rBAPS")
 #' greedyMix(data, "baps")
-#' } # TEMP: unwrap once #24 is resolved
 greedyMix <- function(
   data, format = gsub("^.*\\.", "", data), partitionCompare = NULL, npops = 3L,
   counts = NULL, sumcounts = NULL, max_iter = 100L, alleleCodes = NULL,
@@ -30,7 +28,8 @@ greedyMix <- function(
 ) {
   # Importing and handling data ================================================
   if (tolower(format) %in% "fasta") {
-    stop("FASTA format not yet supported on greedyMix")
+    data <- convert_FASTA_to_BAPS(data)
+    format <- "baps"
   }
   if (tolower(format) %in% "baps") {
     data <- process_BAPS_data(data, NULL)
@@ -69,7 +68,7 @@ greedyMix <- function(
   # Generating partition summary ===============================================
   ekat <- seq(1L, ninds * c[["rowsFromInd"]], c[["rowsFromInd"]])
   c[["rows"]] <- cbind(ekat, ekat + c[["rowsFromInd"]] - 1L)
-  logml_npops_partitionSummary <- indMixWrapper(c, npops, counts, sumcounts, max_iter, fixedK, verbose)
+  logml_npops_partitionSummary <- indMixWrapper(c, npops, counts, sumcounts, max_iter, fixedK, verbose) # FIXME: not working for FASTA data
   logml <- logml_npops_partitionSummary[["logml"]]
   npops <- logml_npops_partitionSummary[["npops"]]
   partitionSummary <- logml_npops_partitionSummary[["partitionSummary"]]

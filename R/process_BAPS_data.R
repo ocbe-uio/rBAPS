@@ -2,14 +2,23 @@ process_BAPS_data <- function(file, partitionCompare) {
   if (!is.null(partitionCompare)) {
     cat('Data:', file, '\n')
   }
-  data <- read.table(file)
-  ninds <- testaaOnkoKunnollinenBapsData(data)  # for testing purposes?
+
+  # Importing data
+  if (is.character(file)) {
+    data <- read.table(file)
+  } else {
+    data <- file
+  }
+
+  ninds <- testaaOnkoKunnollinenBapsData(data)  # Checks if last column is ID
   if (ninds == 0) {
     warning('Incorrect Data-file.')
     return(NULL)
   }
+
   popnames <- NULL  # Dropped specification of population names (from BAPS 6)
 
+  # Processing data
   result <- handleData(data, format = "BAPS")
   data <- result$newData
   rowsFromInd <- result$rowsFromInd
