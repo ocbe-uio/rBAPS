@@ -27,12 +27,24 @@ greedyMix <- function(
   inp = NULL, popnames = NULL, fixedK = FALSE, verbose = FALSE
 ) {
   # Importing and handling data ================================================
+  # TODO: use format as class and make handling data a generic
   if (tolower(format) %in% "fasta") {
     data <- convert_FASTA_to_BAPS(data)
     format <- "baps"
   }
   if (tolower(format) %in% "baps") {
     data <- process_BAPS_data(data, NULL)
+    c <- list(
+      noalle = data[["noalle"]],
+      data = data[["data"]],
+      adjprior = data[["adjprior"]],
+      priorTerm = data[["priorTerm"]],
+      rowsFromInd = data[["rowsFromInd"]],
+      Z = data[["Z"]],
+      dist = data[["dist"]]
+    )
+  } else if (tolower(format) %in% "genepop") {
+    data <- process_GenePop_data(data)
     c <- list(
       noalle = data[["noalle"]],
       data = data[["data"]],
@@ -68,7 +80,7 @@ greedyMix <- function(
   # Generating partition summary ===============================================
   ekat <- seq(1L, ninds * c[["rowsFromInd"]], c[["rowsFromInd"]])
   c[["rows"]] <- cbind(ekat, ekat + c[["rowsFromInd"]] - 1L)
-  logml_npops_partitionSummary <- indMixWrapper(c, npops, counts, sumcounts, max_iter, fixedK, verbose) # FIXME: not working for FASTA data
+  logml_npops_partitionSummary <- indMixWrapper(c, npops, counts, sumcounts, max_iter, fixedK, verbose) # FIXME: not working for FASTA, GenePop
   logml <- logml_npops_partitionSummary[["logml"]]
   npops <- logml_npops_partitionSummary[["npops"]]
   partitionSummary <- logml_npops_partitionSummary[["partitionSummary"]]

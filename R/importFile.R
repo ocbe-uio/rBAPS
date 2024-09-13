@@ -1,6 +1,5 @@
 #' @title Import data file
-#' @description Imports data from several formats (FASTA, VCF, SAM, BAM,
-#' Genepop).
+#' @description Imports data from several formats (FASTA, VCF, SAM, BAM).
 #' @param data raw dataset
 #' @param format data format (guesses from extension if not provided)
 #' @param verbose if \code{TRUE}, prints extra output information
@@ -33,15 +32,6 @@ importFile <- function(data, format, verbose) {
     )
   } else if (format == "bam") {
     out <- Rsamtools::scanBam(data)
-  } else if (format == "genepop") {
-    if (toupper(adegenet::.readExt(data)) == "TXT") {
-      message("Creating a copy of the file with the .gen extension")
-      dataGen <- gsub("txt", "gen", data)
-      file.copy(data, dataGen)
-      out <- adegenet::read.genepop(dataGen)
-    } else {
-      out <- adegenet::read.genepop(data)
-    }
   } else {
     stop("Format not supported.")
   }
