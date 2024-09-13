@@ -17,8 +17,7 @@ importFile(data, format, verbose)
 The data in a format that can be used by the other functions
 }
 \description{
-Imports data from several formats (FASTA, VCF, SAM, BAM,
-Genepop).
+Imports data from several formats (FASTA, VCF, SAM, BAM).
 }
 \examples{
 path_inst <- system.file("extdata", "", package = "rBAPS")

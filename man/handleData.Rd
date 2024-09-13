@@ -4,7 +4,7 @@
 \alias{handleData}
 \title{Handle Data}
 \usage{
-handleData(raw_data, format = "Genepop")
+handleData(raw_data, format = "baps")
 }
 \arguments{
 \item{raw_data}{Raw data in Genepop or BAPS format}
