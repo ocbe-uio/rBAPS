@@ -11,7 +11,7 @@ addAlleles <- function(data, ind, line, divider) {
   # line. Jos data on 3 digit formaatissa on divider=1000.
   # Jos data on 2 digit formaatissa on divider=100.
 
-  nloci <- size(data, 2) # added 1 from original code
+  nloci <- size(data, 2) - 1L
   if (size(data, 1) < (2 * ind)) {
     data <- rbind(data, zeros(100, nloci)) # subtracted 1 from original code
   }
@@ -22,8 +22,7 @@ addAlleles <- function(data, ind, line, divider) {
     k <- k + 1
     merkki <- substring(line, k, k)
   }
-  line <- substring(line, k + 1)
-  # clear k; clear merkki;
+  line <- trimws(substring(line, k + 1))
 
   if (grepl(" ", line)) {
     alleeliTaulu <- as.numeric(strsplit(line, split = " ")[[1]])

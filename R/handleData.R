@@ -10,7 +10,7 @@
 #' the function changes the allele codes so that one locus j
 #' codes get values between? 1, ..., noalle(j).
 #' @export
-handleData <- function(raw_data, format = "Genepop") {
+handleData <- function(raw_data, format = "baps") {
   # Alkuper?isen datan viimeinen sarake kertoo, milt?yksil?lt?
   # kyseinen rivi on per?isin. Funktio tutkii ensin, ett?montako
   # rivi?maksimissaan on per?isin yhdelt?yksil?lt? jolloin saadaan
