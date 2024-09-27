@@ -65,9 +65,9 @@ writeMixtureInfo <- function(
   }
 
   cluster_count <- length(unique(globals$PARTITION))
-  if (verbose) cat("Best Partition: ")
+  if (verbose) cat("\nBest Partition:\n")
   if (fid != -1) {
-    append(fid, c("Best Partition: ", "\n"))
+    append(fid, c("\nBest Partition:", "\n"))
   }
   for (m in 1:cluster_count) {
     indsInM <- matlab2r::find(globals$PARTITION == m)
@@ -116,7 +116,7 @@ writeMixtureInfo <- function(
       cat("\n")
       cat(
         "Changes in log(marginal likelihood)",
-        " if indvidual i is moved to group j:\n"
+        "if indvidual i is moved to group j:\n"
       )
     }
     if (fid != -1) {
@@ -163,12 +163,12 @@ writeMixtureInfo <- function(
       muutokset <- changesInLogml[, ind]
       if (names) {
         nimi <- as.character(popnames[ind])
-        rivi <- c(blanks(maxSize - length(nimi)), nimi, ":\n")
+        rivi <- c(blanks(maxSize - length(nimi)), nimi, ":")
       } else {
-        rivi <- c("\n", blanks(4 - floor(log10(ind))), ownNum2Str(ind), ":\n")
+        rivi <- c("\n", blanks(4 - floor(log10(ind))), ownNum2Str(ind), ":")
       }
       for (j in 1:npops) {
-        rivi <- c(rivi, logml2String(omaRound(muutokset[j]), ""))
+        rivi <- c(rivi, "  ", logml2String(omaRound(muutokset[j])))
       }
       if (verbose) cat(rivi, sep = "")
       if (fid != -1) {
@@ -176,11 +176,11 @@ writeMixtureInfo <- function(
         append(fid, "\n")
       }
     }
-    if (verbose) cat("\n\nKL-divergence matrix in PHYLIP format: ")
+    if (verbose) cat("\n\nKL-divergence matrix in PHYLIP format:\n")
 
     dist_mat <- zeros(npops, npops)
     if (fid != -1) {
-      append(fid, "  KL-divergence matrix in PHYLIP format: ")
+      append(fid, "  KL-divergence matrix in PHYLIP format:\n")
     }
 
     globals$COUNTS <- globals$COUNTS[seq_len(nrow(adjprior)), seq_len(ncol(adjprior)), , drop = FALSE]
@@ -196,7 +196,10 @@ writeMixtureInfo <- function(
     prior[1, nollia] <- 1
     for (pop1 in 1:npops) {
       squeezed_COUNTS_prior <- squeeze(globals$COUNTS[, , pop1]) + prior
-      d[, , pop1] <- squeezed_COUNTS_prior / sum(squeezed_COUNTS_prior)
+      repmat_squeezed_COUNTS_prior <- matlab2r::repmat(
+        colSums(squeezed_COUNTS_prior), c(maxnoalle, 1L)
+      )
+      d[, , pop1] <- squeezed_COUNTS_prior / repmat_squeezed_COUNTS_prior
     }
     ekarivi <- as.character(npops)
     if (verbose) cat(ekarivi)
@@ -223,9 +226,9 @@ writeMixtureInfo <- function(
 
     dist_mat <- dist_mat + t(dist_mat) # make it symmetric
     for (pop1 in 1:npops) {
-      rivi <- c("\nCluster_", as.character(pop1), "\n")
+      rivi <- c("\nCluster_", as.character(pop1), " ")
       for (pop2 in 1:npops) {
-        rivi <- c(rivi, kldiv2str(dist_mat[pop1, pop2], 4L))
+        rivi <- c(rivi, kldiv2str(dist_mat[pop1, pop2]))
       }
       if (verbose) cat(rivi, sep = "")
       if (fid != -1) {

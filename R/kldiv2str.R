@@ -20,5 +20,5 @@ kldiv2str <- function(div, max_chars = 6L) {
     mjono[3] <- "."
     mjono[2] <- palautaYks(abs(div), suurinYks)
   }
-  return(mjono)
+  paste(mjono, collapse = "")
 }

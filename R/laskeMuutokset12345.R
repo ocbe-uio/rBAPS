@@ -423,7 +423,7 @@ greedyMix_muutokset <- R6Class(
       globals$SUMCOUNTS[i1, ] <- globals$SUMCOUNTS[i1, ] + diffInSumCounts
 
       if (i1 < npops) {
-        i2 <- c(1:(i1 - 1), (i1 + 1):npops)
+        i2 <- c(seq_len(i1 - 1), (i1 + 1):npops)
       } else {
         i2 <- 1:(i1 - 1)
       }
@@ -458,12 +458,12 @@ greedyMix_muutokset <- R6Class(
       muutokset <- zeros(npops2, npops)
 
       i1_logml <- globals$POP_LOGML[i1]
-      for (pop2 in 1:npops2) {
+      for (pop2 in seq_len(npops2)) {
         inds <- inds2[matlab2r::find(T2 == pop2)]
         ninds <- length(inds)
         if (ninds > 0) {
           rows <- list()
-          for (i in 1:ninds) {
+          for (i in seq_len(ninds)) {
             ind <- inds[i]
             lisa <- globalRows[ind, 1]:globalRows[ind, 2]
             rows <- c(rows, t(lisa))
@@ -480,7 +480,7 @@ greedyMix_muutokset <- R6Class(
           globals$SUMCOUNTS[i1, ] <- globals$SUMCOUNTS[i1, ] + diffInSumCounts
 
           if (i1 < npops) {
-            i2 <- c(1:(i1 - 1), (i1 + 1):npops)
+            i2 <- c(seq_len(i1 - 1), (i1 + 1):npops)
           } else {
             i2 <- 1:(i1 - 1)
           }
