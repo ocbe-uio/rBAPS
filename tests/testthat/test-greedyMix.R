@@ -65,15 +65,18 @@ test_that("greedyMix() fails successfully", {
 })
 
 test_that("greedyMix() works when it should", {
+  tol <- 1e-4
   baps_file <- file.path(path_inst, "BAPS_clustering_diploid.txt")
   greedy_baps <- greedyMix(baps_file, "BAPS")
   expect_type(greedy_baps, "list")
   expect_length(greedy_baps, 10L)
+  expect_equal(greedy_baps[['logml']], -78.10151, tolerance = tol)
 
   genepop_file <- file.path(path_inst, "GenePop.txt")
   greedy_genepop <- greedyMix(genepop_file, "GenePop")
   expect_type(greedy_genepop, "list")
   expect_length(greedy_genepop, 10L)
+  expect_equal(greedy_genepop[['logml']], -10.76224, tolerance = tol)
 
   fasta_file <- file.path(path_inst, "FASTA_clustering_haploid.fasta")
 })
