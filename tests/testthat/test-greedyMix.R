@@ -66,12 +66,16 @@ test_that("greedyMix() fails successfully", {
 
 test_that("greedyMix() works when it should", {
   baps_file <- file.path(path_inst, "BAPS_clustering_diploid.txt")
-  genepop_file <- file.path(path_inst, "GenePop.txt")
-  fasta_file <- file.path(path_inst, "FASTA_clustering_haploid.fasta")
   greedy_baps <- greedyMix(baps_file, "BAPS")
-  expect_error(greedy_genepop <- greedyMix(genepop_file, "GenePop")) # TEMP: fails
   expect_type(greedy_baps, "list")
   expect_length(greedy_baps, 10L)
+
+  genepop_file <- file.path(path_inst, "GenePop.txt")
+  greedy_genepop <- greedyMix(genepop_file, "GenePop")
+  expect_type(greedy_genepop, "list")
+  expect_length(greedy_genepop, 10L)
+
+  fasta_file <- file.path(path_inst, "FASTA_clustering_haploid.fasta")
 })
 
 context("Linkage")
