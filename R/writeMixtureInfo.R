@@ -196,7 +196,10 @@ writeMixtureInfo <- function(
     prior[1, nollia] <- 1
     for (pop1 in 1:npops) {
       squeezed_COUNTS_prior <- squeeze(globals$COUNTS[, , pop1]) + prior
-      d[, , pop1] <- squeezed_COUNTS_prior / sum(squeezed_COUNTS_prior)
+      repmat_squeezed_COUNTS_prior <- matlab2r::repmat(
+        colSums(squeezed_COUNTS_prior), c(maxnoalle, 1L)
+      )
+      d[, , pop1] <- squeezed_COUNTS_prior / repmat_squeezed_COUNTS_prior
     }
     ekarivi <- as.character(npops)
     if (verbose) cat(ekarivi)
