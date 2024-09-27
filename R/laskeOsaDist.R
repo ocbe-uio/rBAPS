@@ -11,7 +11,7 @@ laskeOsaDist <- function(inds2, dist, ninds) {
   ninds2 <- length(inds2)
   apu <- zeros(choose(ninds2, 2), 2)
   rivi <- 1
-  for (i in 1:(ninds2 - 1)) {
+  for (i in seq_len(ninds2 - 1)) {
     for (j in (i + 1):ninds2) {
       apu[rivi, 1] <- inds2[i]
       apu[rivi, 2] <- inds2[j]
@@ -20,6 +20,6 @@ laskeOsaDist <- function(inds2, dist, ninds) {
   }
   apu <- (apu[, 1] - 1) * ninds - apu[, 1] / 2 *
     (apu[, 1] - 1) + (apu[, 2] - apu[, 1])
-  dist2 <- dist(apu)
+  dist2 <- dist[apu]
   return(dist2)
 }

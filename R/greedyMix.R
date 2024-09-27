@@ -80,7 +80,7 @@ greedyMix <- function(
   # Generating partition summary ===============================================
   ekat <- seq(1L, ninds * c[["rowsFromInd"]], c[["rowsFromInd"]])
   c[["rows"]] <- cbind(ekat, ekat + c[["rowsFromInd"]] - 1L)
-  logml_npops_partitionSummary <- indMixWrapper(c, npops, counts, sumcounts, max_iter, fixedK, verbose) # FIXME: not working for FASTA, GenePop
+  logml_npops_partitionSummary <- indMixWrapper(c, npops, counts, sumcounts, max_iter, fixedK, verbose) # FIXME: not working for FASTA
   logml <- logml_npops_partitionSummary[["logml"]]
   npops <- logml_npops_partitionSummary[["npops"]]
   partitionSummary <- logml_npops_partitionSummary[["partitionSummary"]]
