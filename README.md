@@ -43,6 +43,6 @@ These are some of the scientific publications that served as base for the creati
 
 Below we list some of the software directly related to rBAPS:
 
-- [Original BAPS software](http://www.helsinki.fi/bsg/software/BAPS/)
+- [Original BAPS software](http://www.helsinki.fi/bsg/software/BAPS/) (no longer available; go [here](https://github.com/ocbe-uio/BAPS/wiki) instead for a copy of most of the text)
 - [RhierBAPS: An R implementation of the population clustering algorithm hierBAPS](https://github.com/gtonkinhill/rhierbaps)
 - [fastbaps: A fast genetic clustering algorithm that approximates a Dirichlet Process Mixture model](https://github.com/gtonkinhill/fastbaps)
