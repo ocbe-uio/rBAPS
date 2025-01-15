@@ -20,6 +20,3 @@ Generates random numbers
 \examples{
 rBAPS:::randdir(matrix(c(10, 30, 60), 3), 3)
 }
-\seealso{
-randga
-}
