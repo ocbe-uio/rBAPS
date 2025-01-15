@@ -3,11 +3,11 @@
 #' @examples rBAPS:::randdir(matrix(c(10, 30, 60), 3), 3)
 #' @param counts shape parameter
 #' @param nc number of rows on output
-#' @seealso randga
+#' @importFrom stats rgamma
 randdir <- function(counts, nc) {
   svar <- zeros(nc, 1)
   for (i in 1:nc) {
-    svar[i, 1] <- randga(counts[i, 1], 1)
+    svar[i, 1] <- rgamma(1L, shape = counts[i, 1], rate = 1)
   }
   svar <- svar / sum(svar)
   return(svar)
